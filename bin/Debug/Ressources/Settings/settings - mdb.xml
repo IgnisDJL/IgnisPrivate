@@ -1,0 +1,157 @@
+<settings lastUpdate="2014-05-27 15:00:00">
+  <program>
+    <author>Simon Corcos</author>
+    <version>2.1</version>
+    <email>simoncorcos@yahoo.ca</email>
+  </program>
+  <usine id="142" name="L'Ange-Gardien" usbRoot="C:\Users\owner\DJL\USB - Quebec">
+    <dataFiles>
+      <csv active="no" stopOffset="60">
+        <feedsInfo>
+        </feedsInfo>
+        <format />
+      </csv>
+      <log active="no">
+        <feedsInfo>
+        </feedsInfo>
+      </log>
+      <mdb active="yes" stopOffset="60">
+        <feedsInfo>
+          <unknownFeed material="Sable" tag="#HotFeed">BENNE #1</unknownFeed>
+          <unknownFeed material="1/4" tag="#HotFeed">BENNE #2</unknownFeed>
+          <unknownFeed material="3/8&quot;" tag="#HotFeed">BENNE #3</unknownFeed>
+          <unknownFeed material="5/8&quot;-3/4&quot;" tag="#HotFeed">BENNE #4</unknownFeed>
+          <unknownFeed material="filler" tag="#HotFeed">FILLER #1</unknownFeed>
+          <unknownFeed material="bitume-58-34" tag="#HotFeed">BITUME #4</unknownFeed>
+          <unknownFeed material="RECYCLE 2" tag="#HotFeed">RECYCLÉ 1</unknownFeed>
+          <unknownFeed material="bitume-58-34 hrd" tag="#HotFeed">BITUME #1</unknownFeed>
+          <unknownFeed material="bitume64-34hrd" tag="#HotFeed">BITUME #5</unknownFeed>
+          <unknownFeed material="bitume" tag="#HotFeed">BITUME</unknownFeed>
+          <unknownFeed material="AGRÉGATS" tag="#HotFeed">AGRÉGATS</unknownFeed>
+          <unknownFeed material="bitume 58-28" tag="#HotFeed">BITUME #3</unknownFeed>
+          <unknownFeed material="bitume-64-34" tag="#HotFeed">BITUME #2</unknownFeed>
+          <unknownFeed material="RECYCLÉ" tag="#HotFeed">RECYCLÉ</unknownFeed>
+        </feedsInfo>
+      </mdb>
+    </dataFiles>
+    <asphaltInfo>
+    </asphaltInfo>
+    <recipesInfo>
+      <unknownRecipe formula="102 14-210" mix="eb14+10%recycle 58-34" />
+      <unknownRecipe formula="190 esg10-300" mix="esg10 64-34 L.T" />
+      <unknownRecipe formula="280 esg10-300hrd" mix="esg10 64-34hrd V.Qc" />
+      <unknownRecipe formula="146 esg10-200" mix="esg10 58-34 V.Qc" />
+      <unknownRecipe formula="gb20-0%" mix="gb20 58-34 pas de recycler" />
+      <unknownRecipe formula="esg14-02" mix="esg14 58-34" />
+      <unknownRecipe formula="eb10s-02" mix="eb10s 58-34" />
+      <unknownRecipe formula="eb10c-02" mix="eb10c 58-34" />
+      <unknownRecipe formula="eb10s-01" mix="eb10s 58-28" />
+      <unknownRecipe formula="eb10c-01" mix="eb10c 58-28" />
+      <unknownRecipe formula="eb20-02" mix="eb20 58-34" />
+      <unknownRecipe formula="esg10-02" mix="esg10 58-34" />
+      <unknownRecipe formula="eb14-02" mix="eb14 58-34" />
+      <unknownRecipe formula="eb14-01" mix="eb14 58-28" />
+      <unknownRecipe formula="gb20+rec" mix="gb20 8%recycle 64-34" />
+      <unknownRecipe formula="grave-recyc" mix="GRAVE BITUME--RECY" />
+      <unknownRecipe formula="esg10-03" mix="esg10 64-34" />
+      <unknownRecipe formula="gb20+8%rec" mix="gb20 8% recycle 58-34" />
+      <unknownRecipe formula="esg14-02 8%" mix="esg-14+8%recycle58-34" />
+      <unknownRecipe formula="mb214-02" mix="eb14+15%recycle 58-34" />
+      <unknownRecipe formula="10c-01entre" mix="eb10c entre" />
+      <unknownRecipe formula="gravbit15%" mix="GRAVE BITUME" />
+      <unknownRecipe formula="ec-10" mix="ec10 granite" />
+      <unknownRecipe formula="gravebit25%" mix="grave bitume 25%" />
+      <unknownRecipe formula="mb110s-02" mix="10s 58-34 +10% recyle" />
+      <unknownRecipe formula="mb114-02" mix="eb14+10%recycle 58-34" />
+      <unknownRecipe formula="mb14-02" mix="eb14+5%recycle 58-34" />
+      <unknownRecipe formula="esg14-03" mix="esg14 64-34" />
+      <unknownRecipe formula="esg14-03 8%" mix="esg-14+8%recycle64-34" />
+      <unknownRecipe formula="mb7-01" mix="MB 7 58-28" />
+      <unknownRecipe formula="mb110s-01" mix="10s 58-28 + 10% recycle" />
+      <unknownRecipe formula="gravbit20%" mix="grave bitume 20%" />
+      <unknownRecipe formula="mb120-02" mix="eb20+10%recycle 58-34" />
+      <unknownRecipe formula="mb10s-02" mix="10s 58-34 +5%recycle" />
+      <unknownRecipe formula="mb114-01" mix="eb14+10%recycle 58-28" />
+      <unknownRecipe formula="mb10s-01" mix="10s 58-28 + 5%recycle" />
+    </recipesInfo>
+    <events active="no">
+      <important>
+      </important>
+      <start>
+      </start>
+      <stop>
+      </stop>
+      <delays justifiableDuration="600">
+        <type name="Pause" color="FFFFFF" pause="yes">
+          <delay code="P" description="Pause" />
+        </type>
+        <type name="Entretien" color="FFFFFF" maintenance="yes">
+          <delay code="E" description="Entretien planifié" />
+        </type>
+        <type name="Interne (avec bris)" color="7CDEFF" breakage="yes">
+          <delay code="1" description="Bennes froides" />
+          <delay code="2" description="Convoyeurs" />
+          <delay code="3" description="Brûleur" />
+          <delay code="4" description="Tambour (séchoir ou TSM)" />
+          <delay code="5" description="Dépoussiéreur" />
+          <delay code="6" description="Élévateur" />
+          <delay code="7" description="Tamiseur" />
+          <delay code="8" description="Bennes chaudes et balances" />
+          <delay code="9" description="Benne recyclé / Bardeaux" />
+          <delay code="10" description="Alimentation, balance / Vidange du filler" />
+          <delay code="11" description="Bouilloire" />
+          <delay code="12" description="Alimentation / Balance du bitume / Additifs" />
+          <delay code="13" description="Malaxeur" />
+          <delay code="14" description="Élévateur au silo" />
+          <delay code="15" description="Silo" />
+          <delay code="16" description="Contrôle informatique" />
+          <delay code="17" description="Système hydraulique" />
+          <delay code="18" description="Compresseur et système à air" />
+        </type>
+        <type name="Interne (sans bris)" color="FFEA68" intern="yes">
+          <delay code="40" description="Changement de mélange" />
+          <delay code="41" description="Nettoyage de fin de journée" />
+          <delay code="42" description="Conditions climatiques" />
+          <delay code="43" description="Produit hors tolérance" />
+          <delay code="44" description="Pénurie / Panne de carburant / Énergie" />
+          <delay code="45" description="Manque de matières premières" />
+          <delay code="46" description="Bris du chargeur" />
+        </type>
+        <type name="Externe (chantier)" color="FFB37A" extern="yes">
+          <delay code="60" description="Bris du chantier" />
+          <delay code="61" description="Manque de camions du chantier" />
+          <delay code="62" description="Attente (Stand-By)" />
+        </type>
+        <type name="Externe (autres)" color="7CFF72" extern="yes">
+          <delay code="80" description="Aucun client FAB" />
+        </type>
+      </delays>
+    </events>
+    <operators>
+      <operator firstName="Martin" lastName="Parent" />
+      <operator firstName="Jonathan" lastName="Hurtubise" />
+    </operators>
+    <fuels fuel1Name="Carburant Principal" fuel2Name="Gaz Naturel" fuel1Unit="L" fuel2Unit="m³" />
+    <emails credentials="ignis.djl@gmail.com" password="masterusine" host="smtp.gmail.com" port="587">
+      <recipients>
+        <recipient selected="yes">simoncorcos@yahoo.ca</recipient>
+      </recipients>
+      <defaultRecipients />
+    </emails>
+  </usine>
+  <report massUnit="T" temperatureUnit="C" productionUnit="T/h" percentUnit="%">
+    <excel active="yes" openWhenDone="yes">
+    </excel>
+    <word active="yes" eventsActive="yes" openWhenDone="yes" openReadOnlyWhenDone="yes" openWritableWhenDone="no" massUnit="T" temperatureUnit="C" productionUnit="T/h" percentUnit="%">
+    </word>
+  </report>
+  <reports massUnit="T" temperatureUnit="C" productionUnit="T/h" percentUnit="%">
+    <summaryReport active="yes" openReadOnlyWhenDone="yes" openWritableWhenDone="no" />
+  </reports>
+  <admin password="">
+    <permission name="canOpenDataFiles" value="yes" timeSet="29/10/2014 10:55:41" />
+    <permission name="canModifyDelayCodes" value="" timeSet="" />
+    <permission name="canChangeEmailSettings" value="" timeSet="" />
+    <permission name="canResetDatabase" value="" timeSet="" />
+  </admin>
+</settings>

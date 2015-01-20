@@ -1,0 +1,2 @@
+C:\Users\owner\DJL\Master Usine - UI\MasterUsineUI\bin\Test\IGNIS.exe.config
+C:\Users\owner\DJL\Master Usine - UI\MasterUsineUI\obj\Test\IGNIS.vbproj.ResolveComReference.cache

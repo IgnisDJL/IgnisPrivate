@@ -1,0 +1,109 @@
+<settings lastUpdate="2013-09-19 14:36:35">
+  <program>
+    <author>Simon Corcos</author>
+    <version>2.0</version>
+    <email>simoncorcos@yahoo.ca</email>
+  </program>
+  <usine id="111" name="Val-Des-Monts" usbRoot="C:\Users\owner\DJL\USB - St-bruno">
+    <dataFiles>
+      <csv active="no" stopOffset="60">
+      </csv>
+      <log active="no">
+      </log>
+      <mdb active="yes" stopOffset="60">
+        <feedsInfo>
+          <feed material="64-34 HRD" index="0" isRecycled="no" isFiller="no" isAsphalt="yes" tag="#HotFeed">BITUME 2</feed>
+          <feed material="30-30" index="1" isRecycled="no" isFiller="no" isAsphalt="yes" tag="#HotFeed">BITUME</feed>
+          <feed material="Filler" index="2" isRecycled="no" isFiller="yes" isAsphalt="no" tag="#HotFeed">FILLER 1</feed>
+          <feed material="xxx" index="3" isRecycled="no" isFiller="no" isAsphalt="no" tag="#HotFeed">BENNE #2</feed>
+          <feed material="www" index="4" isRecycled="no" isFiller="no" isAsphalt="no" tag="#HotFeed">BENNE #1</feed>
+          <unknownFeed material="3/8&quot;" tag="#HotFeed">BENNE #3</unknownFeed>
+          <unknownFeed material="5/8&quot;-3/4&quot;" tag="#HotFeed">BENNE #4</unknownFeed>
+          <unknownFeed material="filler" tag="#HotFeed">FILLER #1</unknownFeed>
+          <unknownFeed material="bitume-58-34" tag="#HotFeed">BITUME #4</unknownFeed>
+          <unknownFeed material="RECYCLE 2" tag="#HotFeed">RECYCLÉ 1</unknownFeed>
+          <unknownFeed material="bitume-58-34 hrd" tag="#HotFeed">BITUME #1</unknownFeed>
+          <unknownFeed material="bitume64-34hrd" tag="#HotFeed">BITUME #5</unknownFeed>
+          <unknownFeed material="AGRÉGATS" tag="#HotFeed">AGRÉGATS</unknownFeed>
+        </feedsInfo>
+      </mdb>
+    </dataFiles>
+    <asphaltInfo>
+      <tank name="3" temperature="150">Bitume 3</tank>
+      <unknownTank name="0">54-56</unknownTank>
+    </asphaltInfo>
+    <recipesInfo>
+      <unknownRecipe formula="85 10s-200" mix="eb10s 58-34" />
+      <unknownRecipe formula="113 20-215" mix="eb20+15%recycle 58-34" />
+      <unknownRecipe formula="86 10s-205" mix="10s 58-34 +5%recycle" />
+      <unknownRecipe formula="504-BY" mix="x" />
+      <unknownRecipe formula="102 14-210" mix="eb14+10%recycle 58-34" />
+      <unknownRecipe formula="190 esg10-300" mix="esg10 64-34 L.T" />
+      <unknownRecipe formula="280 esg10-300hrd" mix="esg10 64-34hrd V.Qc" />
+      <unknownRecipe formula="146 esg10-200" mix="esg10 58-34 V.Qc" />
+    </recipesInfo>
+    <events active="no">
+      <important>
+      </important>
+      <start>
+      </start>
+      <stop>
+      </stop>
+      <delays justifiableDuration="600">
+        <type name="Pause" color="FFFFFF">
+          <delay code="P" description="Pause" />
+        </type>
+        <type name="Entretien" color="FFFFFF">
+          <delay code="E" description="Entretien planifié" />
+        </type>
+        <type name="Interne (avec bris)" color="7CDEFF">
+          <delay code="1" description="Bennes froides" />
+          <delay code="2" description="Convoyeurs" />
+          <delay code="3" description="Brûleur" />
+          <delay code="4" description="Tambour (séchoir ou TSM)" />
+          <delay code="5" description="Dépoussiéreur" />
+          <delay code="6" description="Élévateur" />
+          <delay code="7" description="Tamiseur" />
+          <delay code="8" description="Bennes chaudes et balances" />
+          <delay code="9" description="Benne recyclé / Bardeaux" />
+          <delay code="10" description="Alimentation, balance / Vidange du filler" />
+          <delay code="11" description="Bouilloire" />
+          <delay code="12" description="Alimentation / Balance du bitume / Additifs" />
+          <delay code="13" description="Malaxeur" />
+          <delay code="14" description="Élévateur au silo" />
+          <delay code="15" description="Silo" />
+          <delay code="16" description="Contrôle informatique" />
+          <delay code="17" description="Système hydraulique" />
+          <delay code="18" description="Compresseur et système à air" />
+        </type>
+        <type name="Interne (sans bris)" color="FFEA68">
+          <delay code="40" description="Changement de mélange" />
+          <delay code="41" description="Nettoyage de fin de journée" />
+          <delay code="42" description="Conditions climatiques" />
+          <delay code="43" description="Produit hors tolérance" />
+          <delay code="44" description="Pénurie / Panne de carburant / Énergie" />
+          <delay code="45" description="Manque de matières premières" />
+          <delay code="46" description="Bris du chargeur" />
+        </type>
+        <type name="Externe (chantier)" color="FFB37A">
+          <delay code="60" description="Bris du chantier" />
+          <delay code="61" description="Manque de camions du chantier" />
+          <delay code="62" description="Attente (Stand-By)" />
+        </type>
+        <type name="Externe (autres)" color="7CFF72">
+          <delay code="80" description="Aucun client FAB" />
+        </type>
+      </delays>
+    </events>
+    <operators>
+      <operator firstName="Simon" lastName="Corcos" />
+    </operators>
+    <fuels fuel1Name="Carburant Principal" fuel2Name="Gaz Naturel" fuel1Unit="L" fuel2Unit="m³" />
+  </usine>
+  <report>
+    <excel active="yes" openWhenDone="yes">
+    </excel>
+    <word active="yes" eventsActive="yes" openWhenDone="yes" massUnit="T" temperatureUnit="C" productionUnit="T/h" percentUnit="%">
+    </word>
+  </report>
+</settings>

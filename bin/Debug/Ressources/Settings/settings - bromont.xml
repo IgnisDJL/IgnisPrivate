@@ -1,0 +1,144 @@
+<settings lastUpdate="2013-09-19 12:43:42">
+  <program>
+    <author>Simon Corcos</author>
+    <version>2.0</version>
+    <email>simoncorcos@yahoo.ca</email>
+  </program>
+  <usine id="059" name="Bromont" usbRoot="C:\Users\owner\DJL\USB - Bromont">
+    <dataFiles>
+      <csv active="yes" stopOffset="60">
+        <format>
+          <data tag="#CycleID" />
+          <data tag="#Time" />
+          <data tag="#TruckID" />
+          <data tag="#CommandID" />
+          <data tag="#FormulaName" />
+          <data tag="#AsphaltTank" />
+          <data tag="#AggregateMass" index="1" unit="kg" />
+          <data tag="#AggregateMass" index="2" unit="kg" />
+          <data tag="#AggregateMass" index="3" unit="kg" />
+          <data tag="#AggregateMass" index="4" unit="kg" />
+          <data tag="#AggregateMass" index="5" unit="kg" />
+          <data tag="#AggregateMass" index="6" unit="kg" />
+          <data tag="#AggregateMass" index="7" unit="kg" />
+          <data tag="#AggregateMass" index="8" unit="kg" />
+          <data tag="#AggregatesTotalMass" unit="kg" />
+          <data tag="#AsphaltMass" unit="kg" />
+          <data tag="#DopeMass" unit="kg" />
+          <data tag="#MixMass" unit="kg" />
+          <data tag="#AggregatePercentage" index="1" unit="%" />
+          <data tag="#AggregatePercentage" index="2" unit="%" />
+          <data tag="#AggregatePercentage" index="3" unit="%" />
+          <data tag="#AggregatePercentage" index="4" unit="%" />
+          <data tag="#AggregatePercentage" index="5" unit="%" />
+          <data tag="#AggregatePercentage" index="6" unit="%" />
+          <data tag="#FillerApport" unit="%" />
+          <data tag="#FillerRecup" unit="%" />
+          <data tag="#AsphaltPercentage" unit="%" />
+          <data tag="#DopePercentage" unit="%" />
+          <data tag="#AsphaltTemperature" unit="C" />
+          <data tag="#MixTemperature" unit="C" />
+          <data tag="#WetMalaxTime" />
+          <data tag="#Duration" />
+          <data tag="#Silo" />
+          <data tag="#ColdFeedPercentage" index="1" unit="%" />
+          <data tag="#ColdFeedPercentage" index="2" unit="%" />
+          <data tag="#ColdFeedPercentage" index="3" unit="%" />
+          <data tag="#ColdFeedPercentage" index="4" unit="%" />
+          <data tag="#ColdFeedPercentage" index="5" unit="%" />
+          <data tag="#ColdFeedPercentage" index="6" unit="%" />
+          <data tag="#ColdFeedPercentage" index="7" unit="%" />
+        </format>
+        <feedsInfo>
+          <unknownFeed material="" tag="#ColdFeed">Benne 2</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Benne 3</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Benne 4</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Benne 5</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Benne 6</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Benne 7</unknownFeed>
+          <unknownFeed material="" tag="#HotFeed">Benne 2</unknownFeed>
+          <unknownFeed material="" tag="#HotFeed">Benne 3</unknownFeed>
+          <unknownFeed material="" tag="#HotFeed">Benne 5</unknownFeed>
+          <unknownFeed material="" tag="#HotFeed">Benne 6</unknownFeed>
+          <unknownFeed material="" tag="#HotFeed">Benne 7</unknownFeed>
+          <unknownFeed material="" tag="#HotFeed">Benne 8</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Benne 1</unknownFeed>
+        </feedsInfo>
+      </csv>
+      <log active="no">
+        <feedsInfo>
+        </feedsInfo>
+      </log>
+      <mdb active="no" stopOffset="60">
+      </mdb>
+    </dataFiles>
+    <asphaltInfo>
+      <tank name="58-28" temperature="157">Bitume 1</tank>
+    </asphaltInfo>
+    <recipesInfo>
+    </recipesInfo>
+    <events active="no">
+      <important>
+      </important>
+      <start>
+      </start>
+      <stop>
+      </stop>
+      <delays justifiableDuration="600">
+        <type name="Pause" color="FFFFFF">
+          <delay code="P" description="Pause" />
+        </type>
+        <type name="Entretien" color="FFFFFF">
+          <delay code="E" description="Entretien planifié" />
+        </type>
+        <type name="Interne (avec bris)" color="7CDEFF">
+          <delay code="1" description="Bennes froides" />
+          <delay code="2" description="Convoyeurs" />
+          <delay code="3" description="Brûleur" />
+          <delay code="4" description="Tambour (séchoir ou TSM)" />
+          <delay code="5" description="Dépoussiéreur" />
+          <delay code="6" description="Élévateur" />
+          <delay code="7" description="Tamiseur" />
+          <delay code="8" description="Bennes chaudes et balances" />
+          <delay code="9" description="Benne recyclé / Bardeaux" />
+          <delay code="10" description="Alimentation, balance / Vidange du filler" />
+          <delay code="11" description="Bouilloire" />
+          <delay code="12" description="Alimentation / Balance du bitume / Additifs" />
+          <delay code="13" description="Malaxeur" />
+          <delay code="14" description="Élévateur au silo" />
+          <delay code="15" description="Silo" />
+          <delay code="16" description="Contrôle informatique" />
+          <delay code="17" description="Système hydraulique" />
+          <delay code="18" description="Compresseur et système à air" />
+        </type>
+        <type name="Interne (sans bris)" color="FFEA68">
+          <delay code="40" description="Changement de mélange" />
+          <delay code="41" description="Nettoyage de fin de journée" />
+          <delay code="42" description="Conditions climatiques" />
+          <delay code="43" description="Produit hors tolérance" />
+          <delay code="44" description="Pénurie / Panne de carburant / Énergie" />
+          <delay code="45" description="Manque de matières premières" />
+          <delay code="46" description="Bris du chargeur" />
+        </type>
+        <type name="Externe (chantier)" color="FFB37A">
+          <delay code="60" description="Bris du chantier" />
+          <delay code="61" description="Manque de camions du chantier" />
+          <delay code="62" description="Attente (Stand-By)" />
+        </type>
+        <type name="Externe (autres)" color="7CFF72">
+          <delay code="80" description="Aucun client FAB" />
+        </type>
+      </delays>
+    </events>
+    <operators>
+      <operator firstName="Simon" lastName="Corcos" />
+    </operators>
+    <fuels fuel1Name="Carburant Principal" fuel2Name="Gaz Naturel" fuel1Unit="L" fuel2Unit="m³" />
+  </usine>
+  <report>
+    <excel active="yes" openWhenDone="yes">
+    </excel>
+    <word active="yes" eventsActive="yes" openWhenDone="yes" massUnit="T" temperatureUnit="C" productionUnit="T/h" percentUnit="%">
+    </word>
+  </report>
+</settings>

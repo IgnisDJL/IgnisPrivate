@@ -1,0 +1,97 @@
+<external>
+  <csv active="yes" stopOffset="60">
+    <format>
+      <data name="No batch" tag="#CycleID" />
+      <data name="Heure" tag="#Time" />
+      <data name="Camion" tag="#TruckID" />
+      <data name="Contrat" tag="#CommandID" />
+      <data name="Formule" tag="#FormulaName" />
+      <data name="Type bitume" tag="#AsphaltTank" />
+      <data name="Agg 1" tag="#AggregateMass" index="1" unit="kg" />
+      <data name="Agg 2" tag="#AggregateMass" index="2" unit="kg" />
+      <data name="Agg 3" tag="#AggregateMass" index="3" unit="kg" />
+      <data name="Agg 4" tag="#AggregateMass" index="4" unit="kg" />
+      <data name="Agg 5" tag="#AggregateMass" index="5" unit="kg" />
+      <data name="Agg 6" tag="#AggregateMass" index="6" unit="kg" />
+      <data name="Filler" tag="#AggregateMass" index="7" unit="kg" />
+      <data name="Agg total" tag="#AggregatesTotalMass" unit="kg" />
+      <data name="Poid bitume" tag="#AsphaltMass" unit="kg" />
+      <data name="Dope 1" tag="#DopeMass" unit="kg" />
+      <data name="Poid total" tag="#MixMass" unit="kg" />
+      <data name="%Agg 1" tag="#AggregatePercentage" index="1" unit="%" />
+      <data name="%Agg 2" tag="#AggregatePercentage" index="2" unit="%" />
+      <data name="%Agg 3" tag="#AggregatePercentage" index="3" unit="%" />
+      <data name="%Agg 4" tag="#AggregatePercentage" index="4" unit="%" />
+      <data name="%Agg 5" tag="#AggregatePercentage" index="5" unit="%" />
+      <data name="%Agg 6" tag="#AggregatePercentage" index="6" unit="%" />
+      <data name="%Filler Apport" tag="#FillerApport" unit="%" />
+      <data name="%Bitume" tag="#AsphaltPercentage" unit="%" />
+      <data name="%Dope 1" tag="#DopePercentage" unit="%" />
+      <data name="Tmp bitume" tag="#AsphaltTemperature" unit="C" />
+      <data name="Tmp enrobe" tag="#MixTemperature" unit="C" />
+      <data name="Duree malax" tag="#WetMalaxTime" />
+      <data name="Duree cycle" tag="#Duration" />
+      <data name="Silo stockage" tag="#Silo" />
+    </format>
+    <calculated>
+      <data name="date" tag="#Date" />
+      <data name="acc mass" tag="#MixAccumulatedMass" unit="kg" />
+      <data name="mix sp temp" tag="#MixSetPointTemperature" unit="C" />
+      <data name="mix temp var" tag="#MixTemperatureVariation" unit="C" />
+      <data name="mix tph" tag="#ProductionSpeed" unit="kg/h" />
+      <data name="mix recycled mass" tag="#RecycledMass" unit="kg" />
+      <data name="mix recycled percentage" tag="#RecycledPercentage" unit="%" />
+    </calculated>
+    <feedsInfo>
+      <hotFeed index="1" material="0-5 mm">Benne 1</hotFeed>
+      <hotFeed index="2" material="5-10 mm">Benne 2</hotFeed>
+      <hotFeed index="3" material="10-14 mm">Benne 3</hotFeed>
+      <hotFeed index="4" material="Mat4">Benne 4</hotFeed>
+      <hotFeed index="5" material="" isRecycled="yes">Recyclé</hotFeed>
+      <hotFeed index="6" material="Mat6">Benne 6</hotFeed>
+      <hotFeed index="7" material="" isFiller="yes">Filler</hotFeed>
+    </feedsInfo>
+  </csv>
+  <excel>
+    <csvSheet active="yes">
+      <columns>
+        <column name="mix tph" unit="T/h">mix tph</column>
+        <column name="acc mass" unit="T">Acc mass</column>
+        <column name="date">Date</column>
+        <column name="No batch">Numéro de batch</column>
+        <column name="Heure">Heure</column>
+        <column name="Camion">Camion</column>
+        <column name="Contrat">Contrat</column>
+        <column name="Formule">Formule</column>
+        <column name="Type bitume">Type de bitume</column>
+        <column name="Agg 1" unit="T">Poid granulat 1</column>
+        <column name="Agg 2" unit="T">Poid granulat 2</column>
+        <column name="Agg 3" unit="T">Poid granulat 3</column>
+        <column name="Agg 4" unit="T">Poid granulat 4</column>
+        <column name="Agg 5" unit="T">Poid granulat 5</column>
+        <column name="Agg 6" unit="T">Poid granulat 6</column>
+        <column name="Filler" unit="T">Poid filler</column>
+        <column name="Agg total" unit="T">Poid granulats total</column>
+        <column name="Poid bitume" unit="T">Poid bitume</column>
+        <column name="Dope 1" unit="T">Poid dope 1</column>
+        <column name="Poid total" unit="T">Poid total</column>
+        <column name="%Agg 1" unit="%">% granulat 1</column>
+        <column name="%Agg 2" unit="%">% granulat 2</column>
+        <column name="%Agg 3" unit="%">% granulat 3</column>
+        <column name="%Agg 4" unit="%">% granulat 4</column>
+        <column name="%Agg 5" unit="%">% granulat 5</column>
+        <column name="%Agg 6" unit="%">% granulat 6</column>
+        <column name="%Filler Apport" unit="%">% filler</column>
+        <column name="%Bitume" unit="%">% bitume</column>
+        <column name="%Dope 1" unit="%">% dope 1</column>
+        <column name="Tmp bitume" unit="C">Température bitume</column>
+        <column name="Tmp enrobe" unit="C">Température enrobé</column>
+        <column name="mix sp temp" unit="C">Mix sp temp</column>
+        <column name="mix temp var" unit="C">Mix temp var</column>
+        <column name="Duree malax">Durée malaxeur hum</column>
+        <column name="Duree cycle">Durée cycle</column>
+        <column name="Silo stockage">Silo stockage</column>
+      </columns>
+    </csvSheet>
+  </excel>
+</external>

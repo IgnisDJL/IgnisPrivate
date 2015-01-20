@@ -1,0 +1,168 @@
+<settings>
+  <usine id="052" name="Shawiniagan" usbRoot="C:\Users\owner\DJL\USB - Shawinigan">
+    <asphaltInfo>
+      <tank name="5" temperature="123">123</tank>
+      <tank name="12" temperature="3">23</tank>
+      <unknownTank name="1">1</unknownTank>
+      <unknownTank name="4">4</unknownTank>
+      <unknownTank name="0">0</unknownTank>
+      <unknownTank name="3">3</unknownTank>
+      <unknownTank name="2">2</unknownTank>
+    </asphaltInfo>
+    <recipesInfo>
+      <unknownRecipe formula="623 " mix="ESG-10-135-14R" />
+      <unknownRecipe formula="886 " mix="EC-5-137" />
+      <unknownRecipe formula="942 " mix="GB-20-135_20R" />
+      <unknownRecipe formula="060 " mix="EC-10-131" />
+      <unknownRecipe formula="637 " mix="ESG-10-131" />
+      <unknownRecipe formula="084 " mix="EB-10S-131_20R" />
+      <unknownRecipe formula="615 " mix="ESG-10-131-20R" />
+      <unknownRecipe formula="447 " mix="ESG-14-132_20R" />
+      <unknownRecipe formula="061 " mix="EC-10-132" />
+      <unknownRecipe formula="867 " mix="EC-5-138" />
+      <unknownRecipe formula="747 " mix="GB-20-131_20R" />
+      <unknownRecipe formula="619 " mix="ESG-14-131_20R" />
+      <unknownRecipe formula="941 " mix="GB-20-134-20R" />
+      <unknownRecipe formula="1115 " mix="ESG-10-136-10R THRD" />
+      <unknownRecipe formula="061 " mix="EC-10" />
+      <unknownRecipe formula="900 " mix="ESG-10-134" />
+      <unknownRecipe formula="792 " mix="ESG-10-134-14R" />
+      <unknownRecipe formula="577 " mix="ESG-10-135" />
+      <unknownRecipe formula="154 " mix="EB-14-132 20R" />
+      <unknownRecipe formula="735 " mix="ESG-14-135-20R" />
+      <unknownRecipe formula="438 " mix="ESG-10-135 10R" />
+      <unknownRecipe formula="260 " mix="GB-20-135" />
+      <unknownRecipe formula="933 " mix="ESG-14-135" />
+      <unknownRecipe formula="237 " mix="ESG-14-134" />
+      <unknownRecipe formula="579 " mix="ESG-14-132" />
+      <unknownRecipe formula="661 " mix="EC-5-131" />
+      <unknownRecipe formula="148 " mix="EB-14-131" />
+      <unknownRecipe formula="257 " mix="GB-20-131" />
+      <unknownRecipe formula="234 " mix="esg-14-131" />
+      <unknownRecipe formula="075 " mix="EB-10-S-131" />
+      <unknownRecipe formula="637 " mix="esg-10-131" />
+      <unknownRecipe formula="218 " mix="esg-10-132" />
+      <unknownRecipe formula="" mix="" />
+      <unknownRecipe formula="testbatche " mix="test batcher" />
+      <unknownRecipe formula="001 " mix="EC-10-132" />
+      <unknownRecipe formula="002 " mix="EC-5-138" />
+      <unknownRecipe formula="619 " mix="ESG-14-131-20R" />
+      <unknownRecipe formula="087 " mix="EB10-S-134" />
+      <unknownRecipe formula="605 " mix="eurovia 08-1" />
+      <unknownRecipe formula="791 " mix="ESG-10-134" />
+      <unknownRecipe formula="646 " mix="EB-14-134" />
+    </recipesInfo>
+    <operators>
+      <operator firstName="Simon" lastName="Corcos" />
+      <operator firstName="Georges" lastName="Gahnem" />
+    </operators>
+    <fuels fuel1Name="Carburant principal" fuel2Name="Gaz naturel" fuel1Unit="L" fuel2Unit="m³" />
+    <emails credentials="ignis.djl@gmail.com" password="masterusine" port="587" host="smtp.gmail.com" showPopupAfterGeneration="yes">
+      <recipients>
+        <recipient selected="yes">simoncorcos@yahoo.com</recipient>
+      </recipients>
+      <defaultRecipients>
+        <recipient>simoncorcos.ing@gmail.com</recipient>
+      </defaultRecipients>
+    </emails>
+    <dataFiles>
+      <csv active="no" stopOffset="60">
+        <format />
+        <feedsInfo />
+      </csv>
+      <log active="yes">
+        <feedsInfo>
+          <unknownFeed material="" tag="#ColdFeed">Fdr1</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Fdr2</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Fdr3</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Fdr4</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Fdr5</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Fdr6</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Fdr7</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Fdr8</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Rap1</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Rap2</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Dos1</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Dos2</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Dos3</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Dos4</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Dos5</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Dos6</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Dos7</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Dos8</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Rec1</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Rec2</unknownFeed>
+        </feedsInfo>
+      </log>
+      <mdb active="no" stopOffset="60">
+        <feedsInfo />
+      </mdb>
+    </dataFiles>
+    <events active="no">
+      <important>
+      </important>
+      <start>
+        <event replace="Start">DEMARRAGE SEQUENTIEL en progression</event>
+        <event replace="HOT Start">DEMARRAGE EN CHARGE</event>
+      </start>
+      <stop>
+        <event replace="Stop">ARRET SEQUENTIEL en progression</event>
+        <event replace="HOT Stop">* LE PLANT EST EN ARRET EN CHARGE *</event>
+      </stop>
+      <delays justifiableDuration="600">
+        <type name="Pause" color="FFFFFF" pause="yes">
+          <delay code="P" description="Pause" />
+        </type>
+        <type name="Entretien" color="FFFFFF" maintenance="yes">
+          <delay code="E" description="Entretien planifié" />
+        </type>
+        <type name="Interne (avec bris)" color="7CDEFF" breakage="yes">
+          <delay code="1" description="Bennes froides" />
+          <delay code="2" description="Convoyeurs" />
+          <delay code="3" description="Brûleur" />
+          <delay code="4" description="Tambour (séchoir ou TSM)" />
+          <delay code="5" description="Dépoussiéreur" />
+          <delay code="6" description="Élévateur" />
+          <delay code="7" description="Tamiseur" />
+          <delay code="8" description="Bennes chaudes et balances" />
+          <delay code="9" description="Benne recyclé / Bardeaux" />
+          <delay code="10" description="Alimentation, balance / Vidange du filler" />
+          <delay code="11" description="Bouilloire" />
+          <delay code="12" description="Alimentation / Balance du bitume / Additifs" />
+          <delay code="13" description="Malaxeur" />
+          <delay code="14" description="Élévateur au silo" />
+          <delay code="15" description="Silo" />
+          <delay code="16" description="Contrôle informatique" />
+          <delay code="17" description="Système hydraulique" />
+          <delay code="18" description="Compresseur et système à air" />
+        </type>
+        <type name="Interne (sans bris)" color="FFEA68" intern="yes">
+          <delay code="40" description="Changement de mélange" />
+          <delay code="41" description="Nettoyage de fin de journée" />
+          <delay code="42" description="Conditions climatiques" />
+          <delay code="43" description="Produit hors tolérance" />
+          <delay code="44" description="Pénurie / Panne de carburant / Énergie" />
+          <delay code="45" description="Manque de matières premières" />
+          <delay code="46" description="Bris du chargeur" />
+        </type>
+        <type name="Externe (chantier)" color="FFB37A" extern="yes">
+          <delay code="60" description="Bris du chantier" />
+          <delay code="61" description="Manque de camions du chantier" />
+          <delay code="62" description="Attente (Stand-By)" />
+        </type>
+        <type name="Externe (autres)" color="7CFF72">
+          <delay code="80" description="Aucun client FAB" />
+        </type>
+      </delays>
+    </events>
+  </usine>
+  <admin password="123">
+    <permission name="canOpenDataFiles" value="yes" timeSet="23/10/2014 10:50:32" />
+    <permission name="canModifyDelayCodes" value="yes" timeSet="23/10/2014 10:50:33" />
+    <permission name="canChangeEmailSettings" value="yes" timeSet="23/10/2014 10:50:33" />
+    <permission name="canResetDatabase" value="yes" timeSet="23/10/2014 10:50:39" />
+  </admin>
+  <reports massUnit="T" temperatureUnit="C" productionUnit="T/h" percentUnit="%">
+    <summaryReport active="yes" openReadOnlyWhenDone="yes" openWritableWhenDone="no" />
+  </reports>
+</settings>

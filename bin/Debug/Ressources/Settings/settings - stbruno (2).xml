@@ -1,0 +1,302 @@
+<settings lastUpdate="2013-04-25 12:14:29">
+  <program>
+    <author>Simon Corcos</author>
+    <version>2.1</version>
+    <email>simoncorcos@yahoo.ca</email>
+  </program>
+  <usine id="074" name="St-Bruno" usbRoot="C:\Users\owner\DJL\USB - St-bruno">
+    <dataFiles>
+      <csv active="yes" stopOffset="60">
+        <format>
+          <data tag="#CycleID" />
+          <data tag="#Time" />
+          <data tag="#TruckID" />
+          <data tag="#CommandID" />
+          <data tag="#FormulaName" />
+          <data tag="#AsphaltTank" />
+          <data tag="#AggregateMass" index="1" unit="kg" />
+          <data tag="#AggregateMass" index="2" unit="kg" />
+          <data tag="#AggregateMass" index="3" unit="kg" />
+          <data tag="#AggregateMass" index="4" unit="kg" />
+          <data tag="#AggregateMass" index="5" unit="kg" />
+          <data tag="#AggregateMass" index="6" unit="kg" />
+          <data tag="#AggregateMass" index="7" unit="kg" />
+          <data tag="#AggregatesTotalMass" unit="kg" />
+          <data tag="#AsphaltMass" unit="kg" />
+          <data tag="#DopeMass" unit="kg" />
+          <data tag="#MixMass" unit="kg" />
+          <data tag="#AggregatePercentage" index="1" unit="%" />
+          <data tag="#AggregatePercentage" index="2" unit="%" />
+          <data tag="#AggregatePercentage" index="3" unit="%" />
+          <data tag="#AggregatePercentage" index="4" unit="%" />
+          <data tag="#AggregatePercentage" index="5" unit="%" />
+          <data tag="#AggregatePercentage" index="6" unit="%" />
+          <data tag="#FillerApport" unit="kg" />
+          <data tag="#AsphaltPercentage" unit="%" />
+          <data tag="#DopePercentage" unit="%" />
+          <data tag="#AsphaltTemperature" unit="C" />
+          <data tag="#MixTemperature" unit="C" />
+          <data tag="#WetMalaxTime" />
+          <data tag="#Duration" />
+          <data tag="#Silo" />
+        </format>
+        <feedsInfo>
+          <feed material="15-20 mm" index="4" isRecycled="no" isFiller="no" tag="#HotFeed">Benne 4</feed>
+          <feed material="GBR" index="5" isRecycled="yes" isFiller="no" tag="#HotFeed">Benne recyclé</feed>
+          <feed material="1-5 mm" index="6" isRecycled="no" isFiller="no" tag="#HotFeed">Benne 6</feed>
+          <feed material="Sable fin" index="7" isRecycled="no" isFiller="yes" tag="#HotFeed">Benne 7</feed>
+          <feed material="1-5 mm" index="1" isRecycled="no" isFiller="no" tag="#HotFeed">Benne 1</feed>
+          <feed material="10-15 mm" index="3" isRecycled="no" isFiller="no" tag="#HotFeed">Benne 3</feed>
+          <unknownFeed material="" tag="#HotFeed">Benne 2</unknownFeed>
+        </feedsInfo>
+      </csv>
+      <log active="yes">
+        <feedsInfo>
+          <unknownFeed material="" tag="#ColdFeed">Fdr1</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Fdr2</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Fdr3</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Fdr4</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Fdr5</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Fdr6</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Fdr7</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Rap1</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Chaux</unknownFeed>
+          <feed material="Filler" index="1" isRecycled="no" isFiller="yes" tag="#ColdFeed">Fil1</feed>
+        </feedsInfo>
+      </log>
+      <mdb active="no" stopOffset="60">
+        <feedsInfo />
+      </mdb>
+    </dataFiles>
+    <asphaltInfo>
+      <tank name="3" temperature="150">Bitume 3</tank>
+      <tank name="2" temperature="150">Bitume 2</tank>
+      <tank name="0" temperature="150">Bitume 0</tank>
+      <tank name="4" temperature="155">Bitume 1</tank>
+      <unknownTank name="1">1</unknownTank>
+    </asphaltInfo>
+    <recipesInfo>
+      <recipe regex="2000" mix="MB 6" RAP="0" AC="" />
+      <recipe regex="2001" mix="MB 7" RAP="0" AC="" />
+      <recipe regex="2002" mix="6 client" RAP="0" AC="" />
+      <recipe regex="2003" mix="8 client" RAP="0" AC="" />
+      <recipe regex="2004" mix="EB 20" RAP="0" AC="" />
+      <recipe regex="2005" mix="EB 14" RAP="0" AC="" />
+      <recipe regex="2006" mix="EB 10S" RAP="0" AC="" />
+      <recipe regex="2007" mix="EB 10C" RAP="0" AC="" />
+      <recipe regex="2008" mix="EB 5" RAP="0" AC="" />
+      <recipe regex="2009" mix="EC 10" RAP="0" AC="" />
+      <recipe regex="2010" mix="ESG-10" RAP="0" AC="" />
+      <recipe regex="2012" mix="GB 20" RAP="0" AC="" />
+      <recipe regex="2015" mix="EB 14" RAP="0" AC="" />
+      <recipe regex="2016" mix="EB 10S" RAP="0" AC="" />
+      <recipe regex="2017" mix="EB 10C" RAP="0" AC="" />
+      <recipe regex="2018" mix="ESG-10" RAP="0" AC="" />
+      <recipe regex="2026" mix="EB 14" RAP="0" AC="" />
+      <recipe regex="2027" mix="EB 10S" RAP="0" AC="" />
+      <recipe regex="2028" mix="EB 10C" RAP="0" AC="" />
+      <recipe regex="2029" mix="ESG-10" RAP="0" AC="" />
+      <recipe regex="2031" mix="GB-20" RAP="0" AC="" />
+      <recipe regex="2034" mix="EB 10S" RAP="0" AC="" />
+      <recipe regex="2064" mix="EC 10" RAP="0" AC="" />
+      <recipe regex="2065" mix="GB 20" RAP="0" AC="" />
+      <recipe regex="2070" mix="ESG-10" RAP="0" AC="" />
+      <recipe regex="2071" mix="ESG-10" RAP="0" AC="" />
+      <recipe regex="2076" mix="ESG-14" RAP="0" AC="" />
+      <recipe regex="2077" mix="ESG-14" RAP="0" AC="" />
+      <recipe regex="2080" mix="ESG-14" RAP="0" AC="" />
+      <recipe regex="2082" mix="ESG-14" RAP="0" AC="" />
+      <recipe regex="2083" mix="GB 20" RAP="0" AC="" />
+      <recipe regex="3005" mix="EB 14 Ad" RAP="0" AC="" />
+      <recipe regex="3006" mix="EB 10S Ad" RAP="0" AC="" />
+      <recipe regex="3007" mix="EB 10C Ad" RAP="0" AC="" />
+      <recipe regex="3009" mix="EC 10 Ad" RAP="0" AC="" />
+      <recipe regex="3010" mix="ESG-10 Ad" RAP="0" AC="" />
+      <recipe regex="3016" mix="EB 10S Ad" RAP="0" AC="" />
+      <recipe regex="3017" mix="EB 10C Ad" RAP="0" AC="" />
+      <recipe regex="3018" mix="ESG-10 Ad" RAP="0" AC="" />
+      <recipe regex="3027" mix="EB 10S Ad" RAP="0" AC="" />
+      <recipe regex="3029" mix="ESG-10 Ad" RAP="0" AC="" />
+      <recipe regex="3044" mix="ESG-10 Ad" RAP="0" AC="" />
+      <recipe regex="3063" mix="ESG-10 Ad" RAP="0" AC="" />
+      <recipe regex="3070" mix="ESG-10 Ad" RAP="0" AC="" />
+      <recipe regex="3072" mix="ESG-14 Ad" RAP="0" AC="" />
+      <recipe regex="3076" mix="ESG-14 Ad" RAP="0" AC="" />
+      <recipe regex="4000" mix="MB 6" RAP="5" AC="" />
+      <recipe regex="4002" mix="6 client" RAP="5" AC="" />
+      <recipe regex="4004" mix="EB 20" RAP="5" AC="" />
+      <recipe regex="4005" mix="EB 14" RAP="5" AC="" />
+      <recipe regex="4006" mix="EB 10S" RAP="5" AC="" />
+      <recipe regex="4008" mix="EB 5" RAP="5" AC="" />
+      <recipe regex="4015" mix="EB 14" RAP="5" AC="" />
+      <recipe regex="4016" mix="EB 10S" RAP="5" AC="" />
+      <recipe regex="4026" mix="EB 14" RAP="5" AC="" />
+      <recipe regex="4027" mix="EB 10S" RAP="5" AC="" />
+      <recipe regex="4028" mix="EB 10C" RAP="5" AC="" />
+      <recipe regex="4033" mix="EB 14" RAP="5" AC="" />
+      <recipe regex="4034" mix="EB 10S" RAP="5" AC="" />
+      <recipe regex="5005" mix="EB 14 Ad" RAP="5" AC="" />
+      <recipe regex="5006" mix="EB 10S Ad" RAP="5" AC="" />
+      <recipe regex="5007" mix="EB 10C Ad" RAP="5" AC="" />
+      <recipe regex="5008" mix="EB 5 Ad" RAP="5" AC="" />
+      <recipe regex="5016" mix="EB 10S Ad" RAP="5" AC="" />
+      <recipe regex="5017" mix="EB 10C Ad" RAP="5" AC="" />
+      <recipe regex="5027" mix="EB 10S Ad" RAP="5" AC="" />
+      <recipe regex="5034" mix="EB 10S Ad" RAP="5" AC="" />
+      <recipe regex="8008" mix="EB 14" RAP="20" AC="" />
+      <recipe regex="8009" mix="EB 14" RAP="20" AC="" />
+      <recipe regex="8010" mix="EB 10S" RAP="20" AC="" />
+      <recipe regex="8012" mix="EB 10C" RAP="20" AC="" />
+      <recipe regex="8016" mix="ESG-10" RAP="20" AC="" />
+      <recipe regex="8017" mix="ESG-10 Ad" RAP="20" AC="" />
+      <recipe regex="8018" mix="ESG-14" RAP="20" AC="" />
+      <recipe regex="8022" mix="EB 14" RAP="20" AC="" />
+      <recipe regex="8023" mix="EB 14 Ad" RAP="20" AC="" />
+      <recipe regex="8027" mix="EB 10C Ad" RAP="20" AC="" />
+      <recipe regex="8048" mix="EC 10" RAP="20" AC="" />
+      <recipe regex="8049" mix="GB-20" RAP="20" AC="" />
+      <recipe regex="8055" mix="EB 10S Ad" RAP="20" AC="" />
+      <recipe regex="8060" mix="ESG-10" RAP="20" AC="" />
+      <recipe regex="8069" mix="ESG-14 Ad" RAP="20" AC="" />
+      <recipe regex="2036" mix="ESG-10" RAP="0" AC="5,4" />
+      <recipe regex="4007" mix="EB 10C" RAP="5" AC="5,3" />
+      <recipe regex="2072" mix="ESG-14" RAP="0" AC="5" />
+      <recipe regex="8005" mix="GB 20" RAP="20" AC="4,3" />
+      <unknownRecipe formula="dry10c " mix="dry 10c" />
+      <unknownRecipe formula="dryesg10 " mix="dryesg10" />
+      <unknownRecipe formula="drygb20 " mix="drygb20" />
+      <unknownRecipe formula="ro2036 " mix="esg107028" />
+      <unknownRecipe formula="ro8008 " mix="eb14re205828" />
+      <unknownRecipe formula="ro2031 " mix="gb20 6428" />
+      <unknownRecipe formula="ro8044 " mix="esg10re206428" />
+      <unknownRecipe formula="ro8046 " mix="esg14re206428" />
+      <unknownRecipe formula="ro8018 " mix="esg14re205828" />
+      <unknownRecipe formula="dry6 " mix="dry6" />
+      <unknownRecipe formula="ro3010 " mix="esg10ad5828" />
+      <unknownRecipe formula="dry10s " mix="dry10s" />
+      <unknownRecipe formula="ro9071 " mix="esg10 10%rec 7028" />
+      <unknownRecipe formula="ro8045 " mix="esg10re20ad6428" />
+      <unknownRecipe formula="dry10c " mix="dry10c" />
+      <unknownRecipe formula="ro2072 " mix="esg145828" />
+      <unknownRecipe formula="dry10s " mix="dry 10s" />
+      <unknownRecipe formula="ro8017 " mix="esg10re20ad5828" />
+      <unknownRecipe formula="ro2034 " mix="eb10s7028" />
+      <unknownRecipe formula="ro8054 " mix="eb10sre207028" />
+      <unknownRecipe formula="ro3034 " mix="eb10sad7028" />
+      <unknownRecipe formula="ro8011 " mix="eb10sre20ad5828" />
+      <unknownRecipe formula="dry14 " mix="dry14" />
+      <unknownRecipe formula="dryesg14 " mix="dryesg14" />
+      <unknownRecipe formula="dryec10 " mix="dryec10" />
+      <unknownRecipe formula="ro8013 " mix="eb10cre20ad5828" />
+      <unknownRecipe formula="ro2007 " mix="eb10c5828" />
+      <unknownRecipe formula="ro3063 " mix="mtqesg10ad6428" />
+      <unknownRecipe formula="ro9045 " mix="mtqesg10re20ad6428" />
+      <unknownRecipe formula="ro2005 " mix="eb145828" />
+      <unknownRecipe formula="ro3072 " mix="esg14ad5828" />
+      <unknownRecipe formula="ro3007 " mix="eb10cad5828" />
+      <unknownRecipe formula="ro8068 " mix="esg145834recy" />
+      <unknownRecipe formula="ro2087 " mix="esg145834" />
+      <unknownRecipe formula="ro8049 " mix="gb20re206428" />
+      <unknownRecipe formula="ro8060 " mix="esg10re207028" />
+      <unknownRecipe formula="ro8015 " mix="ec10re20ad5828" />
+      <unknownRecipe formula="ro8019 " mix="esg14re20ad5828" />
+      <unknownRecipe formula="ro3018 " mix="esg10ad5834" />
+      <unknownRecipe formula="ro8067 " mix="esg1058-34adrec20" />
+      <unknownRecipe formula="ro2018 " mix="esg105834" />
+      <unknownRecipe formula="ro8009 " mix="eb14re20ad5828" />
+      <unknownRecipe formula="dry20 " mix="dry20" />
+      <unknownRecipe formula="ro8047 " mix="esg14re20ad6428" />
+      <unknownRecipe formula="ro2076 " mix="esg146428" />
+      <unknownRecipe formula="ro8012 " mix="eb10cre205828" />
+      <unknownRecipe formula="ro3005 " mix="eb14ad5828" />
+      <unknownRecipe formula="ro8005 " mix="gb20re205828" />
+      <unknownRecipe formula="ro9046 " mix="mtqesg14re206428" />
+      <unknownRecipe formula="ro3006 " mix="eb10sad5828" />
+      <recipe formula="dry10c" mix="1" RAP="2" AC="3" />
+    </recipesInfo>
+    <events active="yes">
+      <important>
+        <event replace="">Hors Tolerance sur Bitume</event>
+      </important>
+      <start>
+        <event replace="Start">SEQUENTIAL START in progress</event>
+        <event replace="Hot Start">HOT START in progress</event>
+      </start>
+      <stop>
+        <event replace="Stop">SEQUENTIAL STOP in progress</event>
+        <event replace="Hot Stop">*PLANT IS HOT STOPPED*</event>
+      </stop>
+      <delays justifiableDuration="600">
+        <type name="Pause" color="FFFFFF" pause="yes">
+          <delay code="P" description="Pause" />
+        </type>
+        <type name="Entretien" color="FFFFFF" maintenance="yes">
+          <delay code="E" description="Entretien planifié" />
+        </type>
+        <type name="Interne (avec bris)" color="7CDEFF" intern="yes" breakage="yes">
+          <delay code="1" description="Bennes froides" />
+          <delay code="2" description="Convoyeurs" />
+          <delay code="3" description="Brûleur" />
+          <delay code="4" description="Tambour (séchoir ou TSM)" />
+          <delay code="5" description="Dépoussiéreur" />
+          <delay code="6" description="Élévateur" />
+          <delay code="7" description="Tamiseur" />
+          <delay code="8" description="Bennes chaudes et balances" />
+          <delay code="9" description="Benne recyclé / Bardeaux" />
+          <delay code="10" description="Alimentation, balance / Vidange du filler" />
+          <delay code="11" description="Bouilloire" />
+          <delay code="12" description="Alimentation / Balance du bitume / Additifs" />
+          <delay code="13" description="Malaxeur" />
+          <delay code="14" description="Élévateur au silo" />
+          <delay code="15" description="Silo" />
+          <delay code="16" description="Contrôle informatique" />
+          <delay code="17" description="Système hydraulique" />
+          <delay code="18" description="Compresseur et système à air" />
+        </type>
+        <type name="Interne (sans bris)" color="FFEA68" intern="yes">
+          <delay code="40" description="Changement de mélange" />
+          <delay code="41" description="Nettoyage de fin de journée" />
+          <delay code="42" description="Conditions climatiques" />
+          <delay code="43" description="Produit hors tolérance" />
+          <delay code="44" description="Pénurie / Panne de carburant / Énergie" />
+          <delay code="45" description="Manque de matières premières" />
+          <delay code="46" description="Bris du chargeur" />
+        </type>
+        <type name="Externe (chantier)" color="FFB37A" extern="yes">
+          <delay code="60" description="Bris du chantier" />
+          <delay code="61" description="Manque de camions du chantier" />
+          <delay code="62" description="Attente (Stand-By)" />
+        </type>
+        <type name="Externe (autres)" color="7CFF72">
+          <delay code="80" description="Aucun client FAB" />
+        </type>
+      </delays>
+    </events>
+    <operators>
+      <operator firstName="Simon" lastName="Corcos" />
+    </operators>
+    <fuels fuel1Name="Carburant Principal" fuel2Name="Gaz Naturel" fuel1Unit="L" fuel2Unit="m³" />
+    <emails credentials="ignis.djl@gmail.com" password="masterusine" host="smtp.gmail.com" port="587">
+      <recipients>
+        <recipient selected="yes">simoncorcos.ing@gmail.com</recipient>
+      </recipients>
+      <defaultRecipients>
+      </defaultRecipients>
+    </emails>
+  </usine>
+  <report massUnit="T" temperatureUnit="C" productionUnit="T/h" percentUnit="%">
+    <excel active="yes" openWhenDone="yes">
+    </excel>
+    <word active="yes" eventsActive="yes" openWhenDone="yes" openReadOnlyWhenDone="no" openWritableWhenDone="no" massUnit="T" temperatureUnit="C" productionUnit="T/h" percentUnit="%">
+    </word>
+  </report>
+  <reports massUnit="T" temperatureUnit="C" productionUnit="T/h" percentUnit="%">
+    <summaryReport active="yes" openReadOnlyWhenDone="yes" openWritableWhenDone="no" />
+  </reports>
+  <admin password="">
+    <permission name="canOpenDataFiles" value="" timeSet="" />
+    <permission name="canModifyDelayCodes" value="" timeSet="" />
+    <permission name="canChangeEmailSettings" value="" timeSet="" />
+    <permission name="canResetDatabase" value="" timeSet="" />
+  </admin>
+</settings>

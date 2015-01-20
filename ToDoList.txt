@@ -1,0 +1,134 @@
+﻿To Do:
+ - Remove the parametrable excel columns... nobody asked for that
+ - Use the docX library to see if it's faster
+ - PUT THE INDEX ATTRIBUTE BACK IN THE EXCELDATACOLUMN AND THE DATAINFONODE BECAUSE OTHERWISE YOU WON'T BE ABLE TO KNOW WHICH REFERENCE THE EXCELDATA IS REFERING TO... i suck
+ - Start the program, and generate a report. It seems like in mdbDay you try to cast a Feeder object to a MDBFeeder object
+  this happened because you where playing with the MDBCycle.Asphalt_Feeds property. which is a feeder. good luck (resolved?)
+
+ =================================
+ ===========Important=============
+ =================================
+
+ - User can't open .mdb file because of constant connection
+
+ - Make help button a radio button and toolTip every thing you thinks is worth tooltipping when the button is On ( add a pop up dialog when the button is turned on)
+   Make the help tooltip always following the mouse with the background a little transparent
+
+ =================================
+ ======= Less  Important =========
+ =================================
+
+ - Bind new feedInfos with its corresponding unknownFeed (if it has one) for proper undo/redo (or maybe just keep the unknownfeednodes and display them only if there is not a matching known feed (might have to change name to analysedFeeds or an even better one))
+ - Implement classes that match the domain classes that match these : recipe, recipeInfo, persistedRecipeInfo, analysedRecipe, persistedAnalysedRecipe, unknownRecipe (or unknown is just an attribute of analysed). The things I can think of now that have these are asphaltTanks, recipes and feeds... but there might be more.
+ - extract method getReportFriendlyValue(double) for reportValues that you do a if() to decide wheter to  print the value, ? or -. (Do same for values with 0.000000). There is probably other values to think of
+ - Pour le drag n drop des fichiers pour les settings, sépare l'analyse de fichiers en methods (e.g. log -> cycle.hot_feeds = getHotFeeds(table as string) ou qqch de meme) (e.g. csv -> columns = getColumns(rowWithColumns as String))
+ - Ajust units of derived datainfo (datainfoconstant) when setting the unit of the datainfo it's derived from
+ - Verifier que les unités de mass sont bien des unites de masse à l'initialization des settings. Tu peux utiliser dataInfo.tag.defaultUnit. Le faire pour tous les autres unit types.
+ - Implement icon for settings menu items. Make it exactly as you did with the VIEW_NAME
+ - Make IGNIS Component interface with the ajustLayout and ajustLayout final (newSize) in order so you can make layout management more automated. Like if(typeof comp is ignisComp) then comp.ajoustlayout
+ - Make the lists that implement list template as fast as you can (like at least 2x faster) (try using things that already exists like datagrid and such...) (think about the unit of work pattern (get bunch of info then commit it))
+ - Organize everything in namespaces
+ - Colors of delays have to match the colors in the report.
+ - When some names are too long (mix, asphalt...) thay can't appear on only one line in the report. Find a solution for that.
+ - Extract buttons panel. Make it its own component (with own layout) (addBackButton(), addButton to right/left).
+ - Faire une option archives dans le menu principal (p-e y incorporer les fct de send mail) (p-e faire la vue principale la vue des archives et faire un top menu pour les settings and what not)
+ - Faire un "accordeon" dans les vues d'analyse des fichiers et de generation de rapport (rethought = maybe it's better to just add a single liner underneath with the name of the file and a progress bar)
+ - Arranger le graphique de distribution des delais pour que le x_interval soit variable
+ - Le uicontroller devrait retourner l'ancienne vu pour le back button (util dans le cas de changer des settings pendant report generation step)
+ - Add parameters in db (password protected) (only "hard coded" params)
+ - Bring back unknown tanks (asphalt)
+ - Implement sortable events (sort with time, but don't forget to swap next stop or previous start...)
+ - fix the bug about bitume (St-Bruno 4 juin 2013 summary daily report) check the Bitume 0 and esg107028 mix
+ - Implementer les test unitaires pour les statistiques (avec des petits fichiers que tu fait)
+ - Prendre toute les formules utilisees pour generer les rapports et les mettres dans des proprietes des statistics (creer une nouvelle classe statistique sil le faut)
+ - Keep selected day when comming back to report generation interface
+ - Verify why rows dont amount to total in production summary tables
+ - Preload last complete day
+ - Read only archive datafiles (not reports or you wont be able to overwrite them! or check if)
+ - Unitée des données complémentaire parametrables
+ - Operateur non sauvegardé...
+ - Settings pour enlever quantiter silo des champs de manual data...
+ - Calls to xmlsettings from UI should go through SettingsControler
+ - Reduire le size du bouton settings
+ - When user turn program on, check for usb key, import and select last day -> favorise instant gratification.
+ - Section carburant enlevable
+ - Reset settings button
+ - In the excel settings, you cant put no name to a column (this isnt proofed)
+ - Check feeder.setpointmass and .percentage... it's easy to calculate, so do it *** Not calculated yet
+ - When user removes a feeder, check if it has any references in the excel settings or it will bug (line 308 mdbNode.vb)
+ - Log the manual data in an excel file! as requested
+ - Ajouter le nom du tag dans le nom de colonne quand nouvelle colonne excel (not sure what this means...)
+ - Check if the model is regenerated multiple times when more than 1 day
+ - Benne froides devrais pas avoir acces a certaines sous colonnes
+ - reinstate settings pw 
+ - turn excel calculation back on (at the end of the generation) and make the datasheet the first thing you see when open excel
+ - Maybe change (if isnothing(previouscycle)) with if(cycle.cycleId1 = 1)
+ - try adding log feeders and see for yourself
+ - The calculated data should no appear in the xml file (CSV) and it's unit should be decided by some similar value ( equivalent of datafile.massUnit )
+ - Remove default attribute to stop/start events, replace with constants from language
+ - Make something for the faulty rows in the csv + make excep report more complete
+ - Prepare Fuel sections for other programmers
+ - NodeName attribute for data, column, event and all the super nodes too. (maybe even a SettingNode superClass) !! Why?
+ - Remove all the useless throws (Check for unfound exceptions / proof the program as much as possible)
+ - Checker les erreurs d'importation des fichiers
+ - Remove all the "MIX_..." I find they don't add coherence so they re useless. (Ex : MIX_acc_mass_tag -> acc_mass_tag)
+ - Is the feeders index really necessary? (I know it is internally but I don't think the users should have anything to do with it.)
+ - Mass attributes should only have mass units (excelsettingwindow)
+ - Check out the pourcentage de recyclé graphic (log)
+ - Log problem files and exceptions. (UIExceptionHandler)
+ - In the mdb,log,csv settings window, make only one event listener for each event. (Ex : event.me.shown { clearFields() and  updateCombobox()} )
+ - In the languages, you should have a property for every text space. Remove shits like word_for_stops()
+ - When traversing the xml, if the node's active attribute is set to no, don't start traversing the inside of the node (but when it's set to yes you need to autogenerate the inside nodes and other attributes with their default values)
+ - Just make an "other" tag in the csv cycle so that when the program encounters a different value we don't have to change the code and the program doesnt crash
+ - Change the location from inner text to attr
+ - Put feedinfonode in xmlsettings and the other in constants
+ - Find the maximum characters for the tags display names
+ - Gere l'erreur qui se produit quand le cycleList est vide apres datafilemanager (Ex: csv format not correct)
+ - Every index conditions in the CSV program (with dataInfoNode.index and excelDataColumn.index). Make NULL iNDEX constant and change the conditions by searching if(index > 0) or index = -1
+ - Se souvenir des manualData pour une journee comme ca elles apparaisse quand la journee est regenerée (genre les donnees sont deja la si elles ont rentree plus tot)
+ - Seuil limite pour les graphique de
+
+ =======================================
+ ============= What's new ==============
+ =======================================
+
+ - Email pop up
+
+ =================================
+ ========= What to tell ==========
+ =================================
+
+ - Emails are almost done...
+
+ =================================
+ ========= What to ask ===========
+ =================================
+
+ - What shortcuts in the fileExportation view
+ - How do they want the shift de nuit thing to work
+ - (not now) After analysing sequence, how about asking the operator name in the same page than the comments? We could change the steps to 'analyse' 'production' 'delais' 'rapport' 'generation'
+
+ =================================
+ =============AQL===============
+ =================================
+
+ - Faire une liste de toute les données que le programme ramasse / type d'usine
+ - Ask martin about datafilemanager line 738 (#askM)
+ - Si tu veux changer le langage du datetimepicker il faut que : The DateTimePicker and Calendar controls show the language that's set in the Regional settings on the OS. You can change that in the Windows Control Panel.
+ - Faire les tests pour tous les calculs
+
+ ===================
+ ###################
+  - Ordered By importance -
+
+ #todo
+ #unit
+ #exception
+ #refactor
+ #untested
+ #optimize
+ #language
+ #remove
+ #comment
+
+       

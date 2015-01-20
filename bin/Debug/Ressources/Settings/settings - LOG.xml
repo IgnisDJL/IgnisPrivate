@@ -1,0 +1,240 @@
+<external>
+  <log active="yes">
+    <format>
+      <data name="Time" tag="#Time" />
+      <data name="date" tag="#Date" />
+      <data name="MixTph" tag="#ProductionSpeed" unit="T/h" />
+      <data name="AcSpecificGravity" tag="#Density" />
+      <data name="BhDiff" tag="#BagHouseDiff" />
+      <data name="MixTons" tag="#TotalAccumulatedTons" unit="T" />
+      <data name="MixNumber" tag="#FormulaName" />
+      <data name="MixName" tag="#MixName" />
+      <data name="AsphaltTemp" tag="#AsphaltTemperature" unit="C" />
+      <data name="AcTank" tag="#AsphaltTank" />
+      <data name="MixTemp" tag="#MixTemperature" unit="C" />
+      <data name="SiloFilling" tag="#Silo" />
+      <data name="DustRemoval" tag="#DustRemoval" />
+      <data name="mix real mass" tag="#MixMass" unit="T" />
+      <data name="acc mass" tag="#MixAccumulatedMass" unit="T" />
+      <data name="mix sp temp" tag="#MixSetPointTemperature" unit="C" />
+      <data name="mix temp var" tag="#MixTemperatureVariation" unit="C" />
+      <data name="mix recycled perentage" tag="#RecycledPercentage" unit="%" />
+      <data name="mix set point recycled perentage" tag="#RecycledSetPointPercentage" unit="%" />
+      <data name="cycle time" tag="#Duration" />
+      <data name="agg real tot mass" tag="#AggregatesTotalMass" unit="T" />
+      <data name="ac real perc" tag="#AsphaltPercentage" unit="%" />
+      <data name="ac sp perc" tag="#AsphaltSetPointPercentage" unit="%" />
+      <data name="ac perc var" tag="#AsphaltPercentageVariation" unit="%" />
+      <column name="VirginAgg" tag="#HotFeed" index="1" />
+      <column name="RapAgg" tag="#HotFeed" index="2" />
+      <column name="RapAc" tag="#HotFeed" index="3" />
+      <column name="VirginAc" tag="#HotFeed" index="4" />
+      <column name="TotalAc" tag="#HotFeed" index="5" />
+      <column name="Filler1" tag="#HotFeed" index="6" />
+      <column name="Add" tag="#HotFeed" index="7" />
+      <column name="Fdr1" tag="#ColdFeed" index="1" />
+      <column name="Fdr2" tag="#ColdFeed" index="2" />
+      <column name="Fdr3" tag="#ColdFeed" index="3" />
+      <column name="Fdr4" tag="#ColdFeed" index="4" />
+      <column name="Fdr5" tag="#ColdFeed" index="5" />
+      <column name="Fdr6" tag="#ColdFeed" index="6" />
+      <column name="Fdr7" tag="#ColdFeed" index="7" />
+      <column name="Rap1" tag="#ColdFeed" index="8" />
+      <column name="Filler2" tag="#ColdFeed" index="9" />
+      <column name="Chaux" tag="#ColdFeed" index="10" />
+      <row name="SP" tag="#SetPointPercentage" unit="%" />
+      <row name="Act" tag="#Percentage" unit="%" />
+      <row name="Tph" tag="#ProductionSpeed" unit="T" />
+      <row name="Tons" tag="#FeedMass" unit="T" />
+      <row name="Mst" tag="#Moisture" unit="%" />
+      <row name="RapAc" tag="#RecycledAphaltPercentage" unit="%" />
+      <row name="feed acc mass" tag="#FeedAccumulatedMass" unit="T" />
+    </format>
+    <feedsInfo>
+      <coldFeed index="1" material="0-3.15 mm">Benne 1</coldFeed>
+      <coldFeed index="2" material="0-5 lavée">Benne 2</coldFeed>
+      <coldFeed index="3" material="0-5 mm">Benne 3</coldFeed>
+      <coldFeed index="4" material="5-10 mm">Benne 4</coldFeed>
+      <coldFeed index="5" material="10-14 mm">Benne 5</coldFeed>
+      <coldFeed index="6" material="Mat6">Benne 6</coldFeed>
+      <coldFeed index="7" material="Mat7">Benne 7</coldFeed>
+      <coldFeed index="8" material="Recyclé" isRecycled="yes">RAP</coldFeed>
+      <coldFeed index="9" material="" isFiller="yes">Filler</coldFeed>
+      <coldFeed index="10" material="">Chaux</coldFeed>
+    </feedsInfo>
+  </log>
+  <excel>
+    <logSheet active="yes">
+      <columns>
+        <column name="Time">Time</column>
+        <column name="date">Date</column>
+        <column name="MixTph" unit="T/h">MixTph</column>
+        <column name="AcSpecificGravity">AcSpecificGravity</column>
+        <column name="BhDiff">BhDiff</column>
+        <column name="MixTons" unit="T">MixTons</column>
+        <column name="MixNumber">MixNumber</column>
+        <column name="MixName">MixName</column>
+        <column name="AsphaltTemp" unit="C">AsphaltTemp</column>
+        <column name="AcTank">AcTank</column>
+        <column name="MixTemp" unit="C">MixTemp</column>
+        <column name="SiloFilling">SiloFilling</column>
+        <column name="DustRemoval">DustRemoval</column>
+        <column name="mix real mass" unit="T">Mix real mass</column>
+        <column name="acc mass" unit="T">Accumulated mass</column>
+        <column name="mix sp temp" unit="C">Mix set point temperature</column>
+        <column name="mix temp var" unit="C">Mix temperature var</column>
+        <column name="cycle time">Cycle time</column>
+        <column name="agg real tot mass" unit="T">Agg real total mass</column>
+        <column name="ac real perc" unit="%">real asphalt %</column>
+        <column name="ac sp perc" unit="%">set point asphalt %</column>
+        <column name="ac perc var" unit="%">Asphalt % var</column>
+        <column name="VirginAgg">VirginAgg</column>
+        <subColumns name="VirginAgg">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T/h">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+        </subColumns>
+        <column name="RapAgg">RapAgg</column>
+        <subColumns name="RapAgg">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T/h">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+        </subColumns>
+        <column name="RapAc">RapAc</column>
+        <subColumns name="RapAc">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T/h">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+        </subColumns>
+        <column name="VirginAc">VirginAc</column>
+        <subColumns name="VirginAc">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T/h">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+        </subColumns>
+        <column name="TotalAc">TotalAc</column>
+        <subColumns name="TotalAc">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T/h">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+        </subColumns>
+        <column name="Filler1">Filler1</column>
+        <subColumns name="Filler1">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T/h">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+        </subColumns>
+        <column name="Add">Add</column>
+        <subColumns name="Add">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T/h">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+        </subColumns>
+        <column name="Fdr1">Fdr1</column>
+        <subColumns name="Fdr1">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T/h">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+          <subColumn name="RapAc" unit="%">RapAcaip</subColumn>
+        </subColumns>
+        <column name="Fdr2">Fdr2</column>
+        <subColumns name="Fdr2">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T/h">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+          <subColumn name="RapAc" unit="%">RapAcaip</subColumn>
+        </subColumns>
+        <column name="Fdr3">Fdr3</column>
+        <subColumns name="Fdr3">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T/h">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+          <subColumn name="RapAc" unit="%">RapAcaip</subColumn>
+        </subColumns>
+        <column name="Fdr4">Fdr4</column>
+        <subColumns name="Fdr4">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T/h">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+          <subColumn name="RapAc" unit="%">RapAcaip</subColumn>
+        </subColumns>
+        <column name="Fdr5">Fdr5</column>
+        <subColumns name="Fdr5">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T/h">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+          <subColumn name="RapAc" unit="%">RapAcaip</subColumn>
+        </subColumns>
+        <column name="Fdr6">Fdr6</column>
+        <subColumns name="Fdr6">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T/h">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+          <subColumn name="RapAc" unit="%">RapAcaip</subColumn>
+        </subColumns>
+        <column name="Fdr7">Fdr7</column>
+        <subColumns name="Fdr7">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T/h">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+          <subColumn name="RapAc" unit="%">RapAcaip</subColumn>
+        </subColumns>
+        <column name="Rap1">Rap1</column>
+        <subColumns name="Rap1">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T/h">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+          <subColumn name="RapAc" unit="%">RapAcaip</subColumn>
+        </subColumns>
+        <column name="Filler2">Filler2</column>
+        <subColumns name="Filler2">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T/h">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+          <subColumn name="RapAc" unit="%">RapAcaip</subColumn>
+        </subColumns>
+        <column name="Chaux">Chaux</column>
+        <subColumns name="Chaux">
+          <subColumn name="SP" unit="%">SP</subColumn>
+          <subColumn name="Act" unit="%">Act</subColumn>
+          <subColumn name="Tph" unit="T">Tph</subColumn>
+          <subColumn name="Tons" unit="T">Tons</subColumn>
+          <subColumn name="Mst" unit="%">Mst</subColumn>
+          <subColumn name="RapAc" unit="%">RapAc</subColumn>
+        </subColumns>
+      </columns>
+    </logSheet>
+  </excel>
+</external>

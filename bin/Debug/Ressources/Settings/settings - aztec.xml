@@ -1,0 +1,115 @@
+<settings lastUpdate="2013-10-04 18:18:58">
+  <program>
+    <author>Simon Corcos</author>
+    <version>2.1</version>
+    <email>simoncorcos@yahoo.ca</email>
+  </program>
+  <usine id="116" name="Astec " usbRoot="C:\Users\owner\DJL\USB - Astec">
+    <dataFiles>
+      <csv active="no" stopOffset="60">
+        <feedsInfo>
+        </feedsInfo>
+      </csv>
+      <log active="yes">
+        <feedsInfo>
+          <unknownFeed material="" tag="#ColdFeed">Fdr3</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Fdr4</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Fdr5</unknownFeed>
+          <unknownFeed material="" tag="#ColdFeed">Fdr6</unknownFeed>
+          <feed material="52-32" index="1" isRecycled="no" isFiller="no" tag="#ColdFeed">Fdr1</feed>
+          <feed material="autre" index="2" isRecycled="no" isFiller="no" tag="#ColdFeed">Fdr2</feed>
+          <feed material="recycle" index="3" isRecycled="yes" isFiller="no" tag="#ColdFeed">Rap1</feed>
+        </feedsInfo>
+      </log>
+      <mdb active="no" stopOffset="60">
+        <feedsInfo>
+        </feedsInfo>
+      </mdb>
+    </dataFiles>
+    <asphaltInfo>
+      <unknownTank name="0">0</unknownTank>
+      <unknownTank name="1">1</unknownTank>
+      <unknownTank name="2">2</unknownTank>
+    </asphaltInfo>
+    <recipesInfo>
+      <unknownRecipe formula="12-2915 " mix="esg-5 r20" />
+      <recipe formula="12-3004 " mix="ecg-14r" RAP="0" AC="4,5" />
+      <unknownRecipe formula="32 " mix="ESG-10 U" />
+      <unknownRecipe formula="25 " mix="ESG 5 U" />
+      <unknownRecipe formula="0 " mix="nettoyage" />
+      <unknownRecipe formula="21 " mix="EC 10 U" />
+      <unknownRecipe formula="23 " mix="ESG 14 U" />
+      <unknownRecipe formula="22 " mix="ESG 10 U" />
+      <unknownRecipe formula="31 " mix="EC-10 U" />
+      <unknownRecipe formula="34 " mix="GB-20 U" />
+    </recipesInfo>
+    <events active="yes">
+      <important>
+        <event replace="">Bitume Hors Tolerance sur pompe 1</event>
+      </important>
+      <start>
+        <event replace="Start">DEMARRAGE SEQUENTIEL en progression</event>
+        <event replace="HOT Start">DEMARRAGE EN CHARGE</event>
+      </start>
+      <stop>
+        <event replace="Stop">ARRET SEQUENTIEL en progression</event>
+        <event replace="HOT Stop">* LE PLANT EST EN ARRET EN CHARGE *</event>
+      </stop>
+      <delays justifiableDuration="600">
+        <type name="Pause" color="FFFFFF">
+          <delay code="P" description="Pause" />
+        </type>
+        <type name="Entretien" color="FFFFFF">
+          <delay code="E" description="Entretien planifié" />
+        </type>
+        <type name="Interne (avec bris)" color="7CDEFF">
+          <delay code="1" description="Bennes froides" />
+          <delay code="2" description="Convoyeurs" />
+          <delay code="3" description="Brûleur" />
+          <delay code="4" description="Tambour (séchoir ou TSM)" />
+          <delay code="5" description="Dépoussiéreur" />
+          <delay code="6" description="Élévateur" />
+          <delay code="7" description="Tamiseur" />
+          <delay code="8" description="Bennes chaudes et balances" />
+          <delay code="9" description="Benne recyclé / Bardeaux" />
+          <delay code="10" description="Alimentation, balance / Vidange du filler" />
+          <delay code="11" description="Bouilloire" />
+          <delay code="12" description="Alimentation / Balance du bitume / Additifs" />
+          <delay code="13" description="Malaxeur" />
+          <delay code="14" description="Élévateur au silo" />
+          <delay code="15" description="Silo" />
+          <delay code="16" description="Contrôle informatique" />
+          <delay code="17" description="Système hydraulique" />
+          <delay code="18" description="Compresseur et système à air" />
+        </type>
+        <type name="Interne (sans bris)" color="FFEA68">
+          <delay code="40" description="Changement de mélange" />
+          <delay code="41" description="Nettoyage de fin de journée" />
+          <delay code="42" description="Conditions climatiques" />
+          <delay code="43" description="Produit hors tolérance" />
+          <delay code="44" description="Pénurie / Panne de carburant / Énergie" />
+          <delay code="45" description="Manque de matières premières" />
+          <delay code="46" description="Bris du chargeur" />
+        </type>
+        <type name="Externe (chantier)" color="FFB37A">
+          <delay code="60" description="Bris du chantier" />
+          <delay code="61" description="Manque de camions du chantier" />
+          <delay code="62" description="Attente (Stand-By)" />
+        </type>
+        <type name="Externe (autres)" color="7CFF72">
+          <delay code="80" description="Aucun client FAB" />
+        </type>
+      </delays>
+    </events>
+    <operators>
+      <operator firstName="Simon" lastName="Corcos" />
+    </operators>
+    <fuels fuel1Name="Carburant Principal" fuel2Name="Gaz Naturel" fuel1Unit="L" fuel2Unit="m³" />
+  </usine>
+  <report>
+    <excel active="yes" openWhenDone="no">
+    </excel>
+    <word active="yes" eventsActive="yes" openWhenDone="no" massUnit="T" temperatureUnit="C" productionUnit="T/h" percentUnit="%">
+    </word>
+  </report>
+</settings>
