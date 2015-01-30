@@ -1,0 +1,808 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+IGNIS
+</name>
+</assembly>
+<members>
+<member name="M:IGNIS.PersistenceController.findLastReportReadyDate">
+	<summary>
+ Return's the date of the last report ready day
+ </summary>
+	<returns>The date of the last report ready day or Date.maxValue if no report ready day was found</returns>
+</member><member name="M:IGNIS.UI.LayoutManager.computeLayout">
+	<summary>
+ Computes the size and location of view components based on the size state and size.
+ </summary>
+	<remarks>The size state and the size have already been computed.</remarks>
+</member><member name="P:IGNIS.UI.LayoutManager.MinimumSize">
+	<summary>
+ The minimum size of the container of the view.
+ </summary>
+	<remarks>Will be used to set the view's container.Size (not ClientSize) attribute.</remarks>
+</member><member name="P:IGNIS.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:IGNIS.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:IGNIS.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="F:IGNIS.Constants.Input.Events.FILE_NAME_REGEX">
+	<summary>
+ Regex to match and extract information from the name of events log files
+ </summary>
+	<remarks>Exemple : 20081108.log</remarks>
+</member><member name="T:IGNIS.Constants.Input.Events.EventsFileNameRegexDateIndex">
+	<summary>Index of date components in the name regex of log files</summary>
+</member><member name="F:IGNIS.Constants.Paths.PROGRAM_ROOT">
+	<summary>Absolute path to the directory of the program's executable file (.exe)</summary>
+</member><member name="F:IGNIS.Constants.Paths.RESSOURCES_DIRECTORY">
+	<summary>Path to the Ressources folder</summary>
+</member><member name="F:IGNIS.Constants.Paths.ARCHIVES_DIRECTORY">
+	<summary>Path to the Archives folder</summary>
+</member><member name="F:IGNIS.Constants.Paths.DATA_ARCHIVES_DIRECTORY">
+	<summary>Path to the Data files archives folder</summary>
+</member><member name="F:IGNIS.Constants.Paths.REPORTS_ARCHIVES_DIRECTORY">
+	<summary>Path to the Reports archives folder</summary>
+</member><member name="F:IGNIS.Constants.Paths.MODELS_DIRECTORY">
+	<summary>Path to the Models folder</summary>
+</member><member name="F:IGNIS.Constants.Paths.REPORT_TEMPLATES_DIRECTORY">
+	<summary>Path to the Report Templates folder</summary>
+</member><member name="F:IGNIS.Constants.Paths.SETTINGS_DIRECTORY">
+	<summary>Path to the Settings folder</summary>
+</member><member name="F:IGNIS.Constants.Paths.CSV_ARCHIVES_DIRECTORY">
+	<summary>Path to the CSV files archives folder</summary>
+</member><member name="F:IGNIS.Constants.Paths.LOG_ARCHIVES_DIRECTORY">
+	<summary>Path to the LOG files archives folder</summary>
+</member><member name="F:IGNIS.Constants.Paths.MDB_ARCHIVES_DIRECTORY">
+	<summary>Path to the MDB files archives folder</summary>
+</member><member name="F:IGNIS.Constants.Paths.EVENTS_ARCHIVES_DIRECTORY">
+	<summary>Path to the Events files archives folder</summary>
+</member><member name="F:IGNIS.Constants.Paths.EXTENDED_REPORTS_ARCHIVES_DIRECTORY">
+	<summary>Path to the extended reports archives folder</summary>
+</member><member name="F:IGNIS.Constants.Paths.SUMMARY_REPORTS_ARCHIVES_DIRECTORY">
+	<summary>Path to the summary reports archives folder</summary>
+</member><member name="F:IGNIS.Constants.Paths.SUMMARY_DAILY_REPORT_TEMPLATE">
+	<summary>Path to the summary daily report template file</summary>
+</member><member name="F:IGNIS.Constants.Paths.IMAGES_DIRECTORY">
+	<summary>Path to the Images folder</summary>
+</member><member name="F:IGNIS.Constants.Paths.ICONS_DIRECTORY">
+	<summary>Path to the Icons folder</summary>
+</member><member name="F:IGNIS.Constants.Paths.SETTINGS_FILE">
+	<summary>Path to the settings.xml file</summary>
+</member><member name="F:IGNIS.Constants.Paths.CSV_MODEL">
+	<summary>Path to the ModelCSV.xlsx file</summary>
+</member><member name="F:IGNIS.Constants.Paths.LOG_MODEL">
+	<summary>Path to the ModelLOG.xlsx file</summary>
+</member><member name="F:IGNIS.Constants.Paths.HYBRID_MODEL">
+	<summary>Path to the ModelHybrid.xlsx file</summary>
+</member><member name="F:IGNIS.Constants.Paths.MDB_MODEL">
+	<summary>Path to the ModelMDB.xlsx file</summary>
+</member><member name="F:IGNIS.Constants.Paths.DOCX_MODEL">
+	<summary>Path to the ModelWord.docx file</summary>
+</member><member name="F:IGNIS.Constants.Paths.OUTPUT_DIRECTORY">
+	<summary>Path to the Output folder</summary>
+</member><member name="F:IGNIS.Constants.Paths.DATABASE_FILE">
+	<summary>Path to the database</summary>
+</member><member name="T:IGNIS.Constants.Paths">
+	<summary>Provides access to the important paths (url)</summary>
+</member><member name="F:IGNIS.MDBCycle.previousCycle">
+	<summary>The mdb cycle that comes before this cycle</summary>
+</member><member name="M:IGNIS.MDBCycle.#ctor(IGNIS.MDBCycle)">
+	<summary>
+ Constructor
+ </summary>
+	<param name="previousCycle">The mdb cycle that comes right before this cycle</param>
+	<remarks></remarks>
+</member><member name="M:IGNIS.MDBCycle.getData(IGNIS.Tag)">
+	<summary>
+ Gets the cycle's property that corresponds with the tag and the index.
+ </summary>
+	<param name="tag">The tag that determines which property is returned</param>
+	<returns>The cycle's corresponding property as a System.Double, as a System.String or as a System.TimeSpan</returns>
+	<remarks>If the tag doesn't correspond to a property of the MDBCycle class, the Cycle.getData(tag) is called</remarks>
+</member><member name="M:IGNIS.MDBCycle.addHotFeed(IGNIS.MDBFeeder)">
+	<summary>
+ Adds a hot feed to the cycle's hot feeds list
+ </summary>
+	<param name="hotFeed">The hot feed to be added.</param>
+</member><member name="M:IGNIS.MDBCycle.addColdFeed(IGNIS.MDBFeeder)">
+	<summary>
+ Add's a cold feed to this cycle's cold feeds list.
+ </summary>
+	<param name="coldFeed">The cold feed to be added.</param>
+	<remarks></remarks>
+</member><member name="M:IGNIS.MDBCycle.Clone">
+	<summary>
+ #comment
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="T:IGNIS.MDBCycle">
+	<summary>
+ A cycle object that corresponds to a single cycle from a .mdb database produced by a Marcotte system.
+ </summary>
+</member><member name="M:IGNIS.SummaryDailyReportGenerator.moveSelectionToCellBelow(Microsoft.Office.Interop.Word.Range)">
+	<summary>
+ Moves the selection to the table cell beneith.
+ </summary>
+	<param name="bookMark">The bookmark in the cell above</param>
+	<remarks></remarks>
+</member><member name="M:IGNIS.SummaryDailyReportGenerator.ajustDateString(System.DateTime,Microsoft.Office.Interop.Word.Range)">
+	<summary>
+ Adds a 'er' in superscript next to the 1 so the date looks like 1er octobre 2012 and not 1 octobre 2012
+ </summary>
+	<param name="_date">The date</param>
+	<param name="bookMark">The bookmark where the date is written</param>
+	<remarks>
+ Will be used a lot more when english version comes out. #language
+ </remarks>
+</member><member name="T:IGNIS.SummaryDailyReportGenerator">
+	<summary>
+	</summary>
+	<remarks>
+ Find first and iterate from last method prooved to be the fastest (after comparing with using table objects).
+ I know it's a lot of duplicated code but it's worth it performance wise. Using bookmarks is also very fast.
+ </remarks>
+</member><member name="M:IGNIS.EventsFile.getDateFromFileName(System.String)">
+	<summary>
+ Returns the date of the csv file based on the file name
+ </summary>
+	<param name="fileName">The csv file name. The short name with the extension, not the full path</param>
+</member><member name="F:IGNIS.XmlSettings.Settings.Reports">
+	<summary>Provide's access to the report node's content and attributes</summary>
+</member><member name="F:IGNIS.XmlSettings.Settings.Usine">
+	<summary>Provides access to the usine node's content and attributes</summary>
+</member><member name="F:IGNIS.XmlSettings.Settings.Admin">
+	<summary>Contains the permissions of the admin</summary>
+</member><member name="T:IGNIS.DataFile">
+	<summary>
+ Represents a file containing data from the factory. This type of files are generally stored in the Archives folder.
+ </summary>
+</member><member name="F:IGNIS.XmlSettings.DataFilesNode.CSV">
+	<summary>Provides access to the csv node's content and attributes</summary>
+</member><member name="F:IGNIS.XmlSettings.DataFilesNode.LOG">
+	<summary>Provides access to the log node's content and attributes</summary>
+</member><member name="F:IGNIS.XmlSettings.DataFilesNode.MDB">
+	<summary>Provides access to the mdb node's content and attributes</summary>
+</member><member name="T:IGNIS.XmlSettings.DataFilesNode.DataInfo">
+	<summary>
+ ADD COMMENT!!!
+ </summary>
+	<remarks></remarks>
+</member><member name="T:IGNIS.OpenedFileException">
+	<summary>
+ Usually thrown when a opened file is being deleted or overwritten (saved over)
+ </summary>
+	<remarks></remarks>
+</member><member name="P:IGNIS.ReportFormater.TimeFormat">
+	<summary>
+ Returns the format for Time strings such as the time of the day
+ </summary>
+</member><member name="P:IGNIS.ReportFormater.DurationFormat">
+	<summary>
+ Returns the format for duration strings such as time spans
+ </summary>
+</member><member name="P:IGNIS.ReportFormater.ShortDateFormat">
+	<summary>
+ Returns the format for short date strings
+ </summary>
+</member><member name="P:IGNIS.ReportFormater.FullDateFormat">
+	<summary>
+ Returns the format for long date strings
+ </summary>
+</member><member name="P:IGNIS.ReportFormater.DateTimeFormat">
+	<summary>
+ Returns the format for strings including a date and a time
+ </summary>
+</member><member name="P:IGNIS.ReportFormater.UnknownValueCharacter">
+	<summary>
+ Returns the character representing an unknown value
+ </summary>
+</member><member name="P:IGNIS.ReportFormater.InvalidValueCharacter">
+	<summary>
+ Returns the character representing an invalid value
+ </summary>
+</member><member name="F:IGNIS.Constants.Input.LOG.EMPTY_DATA_REGEX">
+	<summary>Regex to check if a value is empty in the log files (only in the tables)</summary>
+</member><member name="F:IGNIS.Constants.Input.LOG.FILE_NAME_REGEX">
+	<summary>
+ Regex to match and extract information from the name of log files
+ </summary>
+	<remarks>Example : 09142012.log</remarks>
+</member><member name="T:IGNIS.Constants.Input.LOG.LOGFileNameRegexDateIndex">
+	<summary>Index of date components in the name regex of log files</summary>
+</member><member name="T:IGNIS.UI.EmailExportationView">
+	<remarks>
+ Contains the input fields for email sending (from, to, comments...)
+ Also maybe the progressbar of the sending
+ </remarks>
+</member><member name="F:IGNIS.Constants.Output.Excel.DataSheet.SHEET_NAME">
+	<summary></summary>
+</member><member name="F:IGNIS.Constants.Output.Excel.DataSheet.DATA_TABLE_TOP_LEFT_CELL_NAME">
+	<summary></summary>
+</member><member name="F:IGNIS.Constants.Output.Excel.DataSheet.CSV_DATA_TABLE_TOP_LEFT_CELL">
+	<summary></summary>
+</member><member name="F:IGNIS.Constants.Output.Excel.DataSheet.LOG_DATA_TABLE_TOP_LEFT_CELL">
+	<summary></summary>
+</member><member name="T:IGNIS.Constants.Output.Excel.DataSheet">
+	<summary></summary>
+</member><member name="F:IGNIS.Constants.Output.Excel.NEW_REPORT_NAME">
+	<summary></summary>
+</member><member name="F:IGNIS.Constants.Output.Excel.REPORT_EXTENSION">
+	<summary></summary>
+</member><member name="F:IGNIS.Constants.Output.Excel.REPORT_EXTEnSION_WITH_MACRO">
+	<summary></summary>
+</member><member name="M:IGNIS.DataFilesSQLDatabase.getAllCSVLOGAndEventsFiles">
+	<remarks>This doesn't actually returns all the csv, log and events files (only the log and events files that have the same date than the csv files are joined)</remarks>
+</member><member name="P:IGNIS.UI.Common.TextField.DefaultText">
+	<summary>
+ Set's the text of the field and triggers a silent validation
+ </summary>
+</member><member name="M:IGNIS.Constants.Reports.BookMarks.SummaryDailyReportBookMarks.initialize(Microsoft.Office.Interop.Word.Document)">
+	<summary>
+	</summary>
+	<param name="wordDoc"></param>
+	<remarks>
+ Use the same variable name as the bookmark string
+ Use regex powered search and replace.
+ </remarks>
+</member><member name="F:IGNIS.Constants.Input.CSV.EMPTY_VALUE_REGEX">
+	<summary>Regex to check if a value is empty in the csv files</summary>
+</member><member name="F:IGNIS.Constants.Input.CSV.FILE_NAME_REGEX">
+	<summary>
+ Regex to match and extract information from the name of csv files
+ </summary>
+	<remarks>Exemple : 01-06-2011_CtrlInt.csv</remarks>
+</member><member name="T:IGNIS.Constants.Input.CSV.CSVFileNameRegexDateIndex">
+	<summary>Index of date components in the name regex of csv files</summary>
+</member><member name="F:IGNIS.Constants.Input.CSV.AVAILABLE_DATA">
+	<summary>
+ Represents the derived data that the program calculated or deduced from the data in the file.
+ </summary>
+	<remarks></remarks>
+</member><member name="F:IGNIS.Constants.Input.CSV.AVAILABLE_SUBCOLUMNS">
+	<summary>
+ Represents the derived data calculated or deduced by the program for each feeder
+ </summary>
+	<remarks></remarks>
+</member><member name="F:IGNIS.CSVCycle.previousCycle">
+	<summary>The csv cycle that comes before this cycle</summary>
+</member><member name="M:IGNIS.CSVCycle.#ctor(IGNIS.CSVCycle)">
+	<summary>
+ Constructor
+ </summary>
+	<param name="previousCycle">The csv cycle that comes right before this cycle</param>
+	<remarks></remarks>
+</member><member name="M:IGNIS.CSVCycle.getData(IGNIS.Tag,System.Int32)">
+	<summary>
+ Gets the cycle's property that corresponds with the tag and the index.
+ </summary>
+	<param name="tag">The tag that determines which property is returned</param>
+	<param name="index">The property's index, if it is indexed</param>
+	<returns>The cycle's corresponding property as a System.Double, as a System.String or as a System.TimeSpan</returns>
+	<remarks>If the tag doesn't correspond to a property of the CSVCycle class, the Cycle.getData(tag) is called</remarks>
+</member><member name="P:IGNIS.CSVCycle.ID">
+	<summary>The cycle's identifyer</summary>
+</member><member name="P:IGNIS.CSVCycle.TRUCK_ID">
+	<summary>The truck in which the cycle belongs</summary>
+</member><member name="P:IGNIS.CSVCycle.COMMAND_ID">
+	<summary>The command to which the cycle belongs</summary>
+</member><member name="P:IGNIS.CSVCycle.DOPE_MASS">
+	<summary>The cycle's dope mass</summary>
+</member><member name="P:IGNIS.CSVCycle.ADDITIVE_MASS">
+	<summary>The cycle's additive material mass</summary>
+</member><member name="P:IGNIS.CSVCycle.FILLER_MASS">
+	<summary>The cycle's filler mass</summary>
+</member><member name="P:IGNIS.CSVCycle.FILLER_APPORT">
+	<summary>The cycle's filler apport</summary>
+</member><member name="P:IGNIS.CSVCycle.FILLER_RECUP">
+	<summary>The cycle's filler recup</summary>
+</member><member name="P:IGNIS.CSVCycle.DOPE_PERCENTAGE">
+	<summary>The cycle's dope percentage</summary>
+</member><member name="P:IGNIS.CSVCycle.ASPHALT_TEMPERATURE">
+	<summary>The cycle's asphalt temperature</summary>
+</member><member name="P:IGNIS.CSVCycle.SILO">
+	<summary>The silo in which the cycle belongs</summary>
+</member><member name="P:IGNIS.CSVCycle.WET_MALAXING_TIME">
+	<summary>The cycle's wet malaxing duration</summary>
+</member><member name="P:IGNIS.CSVCycle.SET_POINT_TEMPERATURE">
+	<summary>The cycle's mix set point temperature</summary>
+</member><member name="F:IGNIS.CSVCycle.ID_TAG">
+	<summary>The tag corresponding to the cycle's ID property</summary>
+</member><member name="F:IGNIS.CSVCycle.TRUCK_ID_TAG">
+	<summary>The tag corresponding to the cycle's TRUCK_ID property</summary>
+</member><member name="F:IGNIS.CSVCycle.COMMAND_ID_TAG">
+	<summary>The tag corresponding to the cycle's COMMAND_ID property</summary>
+</member><member name="F:IGNIS.CSVCycle.AGGREGATE_MASS_TAG">
+	<summary>The tag corresponding to the cycle's AGGREGATE_MASS property</summary>
+</member><member name="F:IGNIS.CSVCycle.AGGREGATE_PERCENTAGE_TAG">
+	<summary>The tag corresponding to the cycle's AGGREGATE_PERCENTAGE property</summary>
+</member><member name="F:IGNIS.CSVCycle.DOPE_MASS_TAG">
+	<summary>The tag corresponding to the cycle's DOPE_MASS property</summary>
+</member><member name="F:IGNIS.CSVCycle.FILLER_APPORT_TAG">
+	<summary>The tag corresponding to the cycle's FILLER_APPORT property</summary>
+</member><member name="F:IGNIS.CSVCycle.FILLER_RECUP_TAG">
+	<summary>The tag corresponding to the cycle's FILLER_RECUP property</summary>
+</member><member name="F:IGNIS.CSVCycle.COLD_FEED_PERCENTAGE_TAG">
+	<summary>The tag corresponding to the cycle's COLD_FEED_PERCENTAGE property</summary>
+</member><member name="F:IGNIS.CSVCycle.DOPE_PERCENTAGE_TAG">
+	<summary>The tag corresponding to the cycle's DOPE_PERCENTAGE property</summary>
+</member><member name="F:IGNIS.CSVCycle.ASPHALT_TEMPERATURE_TAG">
+	<summary>The tag corresponding to the cycle's ASPHALT_TEMPERATURE property</summary>
+</member><member name="F:IGNIS.CSVCycle.SILO_TAG">
+	<summary>The tag corresponding to the cycle's SILO property</summary>
+</member><member name="F:IGNIS.CSVCycle.WET_MALAXING_TIME_TAG">
+	<summary>The tag corresponding to the cycle's WET_MALAXING_TIME property</summary>
+</member><member name="F:IGNIS.CSVCycle.TAGS">
+	<summary>An array containing all of the CSVCycle's tags</summary>
+	<remarks>
+ Pre-condition : All the Tag objects this array contains have to be initialized before the array.
+ </remarks>
+</member><member name="T:IGNIS.CSVCycle">
+	<summary>
+ A cycle object that corresponds to a single cycle from a .csv file produced by a Minds system.
+ </summary>
+</member><member name="M:IGNIS.ManualDataPersistence.verifyFormat">
+	<summary>Verifies that the format of the data storage is correct.</summary>
+</member><member name="M:IGNIS.ManualDataPersistence.reset">
+	<summary>#comment</summary>
+</member><member name="M:IGNIS.ManualDataPersistence.getData(System.DateTime)">
+	<summary>#comment</summary>
+</member><member name="M:IGNIS.ManualDataPersistence.addData(IGNIS.ManualData)">
+	<summary>#comment</summary>
+</member><member name="M:IGNIS.LOGFile.getDateFromFileName(System.String)">
+	<summary>
+ Returns the date of the log file based on the file name
+ </summary>
+	<param name="fileName">The log file name. The short name with the extension, not the full path</param>
+</member><member name="F:IGNIS.LOGCycle.previousCycle">
+	<summary>The log cycle that comes before this cycle</summary>
+</member><member name="M:IGNIS.LOGCycle.#ctor(IGNIS.LOGCycle)">
+	<summary>
+ Constructor
+ </summary>
+	<param name="previousCycle">The log cycle that comes right before this cycle</param>
+	<remarks></remarks>
+</member><member name="M:IGNIS.LOGCycle.getData(IGNIS.Tag)">
+	<summary>
+ Gets the cycle's property that corresponds with the tag and the index.
+ </summary>
+	<param name="tag">The tag that determines which property is returned</param>
+	<returns>The cycle's corresponding property as a System.Double, as a System.String or as a System.TimeSpan</returns>
+	<remarks>If the tag doesn't correspond to a property of the LOGCycle class, the Cycle.getData(tag) is called</remarks>
+</member><member name="M:IGNIS.LOGCycle.getData(IGNIS.Tag,System.Int32,IGNIS.Tag)">
+	<summary>
+ Gets the cycle's property that corresponds to the given sub column tag from the feed corresponding to the given super column tag and the given index.
+ </summary>
+	<param name="superColumnTag">The tag that corresponds to the desired value superColumn</param>
+	<param name="columnIndex">The index of the desired value's superColumn</param>
+	<param name="subColumnTag">The tag that corresponds to the desired value</param>
+	<returns>The value of the desired property as a System.Double or System.String</returns>
+	<remarks></remarks>
+</member><member name="P:IGNIS.LOGCycle.DENSITY">
+	<summary>The cycle's mix density</summary>
+</member><member name="P:IGNIS.LOGCycle.BAG_HOUSE_DIFF">
+	<summary>The cycle's bag house temperature differential</summary>
+</member><member name="P:IGNIS.LOGCycle.TOTAL_ACCUMULATED_TONS">
+	<summary>The cycle's accumulated tons logged by the asphalt plant's system since it's start</summary>
+	<remarks>
+ DO NOT MISTAKE FOR THE ACCUMULATED MASS PROPERTY
+ This value is not accurate for an accumulated mass because it reset's randomly in the data files
+ </remarks>
+</member><member name="P:IGNIS.LOGCycle.ASPHALT_TEMPERATURE">
+	<summary>The cycle's asphalt temperature</summary>
+</member><member name="P:IGNIS.LOGCycle.SILO_FILLING">
+	<summary>The silo in which the cycle belongs</summary>
+</member><member name="P:IGNIS.LOGCycle.DUST_REMOVAL">
+	<summary>The cycle's the speed of the cycle's dust removal. Usually in T/h</summary>
+</member><member name="F:IGNIS.LOGCycle.DENSITY_TAG">
+	<summary>The tag corresponding to the cycle's DENSITY property</summary>
+</member><member name="F:IGNIS.LOGCycle.BAG_HOUSE_DIFF_TAG">
+	<summary>The tag corresponding to the cycle's BAG_HOUSE_DIFF property</summary>
+</member><member name="F:IGNIS.LOGCycle.TOTAL_ACCUMULATED_TONS_TAG">
+	<summary>The tag corresponding to the cycle's TOTAL_ACCUMULATED_TONS property</summary>
+</member><member name="F:IGNIS.LOGCycle.ASPHALT_TEMPERATURE_TAG">
+	<summary>The tag corresponding to the cycle's ASPHALT_TEMPERATURE property</summary>
+</member><member name="F:IGNIS.LOGCycle.SILO_FILLING_TAG">
+	<summary>The tag corresponding to the cycle's SILO_FILLING property</summary>
+</member><member name="F:IGNIS.LOGCycle.DUST_REMOVAL_TAG">
+	<summary>The tag corresponding to the cycle's DUST_REMOVAL property</summary>
+</member><member name="F:IGNIS.LOGCycle.TAGS">
+	<summary>An array containing all of the CSVCycle's tags</summary>
+	<remarks>
+ Pre-condition : All the Tag objects this array contains have to be initialized before the array.
+ </remarks>
+</member><member name="T:IGNIS.LOGCycle">
+	<summary>
+ A cycle object that corresponds to a single cycle from a .log data file produced by a Minds system.
+ </summary>
+</member><member name="M:IGNIS.CSVFile.getCycles(System.DateTime,System.DateTime)">
+	<summary>#comment</summary>
+	<param name="startTime">Not using it, can be nothing</param>
+	<param name="endTime">Not using it, can be nothing</param>
+	<returns></returns>
+	<remarks>
+ Doesn't return the first and the last 2 lines of
+ each files.
+ </remarks>
+</member><member name="M:IGNIS.CSVFile.getDateFromFileName(System.String)">
+	<summary>
+ Returns the date of the csv file based on the file name
+ </summary>
+	<param name="fileName">The csv file name. The short name with the extension, not the full path</param>
+</member><member name="T:IGNIS.CSVFile">
+	<summary>Represents a file with the .csv extension. These files contain 
+ periodically taken data about a day's production at the factory</summary>
+</member><member name="T:IGNIS.XmlSettings.DataFileNode">
+	<summary>
+ ADD COMMENT!!!
+ </summary>
+	<remarks></remarks>
+</member><member name="M:IGNIS.DataFilesPersistence.verifyFormat">
+	<summary>Verifies that the archives are in the correct format. If not, corrects the errors.</summary>
+	<returns>True if no error has been found or all found errors have been corrected. False if an error could not be corrected.</returns>
+</member><member name="M:IGNIS.DataFilesPersistence.reset">
+	<summary>Clears and reset the archives with the right format</summary>
+</member><member name="M:IGNIS.DataFilesPersistence.getCSVFile(System.DateTime)">
+	<summary>Returns the .csv file for the given day</summary>
+	<param name="day">The day when the .csv file was created by the factory's program</param>
+</member><member name="M:IGNIS.DataFilesPersistence.getLOGFile(System.DateTime)">
+	<summary>Returns the .log file for the given day</summary>
+	<param name="day">The day when the .log file was created by the factory's program</param>
+</member><member name="M:IGNIS.DataFilesPersistence.getAllCSVFiles">
+	<summary>Returns all the .csv files stored in the database</summary>
+</member><member name="M:IGNIS.DataFilesPersistence.getAllLOGFiles">
+	<summary>Returns all the .log files stored in the database</summary>
+</member><member name="M:IGNIS.DataFilesPersistence.getMDBFile">
+	<summary>Returns the .mdb file</summary>
+</member><member name="M:IGNIS.DataFilesPersistence.getEventsFile(System.DateTime)">
+	<summary>Returns the .log events file for the given day</summary>
+	<param name="day">The day when the file was created by the factory's program</param>
+</member><member name="M:IGNIS.DataFilesPersistence.getAllEventsFiles">
+	<summary>Returns all the .log files stored in the database</summary>
+</member><member name="M:IGNIS.DataFilesPersistence.getAllCSVLOGAndEventsFiles">
+	<summary>Returns all the csv, log and events files in the database</summary>
+	<remarks>Order of array is [CSV, LOG, EVENT]</remarks>
+</member><member name="M:IGNIS.DataFilesPersistence.addCSVFile(System.IO.FileInfo)">
+	<summary>Saves the given CSV file in the archives</summary>
+	<param name="fileToImport">The file to copy to the archives</param>
+	<returns>The file information of the file that was created and saved</returns>
+</member><member name="M:IGNIS.DataFilesPersistence.addLOGFile(System.IO.FileInfo)">
+	<summary>Saves the given LOG file in the archives</summary>
+	<param name="fileToImport">The file to copy to the archives</param>
+	<returns>The file information of the file that was created and saved</returns>
+</member><member name="M:IGNIS.DataFilesPersistence.addMDBFile(System.IO.FileInfo)">
+	<summary>Saves the given MDB file in the archives</summary>
+	<param name="fileToImport">The file to copy to the archives</param>
+	<returns>The file information of the main file that was created and saved</returns>
+</member><member name="M:IGNIS.DataFilesPersistence.addEventsFile(System.IO.FileInfo)">
+	<summary>Saves the given events file in the archives</summary>
+	<param name="fileToImport">The file to copy to the archives</param>
+	<returns>The file information of the file that was created and saved</returns>
+</member><member name="T:IGNIS.DataFilesPersistence">
+	<summary>
+ Takes care of saving and getting data files
+ </summary>
+</member><member name="M:IGNIS.ProductionDay.computeStatistics">
+	<remarks>
+ Precondition : DataFiles need to have been analysed
+ </remarks>
+</member><member name="M:IGNIS.ProductionDay.preComputeDelaysStatistics">
+	<summary>
+ Pre-computes delays statistics using analysed events and computed production statistics
+ </summary>
+	<remarks>
+ Precondition : Events have to have been analysed
+ Precondition : Production statistics have to have been fully computed
+ Sequence : After production statistics are fully computed. Before manual user input on delays
+ </remarks>
+</member><member name="M:IGNIS.ProductionDay.finalizeDelayStatistics">
+	<summary>
+	</summary>
+	<remarks>
+ Be sure this can be called twice. So things have to be resettable without having to call preComputeDelays (if possible)
+ </remarks>
+</member><member name="T:IGNIS.ProductionDay">
+	<summary>
+ Represents a production day at the asphalt plant. Provides access to methods to analyse datafiles and compute statistics for reports.
+ </summary>
+	<remarks>
+ Daily report generation sequence:
+  1. Analyse data files
+  2. Analyse event files (if needed)
+  3. Pre-compile production statistics (they will be partially complete)
+  4. Gather user input on production (currently known as manual data)
+  5. Finalize compilation of production statistics
+  6. Pre-compile events statistics
+  7. Gather user input on delays
+  8. Finalize compilation of event statistics
+  9. Gather user input on report
+  10. Generate report (compile report)
+ 
+ </remarks>
+</member><member name="M:IGNIS.Statistics.compute(System.Collections.Generic.List{IGNIS.Cycle},IGNIS.EventsCollection@)">
+	<summary>
+ Computes the statistics from the given cycles and events
+ </summary>
+</member><member name="P:IGNIS.Statistics.ContinuousProduction">
+	<summary>Production statistics for the Continuous part of the production</summary>
+</member><member name="P:IGNIS.Statistics.DiscontinuousProduction">
+	<summary>Production statistics for the Discontinuous part of the production</summary>
+</member><member name="P:IGNIS.Statistics.AllMixes">
+	<summary>List of statistics for each different mixes</summary>
+</member><member name="P:IGNIS.Statistics.OtherMixes">
+	<summary>Mix statistics on mixes other than the top 3 mixes</summary>
+</member><member name="P:IGNIS.Statistics.MixesTotal">
+	<summary>Mix statistics on all the mixes</summary>
+</member><member name="P:IGNIS.Statistics.AllAsphalts">
+	<summary>List of statistics for each different asphalt</summary>
+</member><member name="P:IGNIS.Statistics.EventsStatistics">
+	<summary>Events statistics</summary>
+</member><member name="P:IGNIS.Statistics.NB_PRODUCTIVE_CYLES">
+	<summary>Gets the number of cycles with a production rate greater than zero</summary>
+</member><member name="P:IGNIS.EventsStatistics.PausesDuration">
+	<summary></summary>
+</member><member name="P:IGNIS.EventsStatistics.NbPauses">
+	<summary></summary>
+</member><member name="P:IGNIS.EventsStatistics.MaintenanceDuration">
+	<summary></summary>
+</member><member name="P:IGNIS.EventsStatistics.NbMaintenance">
+	<summary></summary>
+</member><member name="P:IGNIS.EventsStatistics.InternDelaysDuration">
+	<summary></summary>
+</member><member name="P:IGNIS.EventsStatistics.DelaysDuration">
+	<summary></summary>
+</member><member name="P:IGNIS.EventsStatistics.InternBreakagesDuration">
+	<summary></summary>
+</member><member name="P:IGNIS.EventsStatistics.NbOfBreakages">
+	<summary></summary>
+</member><member name="P:IGNIS.EventsStatistics.JustifiableDelaysDuration">
+	<summary></summary>
+</member><member name="P:IGNIS.EventsStatistics.InternWithBreakageDuration">
+	<summary></summary>
+</member><member name="P:IGNIS.EventsStatistics.InternWithoutBreakageDuration">
+	<summary></summary>
+</member><member name="P:IGNIS.EventsStatistics.ExternDuration">
+	<summary></summary>
+</member><member name="P:IGNIS.EventsStatistics.OtherDelaysDuration">
+	<summary></summary>
+</member><member name="M:IGNIS.SQLiteAdapter.createTable(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+	<summary>
+ Creates a table in the database.
+ </summary>
+	<param name="tableName">The name of the table</param>
+	<param name="columnsAndTypes">The key is the column name and the value is the column data type</param>
+	<remarks></remarks>
+</member><member name="M:IGNIS.SQLiteAdapter.preventSQLInjection(System.String)">
+	<summary>
+ Prevents SQL injection
+ </summary>
+	<param name="sqlValue">The SQL value to escape</param>
+	<returns>The injection safe SQL value</returns>
+	<remarks>
+ Solution to Bug Iq-4 (in the zoho project) 
+ </remarks>
+</member><member name="T:IGNIS.SQLiteAdapter">
+	<summary>
+ Adapter to the SQLite database
+ </summary>
+</member><member name="M:IGNIS.ManualData.#ctor(System.DateTime,System.DateTime,System.DateTime,System.Int32,IGNIS.FactoryOperator,System.DateTime,System.DateTime,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.DateTime,System.DateTime,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)">
+	<remarks>Should only be called from Persistence</remarks>
+</member><member name="P:IGNIS.ManualData.REJECTED_MIX_PERCENTAGE">
+	<summary>The rejected mix percentage of the total quantity produced</summary>
+	<remarks>
+ 
+ [Rejected mix percentage] = [Rejected mix quantity] / [Produced quantity] * 100
+ 
+ </remarks>
+</member><member name="P:IGNIS.ManualData.REJECTED_AGGREGATES_PERCENTAGE">
+	<summary>The rejected aggregates percentage of the total quantity produced</summary>
+	<remarks>
+ 
+ [Rejected aggregates percentage] = [Rejected aggregates quantity] / [Produced quantity] * 100
+ 
+ </remarks>
+</member><member name="P:IGNIS.ManualData.REJECTED_FILLER_PERCENTAGE">
+	<summary>The rejected filler percentage of the total quantity produced</summary>
+	<remarks>
+ 
+ [Rejected filler percentage] = [Rejected filler quantity] / [Produced quantity] * 100
+ 
+ </remarks>
+</member><member name="P:IGNIS.ManualData.REJECTED_RECYCLED_PERCENTAGE">
+	<summary>The rejected recycled percentage of the total quantity produced</summary>
+	<remarks>
+ 
+ [Rejected recycled percentage] = [Rejected recycled quantity] / [Produced quantity] * 100
+ 
+ </remarks>
+</member><member name="P:IGNIS.ManualData.SALABLE_QUANTITY">
+	<summary>The salable quantity</summary>
+	<remarks>
+ 
+ [Salable quantity] = [Produced quantity] + [Silo quantity at start] - [Silo quantity at end]
+ 
+ </remarks>
+</member><member name="P:IGNIS.ManualData.PAYABLE_QUANTITY">
+	<summary>The payable quantity</summary>
+	<remarks>
+ 
+ [Payable quantity] = [Salable quantity] - [Rejected quantity]
+ 
+ </remarks>
+</member><member name="P:IGNIS.ManualData.WEIGHTED_QUANTITY_DIFFERENCE_PERCENTAGE">
+	<summary>The total quantity sold difference percentage</summary>
+	<remarks>
+ I have no idea what this is...
+ 
+ [Weighted quantity difference percentage] = ([Weighted quantity] - [Produced quantity]) / [Weighted quanity] * 100
+ 
+ </remarks>
+</member><member name="P:IGNIS.ManualData.FUEL_CONSUMED_QUANTITY_1">
+	<summary>The consumption quantity of the first fuel</summary>
+	<remarks>
+ 
+ [Fuel quantity] = [Fuel quantity at end] - [Fuel quantity at start]
+ 
+ </remarks>
+</member><member name="P:IGNIS.ManualData.FUEL_CONSUMED_QUANTITY_2">
+	<summary>The consumption quantity of the second fuel</summary>
+	<remarks>
+ 
+ [Fuel quantity] = [Fuel quantity at end] - [Fuel quantity at start]
+ 
+ </remarks>
+</member><member name="P:IGNIS.ManualData.FUEL_CONSUMPTION_RATE_1">
+	<summary>The consumption rate of the first fuel</summary>
+	<remarks>
+ 
+ [Fuel consumption rate] = [Fuel quantity] / [Produced quantity]
+ 
+ </remarks>
+</member><member name="P:IGNIS.ManualData.FUEL_CONSUMPTION_RATE_2">
+	<summary>The consumption rate of the second fuel</summary>
+	<remarks>
+ 
+ [Fuel consumption rate] = [Fuel quantity] / [Produced quantity]
+ 
+ </remarks>
+</member><member name="M:IGNIS.ReportsPersistence.verifyFormat">
+	<summary>Verifies that the format of the reports storage is correct.</summary>
+</member><member name="M:IGNIS.ReportsPersistence.reset">
+	<summary>Removes all reports and resets the storage information in the correct format</summary>
+</member><member name="M:IGNIS.ReportsPersistence.getDailyReports(System.DateTime)">
+	<summary>Return's all the daily reports for that day</summary>
+</member><member name="M:IGNIS.ReportsPersistence.getSummaryDailyReports(System.DateTime,System.DateTime)">
+	<summary>Return's all the summary daily reports between the startDate and the endDate</summary>
+</member><member name="M:IGNIS.ReportsPersistence.getCompleteDailyReports(System.DateTime,System.DateTime)">
+	<summary>Return's all the complete daily reports between the startDate and the endDate</summary>
+</member><member name="M:IGNIS.ReportsPersistence.getPeriodicReports(System.DateTime)">
+	<summary>Return's all the periodic reports that contain that date in their interval</summary>
+</member><member name="M:IGNIS.ReportsPersistence.getSummaryPeriodicReport(System.DateTime,System.DateTime)">
+	<summary>Return's all the summary periodic reports that match exactly the given interval</summary>
+</member><member name="M:IGNIS.ReportsPersistence.getCompletePeriodicReport(System.DateTime,System.DateTime)">
+	<summary>Return's all the complete periodic reports that match exactly the given interval</summary>
+</member><member name="F:IGNIS.Constants.Input.Common.ASPHALT_FEEDS_START_INDEX">
+	<summary>
+ The index at wich the asphalt feeds start.
+ </summary>
+	<remarks></remarks>
+</member><member name="M:IGNIS.UI.MainFrame._OnResize(System.Object,System.EventArgs)">
+	<summary>
+ Calls methods that should be executed during a resize event
+ </summary>
+</member><member name="M:IGNIS.UI.MainFrame._afterResize">
+	<summary>
+ Calls methods that should be executed after a resize event
+ </summary>
+</member><member name="F:IGNIS.ImportController.newestImportedFiles">
+	<summary>
+ The files that wont be added to the archive image in case they are not complete.
+ Only the newestFiles can be incomplete (e.g. Importation is done in the middle of a production day).
+ </summary>
+</member><member name="T:IGNIS.CyclesFile">
+	<summary>
+ Represents a data file containing the daily measures taken by the factory's software. These measures are usually
+ taken in a periodic way and grouped by "cycles" of production.
+ </summary>
+</member><member name="F:IGNIS.Cycle.previousCycle">
+	<summary>The cycle that comes right before this cycle in chronogical order</summary>
+</member><member name="M:IGNIS.Cycle.#ctor(IGNIS.Cycle)">
+	<summary>
+ Constructs and return a Cycle object
+ </summary>
+	<param name="previousCycle">The cycle that comes right before this cycle in chronological order. Can be nothing.</param>
+	<remarks></remarks>
+</member><member name="M:IGNIS.Cycle.getData(IGNIS.Tag)">
+	<summary>
+ Return's the cycle's property that corresponds with the given tag.
+ </summary>
+	<param name="tagName">The tag that determinates wich property/attribute of the cycle to return.</param>
+	<returns>The value of this cycle's property that corresponds to the given tag. Can be of type System.Double, System.String or System.Timespan</returns>
+	<remarks>If no property matches the tag, an exception is thrown</remarks>
+</member><member name="M:IGNIS.Cycle.getData(IGNIS.Tag,System.Int32,IGNIS.Tag)">
+	<summary>
+ Gets the cycle's property that corresponds to the given sub column tag from the feed corresponding to the given super column tag and the given index.
+ </summary>
+	<param name="superColumnTag">The tag that corresponds to the desired value superColumn</param>
+	<param name="columnIndex">The index of the desired value's superColumn</param>
+	<param name="subColumnTag">The tag that corresponds to the desired value</param>
+	<returns>The value of the desired property as a System.Double or System.String</returns>
+	<remarks></remarks>
+</member><member name="P:IGNIS.Cycle.PREVIOUS_CYCLE">
+	<summary>This cycle's previous cycle following the chronological order of prodution</summary>
+</member><member name="F:IGNIS.Cycle.HOT_FEED_TAG">
+	<summary>The tag corresponding to the cycle's hotfeeds list</summary>
+</member><member name="F:IGNIS.Cycle.hotFeeds">
+	<summary>This cycle's hotfeeds list</summary>
+</member><member name="P:IGNIS.Cycle.HOT_FEEDS">
+	<summary>Gets this cycle's hotfeeds list</summary>
+</member><member name="F:IGNIS.Cycle.ASPHALT_SUMMARY_FEED_TAG">
+	<summary>The tag corresponding to the cycle's ASPHALT_SUMMARY_FEED property</summary>
+</member><member name="P:IGNIS.Cycle.ASPHALT_SUMMARY_FEED">
+	<summary>This cycle's asphalt feeds represented as one single feed</summary>
+	<remarks>Instanciate in own cycle constructor</remarks>
+</member><member name="F:IGNIS.Cycle.RECYCLE_SUMMARY_FEED_TAG">
+	<summary>The tag corresponding to the cycle's RECYCLE_SUMMARY_FEED proprety</summary>
+</member><member name="P:IGNIS.Cycle.RECYCLE_SUMMARY_FEED">
+	<summary>This cycle's recycle feeds represented as one single feed</summary>
+	<remarks>Instanciate in own cycle constructor</remarks>
+</member><member name="F:IGNIS.Cycle.FILLER_SUMMARY_FEED_TAG">
+	<summary>The tag corresponding to the cycle's FILLER_SUMMARY_FEED property</summary>
+</member><member name="P:IGNIS.Cycle.FILLER_SUMMARY_FEED">
+	<summary>This cycle's filler feeds represented as one single feed</summary>
+	<remarks>Instanciate in own cycle constructor</remarks>
+</member><member name="F:IGNIS.Cycle.COLD_FEED_TAG">
+	<summary>The tag corresponding to the cycle's cold feeds list</summary>
+</member><member name="F:IGNIS.Cycle.coldFeeds">
+	<summary>This cycle's coldfeeds list</summary>
+</member><member name="P:IGNIS.Cycle.COLD_FEEDS">
+	<summary>Gets this cycle's coldfeeds list</summary>
+</member><member name="P:IGNIS.Cycle.DATE_">
+	<summary>The date of the cycle's production day</summary>
+</member><member name="F:IGNIS.Cycle.TAGS">
+	<summary>
+	</summary>
+	<remarks>
+ Keep in alphabetical order
+ </remarks>
+</member><member name="T:IGNIS.Cycle">
+	<summary>
+ Contains the data corresponding to a single cycle of the production.
+ </summary>
+	<remarks>
+ Every cycle is linked to it's previous cycle through the PREVIOUS_CYCLE attribute.
+ The only cycle without a previous cycle is the first cycle of the day.
+ </remarks>
+</member><member name="P:IGNIS.XmlSettings.CSVNode.DATA_FORMAT">
+	<summary>The list of all the available data in the .csv file in order.</summary>
+</member><member name="P:IGNIS.UI.DelaysListView.ItemsHeight">
+	<summary>
+	</summary>
+	<value></value>
+	<returns></returns>
+	<remarks>Because the ComboBox doesn't resize</remarks>
+</member><member name="M:IGNIS.Constants.AsphaltTemperature.getAsphaltSetPointTemperature(System.String)">
+	<summary>
+ #comment
+ </summary>
+	<param name="asphaltName"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:IGNIS.UI.View.ajustLayout(System.Drawing.Size)">
+	<summary>
+ Ajusts the location, size and other size related attributes of the view's components
+ </summary>
+	<param name="newSize">The ClientSize of the parent container</param>
+	<remarks>Size has been set and layout computed in the View.ajustLayout(container) method</remarks>
+</member>
+</members>
+</doc>

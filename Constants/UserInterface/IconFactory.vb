@@ -66,50 +66,50 @@ Namespace Constants.UI.Images
 
         Public Overloads Shared Function getIconFor(file As File) As IconInformation
 
-            If (TypeOf file Is DataFile) Then
+            'If (TypeOf file Is DataFile) Then
 
-                If (TypeOf file Is CSVFile) Then
-                    Return _csvFile
+            '    If (TypeOf file Is CSVFile) Then
+            '        Return _csvFile
 
-                ElseIf (TypeOf file Is LOGFile) Then
-                    Return _logFile
+            '    ElseIf (TypeOf file Is LOGFile) Then
+            Return _logFile
 
-                ElseIf (TypeOf file Is MDBFile) Then
-                    Return _mdbFile
+            '    ElseIf (TypeOf file Is MDBFile) Then
+            'Return _mdbFile
 
-                ElseIf (TypeOf file Is EventsFile) Then
-                    Return _eventsFile
+            '    ElseIf (TypeOf file Is EventsFile) Then
+            'Return _eventsFile
 
-                End If
+            '    End If
 
-            ElseIf (TypeOf file Is ReportFile) Then
+            'ElseIf (TypeOf file Is ReportFile) Then
 
-                If (TypeOf file Is SummaryDailyReport) Then
+            'If (TypeOf file Is SummaryDailyReport) Then
 
-                    If (DirectCast(file, SummaryDailyReport).IS_READ_ONLY) Then
-                        Return _readOnlySummaryDailyReport
-                    Else
-                        Return _writableSummaryDailyReport
-                    End If
+            '    If (DirectCast(file, SummaryDailyReport).IS_READ_ONLY) Then
+            '        Return _readOnlySummaryDailyReport
+            '    Else
+            '        Return _writableSummaryDailyReport
+            '    End If
 
-                ElseIf (TypeOf file Is SummaryPeriodicReport) Then
+            'ElseIf (TypeOf file Is SummaryPeriodicReport) Then
 
-                    If (DirectCast(file, SummaryPeriodicReport).IS_READ_ONLY) Then
-                        Return _readOnlySummaryPeriodicReport
-                    Else
-                        Return _writableSummaryPeriodicReport
-                    End If
+            '    If (DirectCast(file, SummaryPeriodicReport).IS_READ_ONLY) Then
+            '        Return _readOnlySummaryPeriodicReport
+            '    Else
+            '        Return _writableSummaryPeriodicReport
+            '    End If
 
-                ElseIf (TypeOf file Is CompleteDailyReport) Then
-                    Return _completeDailyReport
-                ElseIf (TypeOf file Is CompletePeriodicReport) Then
-                    Return _completePeriodicReport
-                End If
+            'ElseIf (TypeOf file Is CompleteDailyReport) Then
+            '    Return _completeDailyReport
+            'ElseIf (TypeOf file Is CompletePeriodicReport) Then
+            '    Return _completePeriodicReport
+            'End If
 
-            End If
+            'End If
 
-            Debugger.Break()
-            Return Nothing
+            'Debugger.Break()
+            'Return Nothing
         End Function
 
         Public Overloads Shared Function getIconFor(reportGenericName As String) As IconInformation
