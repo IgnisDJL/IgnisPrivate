@@ -183,12 +183,16 @@ Public Class SourceFileLogAdapter
         Return Nothing
     End Function
 
+    Public Overrides Function getAsphaltDensity(indexCycle As Integer, sourceFile As SourceFile) As String
+        Return Nothing
+    End Function
+
 
     Public Overrides Function getSiloFillingNumber(indexCycle As Integer, sourceFile As SourceFile) As String
         Return Nothing
     End Function
 
-    Public Overrides Function getTime(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getTime(indexCycle As Integer, sourceFile As SourceFile) As Date
         Return Nothing
     End Function
 

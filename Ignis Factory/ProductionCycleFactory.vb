@@ -14,12 +14,10 @@ Public Class ProductionCycleFactory
     Public Function createProductionCycle(indexCycle As Integer, sourceFile As SourceFile) As ProductionCycle
         Dim productionCycle As ProductionCycle
 
-        Dim endOfCycle As Date
-        Dim mixProduced As ProducedMix
-
-
         Dim asphaltTankId As String
         Dim asphaltRecordedTemperature As Double
+        Dim endOfCycle As Date
+        Dim mixProduced As ProducedMix
         Dim virginAsphaltUsed As AsphaltUsed
         Dim recycledAsphaltUsed As RecycledAsphaltUsed
         Dim feederList As List(Of Feeder_1)
@@ -32,6 +30,10 @@ Public Class ProductionCycleFactory
         Dim siloFillingNumber As String
         Dim asphaltDensity As Double
 
+
+        asphaltTankId = sourceFile.sourceFileAdapter.getAsphaltTankId(indexCycle, sourceFile)
+        asphaltRecordedTemperature = sourceFile.sourceFileAdapter.getAsphaltRecordedTemperature(indexCycle, sourceFile)
+        endOfCycle = sourceFile.sourceFileAdapter.getTime(indexCycle, sourceFile)
         mixProduced = producedMixFactory.createProducedMix(indexCycle, sourceFile)
         feederList = feederFactory.createFeederList(indexCycle, sourceFile)
         virginAsphaltUsed = mixComponentUsedFactory.createMixComponentUsed(EnumColumnType.VirginAspahlt, indexCycle, sourceFile)
@@ -41,7 +43,9 @@ Public Class ProductionCycleFactory
         recycledAggregateUsed = mixComponentUsedFactory.createMixComponentUsed(EnumColumnType.RecycledAggregate, indexCycle, sourceFile)
         fillerUsed = mixComponentUsedFactory.createMixComponentUsed(EnumColumnType.Filler, indexCycle, sourceFile)
         additiveUsed = mixComponentUsedFactory.createMixComponentUsed(EnumColumnType.Additive, indexCycle, sourceFile)
-
+        dustRemovalDebit = sourceFile.sourceFileAdapter.getDustRemovalDebit(indexCycle, sourceFile)
+        siloFillingNumber = sourceFile.sourceFileAdapter.getSiloFillingNumber(indexCycle, sourceFile)
+        asphaltDensity = sourceFile.sourceFileAdapter.getAsphaltDensity(indexCycle, sourceFile)
 
         productionCycle = New ProductionCycle(asphaltTankId, asphaltRecordedTemperature, endOfCycle, mixProduced, feederList, virginAsphaltUsed, recycledAsphaltUsed, totalAsphaltUsed,
                                               virginAggregateUsed, recycledAggregateUsed, fillerUsed, additiveUsed, dustRemovalDebit,

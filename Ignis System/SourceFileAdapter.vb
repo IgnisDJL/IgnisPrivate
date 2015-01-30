@@ -8,9 +8,11 @@ Public MustInherit Class SourceFileAdapter
 
     Public MustOverride Function getDate(sourceFile As SourceFile) As Date
 
+    Public MustOverride Function getAsphaltDensity(indexCycle As Integer, sourceFile As SourceFile) As String
+
     Public MustOverride Function getCycleCount(sourceFile As SourceFile) As Integer
 
-    Public MustOverride Function getTime(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getTime(indexCycle As Integer, sourceFile As SourceFile) As Date
 
     Protected MustOverride Function getCycle(indexCycle As Integer, sourceFile As SourceFile) As String
 

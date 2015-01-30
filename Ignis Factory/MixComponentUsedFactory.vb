@@ -18,28 +18,28 @@ Public Class MixComponentUsedFactory
 
             Case EnumColumnType.VirginAspahlt
 
-
+                Return createAsphaltUsed(columnType, indexCycle, sourceFile)
 
             Case EnumColumnType.RecycledAsphalt
 
-
+                Return createRecycledAsphaltUsed(indexCycle, sourceFile)
 
             Case EnumColumnType.TotalAsphalt
 
-
+                Return createAsphaltUsed(columnType, indexCycle, sourceFile)
 
             Case EnumColumnType.Filler
 
-
+                Return createFillerUsed(indexCycle, sourceFile)
 
             Case EnumColumnType.Additive
 
+                Return createAdditiveUsed(indexCycle, sourceFile)
 
             Case Else
+                Return Nothing
 
         End Select
-
-
 
         Return Nothing
     End Function
@@ -75,10 +75,6 @@ Public Class MixComponentUsedFactory
 
     Private Function createAsphaltUsed(columnType As EnumColumnType, indexCycle As Integer, sourceFile As SourceFile) As AsphaltUsed
         Dim asphaltUsed As AsphaltUsed
-
-        'Dim asphaltTankId As String
-        'Dim recordedTemperature As Double
-        'Dim productionDate As Date
         Dim targetPercentage As Double
         Dim actualPercentage As Double
         Dim debit As Double
@@ -106,61 +102,72 @@ Public Class MixComponentUsedFactory
         Return asphaltUsed
     End Function
 
-
-    Public Function createAsphaltUsed(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As AsphaltUsed
-        Dim asphaltUsed As AsphaltUsed
-        Dim targetPercentage As Double
-        Dim actualPercentage As Double
-        Dim debit As Double
-        Dim mass As Double
-
-        asphaltUsed = New AsphaltUsed(targetPercentage, actualPercentage, debit, mass)
-
-        Return asphaltUsed
-    End Function
-
-    Public Function createRecycledAsphaltUsed(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As RecycledAsphaltUsed
+    Private Function createRecycledAsphaltUsed(indexCycle As Integer, sourceFile As SourceFile) As RecycledAsphaltUsed
         Dim recycledAsphaltUsed As RecycledAsphaltUsed
 
-
-        Dim targetPercentage As Double
-        Dim actualPercentage As Double
-        Dim debit As Double
-        Dim mass As Double
+        Dim targetPercentage As Double = sourceFile.sourceFileAdapter.getRecycledAsphaltTargetPercentage(indexCycle, sourceFile)
+        Dim actualPercentage As Double = sourceFile.sourceFileAdapter.getRecycledAsphaltActualPercentage(indexCycle, sourceFile)
+        Dim debit As Double = sourceFile.sourceFileAdapter.getRecycledAsphaltDebit(indexCycle, sourceFile)
+        Dim mass As Double = sourceFile.sourceFileAdapter.getRecycledAsphaltMass(indexCycle, sourceFile)
 
         recycledAsphaltUsed = New RecycledAsphaltUsed(targetPercentage, actualPercentage, debit, mass)
 
         Return recycledAsphaltUsed
     End Function
 
+    Private Function createFillerUsed(indexCycle As Integer, sourceFile As SourceFile) As FillerUsed
+        Dim fillerUsed As FillerUsed
+
+        Dim targetPercentage As Double = sourceFile.sourceFileAdapter.getFillerTargetPercentage(indexCycle, sourceFile)
+        Dim actualPercentage As Double = sourceFile.sourceFileAdapter.getFillerActualPercentage(indexCycle, sourceFile)
+        Dim debit As Double = sourceFile.sourceFileAdapter.getFillerDebit(indexCycle, sourceFile)
+        Dim mass As Double = sourceFile.sourceFileAdapter.getFillerMass(indexCycle, sourceFile)
+
+        fillerUsed = New FillerUsed(targetPercentage, actualPercentage, debit, mass)
+
+        Return fillerUsed
+    End Function
+
+    Private Function createAdditiveUsed(indexCycle As Integer, sourceFile As SourceFile) As AdditiveUsed
+        Dim additiveUsed As AdditiveUsed
+
+        Dim targetPercentage As Double = sourceFile.sourceFileAdapter.getAdditiveTargetPercentage(indexCycle, sourceFile)
+        Dim actualPercentage As Double = sourceFile.sourceFileAdapter.getAdditiveActualPercentage(indexCycle, sourceFile)
+        Dim debit As Double = sourceFile.sourceFileAdapter.getAdditiveDebit(indexCycle, sourceFile)
+        Dim mass As Double = sourceFile.sourceFileAdapter.getAdditiveMass(indexCycle, sourceFile)
+
+        additiveUsed = New AdditiveUsed(targetPercentage, actualPercentage, debit, mass)
+
+        Return additiveUsed
+    End Function
+
     Public Function createAggregatetUsed(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As AggregateUsed
         Dim aggregateUsed As AggregateUsed
 
-        Dim targetPercentage As Double
-        Dim actualPercentage As Double
-        Dim debit As Double
-        Dim mass As Double
-        Dim moisturePercentage As Double
+        Dim targetPercentage As Double = sourceFile.sourceFileAdapter.getFeederTargetPercentage(indexFeeder, indexCycle, sourceFile)
+        Dim actualPercentage As Double = sourceFile.sourceFileAdapter.getFeederActualPercentage(indexFeeder, indexCycle, sourceFile)
+        Dim debit As Double = sourceFile.sourceFileAdapter.getFeederDebit(indexFeeder, indexCycle, sourceFile)
+        Dim mass As Double = sourceFile.sourceFileAdapter.getFeederMass(indexFeeder, indexCycle, sourceFile)
+        Dim moisturePercentage As Double = sourceFile.sourceFileAdapter.getFeederMoisturePercentage(indexFeeder, indexCycle, sourceFile)
 
         aggregateUsed = New AggregateUsed(targetPercentage, actualPercentage, debit, mass, moisturePercentage)
 
         Return aggregateUsed
     End Function
 
-
-
     Public Function createRecycledAggregateUsed(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As RecycledAggregateUsed
         Dim recycledAggregateUsed As RecycledAggregateUsed
 
-        Dim targetPercentage As Double
-        Dim actualPercentage As Double
-        Dim debit As Double
-        Dim mass As Double
-        Dim moisturePercentage As Double
-        Dim asphaltPercentage As Double
+        Dim targetPercentage As Double = sourceFile.sourceFileAdapter.getFeederTargetPercentage(indexFeeder, indexCycle, sourceFile)
+        Dim actualPercentage As Double = sourceFile.sourceFileAdapter.getFeederActualPercentage(indexFeeder, indexCycle, sourceFile)
+        Dim debit As Double = sourceFile.sourceFileAdapter.getFeederDebit(indexFeeder, indexCycle, sourceFile)
+        Dim mass As Double = sourceFile.sourceFileAdapter.getFeederMass(indexFeeder, indexCycle, sourceFile)
+        Dim moisturePercentage As Double = sourceFile.sourceFileAdapter.getFeederMoisturePercentage(indexFeeder, indexCycle, sourceFile)
+        Dim asphaltPercentage As Double = sourceFile.sourceFileAdapter.getFeederRecycledAsphaltPercentage(indexFeeder, indexCycle, sourceFile)
 
         recycledAggregateUsed = New RecycledAggregateUsed(targetPercentage, actualPercentage, debit, mass, moisturePercentage, asphaltPercentage)
 
         Return recycledAggregateUsed
     End Function
+
 End Class

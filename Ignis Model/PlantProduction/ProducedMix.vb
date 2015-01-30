@@ -1,11 +1,11 @@
 ﻿Public Class ProducedMix
-    Private mixNumber As Integer
+    Private mixNumber As String
     Private mixName As String
     Private recordedTemperature As Double
     Private mixDebit As Double
     Private mixCounter As Double
 
-    Sub New(mixNumber As Integer, mixName As String, recordedTemperature As Double, mixDebit As Double, mixCounter As Double)
+    Sub New(mixNumber As String, mixName As String, recordedTemperature As Double, mixDebit As Double, mixCounter As Double)
 
         Me.mixNumber = mixNumber
         Me.mixName = mixName
@@ -16,7 +16,7 @@
     End Sub
 
 
-    Public ReadOnly Property getMixNumber As Integer
+    Public ReadOnly Property getMixNumber As String
         Get
             Return mixNumber
         End Get
