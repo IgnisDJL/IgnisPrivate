@@ -3,9 +3,9 @@ Public Class SourceFile
     Inherits DataFile
     Public sourceFileAdapter As SourceFileAdapter
 
-    Public Sub New(filePath As String)
+    Public Sub New(filePath As String, sourceFileAdapter As SourceFileAdapter)
         MyBase.New(filePath)
-        sourceFileAdapter = New SourceFileLogAdapter()
+        Me.sourceFileAdapter = sourceFileAdapter
 
     End Sub
 

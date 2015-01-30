@@ -30,7 +30,7 @@ Namespace UI
         Private usbPathToolTip As ToolTip
 
         ' Attributes
-        Private importController As ImportController
+        Private importController As ImportController_1
         Private directoryExplorer As FolderBrowserDialog
 
         Private updateFileListThread As Threading.Thread

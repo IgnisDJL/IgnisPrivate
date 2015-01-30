@@ -1,7 +1,6 @@
 ﻿
 Public MustInherit Class SourceFileAdapter
     Private cycles As List(Of String)
-    Private sourceFile As SourceFile
 
     Public Sub New()
     End Sub

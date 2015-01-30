@@ -61,7 +61,7 @@ Public Class ImportController_1
 
                 If (regex.Match(file.Name).Success) Then
 
-                    Dim sourceFile As New SourceFile(file.FullName)
+                    Dim sourceFile As New SourceFile(file.FullName, New SourceFileLogAdapter())
 
                     Me.lastIdentifiedFiles.Add(sourceFile)
 

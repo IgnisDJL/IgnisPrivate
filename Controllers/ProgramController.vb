@@ -6,7 +6,7 @@
     Private Shared _dataFilesPersistence As DataFilesPersistence
     Private Shared _reportsPersistence As ReportsPersistence
     Private Shared _manualDataPersistence As ManualDataPersistence
-    Private Shared _importController As ImportController
+    Private Shared _importController As ImportController_1
     Private Shared _fileExportationController As FileExportationController
     Private Shared _uiController As UIController
 
@@ -51,7 +51,7 @@
         _reportGenerationController = New ReportGenerationController()
 
         ' Files Import controller
-        _importController = New ImportController(XmlSettings.Settings.instance)
+        _importController = New ImportController_1(XmlSettings.Settings.instance)
 
         ' Files Exportation Controller
         _fileExportationController = New FileExportationController(SettingsControllers.EmailSettingsController)
@@ -101,7 +101,7 @@
         End Get
     End Property
 
-    Public Shared ReadOnly Property ImportController As ImportController
+    Public Shared ReadOnly Property ImportController As ImportController_1
         Get
             Return _importController
         End Get
