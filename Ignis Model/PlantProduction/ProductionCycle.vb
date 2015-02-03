@@ -5,7 +5,7 @@
     Private fillerUsed As FillerUsed
     Private additiveUsed As AdditiveUsed
     Private dustRemovalDebit As Double
-    Private siloFillingNumber As Integer
+    Private siloFillingNumber As String
     Private bagHouseDiff As Double
     Private asphaltDensity As Double
     Private feederList As List(Of Feeder_1)
@@ -19,7 +19,7 @@
 
 
 
-    Sub New(asphaltTankId As String, asphaltRecordedTemperature As Double, endOfCycle As Date, mixProduced As ProducedMix, feederList As List(Of Feeder_1), virginAsphaltUsed As AsphaltUsed, recycledAsphaltUsed As RecycledAsphaltUsed, totalAsphaltUsed As AsphaltUsed, virginAggregateUsed As AggregateUsed, recycledAggregateUsed As RecycledAggregateUsed, fillerUsed As FillerUsed, additiveUsed As AdditiveUsed, dustRemovalDebit As Double, siloFillingNumber As Integer, asphaltDensity As Double)
+    Sub New(asphaltTankId As String, asphaltRecordedTemperature As Double, endOfCycle As Date, mixProduced As ProducedMix, feederList As List(Of Feeder_1), virginAsphaltUsed As AsphaltUsed, recycledAsphaltUsed As RecycledAsphaltUsed, totalAsphaltUsed As AsphaltUsed, virginAggregateUsed As AggregateUsed, recycledAggregateUsed As RecycledAggregateUsed, fillerUsed As FillerUsed, additiveUsed As AdditiveUsed, dustRemovalDebit As Double, siloFillingNumber As String, bagHouseDiff As Double, asphaltDensity As Double)
         Me.asphaltTankId = asphaltTankId
         Me.asphaltRecordedTemperature = asphaltRecordedTemperature
         Me.endOfCycle = endOfCycle
@@ -70,7 +70,7 @@
     End Property
 
 
-    Public ReadOnly Property getSiloFillingNumber As Integer
+    Public ReadOnly Property getSiloFillingNumber As String
         Get
             Return siloFillingNumber
         End Get

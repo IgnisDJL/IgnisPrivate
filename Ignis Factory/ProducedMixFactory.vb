@@ -1,7 +1,8 @@
-﻿
+﻿Imports System.Globalization
+
 Public Class ProducedMixFactory
     Public Sub New()
-
+        Application.CurrentCulture = New CultureInfo("EN-US")
     End Sub
 
     Public Function createProducedMix(indexCycle As Integer, sourceFile As SourceFile) As ProducedMix

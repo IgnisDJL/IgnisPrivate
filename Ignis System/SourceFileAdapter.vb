@@ -1,9 +1,11 @@
 ﻿
 Public MustInherit Class SourceFileAdapter
-    Private cycles As List(Of String)
+    Protected cycleList As List(Of String)
 
     Public Sub New()
     End Sub
+
+    Protected MustOverride Function getCycleList(sourceFile As SourceFile) As List(Of String)
 
     Public MustOverride Function getDate(sourceFile As SourceFile) As Date
 
@@ -24,8 +26,6 @@ Public MustInherit Class SourceFileAdapter
     Public MustOverride Function getFillerTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
 
     Public MustOverride Function getAdditiveTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    Public MustOverride Function getTotalAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
 
     Public MustOverride Function getVirginAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
 
@@ -100,20 +100,20 @@ Public MustInherit Class SourceFileAdapter
 
     Public MustOverride Function getFeederCountForCycle(indexCycle As Integer, sourceFile As SourceFile) As Integer
 
-    Protected MustOverride Function getFeederForCycle(indexFeeder As String, cycleIndex As Integer, sourceFile As SourceFile) As String
+    Protected MustOverride Function getFeederForCycle(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
 
-    Public MustOverride Function getFeederID(indexFeeder As String, cycleIndex As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getFeederID(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
 
-    Public MustOverride Function getFeederTargetPercentage(indexFeeder As String, cycleIndex As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getFeederTargetPercentage(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
 
-    Public MustOverride Function getFeederActualPercentage(indexFeeder As String, cycleIndex As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getFeederActualPercentage(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
 
-    Public MustOverride Function getFeederDebit(indexFeeder As String, cycleIndex As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getFeederDebit(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
 
-    Public MustOverride Function getFeederMass(indexFeeder As String, cycleIndex As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getFeederMass(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
 
-    Public MustOverride Function getFeederMoisturePercentage(indexFeeder As String, cycleIndex As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getFeederMoisturePercentage(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
 
-    Public MustOverride Function getFeederRecycledAsphaltPercentage(indexFeeder As String, cycleIndex As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getFeederRecycledAsphaltPercentage(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
 
 End Class

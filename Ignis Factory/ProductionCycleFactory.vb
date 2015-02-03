@@ -1,4 +1,5 @@
-﻿
+﻿Imports System.Globalization
+
 Public Class ProductionCycleFactory
 
     Private feederFactory As FeederFactory
@@ -9,6 +10,7 @@ Public Class ProductionCycleFactory
         Me.feederFactory = New FeederFactory
         Me.producedMixFactory = New ProducedMixFactory
         Me.mixComponentUsedFactory = New MixComponentUsedFactory
+        Application.CurrentCulture = New CultureInfo("EN-US")
     End Sub
 
     Public Function createProductionCycle(indexCycle As Integer, sourceFile As SourceFile) As ProductionCycle
@@ -28,6 +30,7 @@ Public Class ProductionCycleFactory
         Dim additiveUsed As AdditiveUsed
         Dim dustRemovalDebit As Double
         Dim siloFillingNumber As String
+        Dim bagHouseDiff As Double
         Dim asphaltDensity As Double
 
 
@@ -45,11 +48,12 @@ Public Class ProductionCycleFactory
         additiveUsed = mixComponentUsedFactory.createMixComponentUsed(EnumColumnType.Additive, indexCycle, sourceFile)
         dustRemovalDebit = sourceFile.sourceFileAdapter.getDustRemovalDebit(indexCycle, sourceFile)
         siloFillingNumber = sourceFile.sourceFileAdapter.getSiloFillingNumber(indexCycle, sourceFile)
+        bagHouseDiff = sourceFile.sourceFileAdapter.getBagHouseDiff(indexCycle, sourceFile)
         asphaltDensity = sourceFile.sourceFileAdapter.getAsphaltDensity(indexCycle, sourceFile)
 
         productionCycle = New ProductionCycle(asphaltTankId, asphaltRecordedTemperature, endOfCycle, mixProduced, feederList, virginAsphaltUsed, recycledAsphaltUsed, totalAsphaltUsed,
                                               virginAggregateUsed, recycledAggregateUsed, fillerUsed, additiveUsed, dustRemovalDebit,
-                                              siloFillingNumber, asphaltDensity)
+                                              siloFillingNumber, bagHouseDiff, asphaltDensity)
 
 
         Return productionCycle

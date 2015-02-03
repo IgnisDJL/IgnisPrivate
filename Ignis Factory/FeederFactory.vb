@@ -1,10 +1,12 @@
-﻿
+﻿Imports System.Globalization
+
 Public Class FeederFactory
 
     Private mixComponentUsedFactory As MixComponentUsedFactory
 
     Public Sub New()
         mixComponentUsedFactory = New MixComponentUsedFactory
+        Application.CurrentCulture = New CultureInfo("EN-US")
     End Sub
 
     Public Function createFeeder(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As Feeder_1

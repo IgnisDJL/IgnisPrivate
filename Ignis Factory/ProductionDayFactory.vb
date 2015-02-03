@@ -1,10 +1,12 @@
-﻿
+﻿Imports System.Globalization
+
 Public Class ProductionDayFactory
 
     Private productionCycleFactory As ProductionCycleFactory
 
     Public Sub New()
         productionCycleFactory = New ProductionCycleFactory()
+        Application.CurrentCulture = New CultureInfo("EN-US")
     End Sub
 
     Public Function createProductionDay(sourceFile As SourceFile) As ProductionDay_1

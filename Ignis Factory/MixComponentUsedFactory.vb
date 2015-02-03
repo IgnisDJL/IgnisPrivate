@@ -1,7 +1,8 @@
-﻿
+﻿Imports System.Globalization
+
 Public Class MixComponentUsedFactory
     Public Sub New()
-
+        Application.CurrentCulture = New CultureInfo("EN-US")
     End Sub
 
     Public Function createMixComponentUsed(columnType As EnumColumnType, indexCycle As Integer, sourceFile As SourceFile) As MixComponentUsed
@@ -79,7 +80,6 @@ Public Class MixComponentUsedFactory
         Dim actualPercentage As Double
         Dim debit As Double
         Dim mass As Double
-
         Select Case columnType
 
             Case EnumColumnType.VirginAspahlt
