@@ -8,7 +8,7 @@
     Private siloFillingNumber As String
     Private bagHouseDiff As Double
     Private asphaltDensity As Double
-    Private feederList As List(Of Feeder_1)
+    Private coldFeederList As List(Of ColdFeeder)
     Private virginAsphaltUsed As AsphaltUsed
     Private recycledAsphaltUsed As RecycledAsphaltUsed
     Private totalAsphaltUsed As AsphaltUsed
@@ -19,7 +19,7 @@
 
 
 
-    Sub New(asphaltTankId As String, asphaltRecordedTemperature As Double, endOfCycle As Date, mixProduced As ProducedMix, feederList As List(Of Feeder_1), virginAsphaltUsed As AsphaltUsed, recycledAsphaltUsed As RecycledAsphaltUsed, totalAsphaltUsed As AsphaltUsed, virginAggregateUsed As AggregateUsed, recycledAggregateUsed As RecycledAggregateUsed, fillerUsed As FillerUsed, additiveUsed As AdditiveUsed, dustRemovalDebit As Double, siloFillingNumber As String, bagHouseDiff As Double, asphaltDensity As Double)
+    Sub New(asphaltTankId As String, asphaltRecordedTemperature As Double, endOfCycle As Date, mixProduced As ProducedMix, coldFeederList As List(Of ColdFeeder), virginAsphaltUsed As AsphaltUsed, recycledAsphaltUsed As RecycledAsphaltUsed, totalAsphaltUsed As AsphaltUsed, virginAggregateUsed As AggregateUsed, recycledAggregateUsed As RecycledAggregateUsed, fillerUsed As FillerUsed, additiveUsed As AdditiveUsed, dustRemovalDebit As Double, siloFillingNumber As String, bagHouseDiff As Double, asphaltDensity As Double)
         Me.asphaltTankId = asphaltTankId
         Me.asphaltRecordedTemperature = asphaltRecordedTemperature
         Me.endOfCycle = endOfCycle
@@ -30,7 +30,7 @@
         Me.siloFillingNumber = siloFillingNumber
         Me.bagHouseDiff = bagHouseDiff
         Me.asphaltDensity = asphaltDensity
-        Me.feederList = feederList
+        Me.coldFeederList = coldFeederList
         Me.virginAsphaltUsed = virginAsphaltUsed
         Me.recycledAsphaltUsed = recycledAsphaltUsed
         Me.totalAsphaltUsed = totalAsphaltUsed
@@ -88,9 +88,9 @@
         End Get
     End Property
 
-    Public ReadOnly Property getFeederList As List(Of Feeder_1)
+    Public ReadOnly Property getColdFeederList As List(Of ColdFeeder)
         Get
-            Return feederList
+            Return coldFeederList
         End Get
     End Property
 

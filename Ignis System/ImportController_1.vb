@@ -2,7 +2,6 @@
 Public Class ImportController_1
 
     Private settings As XmlSettings.Settings
-
     Private lastIdentifiedFiles As List(Of DataFile)
     Private _usbDirectory As IO.DirectoryInfo
     Private temporaryArchivesDirectory As IO.DirectoryInfo
@@ -10,24 +9,21 @@ Public Class ImportController_1
     Private eventDirectory As IO.DirectoryInfo
     Private updateArchivesImageThread As Threading.Thread
     Private newestImportedFiles As List(Of IO.FileInfo)
-
+    Private productionDayList As List(Of ProductionDay_1)
     Private productionDayFactory As ProductionDayFactory
-
 
     Public Sub New(settings As XmlSettings.Settings)
 
         Me.settings = settings
         Me.lastIdentifiedFiles = New List(Of DataFile)
         Me.newestImportedFiles = New List(Of IO.FileInfo)
-
         Me.productionDayFactory = New ProductionDayFactory
-
 
     End Sub
 
     Public Function importFiles() As Integer
 
-        Dim productionDayList As List(Of ProductionDay_1) = New List(Of ProductionDay_1)
+        productionDayList= New List(Of ProductionDay_1)
 
         For Each sourceFile As SourceFile In Me.lastIdentifiedFiles
 
@@ -38,6 +34,7 @@ Public Class ImportController_1
         Next
         
         Return productionDayList.Count
+
     End Function
 
 
@@ -55,11 +52,12 @@ Public Class ImportController_1
 
             Dim newestSourceFile As SourceFile = Nothing
 
-            Dim regex As New System.Text.RegularExpressions.Regex(Constants.Input.LOG.FILE_NAME_REGEX)
+            Dim regexLogFile As New System.Text.RegularExpressions.Regex(Constants.Input.LOG.FILE_NAME_REGEX)
+            Dim regexCSVFile As New System.Text.RegularExpressions.Regex(Constants.Input.CSV.FILE_NAME_REGEX)
 
             For Each file As IO.FileInfo In dataDirectory.GetFiles
 
-                If (regex.Match(file.Name).Success) Then
+                If (regexLogFile.Match(file.Name).Success) Then
 
                     Dim sourceFile As New SourceFile(file.FullName, New SourceFileLogAdapter())
 
@@ -70,6 +68,18 @@ Public Class ImportController_1
                     ElseIf (newestSourceFile.Date_.CompareTo(sourceFile.Date_) < 0) Then
                         newestSourceFile = sourceFile
                     End If
+
+                ElseIf (regexCSVFile.Match(file.Name).Success) Then
+                    Dim sourceFile As New SourceFile(file.FullName, New SourceFileCSVAdapter())
+
+                    Me.lastIdentifiedFiles.Add(sourceFile)
+
+                    If (IsNothing(newestSourceFile)) Then
+                        newestSourceFile = sourceFile
+                    ElseIf (newestSourceFile.Date_.CompareTo(sourceFile.Date_) < 0) Then
+                        newestSourceFile = sourceFile
+                    End If
+
 
                 End If
 

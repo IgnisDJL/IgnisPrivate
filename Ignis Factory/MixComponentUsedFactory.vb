@@ -141,33 +141,4 @@ Public Class MixComponentUsedFactory
         Return additiveUsed
     End Function
 
-    Public Function createAggregatetUsed(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As AggregateUsed
-        Dim aggregateUsed As AggregateUsed
-
-        Dim targetPercentage As Double = sourceFile.sourceFileAdapter.getFeederTargetPercentage(indexFeeder, indexCycle, sourceFile)
-        Dim actualPercentage As Double = sourceFile.sourceFileAdapter.getFeederActualPercentage(indexFeeder, indexCycle, sourceFile)
-        Dim debit As Double = sourceFile.sourceFileAdapter.getFeederDebit(indexFeeder, indexCycle, sourceFile)
-        Dim mass As Double = sourceFile.sourceFileAdapter.getFeederMass(indexFeeder, indexCycle, sourceFile)
-        Dim moisturePercentage As Double = sourceFile.sourceFileAdapter.getFeederMoisturePercentage(indexFeeder, indexCycle, sourceFile)
-
-        aggregateUsed = New AggregateUsed(targetPercentage, actualPercentage, debit, mass, moisturePercentage)
-
-        Return aggregateUsed
-    End Function
-
-    Public Function createRecycledAggregateUsed(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As RecycledAggregateUsed
-        Dim recycledAggregateUsed As RecycledAggregateUsed
-
-        Dim targetPercentage As Double = sourceFile.sourceFileAdapter.getFeederTargetPercentage(indexFeeder, indexCycle, sourceFile)
-        Dim actualPercentage As Double = sourceFile.sourceFileAdapter.getFeederActualPercentage(indexFeeder, indexCycle, sourceFile)
-        Dim debit As Double = sourceFile.sourceFileAdapter.getFeederDebit(indexFeeder, indexCycle, sourceFile)
-        Dim mass As Double = sourceFile.sourceFileAdapter.getFeederMass(indexFeeder, indexCycle, sourceFile)
-        Dim moisturePercentage As Double = sourceFile.sourceFileAdapter.getFeederMoisturePercentage(indexFeeder, indexCycle, sourceFile)
-        Dim asphaltPercentage As Double = sourceFile.sourceFileAdapter.getFeederRecycledAsphaltPercentage(indexFeeder, indexCycle, sourceFile)
-
-        recycledAggregateUsed = New RecycledAggregateUsed(targetPercentage, actualPercentage, debit, mass, moisturePercentage, asphaltPercentage)
-
-        Return recycledAggregateUsed
-    End Function
-
 End Class

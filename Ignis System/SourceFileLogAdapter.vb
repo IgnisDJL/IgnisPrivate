@@ -6,26 +6,18 @@ Public Class SourceFileLogAdapter
 
 
 
-    Private feederCycleDictionary As Dictionary(Of Integer, String)
-    Private regex As Regex
-
 
     Public Sub New()
 
     End Sub
-    Private Function getFeederCycleDictionary(sourceFile As SourceFile) As Dictionary(Of Integer, String)
 
-        If IsNothing(feederCycleDictionary) Then
+    Private Function getLineFromLogFile(lineNumber As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
 
-            feederCycleDictionary = New Dictionary(Of Integer, String)
-
-            For Each cycle As String In getCycleList(sourceFile)
-                feederCycleDictionary.Add(getCycleList(sourceFile).IndexOf(cycle), Split(cycle, "Time :")(1))
-            Next
-            Return feederCycleDictionary
-        Else
-            Return feederCycleDictionary
-        End If
+        Try
+            Return Regex.Split(getCycle(indexCycle, sourceFile), "\r")(lineNumber)
+        Catch
+            Return ""
+        End Try
 
     End Function
 
@@ -54,50 +46,67 @@ Public Class SourceFileLogAdapter
 
     Public Overrides Function getAdditiveActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim additiveActualPercentage As String
-        regex = New Regex("(Act %)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        additiveActualPercentage = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.Additive).Value.Trim
-        Return If(String.IsNullOrEmpty(additiveActualPercentage), "0.00", additiveActualPercentage)
+
+        Dim regex = New Regex("([\d]+.[\d]+)")
+
+        Try
+            additiveActualPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.actualPercentage, indexCycle, sourceFile))(EnumColumnType.Additive).Value.Trim
+            Return If(String.IsNullOrEmpty(additiveActualPercentage), "0.00", additiveActualPercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
+
     End Function
 
     Public Overrides Function getAdditiveDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim additiveDebit As String
-        regex = New Regex("(Tph)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        additiveDebit = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.Additive).Value.Trim
-        Return If(String.IsNullOrEmpty(additiveDebit), "0.00", additiveDebit)
+
+        Dim regex = New Regex("([\d]+.[\d]+)")
+
+        Try
+            additiveDebit = regex.Matches(getLineFromLogFile(EnumLineLogFile.debit, indexCycle, sourceFile))(EnumColumnType.Additive).Value.Trim
+            Return If(String.IsNullOrEmpty(additiveDebit), "0.00", additiveDebit)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
+
     End Function
 
     Public Overrides Function getAdditiveMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim additiveMass As String
-        regex = New Regex("(Tons)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        additiveMass = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.Additive).Value.Trim
-        Return If(String.IsNullOrEmpty(additiveMass), "0.00", additiveMass)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            additiveMass = regex.Matches(getLineFromLogFile(EnumLineLogFile.mass, indexCycle, sourceFile))(EnumColumnType.Additive).Value.Trim
+            Return If(String.IsNullOrEmpty(additiveMass), "0.00", additiveMass)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
+
+
     End Function
 
     Public Overrides Function getAdditiveTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim additiveTargetPercentage As String
-        regex = New Regex("(SP %)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        additiveTargetPercentage = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.Additive).Value.Trim
-        Return If(String.IsNullOrEmpty(additiveTargetPercentage), "0.00", additiveTargetPercentage)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            additiveTargetPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.targetPercentage, indexCycle, sourceFile))(EnumColumnType.Additive).Value.Trim
+            Return If(String.IsNullOrEmpty(additiveTargetPercentage), "0.00", additiveTargetPercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getAsphaltRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
-
         Dim asphaltRecordedTemperature As String
-
-        regex = New Regex("Asphalt Temp :[\s]+(\-?[\d]*)")
+        Dim regex = New Regex("Asphalt Temp :[\s]+(\-?[\d]*)")
         asphaltRecordedTemperature = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
-
-        If String.IsNullOrEmpty(asphaltRecordedTemperature) Then
-            Return "0.00"
-        Else
-            Return asphaltRecordedTemperature
-        End If
+        Return If(String.IsNullOrEmpty(asphaltRecordedTemperature), "0.00", asphaltRecordedTemperature)
 
     End Function
 
     Public Overrides Function getAsphaltTankId(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltTankId As String
-        regex = New Regex("A/C Tank:[\s]([\d]+)")
+        Dim regex = New Regex("A/C Tank:[\s]([\d]+)")
         asphaltTankId = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
         Return If(String.IsNullOrEmpty(asphaltTankId), "N/A", asphaltTankId)
 
@@ -105,7 +114,7 @@ Public Class SourceFileLogAdapter
 
     Public Overrides Function getBagHouseDiff(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim bagHouseDiff As String
-        regex = New Regex("Bh Diff:[\s](\-?[\d]{1,3}.[\d])")
+        Dim regex = New Regex("Bh Diff:[\s](\-?[\d]{1,3}.[\d])")
         bagHouseDiff = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
         Return If(String.IsNullOrEmpty(bagHouseDiff), "0.00", bagHouseDiff)
     End Function
@@ -119,7 +128,7 @@ Public Class SourceFileLogAdapter
     End Function
 
     Public Overrides Function getDate(sourceFile As SourceFile) As Date
-        regex = New Regex(Constants.Input.LOG.FILE_NAME_REGEX)
+        Dim regex = New Regex(Constants.Input.LOG.FILE_NAME_REGEX)
         Dim match As Match = regex.Match(sourceFile.getFileInfo.Name)
 
         If (match.Success) Then
@@ -140,25 +149,29 @@ Public Class SourceFileLogAdapter
 
     Public Overrides Function getDustRemovalDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim dustRemovalDebit As String
-        regex = New Regex("Dust Removal:[\s]+([\d]{1,2}\.[\d]+)")
+        Dim regex = New Regex("Dust Removal:[\s]+([\d]{1,2}\.[\d]+)")
         dustRemovalDebit = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
         Return If(String.IsNullOrEmpty(dustRemovalDebit), "0.00", dustRemovalDebit)
     End Function
 
-    Public Overrides Function getFeederActualPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getColdFeederActualPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
         Dim feederActualPercentage As String
-        regex = New Regex("([\d]+.[\d]+)")
-        feederActualPercentage = regex.Match(regex.Split(getCycle(indexCycle, sourceFile), "\r")(24)).Groups(indexFeeder).Value.Trim
-        Return If(String.IsNullOrEmpty(feederActualPercentage), "0.00", feederActualPercentage)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            feederActualPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.feederActualPercentage, indexCycle, sourceFile))(indexFeeder).Value.Trim
+            Return If(String.IsNullOrEmpty(feederActualPercentage), "0.00", feederActualPercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
-    Public Overrides Function getFeederCountForCycle(indexCycle As Integer, sourceFile As SourceFile) As Integer
+    Public Overrides Function getColdFeederCountForCycle(indexCycle As Integer, sourceFile As SourceFile) As Integer
 
         Dim feederCountForCycle As New Integer
         feederCountForCycle = 0
 
         Try
-            For Each feederId As String In regex.Split(regex.Split(getCycle(indexCycle, sourceFile), "\r")(20), "[\s]+")
+            For Each feederId As String In Regex.Split(getLineFromLogFile(EnumLineLogFile.feederId, indexCycle, sourceFile), "[\s]+")
                 If Not String.IsNullOrEmpty(feederId) Then
                     feederCountForCycle += 1
                 End If
@@ -171,170 +184,280 @@ Public Class SourceFileLogAdapter
         Return feederCountForCycle
     End Function
 
-    Public Overrides Function getFeederDebit(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getColdFeederDebit(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
         Dim feederDebit As String
-        Return If(String.IsNullOrEmpty(feederDebit), "0.00", feederDebit)
+
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            feederDebit = regex.Matches(getLineFromLogFile(EnumLineLogFile.feederDebit, indexCycle, sourceFile))(indexFeeder).Value.Trim
+
+            Return If(String.IsNullOrEmpty(feederDebit), "0.00", feederDebit)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
-    Protected Overrides Function getFeederListForCycle(indexCycle As Integer, sourceFile As SourceFile) As String
-
-        Return getFeederCycleDictionary(sourceFile).Item(indexCycle)
-    End Function
-
-    Public Overrides Function getFeederID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getColdFeederID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
         Dim feederID As String
-        Return If(String.IsNullOrEmpty(feederID), "N/A", feederID)
+
+        Dim regex = New Regex("(\w+)")
+        Try
+            feederID = regex.Matches(getLineFromLogFile(EnumLineLogFile.feederId, indexCycle, sourceFile))(indexFeeder).Value.Trim
+
+            Return If(String.IsNullOrEmpty(feederID), "N/A", feederID)
+        Catch ex As Exception
+            Return "N/A"
+        End Try
     End Function
 
-    Public Overrides Function getFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getColdFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
         Dim feederMass As String
-        Return If(String.IsNullOrEmpty(feederMass), "0.00", feederMass)
+
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            feederMass = regex.Matches(getLineFromLogFile(EnumLineLogFile.feederMass, indexCycle, sourceFile))(indexFeeder).Value.Trim
+
+            Return If(String.IsNullOrEmpty(feederMass), "0.00", feederMass)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
-    Public Overrides Function getFeederMoisturePercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getColdFeederMoisturePercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
         Dim feederMoisturePercentage As String
-        Return If(String.IsNullOrEmpty(feederMoisturePercentage), "0.00", feederMoisturePercentage)
+
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            feederMoisturePercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.feederMoisturePercentage, indexCycle, sourceFile))(indexFeeder).Value.Trim
+
+            Return If(String.IsNullOrEmpty(feederMoisturePercentage), "0.00", feederMoisturePercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
-    Public Overrides Function getFeederRecycledAsphaltPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+
+    Public Overrides Function getColdFeederRecycledAsphaltPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+
         Dim feederRecycledAsphaltPercentage As String
-        Return If(String.IsNullOrEmpty(feederRecycledAsphaltPercentage), "0.00", feederRecycledAsphaltPercentage)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Dim feederId As String
+        feederId = getColdFeederID(indexFeeder, indexCycle, sourceFile).Trim.ToUpper
+        Try
+            If feederId.Contains("RAP") Then
+
+
+                feederRecycledAsphaltPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.feederRecycledAsphaltPercentage, indexCycle, sourceFile))(Integer.Parse(Split(feederId, "RAP")(1)) - 1).Value.Trim
+            Else
+                feederRecycledAsphaltPercentage = "0.0"
+            End If
+
+            Return If(String.IsNullOrEmpty(feederRecycledAsphaltPercentage), "0.0", feederRecycledAsphaltPercentage)
+        Catch ex As Exception
+            Return "0.0"
+        End Try
     End Function
 
-    Public Overrides Function getFeederTargetPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim FeederTargetPercentage As String
-        Return If(String.IsNullOrEmpty(FeederTargetPercentage), "0.00", FeederTargetPercentage)
+    Public Overrides Function getColdFeederTargetPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim feederTargetPercentage As String
+
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            feederTargetPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.feederTargetPercentage, indexCycle, sourceFile))(indexFeeder).Value.Trim
+
+            Return If(String.IsNullOrEmpty(feederTargetPercentage), "0.00", feederTargetPercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getFillerActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim fillerActualPercentage As String
-        regex = New Regex("(Act %)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        fillerActualPercentage = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.Filler).Value.Trim
-        Return If(String.IsNullOrEmpty(fillerActualPercentage), "0.00", fillerActualPercentage)
+
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            fillerActualPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.actualPercentage, indexCycle, sourceFile))(EnumColumnType.Filler).Value.Trim
+
+            Return If(String.IsNullOrEmpty(fillerActualPercentage), "0.00", fillerActualPercentage)
+
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getFillerDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim fillerDebit As String
-        regex = New Regex("(Tph)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        fillerDebit = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.Filler).Value.Trim
-        Return If(String.IsNullOrEmpty(fillerDebit), "0.00", fillerDebit)
+
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            fillerDebit = regex.Matches(getLineFromLogFile(EnumLineLogFile.debit, indexCycle, sourceFile))(EnumColumnType.Filler).Value.Trim
+
+            Return If(String.IsNullOrEmpty(fillerDebit), "0.00", fillerDebit)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getFillerMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim fillerMass As String
-        regex = New Regex("(Tons)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        fillerMass = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.Filler).Value.Trim
-        Return If(String.IsNullOrEmpty(fillerMass), "0.00", fillerMass)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            fillerMass = regex.Matches(getLineFromLogFile(EnumLineLogFile.mass, indexCycle, sourceFile))(EnumColumnType.Filler).Value.Trim
+            Return If(String.IsNullOrEmpty(fillerMass), "0.00", fillerMass)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getFillerTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim fillerTargetPercentage As String
-        regex = New Regex("(SP %)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        fillerTargetPercentage = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.Filler).Value.Trim
-        Return If(String.IsNullOrEmpty(fillerTargetPercentage), "0.00", fillerTargetPercentage)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            fillerTargetPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.targetPercentage, indexCycle, sourceFile))(EnumColumnType.Filler).Value.Trim
+            Return If(String.IsNullOrEmpty(fillerTargetPercentage), "0.00", fillerTargetPercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getMixCounter(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim mixCounter As String
-        regex = New Regex("Mix Tons :[\s]+([\d]+)[\s]T")
+        Dim regex = New Regex("Mix Tons :[\s]+([\d]+)[\s]T")
         mixCounter = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
         Return If(String.IsNullOrEmpty(mixCounter), "0.00", mixCounter)
     End Function
 
     Public Overrides Function getMixDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim mixDebit As String
-        regex = New Regex("Mix Tph[\s]+([\d]{2,3})")
+        Dim regex = New Regex("Mix Tph[\s]+([\d]{2,3})")
         mixDebit = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
         Return If(String.IsNullOrEmpty(mixDebit), "0.00", mixDebit)
     End Function
 
     Public Overrides Function getMixName(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim mixName As String
-        regex = New Regex("Mix Name :[\s]([a-zA-Z0-9\s\-_%]+)([\n])")
+        Dim regex = New Regex("Mix Name :[\s]([a-zA-Z0-9\s\-_%]+)([\n])")
         mixName = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
         Return If(String.IsNullOrEmpty(mixName), "N/A", mixName)
     End Function
 
     Public Overrides Function getMixNumber(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim mixNumber As String
-        regex = New Regex("Mix Number :[\s]+([a-zA-Z0-9\s\-_%]+)[\s]+Mix Name :[\s]([a-zA-Z0-9\s\-_%]+)")
+        Dim regex = New Regex("Mix Number :[\s]+([a-zA-Z0-9\s\-_%]+)[\s]+Mix Name :[\s]([a-zA-Z0-9\s\-_%]+)")
         mixNumber = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
         Return If(String.IsNullOrEmpty(mixNumber), "N/A", mixNumber)
     End Function
 
     Public Overrides Function getMixRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim mixRecordedTemperature As String
-        regex = New Regex("Mix Temp :[\s]+([\-]?[\d]+)")
+        Dim regex = New Regex("Mix Temp :[\s]+([\-]?[\d]+)")
         mixRecordedTemperature = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
         Return If(String.IsNullOrEmpty(mixRecordedTemperature), "0.00", mixRecordedTemperature)
     End Function
 
     Public Overrides Function getRecycledAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim recycledAggregateActualPercentage As String
-        regex = New Regex("(Act %)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        recycledAggregateActualPercentage = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.RecycledAggregate).Value.Trim
-        Return If(String.IsNullOrEmpty(recycledAggregateActualPercentage), "0.00", recycledAggregateActualPercentage)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            recycledAggregateActualPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.actualPercentage, indexCycle, sourceFile))(EnumColumnType.RecycledAggregate).Value.Trim
+
+            Return If(String.IsNullOrEmpty(recycledAggregateActualPercentage), "0.00", recycledAggregateActualPercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getRecycledAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim recycledAggregateDebit As String
-        regex = New Regex("(Tph)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        recycledAggregateDebit = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.RecycledAggregate).Value.Trim
-        Return If(String.IsNullOrEmpty(recycledAggregateDebit), "0.00", recycledAggregateDebit)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            recycledAggregateDebit = regex.Matches(getLineFromLogFile(EnumLineLogFile.debit, indexCycle, sourceFile))(EnumColumnType.RecycledAggregate).Value.Trim
+            Return If(String.IsNullOrEmpty(recycledAggregateDebit), "0.00", recycledAggregateDebit)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getRecycledAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim recycledAggregateMass As String
-        regex = New Regex("(Tons)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        recycledAggregateMass = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.RecycledAggregate).Value.Trim
-        Return If(String.IsNullOrEmpty(recycledAggregateMass), "0.00", recycledAggregateMass)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            recycledAggregateMass = regex.Matches(getLineFromLogFile(EnumLineLogFile.mass, indexCycle, sourceFile))(EnumColumnType.RecycledAggregate).Value.Trim
+            Return If(String.IsNullOrEmpty(recycledAggregateMass), "0.00", recycledAggregateMass)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getRecycledAggregateMoisturePercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim recycledAggregateMoisturePercentage As String
-        regex = New Regex("(Mst%)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        recycledAggregateMoisturePercentage = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.RecycledAggregate).Value.Trim
-        Return If(String.IsNullOrEmpty(recycledAggregateMoisturePercentage), "0.00", recycledAggregateMoisturePercentage)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            recycledAggregateMoisturePercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.moisturePercentage, indexCycle, sourceFile))(EnumColumnType.RecycledAggregate).Value.Trim
+            Return If(String.IsNullOrEmpty(recycledAggregateMoisturePercentage), "0.00", recycledAggregateMoisturePercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getRecycledAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim recycledAggregateTargetPercentage As String
-        regex = New Regex("(SP %)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        recycledAggregateTargetPercentage = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.RecycledAggregate).Value.Trim
-        Return If(String.IsNullOrEmpty(recycledAggregateTargetPercentage), "0.00", recycledAggregateTargetPercentage)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            recycledAggregateTargetPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.targetPercentage, indexCycle, sourceFile))(EnumColumnType.RecycledAggregate).Value.Trim
+            Return If(String.IsNullOrEmpty(recycledAggregateTargetPercentage), "0.00", recycledAggregateTargetPercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getRecycledAsphaltActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim recycledAsphaltActualPercentage As String
-        regex = New Regex("(Act %)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        recycledAsphaltActualPercentage = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.RecycledAsphalt).Value.Trim
-        Return If(String.IsNullOrEmpty(recycledAsphaltActualPercentage), "0.00", recycledAsphaltActualPercentage)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            recycledAsphaltActualPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.actualPercentage, indexCycle, sourceFile))(EnumColumnType.RecycledAsphalt).Value.Trim
+            Return If(String.IsNullOrEmpty(recycledAsphaltActualPercentage), "0.00", recycledAsphaltActualPercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getRecycledAsphaltDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim recycledAsphaltDebit As String
-        regex = New Regex("(Tph)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        recycledAsphaltDebit = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.RecycledAsphalt).Value.Trim
-        Return If(String.IsNullOrEmpty(recycledAsphaltDebit), "0.00", recycledAsphaltDebit)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            recycledAsphaltDebit = regex.Matches(getLineFromLogFile(EnumLineLogFile.debit, indexCycle, sourceFile))(EnumColumnType.RecycledAsphalt).Value.Trim
+            Return If(String.IsNullOrEmpty(recycledAsphaltDebit), "0.00", recycledAsphaltDebit)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getRecycledAsphaltMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim recycledAsphaltMass As String
-        regex = New Regex("(Tons)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        recycledAsphaltMass = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.RecycledAsphalt).Value.Trim
-        Return If(String.IsNullOrEmpty(recycledAsphaltMass), "0.00", recycledAsphaltMass)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            recycledAsphaltMass = regex.Matches(getLineFromLogFile(EnumLineLogFile.mass, indexCycle, sourceFile))(EnumColumnType.RecycledAsphalt).Value.Trim
+            Return If(String.IsNullOrEmpty(recycledAsphaltMass), "0.00", recycledAsphaltMass)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getRecycledAsphaltTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim recycledAsphaltTargetPercentage As String
-        regex = New Regex("(SP %)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        recycledAsphaltTargetPercentage = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.RecycledAsphalt).Value.Trim
-        Return If(String.IsNullOrEmpty(recycledAsphaltTargetPercentage), "0.00", recycledAsphaltTargetPercentage)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            recycledAsphaltTargetPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.targetPercentage, indexCycle, sourceFile))(EnumColumnType.RecycledAsphalt).Value.Trim
+            Return If(String.IsNullOrEmpty(recycledAsphaltTargetPercentage), "0.00", recycledAsphaltTargetPercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getAsphaltDensity(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltDensity As String
-        regex = New Regex("Ac Specific Gravity[\s]+([\d].[\d]{3})")
+        Dim regex = New Regex("Ac Specific Gravity[\s]+([\d].[\d]{3})")
         asphaltDensity = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
         Return If(String.IsNullOrEmpty(asphaltDensity), "0.00", asphaltDensity)
     End Function
@@ -342,14 +465,14 @@ Public Class SourceFileLogAdapter
 
     Public Overrides Function getSiloFillingNumber(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim siloFillingNumber As String
-        regex = New Regex("Silo Filling:[\s]+([\d]+)")
+        Dim regex = New Regex("Silo Filling:[\s]+([\d]+)")
         siloFillingNumber = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
         Return If(String.IsNullOrEmpty(siloFillingNumber), "N/A", siloFillingNumber)
     End Function
 
     Public Overrides Function getTime(indexCycle As Integer, sourceFile As SourceFile) As Date
         'Dim time As String
-        'regex = New Regex("^([\d][\d]?:[\d][\d]:[\d][\d]([\s](AM|PM))?)")
+        'Dim regex = New Regex("^([\d][\d]?:[\d][\d]:[\d][\d]([\s](AM|PM))?)")
         'time = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
         'Return If(String.IsNullOrEmpty(time), "N/A", time)
         Return Date.Now
@@ -357,93 +480,147 @@ Public Class SourceFileLogAdapter
 
     Public Overrides Function getTotalAsphaltActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAsphaltActualPercentage As String
-        regex = New Regex("(Act %)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        totalAsphaltActualPercentage = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.TotalAsphalt).Value.Trim
-        Return If(String.IsNullOrEmpty(totalAsphaltActualPercentage), "0.00", totalAsphaltActualPercentage)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            totalAsphaltActualPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.actualPercentage, indexCycle, sourceFile))(EnumColumnType.TotalAsphalt).Value.Trim
+            Return If(String.IsNullOrEmpty(totalAsphaltActualPercentage), "0.00", totalAsphaltActualPercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getTotalAsphaltDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAsphaltDebit As String
-        regex = New Regex("(Tph)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        totalAsphaltDebit = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.TotalAsphalt).Value.Trim
-        Return If(String.IsNullOrEmpty(totalAsphaltDebit), "0.00", totalAsphaltDebit)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            totalAsphaltDebit = regex.Matches(getLineFromLogFile(EnumLineLogFile.debit, indexCycle, sourceFile))(EnumColumnType.TotalAsphalt).Value.Trim
+            Return If(String.IsNullOrEmpty(totalAsphaltDebit), "0.00", totalAsphaltDebit)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getTotalAsphaltMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAsphaltMass As String
-        regex = New Regex("(Tons)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        totalAsphaltMass = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.TotalAsphalt).Value.Trim
-        Return If(String.IsNullOrEmpty(totalAsphaltMass), "0.00", totalAsphaltMass)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            totalAsphaltMass = regex.Matches(getLineFromLogFile(EnumLineLogFile.mass, indexCycle, sourceFile))(EnumColumnType.TotalAsphalt).Value.Trim
+            Return If(String.IsNullOrEmpty(totalAsphaltMass), "0.00", totalAsphaltMass)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getTotalAsphaltTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAsphaltTargetPercentage As String
-        regex = New Regex("(SP %)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        totalAsphaltTargetPercentage = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.TotalAsphalt).Value.Trim
-        Return If(String.IsNullOrEmpty(totalAsphaltTargetPercentage), "0.00", totalAsphaltTargetPercentage)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            totalAsphaltTargetPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.targetPercentage, indexCycle, sourceFile))(EnumColumnType.TotalAsphalt).Value.Trim
+            Return If(String.IsNullOrEmpty(totalAsphaltTargetPercentage), "0.00", totalAsphaltTargetPercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getVirginAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAggregateActualPercentage As String
-        regex = New Regex("(Act %)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        virginAggregateActualPercentage = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.VirginAggregate).Value.Trim
-        Return If(String.IsNullOrEmpty(virginAggregateActualPercentage), "0.00", virginAggregateActualPercentage)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            virginAggregateActualPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.actualPercentage, indexCycle, sourceFile))(EnumColumnType.VirginAggregate).Value.Trim
+            Return If(String.IsNullOrEmpty(virginAggregateActualPercentage), "0.00", virginAggregateActualPercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getVirginAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAggregateDebit As String
-        regex = New Regex("(Tph)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        virginAggregateDebit = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.VirginAggregate).Value.Trim
-        Return If(String.IsNullOrEmpty(virginAggregateDebit), "0.00", virginAggregateDebit)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            virginAggregateDebit = regex.Matches(getLineFromLogFile(EnumLineLogFile.debit, indexCycle, sourceFile))(EnumColumnType.VirginAggregate).Value.Trim
+            Return If(String.IsNullOrEmpty(virginAggregateDebit), "0.00", virginAggregateDebit)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getVirginAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAggregateMass As String
-        regex = New Regex("(Tons)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        virginAggregateMass = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.VirginAggregate).Value.Trim
-        Return If(String.IsNullOrEmpty(virginAggregateMass), "0.00", virginAggregateMass)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            virginAggregateMass = regex.Matches(getLineFromLogFile(EnumLineLogFile.mass, indexCycle, sourceFile))(EnumColumnType.VirginAggregate).Value.Trim
+            Return If(String.IsNullOrEmpty(virginAggregateMass), "0.00", virginAggregateMass)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getVirginAggregateMoisturePercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAggregateMoisturePercentage As String
-        regex = New Regex("(Mst%)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        virginAggregateMoisturePercentage = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.VirginAggregate).Value.Trim
-        Return If(String.IsNullOrEmpty(virginAggregateMoisturePercentage), "0.00", virginAggregateMoisturePercentage)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            virginAggregateMoisturePercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.moisturePercentage, indexCycle, sourceFile))(EnumColumnType.VirginAggregate).Value.Trim
+            Return If(String.IsNullOrEmpty(virginAggregateMoisturePercentage), "0.00", virginAggregateMoisturePercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getVirginAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAggregateTargetPercentage As String
-        regex = New Regex("(SP %)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        virginAggregateTargetPercentage = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.VirginAggregate).Value.Trim
-        Return If(String.IsNullOrEmpty(virginAggregateTargetPercentage), "0.00", virginAggregateTargetPercentage)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            virginAggregateTargetPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.targetPercentage, indexCycle, sourceFile))(EnumColumnType.VirginAggregate).Value.Trim
+            Return If(String.IsNullOrEmpty(virginAggregateTargetPercentage), "0.00", virginAggregateTargetPercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getVirginAsphaltTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltTargetPercentage As String
-        regex = New Regex("(SP %)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        virginAsphaltTargetPercentage = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.VirginAspahlt).Value.Trim
-        Return If(String.IsNullOrEmpty(virginAsphaltTargetPercentage), "0.00", virginAsphaltTargetPercentage)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+
+        Try
+            virginAsphaltTargetPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.targetPercentage, indexCycle, sourceFile))(EnumColumnType.VirginAspahlt).Value.Trim
+            Return If(String.IsNullOrEmpty(virginAsphaltTargetPercentage), "0.00", virginAsphaltTargetPercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getVirginAsphaltActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltActualPercentage As String
-        regex = New Regex("(Act %)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        virginAsphaltActualPercentage = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.VirginAspahlt).Value.Trim
-        Return If(String.IsNullOrEmpty(virginAsphaltActualPercentage), "0.00", virginAsphaltActualPercentage)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            virginAsphaltActualPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.actualPercentage, indexCycle, sourceFile))(EnumColumnType.VirginAspahlt).Value.Trim
+            Return If(String.IsNullOrEmpty(virginAsphaltActualPercentage), "0.00", virginAsphaltActualPercentage)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getVirginAsphaltDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltDebit As String
-        regex = New Regex("(Tph)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        virginAsphaltDebit = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.VirginAspahlt).Value.Trim
-        Return If(String.IsNullOrEmpty(virginAsphaltDebit), "0.00", virginAsphaltDebit)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            virginAsphaltDebit = regex.Matches(getLineFromLogFile(EnumLineLogFile.debit, indexCycle, sourceFile))(EnumColumnType.VirginAspahlt).Value.Trim
+            Return If(String.IsNullOrEmpty(virginAsphaltDebit), "0.00", virginAsphaltDebit)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
     End Function
 
     Public Overrides Function getVirginAsphaltMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltMass As String
-        regex = New Regex("(Tons)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)([\d]+.[\d]+)([\s]+)")
-        virginAsphaltMass = regex.Match(getCycle(indexCycle, sourceFile)).Groups(EnumColumnType.VirginAspahlt).Value.Trim
-        Return If(String.IsNullOrEmpty(virginAsphaltMass), "0.00", virginAsphaltMass)
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            virginAsphaltMass = regex.Matches(getLineFromLogFile(EnumLineLogFile.mass, indexCycle, sourceFile))(EnumColumnType.VirginAspahlt).Value.Trim
+            Return If(String.IsNullOrEmpty(virginAsphaltMass), "0.00", virginAsphaltMass)
+        Catch ex As Exception
+            Return "0.00"
+        End Try
+
     End Function
 
     Public Overrides Function getRecycledAggregateAsphaltPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
@@ -451,4 +628,59 @@ Public Class SourceFileLogAdapter
         Return "0.00"
     End Function
 
+    Protected Overrides Function getColdFeederForCycle(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
+        Return Nothing
+    End Function
+
+    Public Overrides Function getContractID(indexCycle As Integer, sourceFile As SourceFile) As String
+
+    End Function
+
+    Public Overrides Function getDopeAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+
+    End Function
+
+    Public Overrides Function getDopeAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
+
+    End Function
+
+    Public Overrides Function getDopeTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+
+    End Function
+
+    Public Overrides Function getHotFeederActualPercentage(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
+
+    End Function
+
+    Public Overrides Function getHotFeederCountForCycle(indexCycle As Integer, sourceFile As SourceFile) As Integer
+
+    End Function
+
+    Protected Overrides Function getHotFeederForCycle(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
+
+    End Function
+
+    Public Overrides Function getHotFeederID(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
+
+    End Function
+
+    Public Overrides Function getHotFeederMass(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
+
+    End Function
+
+    Public Overrides Function getHotFeederTargetPercentage(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
+
+    End Function
+
+    Public Overrides Function getTotalAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
+
+    End Function
+
+    Public Overrides Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
+
+    End Function
+
+    Public Overrides Function getTruckID(indexCycle As Integer, sourceFile As SourceFile) As String
+
+    End Function
 End Class

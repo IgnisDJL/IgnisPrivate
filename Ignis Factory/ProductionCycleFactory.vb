@@ -22,7 +22,7 @@ Public Class ProductionCycleFactory
         Dim mixProduced As ProducedMix
         Dim virginAsphaltUsed As AsphaltUsed
         Dim recycledAsphaltUsed As RecycledAsphaltUsed
-        Dim feederList As List(Of Feeder_1)
+        Dim coldFeederList As List(Of ColdFeeder)
         Dim totalAsphaltUsed As AsphaltUsed
         Dim virginAggregateUsed As AggregateUsed
         Dim recycledAggregateUsed As RecycledAggregateUsed
@@ -33,12 +33,11 @@ Public Class ProductionCycleFactory
         Dim bagHouseDiff As Double
         Dim asphaltDensity As Double
 
-
         asphaltTankId = sourceFile.sourceFileAdapter.getAsphaltTankId(indexCycle, sourceFile)
         asphaltRecordedTemperature = sourceFile.sourceFileAdapter.getAsphaltRecordedTemperature(indexCycle, sourceFile)
         endOfCycle = sourceFile.sourceFileAdapter.getTime(indexCycle, sourceFile)
         mixProduced = producedMixFactory.createProducedMix(indexCycle, sourceFile)
-        feederList = feederFactory.createFeederList(indexCycle, sourceFile)
+        coldFeederList = feederFactory.createColdFeederList(indexCycle, sourceFile)
         virginAsphaltUsed = mixComponentUsedFactory.createMixComponentUsed(EnumColumnType.VirginAspahlt, indexCycle, sourceFile)
         recycledAsphaltUsed = mixComponentUsedFactory.createMixComponentUsed(EnumColumnType.RecycledAsphalt, indexCycle, sourceFile)
         totalAsphaltUsed = mixComponentUsedFactory.createMixComponentUsed(EnumColumnType.TotalAsphalt, indexCycle, sourceFile)
@@ -51,7 +50,11 @@ Public Class ProductionCycleFactory
         bagHouseDiff = sourceFile.sourceFileAdapter.getBagHouseDiff(indexCycle, sourceFile)
         asphaltDensity = sourceFile.sourceFileAdapter.getAsphaltDensity(indexCycle, sourceFile)
 
-        productionCycle = New ProductionCycle(asphaltTankId, asphaltRecordedTemperature, endOfCycle, mixProduced, feederList, virginAsphaltUsed, recycledAsphaltUsed, totalAsphaltUsed,
+
+
+
+
+        productionCycle = New ProductionCycle(asphaltTankId, asphaltRecordedTemperature, endOfCycle, mixProduced, coldFeederList, virginAsphaltUsed, recycledAsphaltUsed, totalAsphaltUsed,
                                               virginAggregateUsed, recycledAggregateUsed, fillerUsed, additiveUsed, dustRemovalDebit,
                                               siloFillingNumber, bagHouseDiff, asphaltDensity)
 
