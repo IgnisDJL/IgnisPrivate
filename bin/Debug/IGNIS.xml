@@ -424,6 +424,20 @@ IGNIS
 	<summary>
  A cycle object that corresponds to a single cycle from a .log data file produced by a Minds system.
  </summary>
+</member><member name="M:IGNIS.SourceFileLogAdapter.getCycleCount(IGNIS.SourceFile)">
+	<summary>
+ Cette fonction renvoi le nombre de cycle qui ont été détecté dans le fichier source
+ </summary>
+	<param name="sourceFile"></param>
+	<returns>Le nombre de cycle détecté dans le fichier source</returns>
+	<remarks>Cette donnée n'est utilisé que pour ittéré sur le bon nombre de cycle, elle n'est conservé nulle part</remarks>
+</member><member name="M:IGNIS.SourceFileLogAdapter.getDate(IGNIS.SourceFile)">
+	<summary>
+ Fonction qui utilise le nom du fichier source pour déterminer la date de création du fichier source
+ </summary>
+	<param name="sourceFile"></param>
+	<returns>Renvoi la date de création du fichier source</returns>
+	<remarks>Utilisé par l'objet sourceFile pour lister les fichiers disponible a l'importation</remarks>
 </member><member name="M:IGNIS.CSVFile.getCycles(System.DateTime,System.DateTime)">
 	<summary>#comment</summary>
 	<param name="startTime">Not using it, can be nothing</param>

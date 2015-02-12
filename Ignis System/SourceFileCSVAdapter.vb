@@ -7,22 +7,32 @@ Public Class SourceFileCSVAdapter
     Inherits SourceFileAdapter
 
 
-
-
     Private columnNameList As List(Of String)
-
+    Private hotFeederCount As Integer
     Public Sub New()
 
     End Sub
 
+    ''***********************************************************************************************************************
+    ''  Fonction private unique au type de fichier source
+    ''  Fonction qui effectu une oppération de formatage ou d'affichage du fichier source
+    ''
+    ''***********************************************************************************************************************
     Private Function getColumnFromCSVFile(columnName As String, indexCycle As Integer, sourceFile As SourceFile) As String
 
-        Try
-            Return Regex.Split(getCycle(indexCycle, sourceFile), ","c)(getIndexForColumnName(columnName, sourceFile))
-        Catch
-            Return ""
-        End Try
+        Dim index As Integer = getIndexForColumnName(columnName, sourceFile)
 
+        Try
+            If (Not index = -1) Then
+
+                Return Regex.Split(getCycle(indexCycle, sourceFile), ","c)(index)
+            Else
+                Return ""
+
+            End If
+        Catch
+            Return "-2"
+        End Try
     End Function
 
     Private Function getIndexForColumnName(columnName As String, sourceFile As SourceFile) As Integer
@@ -58,27 +68,15 @@ Public Class SourceFileCSVAdapter
             Return columnNameList
         End If
     End Function
-
-    Public Overrides Function getAsphaltTankId(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim asphaltTankId As String
-
-        Try
-            asphaltTankId = getColumnFromCSVFile("Tank Bit", indexCycle, sourceFile)
-            Return If(String.IsNullOrEmpty(asphaltTankId), "0.00", asphaltTankId)
-        Catch ex As Exception
-            Return "0.00"
-        End Try
-    End Function
-
+    ''***********************************************************************************************************************************
+    ''  Fonction protected, force l'adapteur a implémenter une fonction utile a la lecture du fichier source ou au formatage des données
+    ''***********************************************************************************************************************************
     Protected Overrides Function getCycle(indexCycle As Integer, sourceFile As SourceFile) As String
         Return getCycleList(sourceFile).ElementAt(indexCycle)
     End Function
 
-    Public Overrides Function getCycleCount(sourceFile As SourceFile) As Integer
-        Return getCycleList(sourceFile).Count()
-    End Function
-
     Protected Overrides Function getCycleList(sourceFile As SourceFile) As List(Of String)
+
         If IsNothing(cycleList) Then
             Dim readingStream As System.IO.StreamReader = Nothing
             Dim stringFile As String = Nothing
@@ -95,7 +93,7 @@ Public Class SourceFileCSVAdapter
 
             cycleList.RemoveAt(0)
             cycleList.RemoveAt(cycleList.Count - 1)
-
+            cycleList.RemoveAt(cycleList.Count - 1)
             Return cycleList
         Else
             Return cycleList
@@ -103,6 +101,42 @@ Public Class SourceFileCSVAdapter
 
     End Function
 
+    ''***********************************************************************************************************************
+    ''  Fonction publique mais qui n'ont pas la responsabilié de retourner une informations directement au modèle du domaine
+    ''
+    ''*********************************************************************************************************************
+    Public Overrides Sub setImportConstantForLanguage(sourceFile As SourceFile)
+
+        If IsNothing(sourceFile.importConstant) Then
+            Dim readingStream As System.IO.StreamReader = Nothing
+            Dim stringFile As String = Nothing
+
+            readingStream = New System.IO.StreamReader(sourceFile.getFileInfo.FullName)
+            stringFile = readingStream.ReadToEnd
+
+            If (getColumnNameList(sourceFile).Contains(GlobalImportConstant.asphaltTankId_En_csv)) Then
+                sourceFile.importConstant = New GlobalImportConstant.ImportConstantEn_csv
+            Else
+                sourceFile.importConstant = New GlobalImportConstant.ImportConstantFr_csv
+            End If
+        End If
+    End Sub
+
+    Public Overrides Function getCycleCount(sourceFile As SourceFile) As Integer
+        Return getCycleList(sourceFile).Count()
+    End Function
+
+
+
+    ''***********************************************************************************************************************
+    ''  Fonction publique générique a tout les adapteurs
+    ''  Fonction qui récupère une donnée du fichier source, ou qui calcule une donnée avec d'autre donnée source
+    ''  Ces fonctions permettent de générer les objets du modèle du programme
+    ''***********************************************************************************************************************
+
+    ''***********************************************************************************************************************
+    ''  Section concernant de donnée lier a un ProductionDay
+    ''***********************************************************************************************************************
     Public Overrides Function getDate(sourceFile As SourceFile) As Date
         Dim regex As New Regex(Constants.Input.CSV.FILE_NAME_REGEX)
         Dim match As Match = regex.Match(sourceFile.getFileInfo.FullName)
@@ -123,24 +157,97 @@ Public Class SourceFileCSVAdapter
         End If
     End Function
 
+    ''***********************************************************************************************************************
+    ''  Section concernant les totaux d'un cycle de production 
+    ''***********************************************************************************************************************
 
-    Public Overrides Function getMixNumber(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim mixNumber As String
+    ''Total Mass
+    Public Overrides Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim totalMass As String = "-4"
 
         Try
-            mixNumber = getColumnFromCSVFile("Formule", indexCycle, sourceFile)
-            Return If(String.IsNullOrEmpty(mixNumber), "0", mixNumber)
+            totalMass = getColumnFromCSVFile(sourceFile.importConstant.totalMass, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(totalMass), "-1", totalMass)
         Catch ex As Exception
-            Return "0"
+            Return "-2"
         End Try
     End Function
 
+    ''Total aggregate
+    Public Overrides Function getTotalAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
+    '' Cette information n'est pas disponible actuellement dans un csv
+    Public Overrides Function getTotalAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
+    Public Overrides Function getTotalAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim totalAggregateMass As String = "-4"
+
+        Try
+            totalAggregateMass = getColumnFromCSVFile(sourceFile.importConstant.totalAggregateMass, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(totalAggregateMass), "-1", totalAggregateMass)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    '' Cette information n'est pas disponible actuellement dans un csv
+    Public Overrides Function getTotalAggregateMoisturePercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
+    '' Cette information n'est pas disponible actuellement dans un csv
+    Public Overrides Function getTotalAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
+    ''Total asphalt
+    Public Overrides Function getTotalAsphaltActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim totalAsphaltActualPercentage As String = "-4"
+
+        Try
+            totalAsphaltActualPercentage = getColumnFromCSVFile(sourceFile.importConstant.totalAsphaltActualPercentage, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(totalAsphaltActualPercentage), "-1", totalAsphaltActualPercentage)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    '' Cette information n'est pas disponible actuellement dans un csv
+    Public Overrides Function getTotalAsphaltDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
+    Public Overrides Function getTotalAsphaltMass(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim totalAsphaltMass As String = "-4"
+
+        Try
+            totalAsphaltMass = getColumnFromCSVFile(sourceFile.importConstant.totalAsphaltMass, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(totalAsphaltMass), "-1", totalAsphaltMass)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    '' Cette information n'est pas disponible actuellement dans un csv
+    Public Overrides Function getTotalAsphaltTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
+
+    ''***********************************************************************************************************************
+    ''  Section concernant les donnée liées un ProductionCycle 
+    ''***********************************************************************************************************************
+    '' #TODO Réparer le TIME
 
     Public Overrides Function getTime(indexCycle As Integer, sourceFile As SourceFile) As Date
         'Dim time As String
 
         'Try
-        '    time = getColumnFromCSVFile("Heure", indexCycle, sourceFile)
+        '    time = getColumnFromCSVFile(sourceFile.importConstant.time, indexCycle, sourceFile)
         '    Return If(String.IsNullOrEmpty(time), "0.00", time)
         'Catch ex As Exception
         '    Return "0.00"
@@ -150,252 +257,353 @@ Public Class SourceFileCSVAdapter
         Return Date.Now
     End Function
 
+    Public Overrides Function getContractID(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim contractID As String = "-4"
 
-    Public Overrides Function getAdditiveActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
+        Try
+            contractID = getColumnFromCSVFile(sourceFile.importConstant.contractID, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(contractID), "-1", contractID)
+        Catch ex As Exception
+            Return "-2"
+        End Try
     End Function
 
-    Public Overrides Function getAdditiveDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getSiloFillingNumber(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim siloFillingNumber As String = "-4"
 
+        Try
+            siloFillingNumber = getColumnFromCSVFile(sourceFile.importConstant.siloFillingNumber, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(siloFillingNumber), "-1", siloFillingNumber)
+        Catch ex As Exception
+            Return "-2"
+        End Try
     End Function
 
-    Public Overrides Function getAdditiveMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getTruckID(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim truckID As String = "-4"
 
+        Try
+            truckID = getColumnFromCSVFile(sourceFile.importConstant.truckID, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(truckID), "-1", truckID)
+        Catch ex As Exception
+            Return "-2"
+        End Try
     End Function
 
-    Public Overrides Function getAdditiveTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    '' Cette information n'est pas disponible actuellement dans un csv
+    Public Overrides Function getBagHouseDiff(indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
+    '' Cette information n'est pas disponible actuellement dans un csv
+    Public Overrides Function getDustRemovalDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
+    ''***********************************************************************************************************************
+    ''  Section concernant les données liées au bitume utilisé dans un cycle 
+    ''**********************************************************************************************************************
+    Public Overrides Function getAsphaltTankId(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim asphaltTankId As String = "-4"
+
+        Try
+            asphaltTankId = getColumnFromCSVFile(sourceFile.importConstant.asphaltTankId, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(asphaltTankId), "-1", asphaltTankId)
+        Catch ex As Exception
+            Return "-2"
+        End Try
 
     End Function
 
     Public Overrides Function getAsphaltRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim asphaltRecordedTemperature As String = "-4"
 
+        Try
+            asphaltRecordedTemperature = getColumnFromCSVFile(sourceFile.importConstant.asphaltRecordedTemperature, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(asphaltRecordedTemperature), "-1", asphaltRecordedTemperature)
+        Catch ex As Exception
+            Return "-2"
+        End Try
     End Function
 
-    Public Overrides Function getColdFeederActualPercentage(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
-
+    '' Cette information n'est pas disponible actuellement dans un csv
+    Public Overrides Function getAsphaltDensity(indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
     End Function
 
-    Public Overrides Function getColdFeederCountForCycle(indexCycle As Integer, sourceFile As SourceFile) As Integer
+    ''***********************************************************************************************************************
+    ''  Section concernant les données liées a l'enrobé bitumineux produit dans un cycle
+    ''***********************************************************************************************************************
+    Public Overrides Function getMixNumber(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim mixNumber As String = "-4"
 
+        Try
+            mixNumber = getColumnFromCSVFile(sourceFile.importConstant.mixNumber, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(mixNumber), "-1", mixNumber)
+        Catch ex As Exception
+            Return "-2"
+        End Try
     End Function
 
-    Public Overrides Function getColdFeederDebit(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Protected Overrides Function getColdFeederForCycle(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getColdFeederID(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getColdFeederMass(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getColdFeederMoisturePercentage(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getColdFeederRecycledAsphaltPercentage(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getColdFeederTargetPercentage(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getContractID(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getDopeAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getDopeAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getDopeTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getFillerActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getFillerDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getFillerMass(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getFillerTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getHotFeederActualPercentage(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getHotFeederCountForCycle(indexCycle As Integer, sourceFile As SourceFile) As Integer
-
-    End Function
-
-    Protected Overrides Function getHotFeederForCycle(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getHotFeederID(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getHotFeederMass(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getHotFeederTargetPercentage(indexFeeder As Integer, cycleIndex As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
+    '' Cette information n'est pas disponible actuellement dans un csv
     Public Overrides Function getMixName(indexCycle As Integer, sourceFile As SourceFile) As String
-
+        Return "-3"
     End Function
 
     Public Overrides Function getMixRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim mixRecordedTemperature As String
 
+        Try
+            mixRecordedTemperature = getColumnFromCSVFile(sourceFile.importConstant.mixRecordedTemperature, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(mixRecordedTemperature), "0", mixRecordedTemperature)
+        Catch ex As Exception
+            Return "-2"
+        End Try
     End Function
 
-    Public Overrides Function getRecycledAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getRecycledAggregateAsphaltPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getRecycledAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getRecycledAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getRecycledAggregateMoisturePercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getRecycledAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getRecycledAsphaltActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getRecycledAsphaltDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getRecycledAsphaltMass(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getRecycledAsphaltTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getSiloFillingNumber(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getTotalAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getTotalAsphaltActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getTotalAsphaltDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getTotalAsphaltMass(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getTotalAsphaltTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getTruckID(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getVirginAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getVirginAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getVirginAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getVirginAggregateMoisturePercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getVirginAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getVirginAsphaltActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getVirginAsphaltDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getVirginAsphaltMass(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getVirginAsphaltTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getAsphaltDensity(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getBagHouseDiff(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
-    Public Overrides Function getDustRemovalDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    End Function
-
+    '' Cette information n'est pas disponible actuellement dans un csv
     Public Overrides Function getMixCounter(indexCycle As Integer, sourceFile As SourceFile) As String
-
+        Return "-3"
     End Function
 
+    '' Cette information n'est pas disponible actuellement dans un csv
     Public Overrides Function getMixDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
+    ''***********************************************************************************************************************
+    ''  Section concernant les Bennes froides d'un cycle
+    ''***********************************************************************************************************************
+    Public Overrides Function getColdFeederActualPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim coldFeederActualPercentage As String = "-4"
+
+        Try
+            If (getColumnNameList(sourceFile).Contains(sourceFile.importConstant.hotFeederAggregateActualPercentage + (indexFeeder + 1).ToString)) Then
+                coldFeederActualPercentage = getColumnFromCSVFile(sourceFile.importConstant.hotFeederAggregateActualPercentage + (indexFeeder + 1).ToString, indexCycle, sourceFile)
+
+            ElseIf (getColumnNameList(sourceFile).Contains(sourceFile.importConstant.hotFeederAdditiveActualPercentage + (indexFeeder + 1).ToString)) Then
+                coldFeederActualPercentage = getColumnFromCSVFile(sourceFile.importConstant.hotFeederAdditiveActualPercentage + (indexFeeder + 1).ToString, indexCycle, sourceFile)
+
+            ElseIf getColumnNameList(sourceFile).Contains(sourceFile.importConstant.hotFeederFillerActualPercentage) Then
+                coldFeederActualPercentage = getColumnFromCSVFile(sourceFile.importConstant.hotFeederFillerActualPercentage, indexCycle, sourceFile)
+
+            ElseIf getColumnNameList(sourceFile).Contains(sourceFile.importConstant.hotFeederChauxActualPercentage) Then
+                coldFeederActualPercentage = getColumnFromCSVFile(sourceFile.importConstant.hotFeederChauxActualPercentage.ToString, indexCycle, sourceFile)
+
+            End If
+
+            Return If(String.IsNullOrEmpty(coldFeederActualPercentage), "-1", coldFeederActualPercentage)
+
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getColdFeederCountForCycle(indexCycle As Integer, sourceFile As SourceFile) As Integer
+        Dim coldFeederCountForCycle As Integer
+
+        For Each coldFeeder As String In getColumnNameList(sourceFile)
+            If coldFeeder.Contains(sourceFile.importConstant.coldFeederAggregateID) Then
+
+                coldFeederCountForCycle = coldFeederCountForCycle + 1
+
+            ElseIf coldFeeder.Contains(sourceFile.importConstant.recycledID) Then
+
+                coldFeederCountForCycle = coldFeederCountForCycle + 1
+
+            End If
+        Next
+
+        Return coldFeederCountForCycle
+    End Function
+
+    '' Cette information n'est pas disponible actuellement dans un csv
+    Public Overrides Function getColdFeederDebit(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
+    Public Overrides Function getColdFeederID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim coldFeederID As String = "-4"
+
+        Try
+
+            Dim coldFeederCount As Integer = getColdFeederCountForCycle(indexCycle, sourceFile)
+
+            If ((indexFeeder + 1) <= coldFeederCount) Then
+                coldFeederID = sourceFile.importConstant.coldFeederAggregateID + (indexFeeder + 1).ToString
+                Return If(String.IsNullOrEmpty(coldFeederID), "-1", coldFeederID)
+            Else
+                coldFeederID = sourceFile.importConstant.recycledID + ((indexFeeder + 1) - coldFeederCount).ToString
+                Return If(String.IsNullOrEmpty(coldFeederID), "-1", coldFeederID)
+            End If
+
+        Catch ex As Exception
+            Return "-2"
+        End Try
 
     End Function
+
+    '' Cette information n'est pas disponible actuellement dans un csv
+    Public Overrides Function getColdFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
+    '' Cette information n'est pas disponible actuellement dans un csv
+    Public Overrides Function getColdFeederMoisturePercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
+    '' Cette information n'est pas disponible actuellement dans un csv
+    Public Overrides Function getColdFeederRecycledAsphaltPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
+    '' Cette information n'est pas disponible actuellement dans un csv
+    Public Overrides Function getColdFeederTargetPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
+    ''***********************************************************************************************************************
+    ''  Section concernant les Bennes chaudes d'un cycle
+    ''***********************************************************************************************************************
+
+    '' Cette information n'est pas disponible actuellement dans un csv
+    Public Overrides Function getHotFeederDebit(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
+    '' Cette information n'est pas disponible actuellement dans un csv
+    Public Overrides Function getHotFeederMoisturePercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
+    Public Overrides Function getHotFeederActualPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim hotFeederActualPercentage As String = "-4"
+        Try
+            If (getHotFeederID(indexFeeder, indexCycle, sourceFile).Equals((sourceFile.importConstant.hotFeederAggregateID + (indexFeeder + 1).ToString).Trim)) Then
+                hotFeederActualPercentage = getColumnFromCSVFile(sourceFile.importConstant.hotFeederAggregateActualPercentage + (indexFeeder + 1).ToString, indexCycle, sourceFile)
+
+            ElseIf getHotFeederID(indexFeeder, indexCycle, sourceFile).Trim.Equals((sourceFile.importConstant.hotFeederAdditiveID + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString).Trim) Then
+                hotFeederActualPercentage = getColumnFromCSVFile(sourceFile.importConstant.hotFeederAdditiveActualPercentage + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString, indexCycle, sourceFile)
+
+            ElseIf getHotFeederID(indexFeeder, indexCycle, sourceFile).Trim.Equals((sourceFile.importConstant.hotFeederDopeID + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString).Trim) Then
+                hotFeederActualPercentage = getColumnFromCSVFile(sourceFile.importConstant.hotFeederDopeActualPercentage + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString, indexCycle, sourceFile)
+
+            ElseIf (getHotFeederID(indexFeeder, indexCycle, sourceFile).Equals((sourceFile.importConstant.hotFeederChauxID).Trim)) Then
+                hotFeederActualPercentage = getColumnFromCSVFile(sourceFile.importConstant.hotFeederChauxActualPercentage, indexCycle, sourceFile)
+
+            ElseIf (getHotFeederID(indexFeeder, indexCycle, sourceFile).Equals((sourceFile.importConstant.hotFeederFillerID).Trim)) Then
+                hotFeederActualPercentage = getColumnFromCSVFile(sourceFile.importConstant.hotFeederFillerActualPercentage, indexCycle, sourceFile)
+            End If
+
+            Return If(String.IsNullOrEmpty(hotFeederActualPercentage), "-1", hotFeederActualPercentage)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+
+    ''Pour l'instant les hotFeeder: Additive et Chaux sont exclus, jusqu'a ce que j'ai des exemples pour les constantes
+    Public Overrides Function getHotFeederCountForCycle(indexCycle As Integer, sourceFile As SourceFile) As Integer
+
+        If hotFeederCount <= 0 Then
+
+            Dim hotFeederCountForCycle As Integer
+
+            Try
+
+                For Each hotFeeder As String In getColumnNameList(sourceFile)
+                    If hotFeeder.Contains(sourceFile.importConstant.hotFeederAggregateActualPercentage) Then
+                        hotFeederCountForCycle = hotFeederCountForCycle + 1
+
+                    ElseIf hotFeeder.Contains(sourceFile.importConstant.hotFeederFillerActualPercentage) Then
+                        hotFeederCountForCycle = hotFeederCountForCycle + 1
+
+                    ElseIf hotFeeder.Contains(sourceFile.importConstant.hotFeederAdditiveActualPercentage) Then
+                        hotFeederCountForCycle = hotFeederCountForCycle + 1
+
+                    ElseIf hotFeeder.Contains(sourceFile.importConstant.hotFeederChauxActualPercentage) Then
+                        hotFeederCountForCycle = hotFeederCountForCycle + 1
+
+                    ElseIf hotFeeder.Contains(sourceFile.importConstant.hotFeederDopeActualPercentage) Then
+                        hotFeederCountForCycle = hotFeederCountForCycle + 1
+                    End If
+                Next
+
+                Me.hotFeederCount = hotFeederCountForCycle
+                Return If(String.IsNullOrEmpty(hotFeederCount), "-1", hotFeederCount)
+            Catch ex As Exception
+                Return "-2"
+            End Try
+        Else
+            Return Me.hotFeederCount
+        End If
+
+    End Function
+
+    Public Overrides Function getHotFeederID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+
+        Dim hotFeederID As String = "-4"
+        Try
+
+            If (Not IsNothing(getColumnNameList(sourceFile).Find(Function(x) x.Contains(sourceFile.importConstant.hotFeederAggregateID + (indexFeeder + 1).ToString)))) Then
+                hotFeederID = sourceFile.importConstant.hotFeederAggregateID + (indexFeeder + 1).ToString
+                Return If(String.IsNullOrEmpty(hotFeederID), "-1", hotFeederID.Trim)
+
+            ElseIf (Not IsNothing(getColumnNameList(sourceFile).Find(Function(x) x.Contains(sourceFile.importConstant.hotFeederAdditiveID + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString.Trim)))) Then
+                hotFeederID = sourceFile.importConstant.hotFeederAdditiveID + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString
+                Return If(String.IsNullOrEmpty(hotFeederID), "-1", hotFeederID.Trim)
+
+            ElseIf (Not IsNothing(getColumnNameList(sourceFile).Find(Function(x) x.Contains(sourceFile.importConstant.hotFeederDopeID + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString.Trim)))) Then
+                hotFeederID = sourceFile.importConstant.hotFeederDopeID + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString
+                Return If(String.IsNullOrEmpty(hotFeederID), "-1", hotFeederID.Trim)
+
+            ElseIf (Not IsNothing(getColumnNameList(sourceFile).Find(Function(x) x.Contains(sourceFile.importConstant.hotFeederChauxID)))) Then
+                hotFeederID = sourceFile.importConstant.hotFeederChauxID
+                Return If(String.IsNullOrEmpty(hotFeederID), "-1", hotFeederID.Trim)
+
+            ElseIf (Not IsNothing(getColumnNameList(sourceFile).Find(Function(x) x.Contains(sourceFile.importConstant.hotFeederFillerID)))) Then
+                hotFeederID = sourceFile.importConstant.hotFeederFillerID
+                Return If(String.IsNullOrEmpty(hotFeederID), "-1", hotFeederID.Trim)
+
+            End If
+
+            Return If(String.IsNullOrEmpty(hotFeederID), "-1", hotFeederID.Trim)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+
+    End Function
+
+    Public Overrides Function getHotFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim hotFeederMass As String = "-4"
+        Try
+
+            If (getHotFeederID(indexFeeder, indexCycle, sourceFile).Equals((sourceFile.importConstant.hotFeederAggregateID + (indexFeeder + 1).ToString).Trim)) Then
+                hotFeederMass = getColumnFromCSVFile(sourceFile.importConstant.hotFeederAggregateMass + (indexFeeder + 1).ToString, indexCycle, sourceFile)
+
+            ElseIf getHotFeederID(indexFeeder, indexCycle, sourceFile).Trim.Equals((sourceFile.importConstant.hotFeederAdditiveID + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString).Trim) Then
+                hotFeederMass = getColumnFromCSVFile(sourceFile.importConstant.hotFeederAdditiveMass + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString, indexCycle, sourceFile)
+
+            ElseIf getHotFeederID(indexFeeder, indexCycle, sourceFile).Trim.Equals((sourceFile.importConstant.hotFeederDopeID + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString).Trim) Then
+                hotFeederMass = getColumnFromCSVFile(sourceFile.importConstant.hotFeederDopeMass + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString, indexCycle, sourceFile)
+
+            ElseIf (getHotFeederID(indexFeeder, indexCycle, sourceFile).Equals((sourceFile.importConstant.hotFeederChauxID).Trim)) Then
+                hotFeederMass = getColumnFromCSVFile(sourceFile.importConstant.hotFeederChauxMass, indexCycle, sourceFile)
+
+            ElseIf (getHotFeederID(indexFeeder, indexCycle, sourceFile).Equals((sourceFile.importConstant.hotFeederFillerID).Trim)) Then
+                hotFeederMass = getColumnFromCSVFile(sourceFile.importConstant.hotFeederFillerMass, indexCycle, sourceFile)
+            End If
+
+            Return If(String.IsNullOrEmpty(hotFeederMass), "-1", hotFeederMass)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    '' Cette information n'est pas disponible actuellement dans un csv
+    Public Overrides Function getHotFeederTargetPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+        Return "-3"
+    End Function
+
 End Class

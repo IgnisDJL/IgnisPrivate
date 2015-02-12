@@ -20,43 +20,30 @@ Public Class ProductionCycleFactory
         Dim asphaltRecordedTemperature As Double
         Dim endOfCycle As Date
         Dim mixProduced As ProducedMix
-        Dim virginAsphaltUsed As AsphaltUsed
-        Dim recycledAsphaltUsed As RecycledAsphaltUsed
+        
         Dim coldFeederList As List(Of ColdFeeder)
         Dim totalAsphaltUsed As AsphaltUsed
-        Dim virginAggregateUsed As AggregateUsed
-        Dim recycledAggregateUsed As RecycledAggregateUsed
-        Dim fillerUsed As FillerUsed
-        Dim additiveUsed As AdditiveUsed
+        
         Dim dustRemovalDebit As Double
         Dim siloFillingNumber As String
         Dim bagHouseDiff As Double
         Dim asphaltDensity As Double
+        Dim hotFeederList As List(Of HotFeeder)
 
         asphaltTankId = sourceFile.sourceFileAdapter.getAsphaltTankId(indexCycle, sourceFile)
         asphaltRecordedTemperature = sourceFile.sourceFileAdapter.getAsphaltRecordedTemperature(indexCycle, sourceFile)
         endOfCycle = sourceFile.sourceFileAdapter.getTime(indexCycle, sourceFile)
         mixProduced = producedMixFactory.createProducedMix(indexCycle, sourceFile)
         coldFeederList = feederFactory.createColdFeederList(indexCycle, sourceFile)
-        virginAsphaltUsed = mixComponentUsedFactory.createMixComponentUsed(EnumColumnType.VirginAspahlt, indexCycle, sourceFile)
-        recycledAsphaltUsed = mixComponentUsedFactory.createMixComponentUsed(EnumColumnType.RecycledAsphalt, indexCycle, sourceFile)
-        totalAsphaltUsed = mixComponentUsedFactory.createMixComponentUsed(EnumColumnType.TotalAsphalt, indexCycle, sourceFile)
-        virginAggregateUsed = mixComponentUsedFactory.createMixComponentUsed(EnumColumnType.VirginAggregate, indexCycle, sourceFile)
-        recycledAggregateUsed = mixComponentUsedFactory.createMixComponentUsed(EnumColumnType.RecycledAggregate, indexCycle, sourceFile)
-        fillerUsed = mixComponentUsedFactory.createMixComponentUsed(EnumColumnType.Filler, indexCycle, sourceFile)
-        additiveUsed = mixComponentUsedFactory.createMixComponentUsed(EnumColumnType.Additive, indexCycle, sourceFile)
+        hotFeederList = feederFactory.createHotFeederList(indexCycle, sourceFile)
+        totalAsphaltUsed = mixComponentUsedFactory.createAsphaltUsed(indexCycle, sourceFile)
         dustRemovalDebit = sourceFile.sourceFileAdapter.getDustRemovalDebit(indexCycle, sourceFile)
         siloFillingNumber = sourceFile.sourceFileAdapter.getSiloFillingNumber(indexCycle, sourceFile)
         bagHouseDiff = sourceFile.sourceFileAdapter.getBagHouseDiff(indexCycle, sourceFile)
         asphaltDensity = sourceFile.sourceFileAdapter.getAsphaltDensity(indexCycle, sourceFile)
 
-
-
-
-
-        productionCycle = New ProductionCycle(asphaltTankId, asphaltRecordedTemperature, endOfCycle, mixProduced, coldFeederList, virginAsphaltUsed, recycledAsphaltUsed, totalAsphaltUsed,
-                                              virginAggregateUsed, recycledAggregateUsed, fillerUsed, additiveUsed, dustRemovalDebit,
-                                              siloFillingNumber, bagHouseDiff, asphaltDensity)
+        productionCycle = New ProductionCycle(asphaltTankId, asphaltRecordedTemperature, endOfCycle, mixProduced, coldFeederList,
+                                              hotFeederList, totalAsphaltUsed, dustRemovalDebit,siloFillingNumber, bagHouseDiff, asphaltDensity)
 
 
         Return productionCycle

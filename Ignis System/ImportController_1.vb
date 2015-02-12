@@ -59,7 +59,9 @@ Public Class ImportController_1
 
                 If (regexLogFile.Match(file.Name).Success) Then
 
+
                     Dim sourceFile As New SourceFile(file.FullName, New SourceFileLogAdapter())
+
 
                     Me.lastIdentifiedFiles.Add(sourceFile)
 
