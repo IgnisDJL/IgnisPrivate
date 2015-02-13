@@ -8,7 +8,7 @@ Public Class SourceFileCSVAdapter
 
 
     Private columnNameList As List(Of String)
-    Private hotFeederCount As Integer
+    Private hotFeederCount As Integer = 0
     Public Sub New()
 
     End Sub
