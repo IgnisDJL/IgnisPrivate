@@ -351,7 +351,6 @@ Public Class CSVFile
 
                         Case IGNIS.Cycle.DURATION_TAG
                             cycle.DURATION = TimeSpan.FromSeconds(CDbl(dataValue))
-
                         Case IGNIS.Cycle.TIME_TAG ' Important to set the date before the time
                             cycle.TIME = DateTime.Parse(fileDate.ToString("yyyy-MM-dd") & " " & dataValue)
 

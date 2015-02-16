@@ -88,35 +88,26 @@ Public Class ImportController_1
                     Dim sourceFileMarcotteAdapter As New SourceFileMarcotteAdapter(file.FullName)
 
 
-                    For Each nouvelleDate As Date In sourceFileMarcotteAdapter.getNouvellesDates(getLastDate())
+                    Dim sourceFile As New SourceFile(file.FullName, sourceFileMarcotteAdapter)
 
-                        Dim sourceFile As New SourceFile(file.FullName, sourceFileMarcotteAdapter, nouvelleDate)
+                    Me.lastIdentifiedFiles.Add(sourceFile)
 
-                        Me.lastIdentifiedFiles.Add(sourceFile)
-
-                        If (IsNothing(newestSourceFile)) Then
-                            newestSourceFile = sourceFile
-                        ElseIf (newestSourceFile.Date_.CompareTo(sourceFile.Date_) < 0) Then
-                            newestSourceFile = sourceFile
-                        End If
-                    Next
+                    If (IsNothing(newestSourceFile)) Then
+                        newestSourceFile = sourceFile
+                    ElseIf (newestSourceFile.Date_.CompareTo(sourceFile.Date_) < 0) Then
+                        newestSourceFile = sourceFile
+                    End If
 
                 End If
+
             Next
+
+            Me.newestImportedFiles.Add(newestSourceFile.getFileInfo)
 
         End If
 
         Return Me.lastIdentifiedFiles
     End Function
-
-    Private Function getLastDate() As Date
-        Dim readingStream As System.IO.StreamReader = Nothing
-        Dim indexMDB As String = Nothing
-        readingStream = New System.IO.StreamReader(USBDirectory.FullName & "\Ressources\indexMDB")
-        indexMDB = readingStream.ReadToEnd
-        Return indexMDB
-    End Function
-
 
     Private Sub updateArchivesImage()
 

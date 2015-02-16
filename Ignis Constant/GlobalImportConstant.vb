@@ -1407,39 +1407,6 @@
                 Return mixRecordedTemperature_En
             End Get
         End Property
-
-        '' A revoir si ces fonction ont vraiment une utilité
-
-        'Private Overrides ReadOnly Property feederActualPercentage As String
-        '    Get
-        '        Return feederActualPercentage_En
-        '    End Get
-        'End Property
-
-        'Private Overrides ReadOnly Property feederDebit As String
-        '    Get
-        '        Return feederDebit_En
-        '    End Get
-        'End Property
-
-        'Private Overrides ReadOnly Property feederMass As String
-        '    Get
-        '        Return feederMass_En
-        '    End Get
-        'End Property
-
-        'Private Overrides ReadOnly Property feederMoisturePercentage As String
-        '    Get
-        '        Return feederMoisturePercentage_En
-        '    End Get
-        'End Property
-
-        'Private Overrides ReadOnly Property feederTargetPercentage As String
-        '    Get
-        '        Return feederTargetPercentage_En
-        '    End Get
-        'End Property
-
     End Class
 
 End Class
