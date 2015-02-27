@@ -50,7 +50,6 @@
 
 
 
-
     ''***********************************************************************************************************************
     ''  Section concernant les totaux d'un cycle de production 
     ''***********************************************************************************************************************
@@ -80,8 +79,6 @@
     Public MustOverride Function getAsphaltDensity(indexCycle As Integer, sourceFile As SourceFile) As String
 
 
-
-
     ''***********************************************************************************************************************
     ''  Section concernant les données liées a l'enrobé bitumineux produit dans un cycle
     ''***********************************************************************************************************************
@@ -101,19 +98,26 @@
     Public MustOverride Function getColdFeederDebit(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getColdFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getColdFeederMoisturePercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getColdFeederMaterialID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+
+
+
     Public MustOverride Function getColdFeederRecycledAsphaltPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
 
 
     ''***********************************************************************************************************************
     ''  Section concernant les Bennes chaudes d'un cycle
     ''***********************************************************************************************************************
-
     Public MustOverride Function getHotFeederCountForCycle(indexCycle As Integer, sourceFile As SourceFile) As Integer
     Public MustOverride Function getHotFeederID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getHotFeederTargetPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getHotFeederActualPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getHotFeederDebit(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getHotFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getHotFeederMoisturePercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getHotFeederMaterialID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+
+    ''TODO
+    '' reitirer le commentaire lorsque je me serais assurer que la fonction est inutile
+    'Public MustOverride Function getHotFeederMoisturePercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
 
 End Class

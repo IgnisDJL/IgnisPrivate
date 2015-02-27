@@ -33,9 +33,7 @@ Public Class ReportGenerationController
     Private logAnalysisThread As Thread
     Private mdbAnalysisThread As Thread
     Private eventsAnalysisThread As Thread
-
     Private manualDataSavingThread As Thread
-
     Private summaryDailyReportGenerationThread As Thread
 
     ' Events
@@ -145,7 +143,6 @@ Public Class ReportGenerationController
         Me._generationCancelled = False
 
         AddHandler ProgramController.UIController.MainFrame.FormClosing, Me.cancelGenerationHandler
-
 
         ProgramController.UIController.DataFilesAnalysisStepView.ProductionDays = Me.selectedReportReadyProductionDays
         ProgramController.UIController.ReportGenerationFrame.changeStep(ProgramController.UIController.DataFilesAnalysisStepView, 0)

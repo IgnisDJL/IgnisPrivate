@@ -34,7 +34,7 @@
 
         Dim mdbNode As XmlSettings.MDBNode = XmlSettings.Settings.instance.Usine.DataFiles.MDB
 
-        OleDBAdapter.initialize(Me.getFileInfo)
+        OleDBAdapter.initialize(Me.getFileInfo.FullName)
 
         Dim cycleCount = 0
 
@@ -471,7 +471,7 @@
 
     Private Shared Function getNumberOfCyclesFor(mdbFileInfo As IO.FileInfo, _day As Date) As Integer
 
-        OleDBAdapter.initialize(mdbFileInfo)
+        OleDBAdapter.initialize(mdbFileInfo.FullName)
 
         Dim cycleCountQuery = "SELECT COUNT(" & Constants.Input.MDB.Tables.CYCLE & "." & Constants.Input.MDB.Columns.CYCLE_ID & ") FROM " & Constants.Input.MDB.Tables.CYCLE & " WHERE " & Constants.Input.MDB.Tables.CYCLE & "." & Constants.Input.MDB.Columns.DATE_TIME & " BETWEEN #" & _day.ToString("yyyy/MM/dd") & "# AND #" & _day.Add(TimeSpan.FromDays(1)).ToString("yyyy/MM/dd") & "#"
         Dim cycleCount = CInt(New System.Data.OleDb.OleDbCommand(cycleCountQuery, OleDBAdapter.MDB_CONNECTION).ExecuteScalar)
@@ -481,7 +481,7 @@
 
     Public Function getLastCycleDate() As Date
 
-        OleDBAdapter.initialize(Me.getFileInfo)
+        OleDBAdapter.initialize(Me.getFileInfo.FullName)
 
         Dim lastCycleDateQuery = "SELECT TOP 1 " & Constants.Input.MDB.Tables.CYCLE & "." & Constants.Input.MDB.Columns.DATE_TIME & _
                                  " FROM " & Constants.Input.MDB.Tables.CYCLE & _
@@ -525,4 +525,7 @@
     Public Sub setDate(_date As Date)
         Me._date = _date
     End Sub
+
+
+
 End Class

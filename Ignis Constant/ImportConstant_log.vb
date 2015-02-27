@@ -1,0 +1,203 @@
+﻿Public MustInherit Class ImportConstant_log
+    Implements GlobalImportConstant
+
+
+    Public Const time_Fr_log = "Heure :"
+    Public Const time_En_log = "Time :"
+
+    ''**********************************************
+    ''  getter du cycle de production
+    ''**********************************************
+    Public MustOverride ReadOnly Property truckID() As String Implements GlobalImportConstant.truckID
+    Public MustOverride ReadOnly Property contractID() As String Implements GlobalImportConstant.contractID
+    Public MustOverride ReadOnly Property recycledID() As String Implements GlobalImportConstant.recycledID
+    Public MustOverride ReadOnly Property time() As String Implements GlobalImportConstant.time
+    Public MustOverride ReadOnly Property siloFillingNumber() As String Implements GlobalImportConstant.siloFillingNumber
+    Public MustOverride ReadOnly Property bagHouseDiff() As String Implements GlobalImportConstant.bagHouseDiff
+    Public MustOverride ReadOnly Property dustRemovalDebit() As String Implements GlobalImportConstant.dustRemovalDebit
+
+
+    ''**********************************************
+    ''  getter pour les totaux de production
+    ''**********************************************
+    Public MustOverride ReadOnly Property totalAggregateMass() As String Implements GlobalImportConstant.totalAggregateMass
+    Public MustOverride ReadOnly Property totalAsphaltActualPercentage() As String Implements GlobalImportConstant.totalAsphaltActualPercentage
+    Public MustOverride ReadOnly Property totalAsphaltTargetPercentage() As String Implements GlobalImportConstant.totalAsphaltTargetPercentage
+    Public MustOverride ReadOnly Property totalAsphaltMass() As String Implements GlobalImportConstant.totalAsphaltMass
+    Public MustOverride ReadOnly Property totalMass() As String Implements GlobalImportConstant.totalMass
+
+    ''**********************************************
+    ''  getter du bitume utilisé
+    ''**********************************************
+    Public MustOverride ReadOnly Property asphaltTankId() As String Implements GlobalImportConstant.asphaltTankId
+    Public MustOverride ReadOnly Property asphaltRecordedTemperature() As String Implements GlobalImportConstant.asphaltRecordedTemperature
+    Public MustOverride ReadOnly Property asphaltDensity() As String Implements GlobalImportConstant.asphaltDensity
+
+
+    ''**********************************************
+    ''  getter de l'enrobé produit
+    ''**********************************************
+    Public MustOverride ReadOnly Property mixDebit() As String Implements GlobalImportConstant.mixDebit
+    Public MustOverride ReadOnly Property mixName() As String Implements GlobalImportConstant.mixName
+    Public MustOverride ReadOnly Property mixNumber() As String Implements GlobalImportConstant.mixNumber
+    Public MustOverride ReadOnly Property mixRecordedTemperature() As String Implements GlobalImportConstant.mixRecordedTemperature
+    Public MustOverride ReadOnly Property mixCounter() As String Implements GlobalImportConstant.mixCounter
+
+    ''**********************************************
+    ''  getter des bennes froides
+    ''**********************************************
+    Public ReadOnly Property coldFeederActualPercentage As String Implements GlobalImportConstant.coldFeederActualPercentage
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+
+    Public ReadOnly Property coldFeederDebit As String Implements GlobalImportConstant.coldFeederDebit
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+
+    Public ReadOnly Property coldFeederID As String Implements GlobalImportConstant.coldFeederID
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+
+    Public ReadOnly Property coldFeederMass As String Implements GlobalImportConstant.coldFeederMass
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+
+    Public ReadOnly Property coldFeederMaterialID As String Implements GlobalImportConstant.coldFeederMaterialID
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+
+    Public ReadOnly Property coldFeederMoisturePercentage As String Implements GlobalImportConstant.coldFeederMoisturePercentage
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+
+    Public ReadOnly Property coldFeederRecycledActualPercentage As String Implements GlobalImportConstant.coldFeederRecycledActualPercentage
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+
+    Public ReadOnly Property coldFeederRecycledID As String Implements GlobalImportConstant.coldFeederRecycledID
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+
+    Public ReadOnly Property coldFeederTargetPercentage As String Implements GlobalImportConstant.coldFeederTargetPercentage
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+
+
+    ''**********************************************
+    ''  getter des bennes chaudes
+    ''**********************************************
+    '' ID des bennes chaudes
+
+
+    Public ReadOnly Property hotFeederActualPercentage As String Implements GlobalImportConstant.hotFeederActualPercentage
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+
+    Public ReadOnly Property hotFeederDebit As String Implements GlobalImportConstant.hotFeederDebit
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+
+    Public ReadOnly Property hotFeederID As String Implements GlobalImportConstant.hotFeederID
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+
+    Public ReadOnly Property hotFeederMass As String Implements GlobalImportConstant.hotFeederMass
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+
+    Public ReadOnly Property hotFeederMaterialID As String Implements GlobalImportConstant.hotFeederMaterialID
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+
+
+    '' TODO 
+    '' Retirer la fonction en commentaire lorsqu'on sera certain qu'elle n'est plus utile
+
+    'Public ReadOnly Property hotFeederMoisturePercentage As String Implements GlobalImportConstant.hotFeederMoisturePercentage
+    '    Get
+    '        '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+    '        '' la classe sourceFileLogAdapter
+    '        Return "-5"
+    '    End Get
+    'End Property
+
+    Public ReadOnly Property hotFeederRecycledActualPercentage As String Implements GlobalImportConstant.hotFeederRecycledActualPercentage
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+
+    Public ReadOnly Property hotFeederRecycledID As String Implements GlobalImportConstant.hotFeederRecycledID
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+
+    Public ReadOnly Property hotFeederTargetPercentage As String Implements GlobalImportConstant.hotFeederTargetPercentage
+        Get
+            '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
+            '' la classe sourceFileLogAdapter
+            Return "-5"
+        End Get
+    End Property
+End Class

@@ -4,15 +4,17 @@
     Private actualPercentage As Double
     Private debit As Double
     Private mass As Double
-    Private moisturePercentage As Double
+    Private materialID As String
+    'Private moisturePercentage As Double
 
-    Public Sub New(feederId As String, targetPercentage As Double, actualPercentage As Double, debit As Double, mass As Double, moisturePercentage As Double)
+    Public Sub New(feederId As String, materialID As String, targetPercentage As Double, actualPercentage As Double, debit As Double, mass As Double)
         MyBase.New(feederId)
         Me.targetPercentage = targetPercentage
         Me.debit = debit
         Me.actualPercentage = actualPercentage
         Me.mass = mass
-        Me.moisturePercentage = moisturePercentage
+        Me.materialID = materialID
+        'Me.moisturePercentage = moisturePercentage
     End Sub
 
     Public ReadOnly Property getTargetPercentage() As Double

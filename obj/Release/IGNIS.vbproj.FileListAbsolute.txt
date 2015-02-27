@@ -17,3 +17,9 @@ C:\Users\owner\DJL\Master Usine - UI\MasterUsineUI\obj\Release\IGNIS.application
 C:\Users\owner\DJL\Master Usine - UI\MasterUsineUI\obj\Release\IGNIS.exe
 C:\Users\owner\DJL\Master Usine - UI\MasterUsineUI\obj\Release\IGNIS.xml
 C:\Users\owner\DJL\Master Usine - UI\MasterUsineUI\obj\Release\IGNIS.pdb
+D:\Users\gbeaudry\Documents\DJL\GitHub\IgnisPrivate\obj\Release\IGNIS.vbproj.ResolveComReference.cache
+D:\Users\gbeaudry\Documents\DJL\GitHub\IgnisPrivate\obj\Release\IGNIS.Resources.resources
+D:\Users\gbeaudry\Documents\DJL\GitHub\IgnisPrivate\obj\Release\IGNIS.UI.Common.FileListControl.resources
+D:\Users\gbeaudry\Documents\DJL\GitHub\IgnisPrivate\obj\Release\IGNIS.UI.MainFrame.resources
+D:\Users\gbeaudry\Documents\DJL\GitHub\IgnisPrivate\obj\Release\IGNIS.UI.View.resources
+D:\Users\gbeaudry\Documents\DJL\GitHub\IgnisPrivate\obj\Release\IGNIS.vbproj.GenerateResource.Cache

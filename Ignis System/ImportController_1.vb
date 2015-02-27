@@ -85,13 +85,10 @@ Public Class ImportController_1
 
                 ElseIf (regexMDBFile.Match(file.Name).Success) Then
 
-                    Dim sourceFileMarcotteAdapter As New SourceFileMarcotteAdapter(file.FullName)
 
+                    For Each nouvelleDate As Date In getNouvellesDates(getLastDate(), file.FullName)
 
-                    For Each nouvelleDate As Date In sourceFileMarcotteAdapter.getNouvellesDates(getLastDate())
-
-                        Dim sourceFile As New SourceFile(file.FullName, sourceFileMarcotteAdapter, nouvelleDate)
-
+                        Dim sourceFile As New SourceFile(file.FullName, New SourceFileMarcotteAdapter(), nouvelleDate)
                         Me.lastIdentifiedFiles.Add(sourceFile)
 
                         If (IsNothing(newestSourceFile)) Then
@@ -115,6 +112,25 @@ Public Class ImportController_1
         readingStream = New System.IO.StreamReader(USBDirectory.FullName & "\Ressources\indexMDB")
         indexMDB = readingStream.ReadToEnd
         Return indexMDB
+    End Function
+
+
+    Public Function getNouvellesDates(derniereDate As Date, sourceFilePath As String) As List(Of Date)
+
+        OleDBAdapter.initialize(sourceFilePath)
+        Dim query = "SELECT distinct DateValue(Date) FROM Cycle WHERE ( Date >= " + "#" + derniereDate.Year.ToString + "/" + derniereDate.Month.ToString + "/" + (derniereDate.Day + 1).ToString + "#)"
+        Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+        Dim mdbListDate = dbCommand.ExecuteReader
+
+        Dim nouvellesDates = New List(Of Date)
+
+        While (mdbListDate.Read)
+
+            nouvellesDates.Add(mdbListDate(0))
+        End While
+        dbCommand.Dispose()
+        mdbListDate.Close()
+        Return nouvellesDates
     End Function
 
 

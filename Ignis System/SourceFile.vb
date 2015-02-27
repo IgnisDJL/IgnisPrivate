@@ -17,6 +17,7 @@ Public Class SourceFile
     Public Sub New(filePath As String, sourceFileAdapter As SourceFileAdapter, productionDate As Date)
         MyBase.New(filePath)
         Me.sourceFileAdapter = sourceFileAdapter
+        sourceFileAdapter.setImportConstantForLanguage(Me)
         Me.productionDate = productionDate
 
     End Sub

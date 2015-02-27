@@ -14,6 +14,7 @@ Public Class FeederFactory
         Dim debit As Double
         Dim mass As Double
         Dim moisturePercentage As Double
+        Dim materialID As String
 
         feederId = sourceFile.sourceFileAdapter.getColdFeederID(indexFeeder, indexCycle, sourceFile)
         targetPercentage = sourceFile.sourceFileAdapter.getColdFeederTargetPercentage(indexFeeder, indexCycle, sourceFile)
@@ -21,7 +22,8 @@ Public Class FeederFactory
         debit = sourceFile.sourceFileAdapter.getColdFeederDebit(indexFeeder, indexCycle, sourceFile)
         mass = sourceFile.sourceFileAdapter.getColdFeederMass(indexFeeder, indexCycle, sourceFile)
         moisturePercentage = sourceFile.sourceFileAdapter.getColdFeederMoisturePercentage(indexFeeder, indexCycle, sourceFile)
-        feeder = New ColdFeeder(feederId, targetPercentage, actualPercentage, debit, mass, moisturePercentage)
+        materialID = sourceFile.sourceFileAdapter.getColdFeederMaterialID(indexFeeder, indexCycle, sourceFile)
+        feeder = New ColdFeeder(feederId, materialID, targetPercentage, actualPercentage, debit, mass, moisturePercentage)
 
         Return feeder
     End Function
@@ -36,6 +38,7 @@ Public Class FeederFactory
         Dim mass As Double
         Dim moisturePercentage As Double
         Dim asphaltPercentage As Double
+        Dim materialID As String
 
         feederId = sourceFile.sourceFileAdapter.getColdFeederID(indexFeeder, indexCycle, sourceFile)
         targetPercentage = sourceFile.sourceFileAdapter.getColdFeederTargetPercentage(indexFeeder, indexCycle, sourceFile)
@@ -44,7 +47,8 @@ Public Class FeederFactory
         mass = sourceFile.sourceFileAdapter.getColdFeederMass(indexFeeder, indexCycle, sourceFile)
         moisturePercentage = sourceFile.sourceFileAdapter.getColdFeederMoisturePercentage(indexFeeder, indexCycle, sourceFile)
         asphaltPercentage = sourceFile.sourceFileAdapter.getColdFeederRecycledAsphaltPercentage(indexFeeder, indexCycle, sourceFile)
-        feeder = New RecycledColdFeeder(feederId, targetPercentage, actualPercentage, debit, mass, moisturePercentage, asphaltPercentage)
+        materialID = sourceFile.sourceFileAdapter.getColdFeederMaterialID(indexFeeder, indexCycle, sourceFile)
+        feeder = New RecycledColdFeeder(feederId, materialID, targetPercentage, actualPercentage, debit, mass, moisturePercentage, asphaltPercentage)
 
         Return feeder
     End Function
@@ -89,16 +93,21 @@ Public Class FeederFactory
         Dim actualPercentage As Double
         Dim debit As Double
         Dim mass As Double
-        Dim moisturePercentage As Double
+        Dim materialID As String
+        '' TODO
+
+        'Dim moisturePercentage As Double
 
         feederId = sourceFile.sourceFileAdapter.getHotFeederID(indexFeeder, indexCycle, sourceFile)
         targetPercentage = sourceFile.sourceFileAdapter.getHotFeederTargetPercentage(indexFeeder, indexCycle, sourceFile)
         actualPercentage = sourceFile.sourceFileAdapter.getHotFeederActualPercentage(indexFeeder, indexCycle, sourceFile)
         debit = sourceFile.sourceFileAdapter.getHotFeederDebit(indexFeeder, indexCycle, sourceFile)
         mass = sourceFile.sourceFileAdapter.getHotFeederMass(indexFeeder, indexCycle, sourceFile)
-        moisturePercentage = sourceFile.sourceFileAdapter.getHotFeederMoisturePercentage(indexFeeder, indexCycle, sourceFile)
+        materialID = sourceFile.sourceFileAdapter.getHotFeederMaterialID(indexFeeder, indexCycle, sourceFile)
+        '' TODO
+        'moisturePercentage = sourceFile.sourceFileAdapter.getHotFeederMoisturePercentage(indexFeeder, indexCycle, sourceFile)
 
-        feeder = New HotFeeder(feederId, targetPercentage, actualPercentage, debit, mass, moisturePercentage)
+        feeder = New HotFeeder(feederId, materialID, targetPercentage, actualPercentage, debit, mass)
 
         Return feeder
     End Function
@@ -111,16 +120,20 @@ Public Class FeederFactory
         Dim actualPercentage As Double
         Dim debit As Double
         Dim mass As Double
-        Dim moisturePercentage As Double
+        'TODO
+        'Dim moisturePercentage As Double
+        Dim materialID As String
 
         feederId = sourceFile.sourceFileAdapter.getColdFeederID(indexFeeder, indexCycle, sourceFile)
         targetPercentage = sourceFile.sourceFileAdapter.getHotFeederTargetPercentage(indexFeeder, indexCycle, sourceFile)
         actualPercentage = sourceFile.sourceFileAdapter.getHotFeederActualPercentage(indexFeeder, indexCycle, sourceFile)
         mass = sourceFile.sourceFileAdapter.getHotFeederMass(indexFeeder, indexCycle, sourceFile)
         debit = sourceFile.sourceFileAdapter.getHotFeederDebit(indexFeeder, indexCycle, sourceFile)
-        moisturePercentage = sourceFile.sourceFileAdapter.getHotFeederMoisturePercentage(indexFeeder, indexCycle, sourceFile)
+        materialID = sourceFile.sourceFileAdapter.getHotFeederMaterialID(indexFeeder, indexCycle, sourceFile)
+        '' TODO
+        ''moisturePercentage = sourceFile.sourceFileAdapter.getHotFeederMoisturePercentage(indexFeeder, indexCycle, sourceFile)
 
-        feeder = New RecycledHotFeeder(feederId, targetPercentage, actualPercentage, debit, mass, moisturePercentage)
+        feeder = New RecycledHotFeeder(feederId, materialID, targetPercentage, actualPercentage, debit, mass)
         Return feeder
     End Function
 

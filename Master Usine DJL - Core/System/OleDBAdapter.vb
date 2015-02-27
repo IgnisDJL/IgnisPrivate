@@ -2,24 +2,20 @@
 
 Public Class OleDBAdapter
 
-    Public Shared Property MDB_FILE As IO.FileInfo
+    Public Shared Property sourceFilePath As String
 
     Public Shared Property MDB_CONNECTION As OleDbConnection
 
 
-    Public Shared Sub initialize(mdbFile As IO.FileInfo)
+    Public Shared Sub initialize(path As String)
 
         If (IsNothing(MDB_CONNECTION) OrElse Not MDB_CONNECTION.State = ConnectionState.Open) Then
 
-            MDB_FILE = mdbFile
+            sourceFilePath = path
 
-            Dim connectionStr = Constants.Input.MDB.CONNECTION_STRING & _
-                       "Data Source=" & mdbFile.FullName & ";"
-
-            MDB_CONNECTION = New System.Data.OleDb.OleDbConnection(connectionStr)
+            MDB_CONNECTION = New System.Data.OleDb.OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0; Data Source=" + sourceFilePath + ";User Id=admin; Password=;")
 
             MDB_CONNECTION.Open()
-
         End If
 
     End Sub
@@ -32,7 +28,7 @@ Public Class OleDBAdapter
 
         End If
 
-        initialize(mdbFile)
+        initialize(sourceFilePath)
 
     End Sub
 

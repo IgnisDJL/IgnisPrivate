@@ -3,8 +3,8 @@
 
     Private asphaltPercentage As Double
 
-    Public Sub New(feederId As String, targetPercentage As Double, actualPercentage As Double, debit As Double, mass As Double, moisturePercentage As Double)
-        MyBase.New(feederId, targetPercentage, actualPercentage, debit, mass, moisturePercentage)
+    Public Sub New(feederId As String, materialID As String, targetPercentage As Double, actualPercentage As Double, debit As Double, mass As Double)
+        MyBase.New(feederId, materialID, targetPercentage, actualPercentage, debit, mass)
     End Sub
 
     Public ReadOnly Property getAsphaltPercentage() As Double

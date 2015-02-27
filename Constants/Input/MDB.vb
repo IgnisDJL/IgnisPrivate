@@ -2,7 +2,7 @@
 
     Public Class MDB
 
-        Public Const CONNECTION_STRING = "Provider=Microsoft.ACE.OLEDB.12.0;" & _
+        Public Const CONNECTION_STRING = "Microsoft.Jet.OLEDB.4.0;" & _
                                          "Persist Security Info=False;"
 
         Public Const DEFAULT_LOCATION = "BENNE FROIDE #3"
