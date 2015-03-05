@@ -93,22 +93,71 @@ Public Class ImportConstantEn_mdb
     ''                                                                              Getter des constantes pour CSV Anglais
     ''***********************************************************************************************************************************************************************************
 
+
     ''**********************************************
-    ''          Cycle de production
+    ''          Asphalt Concrete
     ''**********************************************
 
-    '' Information non disponible dans ce fichier source
-    Public Overrides ReadOnly Property asphaltDensity As String
+    Public Overrides ReadOnly Property virginAsphaltConcreteTargetPercentage As String
+        Get
+            Return detailsCycleQuantiteFormule + "/" + recetteQuantite
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property virginAsphaltConcreteActualPercentage As String
+        Get
+            Return detailsCycleQuantiteFormule + "*(" + detailsCycleQuantiteReel + "+ 0.0000000000001)/(" + detailsCycleQuantiteDosage + "+ 0.0000000000001)/" + recetteQuantite
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property virginAsphaltConcreteDebit As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property virginAsphaltConcreteMass As String
+        Get
+            Return detailsCycleQuantiteReel
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property virginAsphaltConcreteRecordedTemperature As String
+        Get
+            Return detailsTemperature
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property virginAsphaltConcreteDensity As String
         Get
             Return detailsDensite
         End Get
     End Property
 
-    Public Overrides ReadOnly Property asphaltTankId As String
+    Public Overrides ReadOnly Property virginAsphaltConcreteTankId As String
         Get
             Return detailsEmplacement
         End Get
     End Property
+
+
+
+    ''***********************************************
+    ''              Production Day
+    ''***********************************************
+
+    ''**********************************************
+    ''          Cycle de production
+    ''**********************************************
+
+
+    ''Total Mass
+    Public Overrides ReadOnly Property totalMass As String
+        Get
+            Return detailsCycleQuantiteReel
+        End Get
+    End Property
+
 
     '' Information non disponible dans ce fichier source
     Public Overrides ReadOnly Property bagHouseDiff As String
@@ -155,50 +204,6 @@ Public Class ImportConstantEn_mdb
             Return commandeTruckID
         End Get
     End Property
-
-    ''**********************************************
-    ''          Totaux de production
-    ''**********************************************
-
-    ''Total asphalt
-    Public Overrides ReadOnly Property totalAsphaltActualPercentage As String
-        Get
-            Return detailsCycleQuantiteFormule + "*(" + detailsCycleQuantiteReel + "+ 0.0000000000001)/(" + detailsCycleQuantiteDosage + "+ 0.0000000000001)/" + recetteQuantite
-        End Get
-    End Property
-
-    Public Overrides ReadOnly Property totalAsphaltMass As String
-        Get
-            Return detailsCycleQuantiteReel
-        End Get
-    End Property
-
-    Public Overrides ReadOnly Property totalAsphaltTargetPercentage As String
-        Get
-            Return detailsCycleQuantiteFormule + "/" + recetteQuantite
-        End Get
-    End Property
-
-
-    '' TODO 
-    '' Ici , la question est plutot de savoir si cela est vraiment pertinant de calculer le total de la masse des aggrega. Car je crois que c'est possbile
-    '' mais dans ce cas il fait la calculer et non juste la recupérer
-
-
-    ''Total Aggregate
-    Public Overrides ReadOnly Property totalAggregateMass As String
-        Get
-            Return "-3"
-        End Get
-    End Property
-
-    ''Total Mass
-    Public Overrides ReadOnly Property totalMass As String
-        Get
-            Return detailsCycleQuantiteReel
-        End Get
-    End Property
-
 
     ''**********************************************
     ''          Bennes froides
@@ -310,16 +315,6 @@ Public Class ImportConstantEn_mdb
         End Get
     End Property
 
-
-    '' TODO 
-    '' Retirer la fonction en commentaire lorsqu'on sera certain qu'elle n'est plus utile
-
-    'Public Overrides ReadOnly Property hotFeederMoisturePercentage As String
-    '    Get
-    '        Return detailsHumidite
-    '    End Get
-    'End Property
-
     Public Overrides ReadOnly Property hotFeederTargetPercentage As String
         Get
             Return detailsCycleQuantiteFormule + "/" + recetteQuantite
@@ -340,15 +335,7 @@ Public Class ImportConstantEn_mdb
         End Get
     End Property
 
-    ''**********************************************
-    ''          Bitume utilisé
-    ''**********************************************
 
-    Public Overrides ReadOnly Property asphaltRecordedTemperature As String
-        Get
-            Return detailsTemperature
-        End Get
-    End Property
 
 
     ''**********************************************
@@ -389,5 +376,34 @@ Public Class ImportConstantEn_mdb
             Return cycleMixTemp
         End Get
     End Property
-    
+
+
+    ''**********************************************
+    ''                  Aggregate
+    ''**********************************************
+
+    Public Overrides ReadOnly Property cycleAggregateTargetPercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property cycleAggregateActualPercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property cycleAggregateDebit As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property cycleAggregateMass As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
 End Class

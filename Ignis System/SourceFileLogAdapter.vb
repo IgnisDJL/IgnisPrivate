@@ -146,7 +146,6 @@ Public Class SourceFileLogAdapter
     ''Cette information n'est pas disponible dans un fichier log
     Public Overrides Function getCycleAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAggregateActualPercentage As String = "-4"
-
         Try
 
             Return totalAggregateActualPercentage
@@ -178,16 +177,6 @@ Public Class SourceFileLogAdapter
     End Function
 
     ''Cette information n'est pas disponible dans un fichier log
-    Public Overrides Function getTotalAggregateMoisturePercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalAggregateTargetPercentage As String = "-4"
-        Try
-            Return If(String.IsNullOrEmpty(totalAggregateTargetPercentage), "-1", totalAggregateTargetPercentage)
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
-
-    ''Cette information n'est pas disponible dans un fichier log
     Public Overrides Function getCycleAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAggregateTargetPercentage As String = "-4"
         Try
@@ -197,46 +186,46 @@ Public Class SourceFileLogAdapter
         End Try
     End Function
 
-    ''Total asphalt
+    ''Cycle asphalt
     Public Overrides Function getCycleAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalAsphaltActualPercentage As String = "-4"
+        Dim virginAsphaltActualPercentage As String = "-4"
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
-            totalAsphaltActualPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederActualPercentage, indexCycle, sourceFile))(EnumColumnType.TotalAsphalt).Value.Trim
-            Return If(String.IsNullOrEmpty(totalAsphaltActualPercentage), "-1", totalAsphaltActualPercentage)
+            virginAsphaltActualPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederActualPercentage, indexCycle, sourceFile))(EnumColumnType.VirginAspahlt).Value.Trim
+            Return If(String.IsNullOrEmpty(virginAsphaltActualPercentage), "-1", virginAsphaltActualPercentage)
         Catch ex As Exception
             Return "-2"
         End Try
     End Function
 
     Public Overrides Function getCycleAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalAsphaltDebit As String = "-4"
+        Dim virginAsphaltDebit As String = "-4"
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
-            totalAsphaltDebit = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederDebit, indexCycle, sourceFile))(EnumColumnType.TotalAsphalt).Value.Trim
-            Return If(String.IsNullOrEmpty(totalAsphaltDebit), "-1", totalAsphaltDebit)
+            virginAsphaltDebit = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederDebit, indexCycle, sourceFile))(EnumColumnType.VirginAspahlt).Value.Trim
+            Return If(String.IsNullOrEmpty(virginAsphaltDebit), "-1", virginAsphaltDebit)
         Catch ex As Exception
             Return "-2"
         End Try
     End Function
 
     Public Overrides Function getCycleAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalAsphaltMass As String = "-4"
+        Dim virginAsphaltMass As String = "-4"
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
-            totalAsphaltMass = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederMass, indexCycle, sourceFile))(EnumColumnType.TotalAsphalt).Value.Trim
-            Return If(String.IsNullOrEmpty(totalAsphaltMass), "-1", totalAsphaltMass)
+            virginAsphaltMass = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederMass, indexCycle, sourceFile))(EnumColumnType.VirginAspahlt).Value.Trim
+            Return If(String.IsNullOrEmpty(virginAsphaltMass), "-1", virginAsphaltMass)
         Catch ex As Exception
             Return "-2"
         End Try
     End Function
 
     Public Overrides Function getCycleAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalAsphaltTargetPercentage As String = "-4"
+        Dim virginAsphaltTargetPercentage As String = "-4"
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
-            totalAsphaltTargetPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederTargetPercentage, indexCycle, sourceFile))(EnumColumnType.TotalAsphalt).Value.Trim
-            Return If(String.IsNullOrEmpty(totalAsphaltTargetPercentage), "-1", totalAsphaltTargetPercentage)
+            virginAsphaltTargetPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederTargetPercentage, indexCycle, sourceFile))(EnumColumnType.VirginAspahlt).Value.Trim
+            Return If(String.IsNullOrEmpty(virginAsphaltTargetPercentage), "-1", virginAsphaltTargetPercentage)
         Catch ex As Exception
             Return "-2"
         End Try
@@ -319,7 +308,7 @@ Public Class SourceFileLogAdapter
     Public Overrides Function getCycleAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltTankId As String = "-4"
         Try
-            Dim regex = New Regex(sourceFile.importConstant.asphaltTankId + "[\s]([\d]+)")
+            Dim regex = New Regex(sourceFile.importConstant.virginAsphaltConcreteTankId + "[\s]([\d]+)")
             asphaltTankId = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
             Return If(String.IsNullOrEmpty(asphaltTankId), "-1", asphaltTankId)
         Catch ex As Exception
@@ -331,7 +320,7 @@ Public Class SourceFileLogAdapter
     Public Overrides Function getCycleAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltRecordedTemperature As String = "-4"
         Try
-            Dim regex = New Regex(sourceFile.importConstant.asphaltRecordedTemperature + "[\s]+(\-?[\d]*)")
+            Dim regex = New Regex(sourceFile.importConstant.virginAsphaltConcreteRecordedTemperature + "[\s]+(\-?[\d]*)")
             asphaltRecordedTemperature = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
             Return If(String.IsNullOrEmpty(asphaltRecordedTemperature), "-1", asphaltRecordedTemperature)
         Catch ex As Exception
@@ -343,7 +332,7 @@ Public Class SourceFileLogAdapter
     Public Overrides Function getCycleAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltDensity As String = "-4"
         Try
-            Dim regex = New Regex(sourceFile.importConstant.asphaltDensity + "[\s]+([\d].[\d]{3})")
+            Dim regex = New Regex(sourceFile.importConstant.virginAsphaltConcreteDensity + "[\s]+([\d].[\d]{3})")
             asphaltDensity = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
             Return If(String.IsNullOrEmpty(asphaltDensity), "-1", asphaltDensity)
         Catch ex As Exception
@@ -548,20 +537,6 @@ Public Class SourceFileLogAdapter
         End Try
     End Function
 
-    '' TODO
-
-    'Public Overrides Function getHotFeederMoisturePercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-    '    Dim feederMoisturePercentage As String
-
-    '    Dim regex = New Regex("([\d]+.[\d]+)")
-    '    Try
-    '        feederMoisturePercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederMoisturePercentage, indexCycle, sourceFile))(indexFeeder).Value.Trim
-
-    '        Return If(String.IsNullOrEmpty(feederMoisturePercentage), "-1", feederMoisturePercentage)
-    '    Catch ex As Exception
-    '        Return "-2"
-    '    End Try
-    'End Function
 
     Public Overrides Function getHotFeederActualPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
         Dim feederActualPercentage As String = "-4"
@@ -586,7 +561,11 @@ Public Class SourceFileLogAdapter
 
         Dim regex = New Regex("(\w+)")
         Try
-            feederID = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederId, indexCycle, sourceFile))(indexFeeder).Value.Trim
+            feederID = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederIdPart1, indexCycle, sourceFile))(indexFeeder).Value.Trim
+
+            If regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederIdPart2, indexCycle, sourceFile)).Count > indexFeeder Then
+                feederID = feederID + regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederIdPart2, indexCycle, sourceFile))(indexFeeder).Value.Trim()
+            End If
 
             Return If(String.IsNullOrEmpty(feederID), "-1", feederID)
         Catch ex As Exception

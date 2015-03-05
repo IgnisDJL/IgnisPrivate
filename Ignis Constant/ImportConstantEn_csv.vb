@@ -69,7 +69,7 @@ Public Class ImportConstantEn_csv
     Public Const totalAsphaltID_En = "Bit"
     Public Const totalAsphaltActualPercentage_En = "%        Bit"
     Public Const totalAsphaltMass_En = "Poids Bit"
-    Public Const asphaltRecordedTemperature_En = "Tmp. Bit"
+    Public Const virginAsphaltConcreteRecordedTemperature_En = "Tmp. Bit"
 
     ''**********************************************
     ''  Constantes de l'enrobé produit
@@ -86,13 +86,13 @@ Public Class ImportConstantEn_csv
     ''**********************************************
 
     '' Information non disponible dans ce fichier source
-    Public Overrides ReadOnly Property asphaltDensity As String
+    Public Overrides ReadOnly Property virginAsphaltConcreteDensity As String
         Get
             Return "-3"
         End Get
     End Property
 
-    Public Overrides ReadOnly Property asphaltTankId As String
+    Public Overrides ReadOnly Property virginAsphaltConcreteTankId As String
         Get
             Return asphaltTankId_En_csv
         End Get
@@ -142,43 +142,40 @@ Public Class ImportConstantEn_csv
         End Get
     End Property
 
-    ''**********************************************
-    ''              Totaux de production
-    ''**********************************************
-
-    ''Total asphalt
-    Public Overrides ReadOnly Property totalAsphaltActualPercentage As String
-        Get
-            Return totalAsphaltActualPercentage_En
-        End Get
-    End Property
-
-    Public Overrides ReadOnly Property totalAsphaltMass As String
-        Get
-            Return totalAsphaltMass_En
-        End Get
-    End Property
-
-    Public Overrides ReadOnly Property totalAsphaltTargetPercentage As String
-        Get
-            Return "-3"
-        End Get
-    End Property
-
-    ''Total Aggregate
-    Public Overrides ReadOnly Property totalAggregateMass As String
-        Get
-            Return totalAggregateMass_En
-        End Get
-    End Property
-
-    ''Total Mass
     Public Overrides ReadOnly Property totalMass As String
         Get
             Return totalMass_En
         End Get
     End Property
 
+    ''**********************************************
+    ''               Aggregate
+    ''**********************************************
+
+    Public Overrides ReadOnly Property cycleAggregateTargetPercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+
+    Public Overrides ReadOnly Property cycleAggregateActualPercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property cycleAggregateDebit As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property cycleAggregateMass As String
+        Get
+            Return totalAggregateMass_En
+        End Get
+    End Property
 
 
     ''**********************************************
@@ -346,15 +343,39 @@ Public Class ImportConstantEn_csv
     End Property
 
     ''**********************************************
-    ''              Bitume utilisé
+    ''              virginAsphaltConcrete
     ''**********************************************
 
-    Public Overrides ReadOnly Property asphaltRecordedTemperature As String
+    Public Overrides ReadOnly Property virginAsphaltConcreteRecordedTemperature As String
         Get
-            Return asphaltRecordedTemperature_En
+            Return virginAsphaltConcreteRecordedTemperature_En
         End Get
     End Property
 
+    Public Overrides ReadOnly Property virginAsphaltConcreteActualPercentage As String
+        Get
+            Return totalAsphaltActualPercentage_En
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property virginAsphaltConcreteMass As String
+        Get
+            Return totalAsphaltMass_En
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property virginAsphaltConcreteTargetPercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+
+    Public Overrides ReadOnly Property virginAsphaltConcreteDebit As String
+        Get
+            Return "-3"
+        End Get
+    End Property
 
     ''**********************************************
     ''              Enrobé produit
@@ -397,4 +418,5 @@ Public Class ImportConstantEn_csv
     End Property
 
 
+   
 End Class

@@ -15,24 +15,26 @@
     Public MustOverride ReadOnly Property siloFillingNumber() As String Implements GlobalImportConstant.siloFillingNumber
     Public MustOverride ReadOnly Property bagHouseDiff() As String Implements GlobalImportConstant.bagHouseDiff
     Public MustOverride ReadOnly Property dustRemovalDebit() As String Implements GlobalImportConstant.dustRemovalDebit
-
-
-    ''**********************************************
-    ''  getter pour les totaux de production
-    ''**********************************************
-    Public MustOverride ReadOnly Property totalAggregateMass() As String Implements GlobalImportConstant.totalAggregateMass
-    Public MustOverride ReadOnly Property totalAsphaltActualPercentage() As String Implements GlobalImportConstant.totalAsphaltActualPercentage
-    Public MustOverride ReadOnly Property totalAsphaltTargetPercentage() As String Implements GlobalImportConstant.totalAsphaltTargetPercentage
-    Public MustOverride ReadOnly Property totalAsphaltMass() As String Implements GlobalImportConstant.totalAsphaltMass
     Public MustOverride ReadOnly Property totalMass() As String Implements GlobalImportConstant.totalMass
 
     ''**********************************************
-    ''  getter du bitume utilisé
+    ''  getter virginAsphaltConcrete
     ''**********************************************
-    Public MustOverride ReadOnly Property asphaltTankId() As String Implements GlobalImportConstant.asphaltTankId
-    Public MustOverride ReadOnly Property asphaltRecordedTemperature() As String Implements GlobalImportConstant.asphaltRecordedTemperature
-    Public MustOverride ReadOnly Property asphaltDensity() As String Implements GlobalImportConstant.asphaltDensity
+    Public MustOverride ReadOnly Property virginAsphaltConcreteTargetPercentage() As String Implements GlobalImportConstant.virginAsphaltConcreteTargetPercentage
+    Public MustOverride ReadOnly Property virginAsphaltConcreteActualPercentage() As String Implements GlobalImportConstant.virginAsphaltConcreteActualPercentage
+    Public MustOverride ReadOnly Property virginAsphaltConcreteDebit() As String Implements GlobalImportConstant.virginAsphaltConcreteDebit
+    Public MustOverride ReadOnly Property virginAsphaltConcreteMass() As String Implements GlobalImportConstant.virginAsphaltConcreteMass
+    Public MustOverride ReadOnly Property virginAsphaltConcreteTankId() As String Implements GlobalImportConstant.virginAsphaltConcreteTankId
+    Public MustOverride ReadOnly Property virginAsphaltConcreteRecordedTemperature() As String Implements GlobalImportConstant.virginAsphaltConcreteRecordedTemperature
+    Public MustOverride ReadOnly Property virginAsphaltConcreteDensity() As String Implements GlobalImportConstant.virginAsphaltConcreteDensity
 
+    ''**********************************************
+    ''  getter cycleAggregate
+    ''**********************************************
+    Public MustOverride ReadOnly Property cycleAggregateTargetPercentage() As String Implements GlobalImportConstant.cycleAggregateTargetPercentage
+    Public MustOverride ReadOnly Property cycleAggregateActualPercentage() As String Implements GlobalImportConstant.cycleAggregateActualPercentage
+    Public MustOverride ReadOnly Property cycleAggregateDebit() As String Implements GlobalImportConstant.cycleAggregateDebit
+    Public MustOverride ReadOnly Property cycleAggregateMass() As String Implements GlobalImportConstant.cycleAggregateMass
 
     ''**********************************************
     ''  getter de l'enrobé produit

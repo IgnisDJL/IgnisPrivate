@@ -1,6 +1,7 @@
 ﻿Public Class ImportConstantFr_log
     Inherits ImportConstant_log
 
+
     ''**********************************************
     '' Constantes du cycle de production
     ''**********************************************
@@ -36,21 +37,97 @@
     Public Const mixName_Fr = "Nom Frm. :"
     Public Const mixNumber_Fr = "No. Frm. :"
     Public Const mixRecordedTemperature_Fr = "Temp. Enr. :"
-    Public Overrides ReadOnly Property asphaltDensity As String
+
+
+    ''***********************************************************************************************************************************************************
+    ''                                                              Fonction des getter
+    ''***********************************************************************************************************************************************************
+
+
+    ''***********************************************
+    ''                  Asphalt Concrete
+    ''***********************************************
+
+    Public Overrides ReadOnly Property virginAsphaltConcreteTargetPercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property virginAsphaltConcreteActualPercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property virginAsphaltConcreteDebit As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property virginAsphaltConcreteMass As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property virginAsphaltConcreteDensity As String
         Get
             Return asphaltDensity_Fr
         End Get
     End Property
-    Public Overrides ReadOnly Property asphaltRecordedTemperature As String
+
+    Public Overrides ReadOnly Property virginAsphaltConcreteRecordedTemperature As String
         Get
             Return asphaltRecordedTemperature_Fr
         End Get
     End Property
-    Public Overrides ReadOnly Property asphaltTankId As String
+
+    Public Overrides ReadOnly Property virginAsphaltConcreteTankId As String
         Get
             Return asphaltTankId_Fr
         End Get
     End Property
+
+
+    ''***********************************************
+    ''                  Aggregate
+    ''***********************************************
+
+    Public Overrides ReadOnly Property cycleAggregateActualPercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property cycleAggregateDebit As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property cycleAggregateTargetPercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    ''***********************************************
+    ''                 Production Day
+    ''***********************************************
+
+    '' TODO Cette information doit être calculé et cela est possible !
+    Public Overrides ReadOnly Property totalMass As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    ''***********************************************
+    ''                 Production Cycle
+    ''***********************************************
+
     Public Overrides ReadOnly Property bagHouseDiff As String
         Get
             Return bagHouseDiff_Fr
@@ -108,30 +185,6 @@
         End Get
     End Property
 
-
-    Public Overrides ReadOnly Property totalAsphaltActualPercentage As String
-        Get
-            '' Cette information n'est pas disponible pour un fichier .log produit par minds
-            Return "-3"
-        End Get
-    End Property
-
-    Public Overrides ReadOnly Property totalAsphaltMass As String
-        Get
-            '' Cette information n'est pas disponible pour un fichier .log produit par minds
-            Return "-3"
-        End Get
-    End Property
-
-
-    Public Overrides ReadOnly Property totalAsphaltTargetPercentage As String
-        Get
-            '' Cette information n'est pas disponible pour un fichier .log produit par minds
-            Return "-3"
-        End Get
-    End Property
-
-
     Public Overrides ReadOnly Property truckID As String
         Get
             '' Cette information n'est pas disponible pour un fichier .log produit par minds
@@ -140,18 +193,12 @@
     End Property
 
 
-    Public Overrides ReadOnly Property totalAggregateMass As String
+    Public Overrides ReadOnly Property cycleAggregateMass As String
         Get
             '' Cette information n'est pas disponible pour un fichier .log produit par minds
             Return "-3"
         End Get
     End Property
 
-    '' TODO Cette information doit être calculé et cela est possible !
-    Public Overrides ReadOnly Property totalMass As String
-        Get
-            Return "-3"
-        End Get
-    End Property
 
 End Class

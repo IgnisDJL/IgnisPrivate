@@ -28,15 +28,13 @@ Public Class MixComponentUsedFactory
         Dim actualPercentage As Double
         Dim debit As Double
         Dim mass As Double
-        Dim moisturePercentage As Double
 
         targetPercentage = sourceFile.sourceFileAdapter.getCycleAggregateTargetPercentage(indexCycle, sourceFile)
         actualPercentage = sourceFile.sourceFileAdapter.getCycleAggregateActualPercentage(indexCycle, sourceFile)
         debit = sourceFile.sourceFileAdapter.getCycleAggregateDebit(indexCycle, sourceFile)
         mass = sourceFile.sourceFileAdapter.getCycleAggregateMass(indexCycle, sourceFile)
-        moisturePercentage = sourceFile.sourceFileAdapter.getTotalAggregateMoisturePercentage(indexCycle, sourceFile)
 
-        aggregateUsed = New AggregateUsed(targetPercentage, actualPercentage, debit, mass, moisturePercentage)
+        aggregateUsed = New AggregateUsed(targetPercentage, actualPercentage, debit, mass)
 
         Return aggregateUsed
     End Function

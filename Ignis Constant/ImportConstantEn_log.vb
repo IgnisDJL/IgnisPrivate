@@ -2,6 +2,7 @@
 Public Class ImportConstantEn_log
     Inherits ImportConstant_log
 
+
     ''**********************************************
     ''  Constantes du cycle de production
     ''**********************************************
@@ -64,21 +65,42 @@ Public Class ImportConstantEn_log
     Public Const mixRecordedTemperature_En = "Mix Temp :"
 
 
-    Public Overrides ReadOnly Property asphaltDensity As String
+    ''***********************************************************************************************************************************************************
+    ''                                                              Fonction des getter
+    ''***********************************************************************************************************************************************************
+
+    Public Overrides ReadOnly Property recycledID As String
         Get
-            Return asphaltDensity_En
+            Return recycled_En
         End Get
     End Property
 
-    Public Overrides ReadOnly Property asphaltRecordedTemperature As String
+
+    ''***********************************************
+    ''              Production Day
+    ''***********************************************
+
+    Public Overrides ReadOnly Property totalMass As String
         Get
-            Return asphaltRecordedTemperature_En
+            Return "-3"
         End Get
     End Property
 
-    Public Overrides ReadOnly Property asphaltTankId As String
+
+    ''***********************************************
+    ''              Production Cycle
+    ''***********************************************
+
+    Public Overrides ReadOnly Property time As String
         Get
-            Return asphaltTankId_En
+            Return time_En_log
+        End Get
+    End Property
+
+
+    Public Overrides ReadOnly Property truckID As String
+        Get
+            Return truckID_En
         End Get
     End Property
 
@@ -94,11 +116,28 @@ Public Class ImportConstantEn_log
         End Get
     End Property
 
+    Public Overrides ReadOnly Property contractID As String
+        Get
+            Return contractID_En
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property siloFillingNumber As String
+        Get
+            Return siloFillingNumber_En
+        End Get
+    End Property
+
+    ''***********************************************
+    ''                  Mix
+    ''***********************************************
+
     Public Overrides ReadOnly Property mixCounter As String
         Get
             Return mixCounter_En
         End Get
     End Property
+
 
     Public Overrides ReadOnly Property mixDebit As String
         Get
@@ -124,175 +163,83 @@ Public Class ImportConstantEn_log
         End Get
     End Property
 
-    Public Overrides ReadOnly Property recycledID As String
-        Get
-            Return recycled_En
-        End Get
-    End Property
 
-    Public Overrides ReadOnly Property siloFillingNumber As String
-        Get
-            Return siloFillingNumber_En
-        End Get
-    End Property
+    ''***********************************************
+    ''              Aggregate
+    ''***********************************************
 
-    Public Overrides ReadOnly Property time As String
-        Get
-            Return time_En_log
-        End Get
-    End Property
-
-    Public Overrides ReadOnly Property contractID As String
-        Get
-            Return contractID_En
-        End Get
-    End Property
-
-    '' Constante inutilisé pour un fichier log
-    Public Overrides ReadOnly Property totalAsphaltActualPercentage As String
+    Public Overrides ReadOnly Property cycleAggregateTargetPercentage As String
         Get
             Return "-3"
         End Get
     End Property
 
-    '' Constante inutilisé pour un fichier log
-    Public Overrides ReadOnly Property totalAsphaltMass As String
+    Public Overrides ReadOnly Property cycleAggregateActualPercentage As String
         Get
             Return "-3"
         End Get
     End Property
 
-    Public Overrides ReadOnly Property truckID As String
-        Get
-            Return truckID_En
-        End Get
-    End Property
-
-    Public Overrides ReadOnly Property totalAsphaltTargetPercentage As String
+    Public Overrides ReadOnly Property cycleAggregateDebit As String
         Get
             Return "-3"
         End Get
     End Property
 
-    ' Constante inutilisé pour un fichier log
-    Public Overrides ReadOnly Property totalAggregateMass As String
+    Public Overrides ReadOnly Property cycleAggregateMass As String
         Get
-            Return Nothing
+            Return "-3"
         End Get
     End Property
+
+    ''***********************************************
+    ''              AsphaltConcrete
+    ''***********************************************
+
+
     '' Constante inutilisé pour un fichier log
-    Public Overrides ReadOnly Property totalMass As String
+    Public Overrides ReadOnly Property virginAsphaltConcreteTargetPercentage As String
         Get
-            Return Nothing
+            Return "-3"
         End Get
     End Property
 
-    'Public Overrides ReadOnly Property coldFeederActualPercentage As String
-    '    Get
+    Public Overrides ReadOnly Property virginAsphaltConcreteActualPercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
 
-    '    End Get
-    'End Property
+    Public Overrides ReadOnly Property virginAsphaltConcreteDebit As String
+        Get
+            Return "-3"
+        End Get
+    End Property
 
-    'Public Overrides ReadOnly Property coldFeederMaterialID As String
-    '    Get
+    Public Overrides ReadOnly Property virginAsphaltConcreteMass As String
+        Get
+            Return "-3"
+        End Get
+    End Property
 
-    '    End Get
-    'End Property
+    Public Overrides ReadOnly Property virginAsphaltConcreteRecordedTemperature As String
+        Get
+            Return asphaltRecordedTemperature_En
+        End Get
+    End Property
 
-    'Public Overrides ReadOnly Property coldFeederDebit As String
-    '    Get
+    Public Overrides ReadOnly Property virginAsphaltConcreteDensity As String
+        Get
+            Return asphaltDensity_En
+        End Get
+    End Property
 
-    '    End Get
-    'End Property
+    Public Overrides ReadOnly Property virginAsphaltConcreteTankId As String
+        Get
+            Return asphaltTankId_En
+        End Get
+    End Property
 
-    'Public Overrides ReadOnly Property coldFeederID As String
-    '    Get
-
-    '    End Get
-    'End Property
-
-    'Public Overrides ReadOnly Property coldFeederMass As String
-    '    Get
-
-    '    End Get
-    'End Property
-
-    'Public Overrides ReadOnly Property coldFeederMoisturePercentage As String
-    '    Get
-
-    '    End Get
-    'End Property
-
-    'Public Overrides ReadOnly Property coldFeederRecycledActualPercentage As String
-    '    Get
-
-    '    End Get
-    'End Property
-
-    'Public Overrides ReadOnly Property coldFeederRecycledID As String
-    '    Get
-
-    '    End Get
-    'End Property
-
-    'Public Overrides ReadOnly Property coldFeederTargetPercentage As String
-    '    Get
-
-    '    End Get
-    'End Property
-
-    'Public Overrides ReadOnly Property hotFeederActualPercentage As String
-    '    Get
-
-    '    End Get
-    'End Property
-
-    'Public Overrides ReadOnly Property hotFeederDebit As String
-    '    Get
-
-    '    End Get
-    'End Property
-
-    'Public Overrides ReadOnly Property hotFeederID As String
-    '    Get
-
-    '    End Get
-    'End Property
-
-    'Public Overrides ReadOnly Property hotFeederMass As String
-    '    Get
-
-    '    End Get
-    'End Property
-
-    'Public Overrides ReadOnly Property hotFeederMoisturePercentage As String
-    '    Get
-
-    '    End Get
-    'End Property
-
-    'Public Overrides ReadOnly Property hotFeederRecycledActualPercentage As String
-    '    Get
-
-    '    End Get
-    'End Property
-
-    'Public Overrides ReadOnly Property hotFeederRecycledID As String
-    '    Get
-
-    '    End Get
-    'End Property
-
-    'Public Overrides ReadOnly Property hotFeederTargetPercentage As String
-    '    Get
-
-    '    End Get
-    'End Property
-
-    'Public Overrides ReadOnly Property hotFeederMaterialID As String
-    '    Get
-
-    '    End Get
-    'End Property
+    
 End Class
 

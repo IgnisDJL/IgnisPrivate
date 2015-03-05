@@ -8,6 +8,13 @@
 
     End Sub
 
+
+    Public Sub New(targetPercentage As Double, actualPercentage As Double, debit As Double, mass As Double)
+        MyBase.New(targetPercentage, actualPercentage, debit, mass)
+        Me.moisturePercentage = -1.0
+
+    End Sub
+
     Public ReadOnly Property getMoisturePercentage() As Double
         Get
             Return moisturePercentage

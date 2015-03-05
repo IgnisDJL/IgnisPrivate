@@ -378,11 +378,11 @@ Public Class SourceFileMarcotteAdapter
     '' Total asphalt
     Public Overrides Function getCycleAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
 
-        Dim totalAsphaltActualPercentage As String = "-4"
+        Dim virginAsphaltActualPercentage As String = "-4"
 
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
         Try
-            Dim query = "SELECT " + sourceFile.importConstant.totalAsphaltActualPercentage + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
+            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteActualPercentage + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
             " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile) +
             " AND " + ImportConstantEn_mdb.detailsTypeID + " = " + ImportConstantEn_mdb.typeAsphalt
 
@@ -390,11 +390,11 @@ Public Class SourceFileMarcotteAdapter
             Dim mdbListDate = dbCommand.ExecuteReader
 
             mdbListDate.Read()
-            totalAsphaltActualPercentage = mdbListDate(0)
+            virginAsphaltActualPercentage = mdbListDate(0)
             dbCommand.Dispose()
             mdbListDate.Close()
 
-            Return If(String.IsNullOrEmpty(totalAsphaltActualPercentage), "-1", totalAsphaltActualPercentage)
+            Return If(String.IsNullOrEmpty(virginAsphaltActualPercentage), "-1", virginAsphaltActualPercentage)
 
         Catch ex As Exception
             Return "-2"
@@ -407,12 +407,12 @@ Public Class SourceFileMarcotteAdapter
     End Function
 
     Public Overrides Function getCycleAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalAsphaltMass As String = "-4"
+        Dim virginAsphaltMass As String = "-4"
 
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
         Try
 
-            Dim query = "SELECT " + sourceFile.importConstant.totalAsphaltActualPercentage + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
+            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteActualPercentage + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
             " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile) +
             " AND " + ImportConstantEn_mdb.detailsTypeID + " = " + ImportConstantEn_mdb.typeAsphalt
 
@@ -420,11 +420,11 @@ Public Class SourceFileMarcotteAdapter
             Dim mdbListDate = dbCommand.ExecuteReader
 
             mdbListDate.Read()
-            totalAsphaltMass = mdbListDate(0)
+            virginAsphaltMass = mdbListDate(0)
             dbCommand.Dispose()
             mdbListDate.Close()
 
-            Return If(String.IsNullOrEmpty(totalAsphaltMass), "-1", totalAsphaltMass)
+            Return If(String.IsNullOrEmpty(virginAsphaltMass), "-1", virginAsphaltMass)
 
         Catch ex As Exception
             Return "-2"
@@ -432,11 +432,11 @@ Public Class SourceFileMarcotteAdapter
     End Function
 
     Public Overrides Function getCycleAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim TotalAsphaltTargetPercentage As String
+        Dim virginAsphaltTargetPercentage As String
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
         Try
 
-            Dim query = "SELECT " + sourceFile.importConstant.totalAsphaltTargetPercentage + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
+            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteTargetPercentage + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
             " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile) +
             " AND " + ImportConstantEn_mdb.detailsTypeID + " = " + ImportConstantEn_mdb.typeAsphalt
 
@@ -444,11 +444,11 @@ Public Class SourceFileMarcotteAdapter
             Dim mdbListDate = dbCommand.ExecuteReader
 
             mdbListDate.Read()
-            TotalAsphaltTargetPercentage = mdbListDate(0)
+            virginAsphaltTargetPercentage = mdbListDate(0)
             dbCommand.Dispose()
             mdbListDate.Close()
 
-            Return If(String.IsNullOrEmpty(TotalAsphaltTargetPercentage), "-1", TotalAsphaltTargetPercentage)
+            Return If(String.IsNullOrEmpty(virginAsphaltTargetPercentage), "-1", virginAsphaltTargetPercentage)
 
         Catch ex As Exception
             Return "-2"
@@ -469,11 +469,6 @@ Public Class SourceFileMarcotteAdapter
 
     '' Information non récupéré pour ce fichier source
     Public Overrides Function getCycleAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-6"
-    End Function
-
-    '' Information non récupéré pour ce fichier source
-    Public Overrides Function getTotalAggregateMoisturePercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Return "-6"
     End Function
 
@@ -520,7 +515,7 @@ Public Class SourceFileMarcotteAdapter
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
 
         Try
-            Dim query = "SELECT " + sourceFile.importConstant.asphaltRecordedTemperature + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
+            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteRecordedTemperature + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
             " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile) +
             " AND " + ImportConstantEn_mdb.detailsTypeID + " = " + ImportConstantEn_mdb.typeAsphalt
 
@@ -544,7 +539,7 @@ Public Class SourceFileMarcotteAdapter
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
         Try
 
-            Dim query = "SELECT " + sourceFile.importConstant.asphaltTankId + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
+            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteTankId + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
             " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile) +
             " AND " + ImportConstantEn_mdb.detailsTypeID + " = " + ImportConstantEn_mdb.typeAsphalt
 

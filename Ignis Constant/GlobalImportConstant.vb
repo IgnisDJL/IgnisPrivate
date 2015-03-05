@@ -10,31 +10,33 @@
     ReadOnly Property siloFillingNumber() As String
     ReadOnly Property bagHouseDiff() As String
     ReadOnly Property dustRemovalDebit() As String
-
-
-    ''**********************************************
-    ''  getter pour les totaux de production
-    ''**********************************************
-    ReadOnly Property totalAggregateMass() As String
-    ReadOnly Property totalAsphaltActualPercentage() As String
-    ReadOnly Property totalAsphaltTargetPercentage() As String
-    ReadOnly Property totalAsphaltMass() As String
     ReadOnly Property totalMass() As String
 
     ''**********************************************
-    ''  getter du bitume utilisé
+    ''  getter cycleAggregate
     ''**********************************************
-    ReadOnly Property asphaltTankId() As String
-    ReadOnly Property asphaltRecordedTemperature() As String
-    ReadOnly Property asphaltDensity() As String
+    ReadOnly Property cycleAggregateTargetPercentage() As String
+    ReadOnly Property cycleAggregateActualPercentage() As String
+    ReadOnly Property cycleAggregateDebit() As String
+    ReadOnly Property cycleAggregateMass() As String
 
+    ''**********************************************
+    ''  getter virginAsphaltConcrete
+    ''**********************************************
+    ReadOnly Property virginAsphaltConcreteTargetPercentage() As String
+    ReadOnly Property virginAsphaltConcreteActualPercentage() As String
+    ReadOnly Property virginAsphaltConcreteDebit() As String
+    ReadOnly Property virginAsphaltConcreteMass() As String
+    ReadOnly Property virginAsphaltConcreteTankId() As String
+    ReadOnly Property virginAsphaltConcreteRecordedTemperature() As String
+    ReadOnly Property virginAsphaltConcreteDensity() As String
 
     ''**********************************************
     ''  getter de l'enrobé produit
     ''**********************************************
+    ReadOnly Property mixNumber() As String
     ReadOnly Property mixDebit() As String
     ReadOnly Property mixName() As String
-    ReadOnly Property mixNumber() As String
     ReadOnly Property mixRecordedTemperature() As String
     ReadOnly Property mixCounter() As String
 
@@ -44,6 +46,7 @@
     ReadOnly Property coldFeederID() As String
     ReadOnly Property coldFeederTargetPercentage As String
     ReadOnly Property coldFeederActualPercentage As String
+
     '' TODO
     '' il est à voir si le débit est réellement un paramètre important à récûpérer, car il n'y a que les .log qui possaide cette information
     ReadOnly Property coldFeederDebit As String

@@ -6,8 +6,6 @@ Imports System.Text
 Public Class SourceFileCSVAdapter
     Inherits SourceFileAdapter
 
-
-
     Private columnNameList As List(Of String)
     Private hotFeederCount As Integer = 0
     Public Sub New()
@@ -188,16 +186,11 @@ Public Class SourceFileCSVAdapter
         Dim totalAggregateMass As String = "-4"
 
         Try
-            totalAggregateMass = getColumnFromCSVFile(sourceFile.importConstant.totalAggregateMass, indexCycle, sourceFile)
+            totalAggregateMass = getColumnFromCSVFile(sourceFile.importConstant.cycleAggregateMass, indexCycle, sourceFile)
             Return If(String.IsNullOrEmpty(totalAggregateMass), "-1", totalAggregateMass)
         Catch ex As Exception
             Return "-2"
         End Try
-    End Function
-
-    '' Cette information n'est pas disponible actuellement dans un csv
-    Public Overrides Function getTotalAggregateMoisturePercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-3"
     End Function
 
     '' Cette information n'est pas disponible actuellement dans un csv
@@ -210,7 +203,7 @@ Public Class SourceFileCSVAdapter
         Dim totalAsphaltActualPercentage As String = "-4"
 
         Try
-            totalAsphaltActualPercentage = getColumnFromCSVFile(sourceFile.importConstant.totalAsphaltActualPercentage, indexCycle, sourceFile)
+            totalAsphaltActualPercentage = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteActualPercentage, indexCycle, sourceFile)
             Return If(String.IsNullOrEmpty(totalAsphaltActualPercentage), "-1", totalAsphaltActualPercentage)
         Catch ex As Exception
             Return "-2"
@@ -226,7 +219,7 @@ Public Class SourceFileCSVAdapter
         Dim totalAsphaltMass As String = "-4"
 
         Try
-            totalAsphaltMass = getColumnFromCSVFile(sourceFile.importConstant.totalAsphaltMass, indexCycle, sourceFile)
+            totalAsphaltMass = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteMass, indexCycle, sourceFile)
             Return If(String.IsNullOrEmpty(totalAsphaltMass), "-1", totalAsphaltMass)
         Catch ex As Exception
             Return "-2"
@@ -308,7 +301,7 @@ Public Class SourceFileCSVAdapter
         Dim asphaltTankId As String = "-4"
 
         Try
-            asphaltTankId = getColumnFromCSVFile(sourceFile.importConstant.asphaltTankId, indexCycle, sourceFile)
+            asphaltTankId = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteTankId, indexCycle, sourceFile)
             Return If(String.IsNullOrEmpty(asphaltTankId), "-1", asphaltTankId)
         Catch ex As Exception
             Return "-2"
@@ -320,7 +313,7 @@ Public Class SourceFileCSVAdapter
         Dim asphaltRecordedTemperature As String = "-4"
 
         Try
-            asphaltRecordedTemperature = getColumnFromCSVFile(sourceFile.importConstant.asphaltRecordedTemperature, indexCycle, sourceFile)
+            asphaltRecordedTemperature = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteRecordedTemperature, indexCycle, sourceFile)
             Return If(String.IsNullOrEmpty(asphaltRecordedTemperature), "-1", asphaltRecordedTemperature)
         Catch ex As Exception
             Return "-2"
