@@ -376,7 +376,7 @@ Public Class SourceFileMarcotteAdapter
     ''***********************************************************************************************************************
 
     '' Total asphalt
-    Public Overrides Function getTotalAsphaltActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
 
         Dim totalAsphaltActualPercentage As String = "-4"
 
@@ -402,11 +402,11 @@ Public Class SourceFileMarcotteAdapter
 
     End Function
 
-    Public Overrides Function getTotalAsphaltDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Return "-3"
     End Function
 
-    Public Overrides Function getTotalAsphaltMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAsphaltMass As String = "-4"
 
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
@@ -431,7 +431,7 @@ Public Class SourceFileMarcotteAdapter
         End Try
     End Function
 
-    Public Overrides Function getTotalAsphaltTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim TotalAsphaltTargetPercentage As String
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
         Try
@@ -458,17 +458,17 @@ Public Class SourceFileMarcotteAdapter
     ''TotalAggregate
 
     '' Information non récupéré pour ce fichier source
-    Public Overrides Function getTotalAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Return "-6"
     End Function
 
     '' Information non récupéré pour ce fichier source
-    Public Overrides Function getTotalAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Return "-6"
     End Function
 
     '' Information non récupéré pour ce fichier source
-    Public Overrides Function getTotalAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Return "-6"
     End Function
 
@@ -478,7 +478,7 @@ Public Class SourceFileMarcotteAdapter
     End Function
 
     '' Information non récupéré pour ce fichier source
-    Public Overrides Function getTotalAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Return "-6"
     End Function
 
@@ -511,11 +511,11 @@ Public Class SourceFileMarcotteAdapter
     ''  Section concernant les données liées au bitume utilisé dans un cycle 
     ''***********************************************************************************************************************
 
-    Public Overrides Function getAsphaltDensity(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
         Return "-3"
     End Function
 
-    Public Overrides Function getAsphaltRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltRecordedTemperature As String = "-4"
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
 
@@ -539,7 +539,7 @@ Public Class SourceFileMarcotteAdapter
         End Try
     End Function
 
-    Public Overrides Function getAsphaltTankId(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltTankId As String = "-4"
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
         Try

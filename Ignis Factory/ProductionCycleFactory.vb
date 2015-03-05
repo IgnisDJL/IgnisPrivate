@@ -30,8 +30,8 @@ Public Class ProductionCycleFactory
         Dim asphaltDensity As Double
         Dim hotFeederList As List(Of HotFeeder)
 
-        asphaltTankId = sourceFile.sourceFileAdapter.getAsphaltTankId(indexCycle, sourceFile)
-        asphaltRecordedTemperature = sourceFile.sourceFileAdapter.getAsphaltRecordedTemperature(indexCycle, sourceFile)
+        asphaltTankId = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteTankId(indexCycle, sourceFile)
+        asphaltRecordedTemperature = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteRecordedTemperature(indexCycle, sourceFile)
         endOfCycle = sourceFile.sourceFileAdapter.getTime(indexCycle, sourceFile)
         mixProduced = producedMixFactory.createProducedMix(indexCycle, sourceFile)
         coldFeederList = feederFactory.createColdFeederList(indexCycle, sourceFile)
@@ -40,7 +40,7 @@ Public Class ProductionCycleFactory
         dustRemovalDebit = sourceFile.sourceFileAdapter.getDustRemovalDebit(indexCycle, sourceFile)
         siloFillingNumber = sourceFile.sourceFileAdapter.getSiloFillingNumber(indexCycle, sourceFile)
         bagHouseDiff = sourceFile.sourceFileAdapter.getBagHouseDiff(indexCycle, sourceFile)
-        asphaltDensity = sourceFile.sourceFileAdapter.getAsphaltDensity(indexCycle, sourceFile)
+        asphaltDensity = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteDensity(indexCycle, sourceFile)
 
         productionCycle = New ProductionCycle(asphaltTankId, asphaltRecordedTemperature, endOfCycle, mixProduced, coldFeederList,
                                               hotFeederList, totalAsphaltUsed, dustRemovalDebit,siloFillingNumber, bagHouseDiff, asphaltDensity)

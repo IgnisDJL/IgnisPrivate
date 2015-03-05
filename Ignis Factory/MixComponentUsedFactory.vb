@@ -11,10 +11,10 @@ Public Class MixComponentUsedFactory
         Dim debit As Double
         Dim mass As Double
 
-        targetPercentage = sourceFile.sourceFileAdapter.getTotalAsphaltTargetPercentage(indexCycle, sourceFile)
-        actualPercentage = sourceFile.sourceFileAdapter.getTotalAsphaltActualPercentage(indexCycle, sourceFile)
-        debit = sourceFile.sourceFileAdapter.getTotalAsphaltDebit(indexCycle, sourceFile)
-        mass = sourceFile.sourceFileAdapter.getTotalAsphaltMass(indexCycle, sourceFile)
+        targetPercentage = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteTargetPercentage(indexCycle, sourceFile)
+        actualPercentage = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteActualPercentage(indexCycle, sourceFile)
+        debit = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteDebit(indexCycle, sourceFile)
+        mass = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteMass(indexCycle, sourceFile)
 
         asphaltUsed = New AsphaltUsed(targetPercentage, actualPercentage, debit, mass)
 
@@ -30,10 +30,10 @@ Public Class MixComponentUsedFactory
         Dim mass As Double
         Dim moisturePercentage As Double
 
-        targetPercentage = sourceFile.sourceFileAdapter.getTotalAggregateTargetPercentage(indexCycle, sourceFile)
-        actualPercentage = sourceFile.sourceFileAdapter.getTotalAggregateActualPercentage(indexCycle, sourceFile)
-        debit = sourceFile.sourceFileAdapter.getTotalAggregateDebit(indexCycle, sourceFile)
-        mass = sourceFile.sourceFileAdapter.getTotalAggregateMass(indexCycle, sourceFile)
+        targetPercentage = sourceFile.sourceFileAdapter.getCycleAggregateTargetPercentage(indexCycle, sourceFile)
+        actualPercentage = sourceFile.sourceFileAdapter.getCycleAggregateActualPercentage(indexCycle, sourceFile)
+        debit = sourceFile.sourceFileAdapter.getCycleAggregateDebit(indexCycle, sourceFile)
+        mass = sourceFile.sourceFileAdapter.getCycleAggregateMass(indexCycle, sourceFile)
         moisturePercentage = sourceFile.sourceFileAdapter.getTotalAggregateMoisturePercentage(indexCycle, sourceFile)
 
         aggregateUsed = New AggregateUsed(targetPercentage, actualPercentage, debit, mass, moisturePercentage)

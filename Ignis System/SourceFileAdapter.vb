@@ -40,6 +40,7 @@
     ''***********************************************************************************************************************
     ''  Section concernant de donnée lier a un ProductionCycle
     ''***********************************************************************************************************************
+
     Public MustOverride Function getTime(indexCycle As Integer, sourceFile As SourceFile) As Date
     Public MustOverride Function getDustRemovalDebit(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getTruckID(indexCycle As Integer, sourceFile As SourceFile) As String
@@ -48,25 +49,19 @@
     Public MustOverride Function getBagHouseDiff(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getMixCounter(indexCycle As Integer, sourceFile As SourceFile) As String
 
-
-
     ''***********************************************************************************************************************
     ''  Section concernant les totaux d'un cycle de production 
     ''***********************************************************************************************************************
-
-    '' Total asphalt
-    Public MustOverride Function getTotalAsphaltActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getTotalAsphaltTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getTotalAsphaltDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getTotalAsphaltMass(indexCycle As Integer, sourceFile As SourceFile) As String
-
-
     ''TotalAggregate
-    Public MustOverride Function getTotalAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getTotalAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getTotalAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getTotalAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getTotalAggregateMoisturePercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
+
+    '' TODO
+    '' Code mort à retirer
+
+    '' Public MustOverride Function getTotalAggregateMoisturePercentage(indexCycle As Integer, sourceFile As SourceFile) As String
 
     ''TotalMass
     Public MustOverride Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
@@ -74,9 +69,13 @@
     ''***********************************************************************************************************************
     ''  Section concernant les données liées au bitume utilisé dans un cycle 
     ''***********************************************************************************************************************
-    Public MustOverride Function getAsphaltTankId(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getAsphaltRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getAsphaltDensity(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
 
 
     ''***********************************************************************************************************************
@@ -86,7 +85,6 @@
     Public MustOverride Function getMixName(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getMixRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getMixDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-
 
     ''***********************************************************************************************************************
     ''  Section concernant les Bennes froides d'un cycle
@@ -99,11 +97,7 @@
     Public MustOverride Function getColdFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getColdFeederMoisturePercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getColdFeederMaterialID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-
-
-
     Public MustOverride Function getColdFeederRecycledAsphaltPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-
 
     ''***********************************************************************************************************************
     ''  Section concernant les Bennes chaudes d'un cycle

@@ -24,7 +24,6 @@ Public Class SourceFileLogAdapter
 
     End Function
 
-
     ''***********************************************************************************************************************
     ''  Fonction protected force l'adapteur a implémenté une fonction utile a la lecture du fichier source ou au formatage des donnée
     ''***********************************************************************************************************************
@@ -145,7 +144,7 @@ Public Class SourceFileLogAdapter
     ''Total aggregate
 
     ''Cette information n'est pas disponible dans un fichier log
-    Public Overrides Function getTotalAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAggregateActualPercentage As String = "-4"
 
         Try
@@ -157,7 +156,7 @@ Public Class SourceFileLogAdapter
     End Function
 
     ''Cette information n'est pas disponible dans un fichier log
-    Public Overrides Function getTotalAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAggregateDebit As String = "-4"
 
         Try
@@ -168,7 +167,7 @@ Public Class SourceFileLogAdapter
     End Function
 
     ''Cette information n'est pas disponible dans un fichier log
-    Public Overrides Function getTotalAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAggregateMass As String = "-4"
 
         Try
@@ -189,7 +188,7 @@ Public Class SourceFileLogAdapter
     End Function
 
     ''Cette information n'est pas disponible dans un fichier log
-    Public Overrides Function getTotalAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAggregateTargetPercentage As String = "-4"
         Try
             Return If(String.IsNullOrEmpty(totalAggregateTargetPercentage), "-1", totalAggregateTargetPercentage)
@@ -199,7 +198,7 @@ Public Class SourceFileLogAdapter
     End Function
 
     ''Total asphalt
-    Public Overrides Function getTotalAsphaltActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAsphaltActualPercentage As String = "-4"
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
@@ -210,7 +209,7 @@ Public Class SourceFileLogAdapter
         End Try
     End Function
 
-    Public Overrides Function getTotalAsphaltDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAsphaltDebit As String = "-4"
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
@@ -221,7 +220,7 @@ Public Class SourceFileLogAdapter
         End Try
     End Function
 
-    Public Overrides Function getTotalAsphaltMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAsphaltMass As String = "-4"
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
@@ -232,7 +231,7 @@ Public Class SourceFileLogAdapter
         End Try
     End Function
 
-    Public Overrides Function getTotalAsphaltTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAsphaltTargetPercentage As String = "-4"
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
@@ -317,7 +316,7 @@ Public Class SourceFileLogAdapter
     ''  Section concernant les données liées au bitume utilisé dans un cycle 
     ''**********************************************************************************************************************
 
-    Public Overrides Function getAsphaltTankId(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltTankId As String = "-4"
         Try
             Dim regex = New Regex(sourceFile.importConstant.asphaltTankId + "[\s]([\d]+)")
@@ -329,7 +328,7 @@ Public Class SourceFileLogAdapter
 
     End Function
 
-    Public Overrides Function getAsphaltRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltRecordedTemperature As String = "-4"
         Try
             Dim regex = New Regex(sourceFile.importConstant.asphaltRecordedTemperature + "[\s]+(\-?[\d]*)")
@@ -341,7 +340,7 @@ Public Class SourceFileLogAdapter
 
     End Function
 
-    Public Overrides Function getAsphaltDensity(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltDensity As String = "-4"
         Try
             Dim regex = New Regex(sourceFile.importConstant.asphaltDensity + "[\s]+([\d].[\d]{3})")

@@ -175,16 +175,16 @@ Public Class SourceFileCSVAdapter
     End Function
 
     ''Total aggregate
-    Public Overrides Function getTotalAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Return "-3"
     End Function
 
     '' Cette information n'est pas disponible actuellement dans un csv
-    Public Overrides Function getTotalAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Return "-3"
     End Function
 
-    Public Overrides Function getTotalAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAggregateMass As String = "-4"
 
         Try
@@ -201,12 +201,12 @@ Public Class SourceFileCSVAdapter
     End Function
 
     '' Cette information n'est pas disponible actuellement dans un csv
-    Public Overrides Function getTotalAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Return "-3"
     End Function
 
     ''Total asphalt
-    Public Overrides Function getTotalAsphaltActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAsphaltActualPercentage As String = "-4"
 
         Try
@@ -218,11 +218,11 @@ Public Class SourceFileCSVAdapter
     End Function
 
     '' Cette information n'est pas disponible actuellement dans un csv
-    Public Overrides Function getTotalAsphaltDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Return "-3"
     End Function
 
-    Public Overrides Function getTotalAsphaltMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAsphaltMass As String = "-4"
 
         Try
@@ -234,7 +234,7 @@ Public Class SourceFileCSVAdapter
     End Function
 
     '' Cette information n'est pas disponible actuellement dans un csv
-    Public Overrides Function getTotalAsphaltTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Return "-3"
     End Function
 
@@ -304,7 +304,7 @@ Public Class SourceFileCSVAdapter
     ''***********************************************************************************************************************
     ''  Section concernant les données liées au bitume utilisé dans un cycle 
     ''**********************************************************************************************************************
-    Public Overrides Function getAsphaltTankId(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltTankId As String = "-4"
 
         Try
@@ -316,7 +316,7 @@ Public Class SourceFileCSVAdapter
 
     End Function
 
-    Public Overrides Function getAsphaltRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltRecordedTemperature As String = "-4"
 
         Try
@@ -328,7 +328,7 @@ Public Class SourceFileCSVAdapter
     End Function
 
     '' Cette information n'est pas disponible actuellement dans un csv
-    Public Overrides Function getAsphaltDensity(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getCycleAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
         Return "-3"
     End Function
 
