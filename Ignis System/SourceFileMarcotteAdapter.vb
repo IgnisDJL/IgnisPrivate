@@ -507,7 +507,27 @@ Public Class SourceFileMarcotteAdapter
     ''***********************************************************************************************************************
 
     Public Overrides Function getCycleAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-3"
+        Dim virginAsphaltConcreteDensity As String = "-4"
+        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
+
+        Try
+            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteDensity + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
+            " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile) +
+            " AND " + ImportConstantEn_mdb.detailsTypeID + " = " + ImportConstantEn_mdb.typeAsphalt
+
+            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+            Dim mdbListDate = dbCommand.ExecuteReader
+
+            mdbListDate.Read()
+            virginAsphaltConcreteDensity = mdbListDate(0)
+            dbCommand.Dispose()
+            mdbListDate.Close()
+
+            Return If(String.IsNullOrEmpty(virginAsphaltConcreteDensity), "-1", virginAsphaltConcreteDensity)
+
+        Catch ex As Exception
+            Return "-2"
+        End Try
     End Function
 
     Public Overrides Function getCycleAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
