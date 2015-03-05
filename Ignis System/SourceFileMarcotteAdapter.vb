@@ -577,6 +577,33 @@ Public Class SourceFileMarcotteAdapter
         End Try
     End Function
 
+
+    Public Overrides Function getCycleAsphaltConcreteRank(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim virginAsphaltConcreteRank As String = "-4"
+        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
+        Try
+
+            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteRank +
+            " FROM (" + ImportConstantEn_mdb.tableCycle +
+            " INNER JOIN " + ImportConstantEn_mdb.tableCommande + " ON " + ImportConstantEn_mdb.commandeCommandeID + " = " + ImportConstantEn_mdb.cycleCommandeID +
+            " )INNER JOIN " + ImportConstantEn_mdb.tableMateriau + " ON " + ImportConstantEn_mdb.materiauMateriauID + " = " + ImportConstantEn_mdb.commandeNewBitumeID +
+            " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
+
+            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+            Dim mdbListDate = dbCommand.ExecuteReader
+
+            mdbListDate.Read()
+            virginAsphaltConcreteRank = mdbListDate(0)
+            dbCommand.Dispose()
+            mdbListDate.Close()
+            Return If(String.IsNullOrEmpty(virginAsphaltConcreteRank), "-1", virginAsphaltConcreteRank)
+
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+
     ''***********************************************************************************************************************
     ''  Section concernant les données liées a l'enrobé bitumineux produit dans un cycle
     ''***********************************************************************************************************************
@@ -713,7 +740,7 @@ Public Class SourceFileMarcotteAdapter
             Return "-2"
         End Try
     End Function
-   
+
     Public Overrides Function getColdFeederDebit(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
         Dim ColdFeederDebit As String = "-4"
 
@@ -805,8 +832,6 @@ Public Class SourceFileMarcotteAdapter
         End Try
     End Function
 
-    '' TODO
-    '' Cette information est elle vraiment utile 
     Public Overrides Function getHotFeederDebit(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
         Dim hotFeederDebit As String = "-4"
 
@@ -842,13 +867,6 @@ Public Class SourceFileMarcotteAdapter
             Return "-2"
         End Try
     End Function
-
-    '' TODO
-    '' retirer la fonction en commentaire lorsque je me serais assurer qu'elle n'est pas utile
-
-    'Public Overrides Function getHotFeederMoisturePercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-
-    'End Function
 
 End Class
 

@@ -141,52 +141,60 @@ Public Class SourceFileLogAdapter
         Return "-3"
     End Function
 
-    ''Total aggregate
 
-    ''Cette information n'est pas disponible dans un fichier log
+    '' TODO 
+    '' Cette information est disponible donc il faut la calculer
     Public Overrides Function getCycleAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalAggregateActualPercentage As String = "-4"
+        Dim cycleAggregateActualPercentage As String = "-4"
         Try
 
-            Return totalAggregateActualPercentage
+            Return cycleAggregateActualPercentage
         Catch ex As Exception
             Return "-2"
         End Try
     End Function
 
-    ''Cette information n'est pas disponible dans un fichier log
+    '' TODO 
+    '' Cette information est disponible donc il faut la calculer
     Public Overrides Function getCycleAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalAggregateDebit As String = "-4"
+        Dim cycleAggregateDebit As String = "-4"
+
+
 
         Try
-            Return If(String.IsNullOrEmpty(totalAggregateDebit), "-1", totalAggregateDebit)
+            Return If(String.IsNullOrEmpty(cycleAggregateDebit), "-1", cycleAggregateDebit)
         Catch ex As Exception
             Return "-2"
         End Try
     End Function
 
-    ''Cette information n'est pas disponible dans un fichier log
+    '' TODO 
+    '' Cette information est disponible donc il faut la calculer
     Public Overrides Function getCycleAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalAggregateMass As String = "-4"
+        Dim cycleAggregateMass As String = "-4"
 
         Try
-            Return If(String.IsNullOrEmpty(totalAggregateMass), "-1", totalAggregateMass)
+            Return If(String.IsNullOrEmpty(cycleAggregateMass), "-1", cycleAggregateMass)
         Catch ex As Exception
             Return "-2"
         End Try
     End Function
 
-    ''Cette information n'est pas disponible dans un fichier log
+    '' TODO 
+    '' Cette information est disponible donc il faut la calculer
     Public Overrides Function getCycleAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalAggregateTargetPercentage As String = "-4"
+        Dim cycleAggregateTargetPercentage As String = "-4"
         Try
-            Return If(String.IsNullOrEmpty(totalAggregateTargetPercentage), "-1", totalAggregateTargetPercentage)
+            Return If(String.IsNullOrEmpty(cycleAggregateTargetPercentage), "-1", cycleAggregateTargetPercentage)
         Catch ex As Exception
             Return "-2"
         End Try
     End Function
 
-    ''Cycle asphalt
+    ''***********************************************************************************************************************
+    ''  Section concernant les donnée liées au bitume ou A/C d'un cycle 
+    ''***********************************************************************************************************************
+
     Public Overrides Function getCycleAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltActualPercentage As String = "-4"
         Dim regex = New Regex("([\d]+.[\d]+)")
@@ -226,6 +234,17 @@ Public Class SourceFileLogAdapter
         Try
             virginAsphaltTargetPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederTargetPercentage, indexCycle, sourceFile))(EnumColumnType.VirginAspahlt).Value.Trim
             Return If(String.IsNullOrEmpty(virginAsphaltTargetPercentage), "-1", virginAsphaltTargetPercentage)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getCycleAsphaltConcreteRank(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim virginAsphaltConcreteRank As String = "-4"
+
+        Try
+            virginAsphaltConcreteRank = "-3"
+            Return If(String.IsNullOrEmpty(virginAsphaltConcreteRank), "-1", virginAsphaltConcreteRank)
         Catch ex As Exception
             Return "-2"
         End Try
@@ -587,7 +606,7 @@ Public Class SourceFileLogAdapter
     End Function
 
     Public Overrides Function getHotFeederTargetPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim feederTargetPercentage As String
+        Dim feederTargetPercentage As String = "-4"
 
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
@@ -598,8 +617,16 @@ Public Class SourceFileLogAdapter
             Return "-2"
         End Try
     End Function
-    ''Cette information n'est pas disponible dans un fichier log
+
     Public Overrides Function getHotFeederMaterialID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-3"
+        Dim hotFeederMaterialID As String = "-4"
+
+        Try
+            hotFeederMaterialID = "-3"
+            Return If(String.IsNullOrEmpty(hotFeederMaterialID), "-1", hotFeederMaterialID)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+
     End Function
 End Class

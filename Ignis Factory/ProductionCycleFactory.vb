@@ -16,34 +16,35 @@ Public Class ProductionCycleFactory
     Public Function createProductionCycle(indexCycle As Integer, sourceFile As SourceFile) As ProductionCycle
         Dim productionCycle As ProductionCycle
 
-        Dim asphaltTankId As String
-        Dim asphaltRecordedTemperature As Double
         Dim endOfCycle As Date
         Dim mixProduced As ProducedMix
         
         Dim coldFeederList As List(Of ColdFeeder)
-        Dim totalAsphaltUsed As AsphaltUsed
-        
+        Dim virginAsphaltUsed As AsphaltUsed
+
         Dim dustRemovalDebit As Double
         Dim siloFillingNumber As String
         Dim bagHouseDiff As Double
-        Dim asphaltDensity As Double
+
         Dim hotFeederList As List(Of HotFeeder)
 
-        asphaltTankId = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteTankId(indexCycle, sourceFile)
-        asphaltRecordedTemperature = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteRecordedTemperature(indexCycle, sourceFile)
         endOfCycle = sourceFile.sourceFileAdapter.getTime(indexCycle, sourceFile)
         mixProduced = producedMixFactory.createProducedMix(indexCycle, sourceFile)
         coldFeederList = feederFactory.createColdFeederList(indexCycle, sourceFile)
         hotFeederList = feederFactory.createHotFeederList(indexCycle, sourceFile)
-        totalAsphaltUsed = mixComponentUsedFactory.createAsphaltUsed(indexCycle, sourceFile)
+
+
+
+
+        virginAsphaltUsed = mixComponentUsedFactory.createAsphaltUsed(indexCycle, sourceFile)
+
+
         dustRemovalDebit = sourceFile.sourceFileAdapter.getDustRemovalDebit(indexCycle, sourceFile)
         siloFillingNumber = sourceFile.sourceFileAdapter.getSiloFillingNumber(indexCycle, sourceFile)
         bagHouseDiff = sourceFile.sourceFileAdapter.getBagHouseDiff(indexCycle, sourceFile)
-        asphaltDensity = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteDensity(indexCycle, sourceFile)
-
-        productionCycle = New ProductionCycle(asphaltTankId, asphaltRecordedTemperature, endOfCycle, mixProduced, coldFeederList,
-                                              hotFeederList, totalAsphaltUsed, dustRemovalDebit,siloFillingNumber, bagHouseDiff, asphaltDensity)
+        
+        productionCycle = New ProductionCycle(endOfCycle, mixProduced, coldFeederList,
+                                              hotFeederList, virginAsphaltUsed, dustRemovalDebit, siloFillingNumber, bagHouseDiff)
 
 
         Return productionCycle

@@ -10,13 +10,23 @@ Public Class MixComponentUsedFactory
         Dim actualPercentage As Double
         Dim debit As Double
         Dim mass As Double
+        Dim asphaltRecordedTemperature As Double
+        Dim asphaltDensity As Double
+        Dim asphaltTankId As String
+        Dim asphaltRank As String
+
+
+        asphaltRecordedTemperature = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteRecordedTemperature(indexCycle, sourceFile)
+        asphaltDensity = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteDensity(indexCycle, sourceFile)
+        asphaltTankId = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteTankId(indexCycle, sourceFile)
+        asphaltRank = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteRank(indexCycle, sourceFile)
 
         targetPercentage = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteTargetPercentage(indexCycle, sourceFile)
         actualPercentage = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteActualPercentage(indexCycle, sourceFile)
         debit = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteDebit(indexCycle, sourceFile)
         mass = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteMass(indexCycle, sourceFile)
 
-        asphaltUsed = New AsphaltUsed(targetPercentage, actualPercentage, debit, mass)
+        asphaltUsed = New AsphaltUsed(targetPercentage, actualPercentage, debit, mass, asphaltRecordedTemperature, asphaltDensity, asphaltTankId, asphaltRank)
 
         Return asphaltUsed
     End Function

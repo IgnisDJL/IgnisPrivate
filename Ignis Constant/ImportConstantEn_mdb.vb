@@ -2,6 +2,7 @@
 Public Class ImportConstantEn_mdb
     Inherits ImportConstant_mdb
 
+
     ''Constante des types
     Public Const typeAsphalt = "7"
     Public Const typeAggregate = "1"
@@ -46,6 +47,9 @@ Public Class ImportConstantEn_mdb
     Public Const commandeNomJob = tableCommande + ".NomJob"
     Public Const commandeNomFormuleID = tableCommande + ".NomFormuleID"
     Public Const commandeDescriptionFormuleID = tableCommande + ".DescriptionFormuleID"
+    Public Const commandeNewBitumeID = tableCommande + ".NewBitumeID"
+
+
     ''*****************************************
     ''          Table StringCache
     ''*****************************************
@@ -87,8 +91,13 @@ Public Class ImportConstantEn_mdb
     Public Const emplacementNoEmplacment = tableEmplacement + ".NoEmplacement"
     Public Const emplacementNom = tableEmplacement + ".Nom"
 
-
-
+    ''*****************************************
+    ''          Table Materiau
+    ''*****************************************
+    Public Const tableMateriau = "Materiau"
+    Public Const materiauMateriauID = tableMateriau + ".MateriauID"
+    Public Const materiauNom = tableMateriau + ".Nom"
+    Public Const materiauTypeID = tableMateriau + ".TypeID"
     ''***********************************************************************************************************************************************************************************
     ''                                                                              Getter des constantes pour CSV Anglais
     ''***********************************************************************************************************************************************************************************
@@ -406,4 +415,9 @@ Public Class ImportConstantEn_mdb
         End Get
     End Property
 
+    Public Overrides ReadOnly Property virginAsphaltConcreteRank As String
+        Get
+            Return materiauNom
+        End Get
+    End Property
 End Class

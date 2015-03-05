@@ -5,23 +5,19 @@
     Private dustRemovalDebit As Double
     Private siloFillingNumber As String
     Private bagHouseDiff As Double
-    Private asphaltDensity As Double
+
     Private coldFeederList As List(Of ColdFeeder)
     Private hotFeederList As List(Of HotFeeder)
     Private recycledAsphaltUsed As RecycledAsphaltUsed
     Private totalAsphaltUsed As AsphaltUsed
-    Private asphaltTankId As String
-    Private asphaltRecordedTemperature As Double
 
-    Sub New(asphaltTankId As String, asphaltRecordedTemperature As Double, endOfCycle As Date, producedMix As ProducedMix, coldFeederList As List(Of ColdFeeder), hotFeederList As List(Of HotFeeder), totalAsphaltUsed As AsphaltUsed, dustRemovalDebit As Double, siloFillingNumber As String, bagHouseDiff As Double, asphaltDensity As Double)
-        Me.asphaltTankId = asphaltTankId
-        Me.asphaltRecordedTemperature = asphaltRecordedTemperature
+
+    Sub New(endOfCycle As Date, producedMix As ProducedMix, coldFeederList As List(Of ColdFeeder), hotFeederList As List(Of HotFeeder), totalAsphaltUsed As AsphaltUsed, dustRemovalDebit As Double, siloFillingNumber As String, bagHouseDiff As Double)
         Me.endOfCycle = endOfCycle
         Me.producedMix = producedMix
         Me.dustRemovalDebit = dustRemovalDebit
         Me.siloFillingNumber = siloFillingNumber
         Me.bagHouseDiff = bagHouseDiff
-        Me.asphaltDensity = asphaltDensity
         Me.coldFeederList = coldFeederList
         Me.hotFeederList = hotFeederList
         Me.recycledAsphaltUsed = recycledAsphaltUsed
@@ -60,11 +56,6 @@
         End Get
     End Property
 
-    Public ReadOnly Property getAsphaltDensity As Double
-        Get
-            Return asphaltDensity
-        End Get
-    End Property
 
     Public ReadOnly Property getColdFeederList As List(Of ColdFeeder)
         Get
@@ -85,18 +76,7 @@
     End Property
 
     Public Function getAsphaltName() As String
-        Return Plant.asphaltCatalog.getDescriptionFromContainer(asphaltTankId, endOfCycle)
+        Return Plant.asphaltCatalog.getDescriptionFromContainer(totalAsphaltUsed.getTankId, endOfCycle)
     End Function
 
-    Public ReadOnly Property getRecordedTemperature As Double
-        Get
-            Return asphaltRecordedTemperature
-        End Get
-    End Property
-
-    Public ReadOnly Property getAsphaltTankId As String
-        Get
-            Return asphaltTankId
-        End Get
-    End Property
 End Class

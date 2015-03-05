@@ -1,7 +1,6 @@
 ﻿Public MustInherit Class ImportConstant_log
     Implements GlobalImportConstant
 
-
     Public Const time_Fr_log = "Heure :"
     Public Const time_En_log = "Time :"
 
@@ -27,6 +26,8 @@
     Public MustOverride ReadOnly Property virginAsphaltConcreteTankId() As String Implements GlobalImportConstant.virginAsphaltConcreteTankId
     Public MustOverride ReadOnly Property virginAsphaltConcreteRecordedTemperature() As String Implements GlobalImportConstant.virginAsphaltConcreteRecordedTemperature
     Public MustOverride ReadOnly Property virginAsphaltConcreteDensity() As String Implements GlobalImportConstant.virginAsphaltConcreteDensity
+    Public MustOverride ReadOnly Property virginAsphaltConcreteRank() As String Implements GlobalImportConstant.virginAsphaltConcreteRank
+
 
     ''**********************************************
     ''  getter cycleAggregate
@@ -202,4 +203,5 @@
             Return "-5"
         End Get
     End Property
+
 End Class

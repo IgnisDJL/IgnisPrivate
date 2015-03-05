@@ -198,39 +198,6 @@ Public Class SourceFileCSVAdapter
         Return "-3"
     End Function
 
-    ''Total asphalt
-    Public Overrides Function getCycleAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalAsphaltActualPercentage As String = "-4"
-
-        Try
-            totalAsphaltActualPercentage = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteActualPercentage, indexCycle, sourceFile)
-            Return If(String.IsNullOrEmpty(totalAsphaltActualPercentage), "-1", totalAsphaltActualPercentage)
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
-
-    '' Cette information n'est pas disponible actuellement dans un csv
-    Public Overrides Function getCycleAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-3"
-    End Function
-
-    Public Overrides Function getCycleAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalAsphaltMass As String = "-4"
-
-        Try
-            totalAsphaltMass = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteMass, indexCycle, sourceFile)
-            Return If(String.IsNullOrEmpty(totalAsphaltMass), "-1", totalAsphaltMass)
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
-
-    '' Cette information n'est pas disponible actuellement dans un csv
-    Public Overrides Function getCycleAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-3"
-    End Function
-
 
     ''***********************************************************************************************************************
     ''  Section concernant les donnée liées un ProductionCycle 
@@ -297,16 +264,50 @@ Public Class SourceFileCSVAdapter
     ''***********************************************************************************************************************
     ''  Section concernant les données liées au bitume utilisé dans un cycle 
     ''**********************************************************************************************************************
-    Public Overrides Function getCycleAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim asphaltTankId As String = "-4"
+    '' Cette information n'est pas disponible actuellement dans le fichier source des .csv
+    '' Cette information est disponible dans une base de donnée en parrallele, dans une version ultérieur elle sera récupéré de la formule
+    Public Overrides Function getCycleAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim virginAsphaltConcreteTargetPercentage As String = "-4"
 
         Try
-            asphaltTankId = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteTankId, indexCycle, sourceFile)
-            Return If(String.IsNullOrEmpty(asphaltTankId), "-1", asphaltTankId)
+            virginAsphaltConcreteTargetPercentage = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteTargetPercentage, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(virginAsphaltConcreteTargetPercentage), "-1", virginAsphaltConcreteTargetPercentage)
         Catch ex As Exception
             Return "-2"
         End Try
+    End Function
 
+    Public Overrides Function getCycleAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim totalAsphaltActualPercentage As String = "-4"
+
+        Try
+            totalAsphaltActualPercentage = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteActualPercentage, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(totalAsphaltActualPercentage), "-1", totalAsphaltActualPercentage)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getCycleAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim virginAsphaltConcreteDebit As String = "-4"
+
+        Try
+            virginAsphaltConcreteDebit = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteDebit, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(virginAsphaltConcreteDebit), "-1", virginAsphaltConcreteDebit)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getCycleAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim totalAsphaltMass As String = "-4"
+
+        Try
+            totalAsphaltMass = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteMass, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(totalAsphaltMass), "-1", totalAsphaltMass)
+        Catch ex As Exception
+            Return "-2"
+        End Try
     End Function
 
     Public Overrides Function getCycleAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
@@ -320,9 +321,37 @@ Public Class SourceFileCSVAdapter
         End Try
     End Function
 
-    '' Cette information n'est pas disponible actuellement dans un csv
     Public Overrides Function getCycleAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-3"
+        Dim asphaltConcreteDensity As String = "-4"
+        Try
+            asphaltConcreteDensity = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteDensity, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(asphaltConcreteDensity), "-1", asphaltConcreteDensity)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getCycleAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim asphaltTankId As String = "-4"
+
+        Try
+            asphaltTankId = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteTankId, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(asphaltTankId), "-1", asphaltTankId)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+
+    End Function
+
+    Public Overrides Function getCycleAsphaltConcreteRank(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim asphaltConcreteRank As String = "-4"
+
+        Try
+            asphaltConcreteRank = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteRank, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(asphaltConcreteRank), "-1", asphaltConcreteRank)
+        Catch ex As Exception
+            Return "-2"
+        End Try
     End Function
 
     ''***********************************************************************************************************************
@@ -471,13 +500,6 @@ Public Class SourceFileCSVAdapter
         Return "-3"
     End Function
 
-    '' TODO
-
-    ' '' Cette information n'est pas disponible actuellement dans un csv
-    'Public Overrides Function getHotFeederMoisturePercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-    '    Return "-3"
-    'End Function
-
     Public Overrides Function getHotFeederActualPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
         Dim hotFeederActualPercentage As String = "-4"
         Try
@@ -611,4 +633,5 @@ Public Class SourceFileCSVAdapter
     Public Overrides Function getHotFeederMaterialID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
         Return "-3"
     End Function
+
 End Class
