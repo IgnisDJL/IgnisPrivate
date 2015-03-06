@@ -430,7 +430,7 @@ Public Class ImportConstantFr_csv
     End Property
 
     '' Cette information n'est pas diponible pour les fichiers sources .csv
-    Public Overrides ReadOnly Property virginAsphaltConcreteRank As String
+    Public Overrides ReadOnly Property virginAsphaltConcreteGrade As String
         Get
             Return "-3"
         End Get

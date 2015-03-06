@@ -26,7 +26,7 @@
     Public MustOverride ReadOnly Property virginAsphaltConcreteTankId() As String Implements GlobalImportConstant.virginAsphaltConcreteTankId
     Public MustOverride ReadOnly Property virginAsphaltConcreteRecordedTemperature() As String Implements GlobalImportConstant.virginAsphaltConcreteRecordedTemperature
     Public MustOverride ReadOnly Property virginAsphaltConcreteDensity() As String Implements GlobalImportConstant.virginAsphaltConcreteDensity
-    Public MustOverride ReadOnly Property virginAsphaltConcreteRank() As String Implements GlobalImportConstant.virginAsphaltConcreteRank
+    Public MustOverride ReadOnly Property virginAsphaltConcreteGrade() As String Implements GlobalImportConstant.virginAsphaltConcreteGrade
 
 
     ''**********************************************

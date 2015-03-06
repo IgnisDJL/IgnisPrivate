@@ -18,10 +18,8 @@ Public Class ProductionCycleFactory
 
         Dim endOfCycle As Date
         Dim mixProduced As ProducedMix
-        
         Dim coldFeederList As List(Of ColdFeeder)
         Dim virginAsphaltUsed As AsphaltUsed
-
         Dim dustRemovalDebit As Double
         Dim siloFillingNumber As String
         Dim bagHouseDiff As Double
@@ -32,13 +30,7 @@ Public Class ProductionCycleFactory
         mixProduced = producedMixFactory.createProducedMix(indexCycle, sourceFile)
         coldFeederList = feederFactory.createColdFeederList(indexCycle, sourceFile)
         hotFeederList = feederFactory.createHotFeederList(indexCycle, sourceFile)
-
-
-
-
         virginAsphaltUsed = mixComponentUsedFactory.createAsphaltUsed(indexCycle, sourceFile)
-
-
         dustRemovalDebit = sourceFile.sourceFileAdapter.getDustRemovalDebit(indexCycle, sourceFile)
         siloFillingNumber = sourceFile.sourceFileAdapter.getSiloFillingNumber(indexCycle, sourceFile)
         bagHouseDiff = sourceFile.sourceFileAdapter.getBagHouseDiff(indexCycle, sourceFile)

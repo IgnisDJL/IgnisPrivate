@@ -30,7 +30,7 @@
     ReadOnly Property virginAsphaltConcreteTankId() As String
     ReadOnly Property virginAsphaltConcreteRecordedTemperature() As String
     ReadOnly Property virginAsphaltConcreteDensity() As String
-    ReadOnly Property virginAsphaltConcreteRank() As String
+    ReadOnly Property virginAsphaltConcreteGrade() As String
 
     ''**********************************************
     ''  getter de l'enrobé produit

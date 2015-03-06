@@ -239,12 +239,12 @@ Public Class SourceFileLogAdapter
         End Try
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteRank(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim virginAsphaltConcreteRank As String = "-4"
+    Public Overrides Function getCycleAsphaltConcreteGrade(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim virginAsphaltConcreteGrade As String = "-4"
 
         Try
-            virginAsphaltConcreteRank = "-3"
-            Return If(String.IsNullOrEmpty(virginAsphaltConcreteRank), "-1", virginAsphaltConcreteRank)
+            virginAsphaltConcreteGrade = "-3"
+            Return If(String.IsNullOrEmpty(virginAsphaltConcreteGrade), "-1", virginAsphaltConcreteGrade)
         Catch ex As Exception
             Return "-2"
         End Try

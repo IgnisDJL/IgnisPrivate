@@ -343,12 +343,12 @@ Public Class SourceFileCSVAdapter
 
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteRank(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim asphaltConcreteRank As String = "-4"
+    Public Overrides Function getCycleAsphaltConcreteGrade(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim asphaltConcreteGrade As String = "-4"
 
         Try
-            asphaltConcreteRank = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteRank, indexCycle, sourceFile)
-            Return If(String.IsNullOrEmpty(asphaltConcreteRank), "-1", asphaltConcreteRank)
+            asphaltConcreteGrade = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteGrade, indexCycle, sourceFile)
+            Return If(String.IsNullOrEmpty(asphaltConcreteGrade), "-1", asphaltConcreteGrade)
         Catch ex As Exception
             Return "-2"
         End Try

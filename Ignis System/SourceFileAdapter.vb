@@ -76,7 +76,7 @@
     Public MustOverride Function getCycleAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getCycleAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getCycleAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAsphaltConcreteRank(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAsphaltConcreteGrade(indexCycle As Integer, sourceFile As SourceFile) As String
 
     ''***********************************************************************************************************************
     ''  Section concernant les données liées a l'enrobé bitumineux produit dans un cycle

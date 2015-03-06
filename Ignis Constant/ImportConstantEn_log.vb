@@ -240,7 +240,7 @@ Public Class ImportConstantEn_log
     End Property
 
     '' Cette information n'est pas diponible pour les fichiers sources .log
-    Public Overrides ReadOnly Property virginAsphaltConcreteRank As String
+    Public Overrides ReadOnly Property virginAsphaltConcreteGrade As String
         Get
             Return "-3"
         End Get

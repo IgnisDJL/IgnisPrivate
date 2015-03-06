@@ -578,12 +578,12 @@ Public Class SourceFileMarcotteAdapter
     End Function
 
 
-    Public Overrides Function getCycleAsphaltConcreteRank(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim virginAsphaltConcreteRank As String = "-4"
+    Public Overrides Function getCycleAsphaltConcreteGrade(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim virginAsphaltConcreteGrade As String = "-4"
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
         Try
 
-            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteRank +
+            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteGrade +
             " FROM (" + ImportConstantEn_mdb.tableCycle +
             " INNER JOIN " + ImportConstantEn_mdb.tableCommande + " ON " + ImportConstantEn_mdb.commandeCommandeID + " = " + ImportConstantEn_mdb.cycleCommandeID +
             " )INNER JOIN " + ImportConstantEn_mdb.tableMateriau + " ON " + ImportConstantEn_mdb.materiauMateriauID + " = " + ImportConstantEn_mdb.commandeNewBitumeID +
@@ -593,10 +593,10 @@ Public Class SourceFileMarcotteAdapter
             Dim mdbListDate = dbCommand.ExecuteReader
 
             mdbListDate.Read()
-            virginAsphaltConcreteRank = mdbListDate(0)
+            virginAsphaltConcreteGrade = mdbListDate(0)
             dbCommand.Dispose()
             mdbListDate.Close()
-            Return If(String.IsNullOrEmpty(virginAsphaltConcreteRank), "-1", virginAsphaltConcreteRank)
+            Return If(String.IsNullOrEmpty(virginAsphaltConcreteGrade), "-1", virginAsphaltConcreteGrade)
 
         Catch ex As Exception
             Return "-2"
