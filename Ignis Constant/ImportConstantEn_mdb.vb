@@ -32,9 +32,9 @@ Public Class ImportConstantEn_mdb
     Public Const detailsEmplacement = tableCycleDetails + ".Emplacement"
     Public Const detailsDensite = tableCycleDetails + ".Densite"
     Public Const detailsHumidite = tableCycleDetails + ".Humidite"
+    Public Const detailsNomMateriauID = tableCycleDetails + ".NomMateriauID"
+    Public Const detailsNoSerieID = tableCycleDetails + ".NoSerieID"
 
-
-    'Public Const LOCATION = "Emplacement"
     'Public Const MANUEL_MODE = "Manuelle"
 
     ''*****************************************
@@ -57,6 +57,26 @@ Public Class ImportConstantEn_mdb
     Public Const tableStringCache = "StringCache"
     Public Const stringCacheStringCacheID = tableStringCache + ".StringCacheID"
     Public Const stringCacheStr = tableStringCache + ".Str"
+
+    ''*****************************************
+    ''          Table StringCache1
+    ''*****************************************
+    Public Const stringCache1 = "StringCache1"
+    Public Const tableStringCache1 = tableStringCache + " as " + stringCache1
+    Public Const stringCacheStringCacheID1 = stringCache1 + ".StringCacheID"
+    Public Const stringCacheStr1 = stringCache1 + ".Str"
+
+    ''*****************************************
+    ''          Table StringCache2
+    ''*****************************************
+    Public Const stringCache2 = "StringCache2"
+    Public Const tableStringCache2 = tableStringCache + " as " + stringCache2
+    Public Const stringCacheStringCacheID2 = stringCache2 + ".StringCacheID"
+    Public Const stringCacheStr2 = stringCache2 + ".Str"
+
+
+
+
 
     ''*****************************************
     ''          Table Recettes
@@ -98,6 +118,7 @@ Public Class ImportConstantEn_mdb
     Public Const materiauMateriauID = tableMateriau + ".MateriauID"
     Public Const materiauNom = tableMateriau + ".Nom"
     Public Const materiauTypeID = tableMateriau + ".TypeID"
+    Public Const materiauNoSerie = tableMateriau + ".NoSerie"
     ''***********************************************************************************************************************************************************************************
     ''                                                                              Getter des constantes pour CSV Anglais
     ''***********************************************************************************************************************************************************************************
@@ -320,7 +341,7 @@ Public Class ImportConstantEn_mdb
 
     Public Overrides ReadOnly Property hotFeederMaterialID As String
         Get
-            Return detailsTypeID
+            Return materiauMateriauID
         End Get
     End Property
 

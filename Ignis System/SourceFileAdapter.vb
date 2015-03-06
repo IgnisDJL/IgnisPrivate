@@ -33,14 +33,14 @@
     ''***********************************************************************************************************************
 
     ''***********************************************************************************************************************
-    ''  Section concernant de donnée lier a un ProductionCycle
+    ''  Section concernant de donnée lier a un ProductionDay
     ''***********************************************************************************************************************
     Public MustOverride Function getDate(sourceFile As SourceFile) As Date
+    Public MustOverride Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
 
     ''***********************************************************************************************************************
     ''  Section concernant de donnée lier a un ProductionCycle
     ''***********************************************************************************************************************
-
     Public MustOverride Function getTime(indexCycle As Integer, sourceFile As SourceFile) As Date
     Public MustOverride Function getDustRemovalDebit(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getTruckID(indexCycle As Integer, sourceFile As SourceFile) As String
@@ -50,33 +50,26 @@
     Public MustOverride Function getMixCounter(indexCycle As Integer, sourceFile As SourceFile) As String
 
     ''***********************************************************************************************************************
-    ''  Section concernant les totaux d'un cycle de production 
+    ''                                      Asphalt Concrete utilisé pour un cycle (A/C) 
     ''***********************************************************************************************************************
-    ''TotalAggregate
-    Public MustOverride Function getCycleAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAsphaltConcreteGrade(indexCycle As Integer, sourceFile As SourceFile) As String
+
+    ''***********************************************************************************************************************
+    ''                                     Somme des Aggregate utilisées pour un cycle
+    ''***********************************************************************************************************************
     Public MustOverride Function getCycleAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getCycleAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getCycleAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getCycleAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
 
-    '' TODO
-    '' Code mort à retirer
 
-    '' Public MustOverride Function getTotalAggregateMoisturePercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    ''TotalMass
-    Public MustOverride Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
-
-    ''***********************************************************************************************************************
-    ''  Section concernant les données liées au bitume utilisé dans un cycle 
-    ''***********************************************************************************************************************
-    Public MustOverride Function getCycleAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAsphaltConcreteGrade(indexCycle As Integer, sourceFile As SourceFile) As String
 
     ''***********************************************************************************************************************
     ''  Section concernant les données liées a l'enrobé bitumineux produit dans un cycle
@@ -89,10 +82,10 @@
     ''***********************************************************************************************************************
     ''  Section concernant les Bennes froides d'un cycle
     ''***********************************************************************************************************************
-    Public MustOverride Function getColdFeederCountForCycle(indexCycle As Integer, sourceFile As SourceFile) As Integer
-    Public MustOverride Function getColdFeederID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getColdFeederTargetPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getColdFeederActualPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getColdFeederCountForCycle(indexCycle As Integer, sourceFile As SourceFile) As Integer
+    Public MustOverride Function getColdFeederID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getColdFeederDebit(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getColdFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getColdFeederMoisturePercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
@@ -109,9 +102,5 @@
     Public MustOverride Function getHotFeederDebit(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getHotFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getHotFeederMaterialID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-
-    ''TODO
-    '' reitirer le commentaire lorsque je me serais assurer que la fonction est inutile
-    'Public MustOverride Function getHotFeederMoisturePercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
 
 End Class

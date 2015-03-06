@@ -111,9 +111,13 @@ Public Class SourceFileMarcotteAdapter
             Dim query = "SELECT " + ImportConstantEn_mdb.cycleCycleID + ", " + sourceFile.importConstant.hotFeederID + ", " + sourceFile.importConstant.hotFeederMaterialID + ", " +
             sourceFile.importConstant.hotFeederTargetPercentage + ", " + sourceFile.importConstant.hotFeederActualPercentage + ", " +
             sourceFile.importConstant.hotFeederDebit + ", " + sourceFile.importConstant.hotFeederMass +
-            " FROM ( " + ImportConstantEn_mdb.tableCycleDetails +
+            " FROM (((( " + ImportConstantEn_mdb.tableCycleDetails +
             " INNER JOIN " + ImportConstantEn_mdb.tableCycle + " ON " + ImportConstantEn_mdb.cycleCycleID + " = " + ImportConstantEn_mdb.detailsCycleID +
-            " )INNER JOIN " + ImportConstantEn_mdb.tableEmplacement + " ON " + ImportConstantEn_mdb.detailsEmplacement + " = " + ImportConstantEn_mdb.emplacementNoEmplacment +
+            " ) INNER JOIN " + ImportConstantEn_mdb.tableEmplacement + " ON " + ImportConstantEn_mdb.detailsEmplacement + " = " + ImportConstantEn_mdb.emplacementNoEmplacment +
+            " ) INNER JOIN " + ImportConstantEn_mdb.tableStringCache1 + " ON " + ImportConstantEn_mdb.detailsNomMateriauID + " = " + ImportConstantEn_mdb.stringCacheStringCacheID1 +
+            " ) INNER JOIN " + ImportConstantEn_mdb.tableStringCache2 + " ON " + ImportConstantEn_mdb.detailsNoSerieID + " = " + ImportConstantEn_mdb.stringCacheStringCacheID2 +
+            " ) INNER JOIN " + ImportConstantEn_mdb.tableMateriau + " ON " + ImportConstantEn_mdb.stringCacheStr1 + " = " + ImportConstantEn_mdb.materiauNom +
+            " AND " + ImportConstantEn_mdb.stringCacheStr2 + " = " + ImportConstantEn_mdb.materiauNoSerie +
             " WHERE " + ImportConstantEn_mdb.cycleDate + " BETWEEN  CDate('" + sourceFile.Date_() + "') AND CDate('" + (sourceFile.Date_().AddDays(1)) + "')"
 
             Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
