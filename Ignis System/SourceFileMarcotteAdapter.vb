@@ -256,7 +256,7 @@ Public Class SourceFileMarcotteAdapter
     ''***********************************************************************************************************************
 
     ''***********************************************************************************************************************
-    ''  Section concernant de donnée lier a un ProductionCycle
+    ''  Section concernant de donnée lier a un ProductionDay
     ''***********************************************************************************************************************
 
     Public Overrides Function getDate(sourceFile As SourceFile) As Date
@@ -267,6 +267,103 @@ Public Class SourceFileMarcotteAdapter
     ''***********************************************************************************************************************
     ''  Section concernant de donnée lier a un ProductionCycle
     ''***********************************************************************************************************************
+
+
+
+    Public Overrides Function getManuelle(indexCycle As Integer, sourceFile As SourceFile) As Boolean
+        Dim manuelle As Boolean = "-4"
+        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
+        Try
+            Dim query = "SELECT " + sourceFile.importConstant.manuel + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
+                " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile)
+
+
+            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+            Dim mdbListDate = dbCommand.ExecuteReader
+
+            mdbListDate.Read()
+            manuelle = mdbListDate(0)
+            dbCommand.Dispose()
+            mdbListDate.Close()
+
+            Return If(String.IsNullOrEmpty(manuelle), "-1", manuelle)
+
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+
+    Public Overrides Function getDureeMalaxHumideCycle(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim dureeMalaxHumideCycle As String = "-4"
+        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
+
+        Dim query = "SELECT " + sourceFile.importConstant.dureeMalaxHumide + " FROM " + ImportConstantEn_mdb.tableCycle +
+            " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
+        Try
+
+            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+            Dim mdbListDate = dbCommand.ExecuteReader
+
+            mdbListDate.Read()
+            dureeMalaxHumideCycle = mdbListDate(0)
+            dbCommand.Dispose()
+            mdbListDate.Close()
+
+            Return If(String.IsNullOrEmpty(dureeMalaxHumideCycle), "-1", dureeMalaxHumideCycle)
+
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getDureeMalaxSecCycle(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim dureeMalaxSecCycle As String = "-4"
+        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
+
+        Dim query = "SELECT " + sourceFile.importConstant.dureeMalaxSec + " FROM " + ImportConstantEn_mdb.tableCycle +
+            " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
+        Try
+
+            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+            Dim mdbListDate = dbCommand.ExecuteReader
+
+            mdbListDate.Read()
+            dureeMalaxSecCycle = mdbListDate(0)
+            dbCommand.Dispose()
+            mdbListDate.Close()
+
+            Return If(String.IsNullOrEmpty(dureeMalaxSecCycle), "-1", dureeMalaxSecCycle)
+
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getDureeCycle(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim dureeCycle As String = "-4"
+        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
+
+        Dim query = "SELECT " + sourceFile.importConstant.dureeCycle + " FROM " + ImportConstantEn_mdb.tableCycle +
+            " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
+        Try
+
+            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+            Dim mdbListDate = dbCommand.ExecuteReader
+
+            mdbListDate.Read()
+            dureeCycle = mdbListDate(0)
+            dbCommand.Dispose()
+            mdbListDate.Close()
+
+            Return If(String.IsNullOrEmpty(dureeCycle), "-1", dureeCycle)
+
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+
     Public Overrides Function getTime(indexCycle As Integer, sourceFile As SourceFile) As Date
         Dim time As Date
 
@@ -281,6 +378,7 @@ Public Class SourceFileMarcotteAdapter
         time = mdbListDate(0)
         mdbListDate.Close()
         dbCommand.Dispose()
+
         Return time
     End Function
 

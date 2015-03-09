@@ -5,14 +5,18 @@
     Private dustRemovalDebit As Double
     Private siloFillingNumber As String
     Private bagHouseDiff As Double
-
     Private coldFeederList As List(Of ColdFeeder)
     Private hotFeederList As List(Of HotFeeder)
     Private recycledAsphaltUsed As RecycledAsphaltUsed
     Private totalAsphaltUsed As AsphaltUsed
+    Private dureeCycle As Double
+    Private dureeMalaxHumide As Double
+    Private dureeMalaxSec As Double
+    Private manuelle As Boolean
 
+    Sub New(endOfCycle As Date, producedMix As ProducedMix, coldFeederList As List(Of ColdFeeder), hotFeederList As List(Of HotFeeder), totalAsphaltUsed As AsphaltUsed, dustRemovalDebit As Double, siloFillingNumber As String, bagHouseDiff As Double,
+            dureeCycle As Double, dureeMalaxHumide As Double, dureeMalaxSec As Double, manuelle As Boolean)
 
-    Sub New(endOfCycle As Date, producedMix As ProducedMix, coldFeederList As List(Of ColdFeeder), hotFeederList As List(Of HotFeeder), totalAsphaltUsed As AsphaltUsed, dustRemovalDebit As Double, siloFillingNumber As String, bagHouseDiff As Double)
         Me.endOfCycle = endOfCycle
         Me.producedMix = producedMix
         Me.dustRemovalDebit = dustRemovalDebit
@@ -22,8 +26,18 @@
         Me.hotFeederList = hotFeederList
         Me.recycledAsphaltUsed = recycledAsphaltUsed
         Me.totalAsphaltUsed = totalAsphaltUsed
+        Me.dureeCycle = dureeCycle
+        Me.dureeMalaxHumide = dureeMalaxHumide
+        Me.dureeMalaxSec = dureeMalaxSec
+        Me.manuelle = manuelle
 
     End Sub
+
+    Public ReadOnly Property getManuelle As Boolean
+        Get
+            Return Me.manuelle
+        End Get
+    End Property
 
     Public ReadOnly Property getEndOfCycle As Date
         Get
@@ -79,4 +93,21 @@
         Return Plant.asphaltCatalog.getDescriptionFromContainer(totalAsphaltUsed.getTankId, endOfCycle)
     End Function
 
+    Public ReadOnly Property getDureeCycle As Double
+        Get
+            Return Me.dureeCycle
+        End Get
+    End Property
+
+    Public ReadOnly Property getDureeMalaxHumide As Double
+        Get
+            Return Me.dureeMalaxHumide
+        End Get
+    End Property
+
+    Public ReadOnly Property getDureeMalaxSec As Double
+        Get
+            Return Me.dureeMalaxSec
+        End Get
+    End Property
 End Class

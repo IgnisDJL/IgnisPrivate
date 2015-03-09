@@ -10,6 +10,8 @@ Public Class ImportConstantEn_csv
     Public Const truckID_En = "Camion"
     Public Const contractID_En = "Contrat"
     Public Const time_En = "Heure"
+    Public Const dureeMalaxHumide_En = "Dur. mal. hum."
+    Public Const dureeCycle_En = "Dur. Cycle"
 
     ''**********************************************
     ''  Constantes des totaux de production
@@ -85,6 +87,20 @@ Public Class ImportConstantEn_csv
     ''              Cycle de production
     ''**********************************************
 
+    '' Information non disponible dans un fichier csv
+    Public Overrides ReadOnly Property manuel As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    '' Information non disponible dans ce fichier source
+    Public Overrides ReadOnly Property dureeMalaxSec As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
     '' Information non disponible dans ce fichier source
     Public Overrides ReadOnly Property virginAsphaltConcreteDensity As String
         Get
@@ -145,6 +161,19 @@ Public Class ImportConstantEn_csv
     Public Overrides ReadOnly Property totalMass As String
         Get
             Return totalMass_En
+        End Get
+    End Property
+
+
+    Public Overrides ReadOnly Property dureeCycle As String
+        Get
+            Return dureeCycle_En
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property dureeMalaxHumide As String
+        Get
+            Return dureeMalaxHumide_En
         End Get
     End Property
 

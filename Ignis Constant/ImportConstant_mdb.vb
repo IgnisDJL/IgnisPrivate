@@ -12,6 +12,10 @@
     Public MustOverride ReadOnly Property bagHouseDiff() As String Implements GlobalImportConstant.bagHouseDiff
     Public MustOverride ReadOnly Property dustRemovalDebit() As String Implements GlobalImportConstant.dustRemovalDebit
     Public MustOverride ReadOnly Property totalMass() As String Implements GlobalImportConstant.totalMass
+    Public MustOverride ReadOnly Property dureeCycle() As String Implements GlobalImportConstant.dureeCycle
+    Public MustOverride ReadOnly Property dureeMalaxHumide As String Implements GlobalImportConstant.dureeMalaxHumide
+    Public MustOverride ReadOnly Property dureeMalaxSec As String Implements GlobalImportConstant.dureeMalaxSec
+    Public MustOverride ReadOnly Property manuel As String Implements GlobalImportConstant.manuel
 
     ''**********************************************
     ''  getter virginAsphaltConcrete
@@ -65,13 +69,6 @@
     Public MustOverride ReadOnly Property hotFeederActualPercentage As String Implements GlobalImportConstant.hotFeederActualPercentage
     Public MustOverride ReadOnly Property hotFeederDebit As String Implements GlobalImportConstant.hotFeederDebit
     Public MustOverride ReadOnly Property hotFeederMass As String Implements GlobalImportConstant.hotFeederMass
-
-
-    '' TODO 
-    '' Retirer la fonction en commentaire lorsqu'on sera certain qu'elle n'est plus utile
-
-    ''Public MustOverride ReadOnly Property hotFeederMoisturePercentage As String Implements GlobalImportConstant.hotFeederMoisturePercentage
-
     Public MustOverride ReadOnly Property hotFeederRecycledID As String Implements GlobalImportConstant.hotFeederRecycledID
     Public MustOverride ReadOnly Property hotFeederRecycledActualPercentage As String Implements GlobalImportConstant.hotFeederRecycledActualPercentage
     Public MustOverride ReadOnly Property hotFeederMaterialID As String Implements GlobalImportConstant.hotFeederMaterialID

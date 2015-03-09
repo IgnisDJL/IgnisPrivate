@@ -11,6 +11,10 @@
     ReadOnly Property bagHouseDiff() As String
     ReadOnly Property dustRemovalDebit() As String
     ReadOnly Property totalMass() As String
+    ReadOnly Property dureeCycle() As String
+    ReadOnly Property dureeMalaxHumide() As String
+    ReadOnly Property dureeMalaxSec() As String
+    ReadOnly Property manuel() As String
 
     ''**********************************************
     ''  getter cycleAggregate

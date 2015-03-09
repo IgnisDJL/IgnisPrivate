@@ -11,7 +11,7 @@ Public Class ImportConstantEn_log
     Public Const recycled_En = "Rap"
     Public Const truckID_En = "N/A"
     Public Const contractID_En = "N/A"
-
+    Public Const dureeCycle_En = "-3"
 
     ''**********************************************
     ''  Constantes des bennes chaudes/froides
@@ -89,6 +89,33 @@ Public Class ImportConstantEn_log
     ''***********************************************
     ''              Production Cycle
     ''***********************************************
+
+    '' Cette information n'est pas diponible pour les fichiers sources .log
+    Public Overrides ReadOnly Property manuel As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    '' Cette information n'est pas diponible pour les fichiers sources .log
+    Public Overrides ReadOnly Property dureeMalaxHumide As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+    '' Cette information n'est pas diponible pour les fichiers sources .log
+    Public Overrides ReadOnly Property dureeMalaxSec As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    '' Cette information n'est pas diponible pour les fichiers sources .log
+    Public Overrides ReadOnly Property dureeCycle As String
+        Get
+            Return dureeCycle_En
+        End Get
+    End Property
 
     Public Overrides ReadOnly Property time As String
         Get
@@ -245,5 +272,6 @@ Public Class ImportConstantEn_log
             Return "-3"
         End Get
     End Property
+
 End Class
 

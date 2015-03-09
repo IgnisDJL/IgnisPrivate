@@ -48,6 +48,10 @@
     Public MustOverride Function getSiloFillingNumber(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getBagHouseDiff(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getMixCounter(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getDureeCycle(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getDureeMalaxHumideCycle(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getDureeMalaxSecCycle(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getManuelle(indexCycle As Integer, sourceFile As SourceFile) As Boolean
 
     ''***********************************************************************************************************************
     ''                                      Asphalt Concrete utilisé pour un cycle (A/C) 

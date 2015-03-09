@@ -1,6 +1,7 @@
 ﻿Public MustInherit Class ImportConstant_log
     Implements GlobalImportConstant
 
+
     Public Const time_Fr_log = "Heure :"
     Public Const time_En_log = "Time :"
 
@@ -15,6 +16,10 @@
     Public MustOverride ReadOnly Property bagHouseDiff() As String Implements GlobalImportConstant.bagHouseDiff
     Public MustOverride ReadOnly Property dustRemovalDebit() As String Implements GlobalImportConstant.dustRemovalDebit
     Public MustOverride ReadOnly Property totalMass() As String Implements GlobalImportConstant.totalMass
+    Public MustOverride ReadOnly Property dureeCycle() As String Implements GlobalImportConstant.dureeCycle
+    Public MustOverride ReadOnly Property dureeMalaxHumide As String Implements GlobalImportConstant.dureeMalaxHumide
+    Public MustOverride ReadOnly Property dureeMalaxSec As String Implements GlobalImportConstant.dureeMalaxSec
+    Public MustOverride ReadOnly Property manuel As String Implements GlobalImportConstant.manuel
 
     ''**********************************************
     ''  getter virginAsphaltConcrete
@@ -168,18 +173,6 @@
         End Get
     End Property
 
-
-    '' TODO 
-    '' Retirer la fonction en commentaire lorsqu'on sera certain qu'elle n'est plus utile
-
-    'Public ReadOnly Property hotFeederMoisturePercentage As String Implements GlobalImportConstant.hotFeederMoisturePercentage
-    '    Get
-    '        '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
-    '        '' la classe sourceFileLogAdapter
-    '        Return "-5"
-    '    End Get
-    'End Property
-
     Public ReadOnly Property hotFeederRecycledActualPercentage As String Implements GlobalImportConstant.hotFeederRecycledActualPercentage
         Get
             '' Cette constante est inutilisé dans le contexte des fichiers .log produit par minds, car une fonction plus spécifique est déjà définit dans 
@@ -203,5 +196,6 @@
             Return "-5"
         End Get
     End Property
+
 
 End Class

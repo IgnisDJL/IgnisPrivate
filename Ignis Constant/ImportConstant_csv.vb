@@ -16,6 +16,10 @@ Public MustInherit Class ImportConstant_csv
     Public MustOverride ReadOnly Property bagHouseDiff() As String Implements GlobalImportConstant.bagHouseDiff
     Public MustOverride ReadOnly Property dustRemovalDebit() As String Implements GlobalImportConstant.dustRemovalDebit
     Public MustOverride ReadOnly Property totalMass() As String Implements GlobalImportConstant.totalMass
+    Public MustOverride ReadOnly Property dureeCycle() As String Implements GlobalImportConstant.dureeCycle
+    Public MustOverride ReadOnly Property dureeMalaxHumide() As String Implements GlobalImportConstant.dureeMalaxHumide
+    Public MustOverride ReadOnly Property dureeMalaxSec() As String Implements GlobalImportConstant.dureeMalaxSec
+    Public MustOverride ReadOnly Property manuel As String Implements GlobalImportConstant.manuel
 
     ''**********************************************
     ''  getter virginAsphaltConcrete
@@ -82,8 +86,6 @@ Public MustInherit Class ImportConstant_csv
     Public MustOverride ReadOnly Property hotFeederDopeID() As String
     Public MustOverride ReadOnly Property hotFeederDopeActualPercentage() As String
     Public MustOverride ReadOnly Property hotFeederDopeMass() As String
-
-
 
     ''**********************************************
     ''  getter des bennes chaudes
@@ -170,4 +172,5 @@ Public MustInherit Class ImportConstant_csv
             Return "-5"
         End Get
     End Property
+
 End Class

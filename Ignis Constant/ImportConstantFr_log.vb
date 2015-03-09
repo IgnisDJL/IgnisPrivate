@@ -1,6 +1,7 @@
 ﻿Public Class ImportConstantFr_log
     Inherits ImportConstant_log
 
+
     ''**********************************************
     '' Constantes du cycle de production
     ''**********************************************
@@ -127,6 +128,34 @@
     ''                 Production Cycle
     ''***********************************************
 
+    '' Cette information n'est pas diponible pour les fichiers sources .log
+    Public Overrides ReadOnly Property manuel As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+
+    '' Cette information n'est pas diponible pour les fichiers sources .log
+    Public Overrides ReadOnly Property dureeCycle As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    '' Cette information n'est pas diponible pour les fichiers sources .log
+    Public Overrides ReadOnly Property dureeMalaxHumide As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    '' Cette information n'est pas diponible pour les fichiers sources .log
+    Public Overrides ReadOnly Property dureeMalaxSec As String
+        Get
+            Return "-3"
+        End Get
+    End Property
     Public Overrides ReadOnly Property bagHouseDiff As String
         Get
             Return bagHouseDiff_Fr
@@ -205,4 +234,5 @@
             Return "-3"
         End Get
     End Property
+
 End Class

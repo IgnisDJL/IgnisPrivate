@@ -2,7 +2,6 @@
 Public Class ImportConstantEn_mdb
     Inherits ImportConstant_mdb
 
-
     ''Constante des types
     Public Const typeAsphalt = "7"
     Public Const typeAggregate = "1"
@@ -16,13 +15,13 @@ Public Class ImportConstantEn_mdb
     Public Const cycleCommandeID = tableCycle + ".CommandeID"
     Public Const cycleDate = tableCycle + ".Date"
     Public Const cycleMixTemp = tableCycle + ".TemperatureBeton"
+    Public Const cycleTempsMelangeFinalReel = tableCycle + ".TempsMelangeFinalReel"
+    Public Const cycleTempsMelangeSecReel = tableCycle + ".TempsMelangeSecReel"
 
     ''*****************************************
     ''          Table Cycle Details
     ''*****************************************
     Public Const tableCycleDetails = "[Details Cycle]"
-
-    'Public Const MATERIAL_NAME_ID = "NomMateriauID"
     Public Const detailsCycleQuantiteFormule = tableCycleDetails + ".QuantiteFormule"
     Public Const detailsCycleQuantiteDosage = tableCycleDetails + ".QuantiteDosage"
     Public Const detailsCycleQuantiteReel = tableCycleDetails + ".QuantiteReel"
@@ -34,8 +33,7 @@ Public Class ImportConstantEn_mdb
     Public Const detailsHumidite = tableCycleDetails + ".Humidite"
     Public Const detailsNomMateriauID = tableCycleDetails + ".NomMateriauID"
     Public Const detailsNoSerieID = tableCycleDetails + ".NoSerieID"
-
-    'Public Const MANUEL_MODE = "Manuelle"
+    Public Const detailsManuelle = tableCycleDetails + ".Manuelle"
 
     ''*****************************************
     ''          Table Commande
@@ -73,10 +71,6 @@ Public Class ImportConstantEn_mdb
     Public Const tableStringCache2 = tableStringCache + " as " + stringCache2
     Public Const stringCacheStringCacheID2 = stringCache2 + ".StringCacheID"
     Public Const stringCacheStr2 = stringCache2 + ".Str"
-
-
-
-
 
     ''*****************************************
     ''          Table Recettes
@@ -180,6 +174,29 @@ Public Class ImportConstantEn_mdb
     ''          Cycle de production
     ''**********************************************
 
+    Public Overrides ReadOnly Property manuel As String
+        Get
+            Return detailsManuelle
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property dureeMalaxHumide As String
+        Get
+            Return cycleTempsMelangeFinalReel + " - " + cycleTempsMelangeSecReel
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property dureeMalaxSec As String
+        Get
+            Return cycleTempsMelangeSecReel
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property dureeCycle As String
+        Get
+            Return cycleTempsMelangeFinalReel
+        End Get
+    End Property
 
     ''Total Mass
     Public Overrides ReadOnly Property totalMass As String

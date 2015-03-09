@@ -160,6 +160,51 @@ Public Class SourceFileCSVAdapter
     ''  Section concernant les totaux d'un cycle de production 
     ''***********************************************************************************************************************
 
+    Public Overrides Function getManuelle(indexCycle As Integer, sourceFile As SourceFile) As Boolean
+        Dim manuelle As Boolean = "-4"
+
+        Try
+            manuelle = getColumnFromCSVFile(sourceFile.importConstant.manuel, indexCycle, sourceFile)
+            Return manuelle
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getDureeMalaxHumideCycle(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim dureeMalaxHumideCycle As Integer = -4
+
+        Try
+            dureeMalaxHumideCycle = getColumnFromCSVFile(sourceFile.importConstant.dureeMalaxHumide, indexCycle, sourceFile)
+            Return If(dureeMalaxHumideCycle < -4, "-1", dureeMalaxHumideCycle.ToString())
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getDureeMalaxSecCycle(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim dureeMalaxSecCycle As Integer = -4
+
+        Try
+            dureeMalaxSecCycle = getColumnFromCSVFile(sourceFile.importConstant.dureeCycle, indexCycle, sourceFile) - getColumnFromCSVFile(sourceFile.importConstant.dureeMalaxHumide, indexCycle, sourceFile)
+            Return If(dureeMalaxSecCycle < -4, "-1", dureeMalaxSecCycle.ToString())
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getDureeCycle(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim dureeCycle As Integer = -4
+
+        Try
+            dureeCycle = getColumnFromCSVFile(sourceFile.importConstant.dureeCycle, indexCycle, sourceFile)
+            Return If(dureeCycle < -4, "-1", dureeCycle.ToString())
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+
     ''Total Mass
     Public Overrides Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalMass As String = "-4"
@@ -486,9 +531,16 @@ Public Class SourceFileCSVAdapter
         Return "-3"
     End Function
 
-    '' Cette information n'est pas disponible actuellement dans un csv
     Public Overrides Function getColdFeederMaterialID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-3"
+        Dim materialID As String = "-4"
+
+        Try
+            materialID = sourceFile.importConstant.coldFeederMaterialID
+
+            Return If(String.IsNullOrEmpty(materialID), "-1", materialID)
+        Catch ex As Exception
+            Return "-2"
+        End Try
     End Function
 
     ''***********************************************************************************************************************
@@ -629,9 +681,16 @@ Public Class SourceFileCSVAdapter
         Return "-3"
     End Function
 
-    '' Cette information n'est pas disponible actuellement dans un csv
+
     Public Overrides Function getHotFeederMaterialID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-3"
+        Dim hotFeederMaterialID As String = "-4"
+
+        Try
+            hotFeederMaterialID = sourceFile.importConstant.hotFeederMaterialID
+            Return If(String.IsNullOrEmpty(hotFeederMaterialID), "-1", hotFeederMaterialID)
+        Catch ex As Exception
+            Return "-2"
+        End Try
     End Function
 
 End Class

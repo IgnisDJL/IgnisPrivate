@@ -135,6 +135,7 @@ Public Class SourceFileLogAdapter
     ''  Section concernant les totaux d'un cycle de production 
     ''***********************************************************************************************************************
 
+    
     ''Total Mass
     ''Cette information n'est pas disponible dans un fichier log
     Public Overrides Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
@@ -254,7 +255,54 @@ Public Class SourceFileLogAdapter
     ''***********************************************************************************************************************
     ''  Section concernant les donnée liées un ProductionCycle 
     ''***********************************************************************************************************************
+    Public Overrides Function getDureeMalaxHumideCycle(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim dureeMalaxHumideCycle As String = "-4"
+        Try
 
+            dureeMalaxHumideCycle = sourceFile.importConstant.dureeMalaxHumide()
+
+            Return If(String.IsNullOrEmpty(dureeMalaxHumideCycle), "-1", dureeMalaxHumideCycle)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getDureeMalaxSecCycle(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim dureeMalaxSecCycle As String = "-4"
+        Try
+
+            dureeMalaxSecCycle = sourceFile.importConstant.dureeMalaxSec()
+
+            Return If(String.IsNullOrEmpty(dureeMalaxSecCycle), "-1", dureeMalaxSecCycle)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getDureeCycle(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim dureeCycle As String = "-4"
+        Try
+
+            dureeCycle = sourceFile.importConstant.dureeCycle()
+
+            Return If(String.IsNullOrEmpty(dureeCycle), "-1", dureeCycle)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+
+    Public Overrides Function getManuelle(indexCycle As Integer, sourceFile As SourceFile) As Boolean
+        Dim manuelle As Boolean = "-4"
+        Try
+
+            manuelle = sourceFile.importConstant.manuel
+
+            Return manuelle
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
 
     '' #TODO À réparer la fonction ! 
 
@@ -529,9 +577,18 @@ Public Class SourceFileLogAdapter
             Return "-2"
         End Try
     End Function
-    ''Cette information n'est pas disponible dans un fichier log
+
     Public Overrides Function getColdFeederMaterialID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-3"
+        Dim materialID As String = "-4"
+
+        Try
+
+            materialID = sourceFile.importConstant.coldFeederMaterialID
+
+            Return If(String.IsNullOrEmpty(materialID), "-1", materialID)
+        Catch ex As Exception
+            Return "-2"
+        End Try
     End Function
 
 
@@ -622,11 +679,12 @@ Public Class SourceFileLogAdapter
         Dim hotFeederMaterialID As String = "-4"
 
         Try
-            hotFeederMaterialID = "-3"
+            hotFeederMaterialID = sourceFile.importConstant.hotFeederMaterialID
             Return If(String.IsNullOrEmpty(hotFeederMaterialID), "-1", hotFeederMaterialID)
         Catch ex As Exception
             Return "-2"
         End Try
 
     End Function
+
 End Class

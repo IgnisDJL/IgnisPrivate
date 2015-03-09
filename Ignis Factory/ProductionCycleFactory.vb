@@ -23,8 +23,11 @@ Public Class ProductionCycleFactory
         Dim dustRemovalDebit As Double
         Dim siloFillingNumber As String
         Dim bagHouseDiff As Double
-
         Dim hotFeederList As List(Of HotFeeder)
+        Dim dureeCycle As Double
+        Dim dureeMalaxHumide As Double
+        Dim dureeMalaxSec As Double
+        Dim manuelle As Boolean
 
         endOfCycle = sourceFile.sourceFileAdapter.getTime(indexCycle, sourceFile)
         mixProduced = producedMixFactory.createProducedMix(indexCycle, sourceFile)
@@ -34,9 +37,15 @@ Public Class ProductionCycleFactory
         dustRemovalDebit = sourceFile.sourceFileAdapter.getDustRemovalDebit(indexCycle, sourceFile)
         siloFillingNumber = sourceFile.sourceFileAdapter.getSiloFillingNumber(indexCycle, sourceFile)
         bagHouseDiff = sourceFile.sourceFileAdapter.getBagHouseDiff(indexCycle, sourceFile)
-        
+        dureeCycle = sourceFile.sourceFileAdapter.getDureeCycle(indexCycle, sourceFile)
+        dureeMalaxHumide = sourceFile.sourceFileAdapter.getDureeMalaxHumideCycle(indexCycle, sourceFile)
+        dureeMalaxSec = sourceFile.sourceFileAdapter.getDureeMalaxSecCycle(indexCycle, sourceFile)
+        manuelle = sourceFile.sourceFileAdapter.getManuelle(indexCycle, sourceFile)
+
+
         productionCycle = New ProductionCycle(endOfCycle, mixProduced, coldFeederList,
-                                              hotFeederList, virginAsphaltUsed, dustRemovalDebit, siloFillingNumber, bagHouseDiff)
+                                              hotFeederList, virginAsphaltUsed, dustRemovalDebit, siloFillingNumber, bagHouseDiff,
+                                              dureeCycle, dureeMalaxHumide, dureeMalaxSec, manuelle)
 
 
         Return productionCycle

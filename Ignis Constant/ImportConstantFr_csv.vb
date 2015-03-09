@@ -2,6 +2,7 @@
 Public Class ImportConstantFr_csv
     Inherits ImportConstant_csv
 
+
     ''**********************************************
     ''  Constantes du cycle de production
     ''**********************************************
@@ -11,7 +12,8 @@ Public Class ImportConstantFr_csv
     Public Const truckID_Fr = "Camion"
     Public Const contractID_Fr = "Contrat"
     Public Const time_Fr = "Heure"
-
+    Public Const dureeMalaxHumide_Fr = "Durée malax.     humide"
+    Public Const dureeCycle_Fr = "Durée      Cycle"
     ''**********************************************
     ''  Constantes des totaux de production
     ''**********************************************
@@ -171,6 +173,32 @@ Public Class ImportConstantFr_csv
     ''***********************************************
     ''              Production Cycle
     ''***********************************************
+
+    '' Information non disponible dans un fichier csv
+    Public Overrides ReadOnly Property manuel As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property dureeCycle As String
+        Get
+            Return dureeCycle_Fr
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property dureeMalaxHumide As String
+        Get
+            Return dureeMalaxHumide_Fr
+        End Get
+    End Property
+
+    '' Information non disponible dans un fichier csv
+    Public Overrides ReadOnly Property dureeMalaxSec As String
+        Get
+            Return "-3"
+        End Get
+    End Property
 
     '' Information non disponible dans un fichier csv
     Public Overrides ReadOnly Property bagHouseDiff As String
@@ -435,4 +463,6 @@ Public Class ImportConstantFr_csv
             Return "-3"
         End Get
     End Property
+
+
 End Class
