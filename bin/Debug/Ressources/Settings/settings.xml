@@ -1,5 +1,5 @@
 <settings>
-  <usine id="052" name="Shawiniagan" usbRoot="G:\">
+  <usine id="052" name="Shawiniagan" usbRoot="D:\Users\gbeaudry\Documents\DJL\cléeUSB">
     <asphaltInfo>
       <tank name="5" temperature="123">123</tank>
       <tank name="12" temperature="3">23</tank>

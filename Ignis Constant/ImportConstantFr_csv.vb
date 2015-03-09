@@ -424,20 +424,6 @@ Public Class ImportConstantFr_csv
     ''**********************************************
 
     '' Information non disponible dans ce fichier sour
-    Public Overrides ReadOnly Property mixCounter As String
-        Get
-            Return "-3"
-        End Get
-    End Property
-
-    '' Information non disponible dans ce fichier sour
-    Public Overrides ReadOnly Property mixDebit As String
-        Get
-            Return "-3"
-        End Get
-    End Property
-
-    '' Information non disponible dans ce fichier sour
     Public Overrides ReadOnly Property mixName As String
         Get
             Return "-3"

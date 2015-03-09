@@ -4,8 +4,15 @@ Imports IGNIS.Constants.Input
 Public Class SourceFileLogAdapter
     Inherits SourceFileAdapter
 
-    Public Sub New()
+    Private hotFeederValidIndexList As List(Of Integer)
 
+
+    Public Sub New()
+        hotFeederValidIndexList = New List(Of Integer)
+        hotFeederValidIndexList.Add(EnumColumnType.VirginAggregate)
+        hotFeederValidIndexList.Add(EnumColumnType.RecycledAggregate)
+        hotFeederValidIndexList.Add(EnumColumnType.Filler)
+        hotFeederValidIndexList.Add(EnumColumnType.Additive)
     End Sub
 
     ''***********************************************************************************************************************
@@ -137,9 +144,47 @@ Public Class SourceFileLogAdapter
 
     
     ''Total Mass
-    ''Cette information n'est pas disponible dans un fichier log
     Public Overrides Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-3"
+        Dim realTotalMass As Double = -4
+        Try
+            If indexCycle > 0 Then
+
+                Dim previousAsphaltConcreteTotalMass As Double
+                Dim actualAsphaltConcreteTotalMass As Double
+
+                previousAsphaltConcreteTotalMass = getCycleAsphaltConcreteTotalMass(indexCycle - 1, sourceFile)
+                actualAsphaltConcreteTotalMass = getCycleAsphaltConcreteTotalMass(indexCycle, sourceFile)
+
+                If actualAsphaltConcreteTotalMass > previousAsphaltConcreteTotalMass Then
+
+                    Dim previousTotalMass As Double
+                    Dim actualTotalMass As Double
+
+
+                    For indexFeeder As Integer = 0 To hotFeederValidIndexList.Count - 1
+
+                        previousTotalMass += getHotFeederMass(indexFeeder, indexCycle - 1, sourceFile)
+                        actualTotalMass += getHotFeederMass(indexFeeder, indexCycle, sourceFile)
+
+                    Next
+
+                    previousTotalMass += previousAsphaltConcreteTotalMass
+                    actualTotalMass += actualAsphaltConcreteTotalMass
+
+                    realTotalMass = actualTotalMass - previousTotalMass
+
+                    Return If(realTotalMass < -4, -1, realTotalMass)
+                Else
+                    Return If(realTotalMass < -4, -1, realTotalMass)
+                End If
+
+            Else
+                Return If(realTotalMass < -4, -1, realTotalMass)
+            End If
+
+        Catch ex As Exception
+            Return -2.0
+        End Try
     End Function
 
 
@@ -229,6 +274,18 @@ Public Class SourceFileLogAdapter
         End Try
     End Function
 
+
+    Private Function getCycleAsphaltConcreteTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim asphaltConcreteTotalMass As String = "-4"
+        Dim regex = New Regex("([\d]+.[\d]+)")
+        Try
+            asphaltConcreteTotalMass = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederMass, indexCycle, sourceFile))(EnumColumnType.TotalAsphalt).Value.Trim
+            Return If(String.IsNullOrEmpty(asphaltConcreteTotalMass), "-1", asphaltConcreteTotalMass)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
     Public Overrides Function getCycleAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltTargetPercentage As String = "-4"
         Dim regex = New Regex("([\d]+.[\d]+)")
@@ -293,25 +350,20 @@ Public Class SourceFileLogAdapter
 
 
     Public Overrides Function getManuelle(indexCycle As Integer, sourceFile As SourceFile) As Boolean
-        Dim manuelle As Boolean = "-4"
+        Dim manuelle As Boolean = False
+
+        Return manuelle
+    End Function
+
+    Public Overrides Function getTime(indexCycle As Integer, sourceFile As SourceFile) As Date
+        Dim time As Date
         Try
-
-            manuelle = sourceFile.importConstant.manuel
-
-            Return manuelle
+            Dim regex = New Regex("([\d]+:[\d]+:[\d]+[\s]AM)|([\d]+:[\d]+:[\d]+[\s]PM)")
+            time = regex.Match(getCycle(indexCycle, sourceFile)).Groups(0).Value.Trim
+            Return time
         Catch ex As Exception
             Return "-2"
         End Try
-    End Function
-
-    '' #TODO À réparer la fonction ! 
-
-    Public Overrides Function getTime(indexCycle As Integer, sourceFile As SourceFile) As Date
-        'Dim time As String
-        'Dim regex = New Regex("^([\d][\d]?:[\d][\d]:[\d][\d]([\s](AM|PM))?)")
-        'time = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
-        'Return If(String.IsNullOrEmpty(time), "-1", time)
-        Return Date.Now
     End Function
 
     ''Cette information n'est pas disponible dans un fichier log
@@ -356,16 +408,6 @@ Public Class SourceFileLogAdapter
         End Try
     End Function
 
-    Public Overrides Function getMixCounter(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim mixCounter As String = "-4"
-        Try
-            Dim regex = New Regex(sourceFile.importConstant.mixCounter + "[\s]+([\d]+)[\s]T")
-            mixCounter = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
-            Return If(String.IsNullOrEmpty(mixCounter), "-1", mixCounter)
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
 
 
     ''***********************************************************************************************************************
@@ -410,18 +452,7 @@ Public Class SourceFileLogAdapter
 
     ''***********************************************************************************************************************
     ''  Section concernant les données liées a l'enrobé bitumineux produit dans un cycle
-    ''**********************************************************************************************************************
 
-    Public Overrides Function getMixDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim mixDebit As String = "-4"
-        Try
-            Dim regex = New Regex(sourceFile.importConstant.mixDebit + "[\s]+([\d]{2,3})")
-            mixDebit = regex.Match(getCycle(indexCycle, sourceFile)).Groups(1).Value.Trim
-            Return If(String.IsNullOrEmpty(mixDebit), "-1", mixDebit)
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
 
     Public Overrides Function getMixName(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim mixName As String = "-4"
@@ -605,7 +636,7 @@ Public Class SourceFileLogAdapter
 
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
-            feederDebit = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederDebit, indexCycle, sourceFile))(indexFeeder).Value.Trim
+            feederDebit = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederDebit, indexCycle, sourceFile))(hotFeederValidIndexList.Item(indexFeeder)).Value.Trim
 
             Return If(String.IsNullOrEmpty(feederDebit), "-1", feederDebit)
         Catch ex As Exception
@@ -618,7 +649,7 @@ Public Class SourceFileLogAdapter
         Dim feederActualPercentage As String = "-4"
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
-            feederActualPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederActualPercentage, indexCycle, sourceFile))(indexFeeder).Value.Trim
+            feederActualPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederActualPercentage, indexCycle, sourceFile))(hotFeederValidIndexList.Item(indexFeeder)).Value.Trim
             Return If(String.IsNullOrEmpty(feederActualPercentage), "-1", feederActualPercentage)
         Catch ex As Exception
             Return "-2"
@@ -627,7 +658,7 @@ Public Class SourceFileLogAdapter
 
     Public Overrides Function getHotFeederCountForCycle(indexCycle As Integer, sourceFile As SourceFile) As Integer
 
-        Return EnumLineLogFile.hotFeederCount
+        Return hotFeederValidIndexList.Count
 
     End Function
 
@@ -637,10 +668,10 @@ Public Class SourceFileLogAdapter
 
         Dim regex = New Regex("(\w+)")
         Try
-            feederID = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederIdPart1, indexCycle, sourceFile))(indexFeeder).Value.Trim
+            feederID = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederIdPart1, indexCycle, sourceFile))(hotFeederValidIndexList.Item(indexFeeder)).Value.Trim
 
-            If regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederIdPart2, indexCycle, sourceFile)).Count > indexFeeder Then
-                feederID = feederID + regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederIdPart2, indexCycle, sourceFile))(indexFeeder).Value.Trim()
+            If EnumColumnType.RecycledAggregate >= indexFeeder Then
+                feederID = feederID + regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederIdPart2, indexCycle, sourceFile))(hotFeederValidIndexList.Item(indexFeeder)).Value.Trim()
             End If
 
             Return If(String.IsNullOrEmpty(feederID), "-1", feederID)
@@ -654,7 +685,7 @@ Public Class SourceFileLogAdapter
 
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
-            feederMass = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederMass, indexCycle, sourceFile))(indexFeeder).Value.Trim
+            feederMass = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederMass, indexCycle, sourceFile))(hotFeederValidIndexList.Item(indexFeeder)).Value.Trim
 
             Return If(String.IsNullOrEmpty(feederMass), "-1", feederMass)
         Catch ex As Exception
@@ -667,7 +698,7 @@ Public Class SourceFileLogAdapter
 
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
-            feederTargetPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederTargetPercentage, indexCycle, sourceFile))(indexFeeder).Value.Trim
+            feederTargetPercentage = regex.Matches(getLineFromLogFile(EnumLineLogFile.hotFeederTargetPercentage, indexCycle, sourceFile))(hotFeederValidIndexList.Item(indexFeeder)).Value.Trim
 
             Return If(String.IsNullOrEmpty(feederTargetPercentage), "-1", feederTargetPercentage)
         Catch ex As Exception

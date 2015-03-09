@@ -90,7 +90,7 @@ Public Class ImportConstantEn_csv
     '' Information non disponible dans un fichier csv
     Public Overrides ReadOnly Property manuel As String
         Get
-            Return "-3"
+            Return Nothing
         End Get
     End Property
 
@@ -418,11 +418,6 @@ Public Class ImportConstantEn_csv
     ''**********************************************
     '' Information non disponible dans ce fichier sour
 
-    Public Overrides ReadOnly Property mixDebit As String
-        Get
-            Return "-3"
-        End Get
-    End Property
 
     '' Information non disponible dans ce fichier sour
     Public Overrides ReadOnly Property mixName As String
@@ -432,13 +427,6 @@ Public Class ImportConstantEn_csv
         End Get
     End Property
 
-    '' Information non disponible dans ce fichier sour
-    Public Overrides ReadOnly Property mixCounter As String
-        Get
-            Return "-3"
-
-        End Get
-    End Property
 
     '' Alias, numéro de formule
     Public Overrides ReadOnly Property mixNumber As String

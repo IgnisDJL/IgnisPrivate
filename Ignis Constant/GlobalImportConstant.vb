@@ -40,10 +40,8 @@
     ''  getter de l'enrobé produit
     ''**********************************************
     ReadOnly Property mixNumber() As String
-    ReadOnly Property mixDebit() As String
     ReadOnly Property mixName() As String
     ReadOnly Property mixRecordedTemperature() As String
-    ReadOnly Property mixCounter() As String
 
     ''**********************************************
     ''  getter des bennes froides

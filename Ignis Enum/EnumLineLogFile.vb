@@ -21,5 +21,5 @@ Public Enum EnumLineLogFile
     coldFeederRecycledAsphaltPercentage = 18
 
 
-    hotFeederCount = 7
+    hotFeederCount = 4
 End Enum

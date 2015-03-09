@@ -28,13 +28,15 @@ Public Class SourceFileMarcotteAdapter
             sourceFile.importConstant.coldFeederTargetPercentage + ", " + sourceFile.importConstant.coldFeederActualPercentage + ", " +
             sourceFile.importConstant.coldFeederDebit + ", " + sourceFile.importConstant.coldFeederMass + ", " + sourceFile.importConstant.coldFeederMoisturePercentage + ", " +
             ImportConstantEn_mdb.commandeCommandeID +
-            " FROM (((( " + ImportConstantEn_mdb.tableColdFeedsRecipesDetails +
+            " FROM ((((( " + ImportConstantEn_mdb.tableColdFeedsRecipesDetails +
             " INNER JOIN " + ImportConstantEn_mdb.tableColdFeedsRecipes + " ON " + ImportConstantEn_mdb.coldFeedsRecipesDetailsRecipeID + " = " + ImportConstantEn_mdb.coldFeedsRecipesRecipeID +
             " ) INNER JOIN " + ImportConstantEn_mdb.tableRecette + " ON " + ImportConstantEn_mdb.coldFeedsRecipesRecipeID + " = " + ImportConstantEn_mdb.recetteColdFeedRecipeID +
             " ) INNER JOIN " + ImportConstantEn_mdb.tableStringCache + " ON " + ImportConstantEn_mdb.recetteNom + " = " + ImportConstantEn_mdb.stringCacheStr +
             " ) INNER JOIN " + ImportConstantEn_mdb.tableCommande + " ON " + ImportConstantEn_mdb.stringCacheStringCacheID + " = " + ImportConstantEn_mdb.commandeNomFormuleID +
             " ) INNER JOIN " + ImportConstantEn_mdb.tableCycle + " ON " + ImportConstantEn_mdb.commandeCommandeID + " = " + ImportConstantEn_mdb.cycleCommandeID +
-            " WHERE " + ImportConstantEn_mdb.cycleDate + " BETWEEN  CDate('" + sourceFile.Date_() + "') AND CDate('" + (sourceFile.Date_().AddDays(1)) + "')"
+            " ) INNER JOIN " + ImportConstantEn_mdb.tableMateriau + " ON " + ImportConstantEn_mdb.coldFeedsRecipesDetailsMateriauID + " = " + ImportConstantEn_mdb.materiauMateriauID +
+            " WHERE " + ImportConstantEn_mdb.cycleDate + " BETWEEN  CDate('" + sourceFile.Date_() + "') AND CDate('" + (sourceFile.Date_().AddDays(1)) + "')" +
+            " AND " + ImportConstantEn_mdb.materiauTypeID + " <> " + ImportConstantEn_mdb.typeAsphalt
 
             Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
             Dim mdbListDate = dbCommand.ExecuteReader
@@ -118,7 +120,8 @@ Public Class SourceFileMarcotteAdapter
             " ) INNER JOIN " + ImportConstantEn_mdb.tableStringCache2 + " ON " + ImportConstantEn_mdb.detailsNoSerieID + " = " + ImportConstantEn_mdb.stringCacheStringCacheID2 +
             " ) INNER JOIN " + ImportConstantEn_mdb.tableMateriau + " ON " + ImportConstantEn_mdb.stringCacheStr1 + " = " + ImportConstantEn_mdb.materiauNom +
             " AND " + ImportConstantEn_mdb.stringCacheStr2 + " = " + ImportConstantEn_mdb.materiauNoSerie +
-            " WHERE " + ImportConstantEn_mdb.cycleDate + " BETWEEN  CDate('" + sourceFile.Date_() + "') AND CDate('" + (sourceFile.Date_().AddDays(1)) + "')"
+            " WHERE " + ImportConstantEn_mdb.cycleDate + " BETWEEN  CDate('" + sourceFile.Date_() + "') AND CDate('" + (sourceFile.Date_().AddDays(1)) + "')" +
+            " AND " + ImportConstantEn_mdb.detailsTypeID + " <> " + ImportConstantEn_mdb.typeAsphalt
 
             Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
             Dim mdbListDate = dbCommand.ExecuteReader
@@ -469,9 +472,6 @@ Public Class SourceFileMarcotteAdapter
         Return "-3"
     End Function
 
-    Public Overrides Function getMixCounter(indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-3"
-    End Function
 
     ''***********************************************************************************************************************
     ''  Section concernant les totaux d'un cycle de production 
@@ -514,7 +514,7 @@ Public Class SourceFileMarcotteAdapter
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
         Try
 
-            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteActualPercentage + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
+            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteMass + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
             " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile) +
             " AND " + ImportConstantEn_mdb.detailsTypeID + " = " + ImportConstantEn_mdb.typeAsphalt
 
@@ -581,19 +581,20 @@ Public Class SourceFileMarcotteAdapter
 
     ''TotalMass
     Public Overrides Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalMass As Double = 0
+        Dim totalMass As Double = -4
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
         Try
-            Dim query = "SELECT count(" + sourceFile.importConstant.totalMass + "), CycleID FROM " + ImportConstantEn_mdb.tableCycleDetails +
+            Dim query = "SELECT sum(" + sourceFile.importConstant.totalMass + "), " + ImportConstantEn_mdb.detailsCycleID +
+            " FROM " + ImportConstantEn_mdb.tableCycleDetails +
             " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile) +
-            " Group By CycleID "
+            " Group By " + ImportConstantEn_mdb.detailsCycleID
 
             Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
             Dim mdbListDate = dbCommand.ExecuteReader
 
-            While mdbListDate.Read()
-                totalMass += mdbListDate(0)
-            End While
+            mdbListDate.Read()
+            totalMass = mdbListDate(0)
+
             dbCommand.Dispose()
             mdbListDate.Close()
 
@@ -783,9 +784,6 @@ Public Class SourceFileMarcotteAdapter
         End Try
     End Function
 
-    Public Overrides Function getMixDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-3"
-    End Function
 
     ''***********************************************************************************************************************
     ''  Section concernant les Bennes froides d'un cycle

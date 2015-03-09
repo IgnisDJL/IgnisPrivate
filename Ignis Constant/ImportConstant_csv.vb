@@ -44,11 +44,9 @@ Public MustInherit Class ImportConstant_csv
     ''**********************************************
     ''  getter de l'enrobé produit
     ''**********************************************
-    Public MustOverride ReadOnly Property mixDebit() As String Implements GlobalImportConstant.mixDebit
     Public MustOverride ReadOnly Property mixName() As String Implements GlobalImportConstant.mixName
     Public MustOverride ReadOnly Property mixNumber() As String Implements GlobalImportConstant.mixNumber
     Public MustOverride ReadOnly Property mixRecordedTemperature() As String Implements GlobalImportConstant.mixRecordedTemperature
-    Public MustOverride ReadOnly Property mixCounter() As String Implements GlobalImportConstant.mixCounter
 
     ''**********************************************
     ''  getter des bennes froides

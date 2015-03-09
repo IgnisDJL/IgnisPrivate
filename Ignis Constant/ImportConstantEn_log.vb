@@ -157,20 +157,6 @@ Public Class ImportConstantEn_log
     ''***********************************************
     ''                  Mix
     ''***********************************************
-
-    Public Overrides ReadOnly Property mixCounter As String
-        Get
-            Return mixCounter_En
-        End Get
-    End Property
-
-
-    Public Overrides ReadOnly Property mixDebit As String
-        Get
-            Return mixDebit_En
-        End Get
-    End Property
-
     Public Overrides ReadOnly Property mixName As String
         Get
             Return mixName_En

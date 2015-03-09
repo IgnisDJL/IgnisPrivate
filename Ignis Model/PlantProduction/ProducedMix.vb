@@ -2,17 +2,14 @@
     Private mixNumber As String
     Private mixName As String
     Private recordedTemperature As Double
-    Private mixDebit As Double
-    Private mixCounter As Double
+    Private mixMass As Double
 
-    Sub New(mixNumber As String, mixName As String, recordedTemperature As Double, mixDebit As Double, mixCounter As Double)
+    Sub New(mixNumber As String, mixName As String, recordedTemperature As Double, mixMass As Double)
 
         Me.mixNumber = mixNumber
         Me.mixName = mixName
         Me.recordedTemperature = recordedTemperature
-        Me.mixDebit = mixDebit
-        Me.mixCounter = mixCounter
-
+        Me.mixMass = mixMass
     End Sub
 
 
@@ -34,15 +31,9 @@
         End Get
     End Property
 
-    Public ReadOnly Property getMixCounter As Double
+    Public ReadOnly Property getMixMass As Double
         Get
-            Return mixCounter
-        End Get
-    End Property
-
-    Public ReadOnly Property getMixDebit As Double
-        Get
-            Return mixDebit
+            Return mixMass
         End Get
     End Property
 

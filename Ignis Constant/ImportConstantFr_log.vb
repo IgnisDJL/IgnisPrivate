@@ -166,16 +166,7 @@
             Return dustRemovalDebit_Fr
         End Get
     End Property
-    Public Overrides ReadOnly Property mixCounter As String
-        Get
-            Return mixCounter_Fr
-        End Get
-    End Property
-    Public Overrides ReadOnly Property mixDebit As String
-        Get
-            Return mixDebit_Fr
-        End Get
-    End Property
+
     Public Overrides ReadOnly Property mixName As String
         Get
             Return mixName_Fr

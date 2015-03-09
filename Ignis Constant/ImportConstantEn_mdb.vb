@@ -390,14 +390,6 @@ Public Class ImportConstantEn_mdb
     ''**********************************************
     '' Information non disponible dans ce fichier source
 
-    Public Overrides ReadOnly Property mixDebit As String
-        Get
-            '' Cette information n'est pas disponible dans les fichiers .mdb produit par marcotte
-            Return "-3"
-        End Get
-    End Property
-
-
     Public Overrides ReadOnly Property mixName As String
         Get
             Return stringCacheStr
@@ -405,11 +397,6 @@ Public Class ImportConstantEn_mdb
         End Get
     End Property
 
-    Public Overrides ReadOnly Property mixCounter As String
-        Get
-            Return "-3"
-        End Get
-    End Property
 
     '' Alias, numéro de formule
     Public Overrides ReadOnly Property mixNumber As String

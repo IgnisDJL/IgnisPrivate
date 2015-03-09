@@ -11,10 +11,9 @@ Public Class ProducedMixFactory
         Dim mixNumber As String = sourceFile.sourceFileAdapter.getMixNumber(indexCycle, sourceFile)
         Dim mixName As String = sourceFile.sourceFileAdapter.getMixName(indexCycle, sourceFile)
         Dim recordedTemperature As Double = sourceFile.sourceFileAdapter.getMixRecordedTemperature(indexCycle, sourceFile)
-        Dim mixDebit As Double = sourceFile.sourceFileAdapter.getMixDebit(indexCycle, sourceFile)
-        Dim mixCounter As Double = sourceFile.sourceFileAdapter.getMixCounter(indexCycle, sourceFile)
+        Dim mixMass As Double = sourceFile.sourceFileAdapter.getTotalMass(indexCycle, sourceFile)
 
-        producedMix = New ProducedMix(mixNumber, mixName, recordedTemperature, mixDebit, mixCounter)
+        producedMix = New ProducedMix(mixNumber, mixName, recordedTemperature, mixMass)
 
         Return producedMix
 

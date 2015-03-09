@@ -47,7 +47,6 @@
     Public MustOverride Function getContractID(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getSiloFillingNumber(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getBagHouseDiff(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getMixCounter(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getDureeCycle(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getDureeMalaxHumideCycle(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getDureeMalaxSecCycle(indexCycle As Integer, sourceFile As SourceFile) As String
@@ -81,7 +80,6 @@
     Public MustOverride Function getMixNumber(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getMixName(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getMixRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getMixDebit(indexCycle As Integer, sourceFile As SourceFile) As String
 
     ''***********************************************************************************************************************
     ''  Section concernant les Bennes froides d'un cycle
