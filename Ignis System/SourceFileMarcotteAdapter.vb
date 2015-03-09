@@ -392,7 +392,6 @@ Public Class SourceFileMarcotteAdapter
     Public Overrides Function getTruckID(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim truckID As String = "-4"
 
-
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
 
         Dim query = "SELECT " + sourceFile.importConstant.truckID + " FROM " + ImportConstantEn_mdb.tableCommande +
@@ -413,7 +412,6 @@ Public Class SourceFileMarcotteAdapter
         Catch ex As Exception
             Return "-2"
         End Try
-
 
     End Function
 

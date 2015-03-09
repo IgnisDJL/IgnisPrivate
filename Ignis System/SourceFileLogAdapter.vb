@@ -175,11 +175,13 @@ Public Class SourceFileLogAdapter
 
                     Return If(realTotalMass < -4, -1, realTotalMass)
                 Else
-                    Return If(realTotalMass < -4, -1, realTotalMass)
+                    '' Le cycle courant n'a pas utilisé de bitume, donc il n'y a pas production d'enrobé binumineux 
+                    Return -3
                 End If
 
             Else
-                Return If(realTotalMass < -4, -1, realTotalMass)
+                '' Le premier cycle n'a pas de cycle précédant pour calculer la masse d'enrobé bitumineux
+                Return -3
             End If
 
         Catch ex As Exception
@@ -204,8 +206,6 @@ Public Class SourceFileLogAdapter
     '' Cette information est disponible donc il faut la calculer
     Public Overrides Function getCycleAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim cycleAggregateDebit As String = "-4"
-
-
 
         Try
             Return If(String.IsNullOrEmpty(cycleAggregateDebit), "-1", cycleAggregateDebit)
