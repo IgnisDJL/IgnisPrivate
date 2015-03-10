@@ -447,7 +447,7 @@ Public Class SourceFileCSVAdapter
 
     '' Cette information n'est pas disponible actuellement dans un csv
     Public Overrides Function getMixName(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim mixName As Boolean = "-4"
+        Dim mixName As String = "-4"
         Try
             mixName = sourceFile.importConstant.mixName
 
