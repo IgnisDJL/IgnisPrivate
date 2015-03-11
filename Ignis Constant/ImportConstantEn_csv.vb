@@ -412,4 +412,123 @@ Public Class ImportConstantEn_csv
         End Get
     End Property
 
+    Public Overrides ReadOnly Property hotFeederAdditiveDebit As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property hotFeederAdditiveMaterialID As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property hotFeederAdditiveTargetPercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property hotFeederAggregateDebit As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property hotFeederAggregateMaterialID As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property hotFeederAggregateTargetPercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property hotFeederChauxDebit As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property hotFeederChauxMaterialID As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property hotFeederChauxTargetPercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property hotFeederDopeDebit As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property hotFeederDopeMaterialID As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property hotFeederDopeTargetPercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property hotFeederFillerDebit As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property hotFeederFillerMaterialID As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property hotFeederFillerTargetPercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property coldFeederRecycledDebit As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property coldFeederRecycledMass As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property coldFeederRecycledMaterialID As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property coldFeederRecycledMoisturePercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property coldFeederRecycledTargetPercentage As String
+        Get
+            Return "-3"
+        End Get
+    End Property
 End Class

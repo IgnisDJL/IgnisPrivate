@@ -401,7 +401,6 @@ Public Class SourceFileCSVAdapter
         Dim mixName As String = "-4"
         Try
             mixName = sourceFile.importConstant.mixName
-
             Return If(String.IsNullOrEmpty(mixName), "-1", mixName)
         Catch ex As Exception
             Return "-2"
@@ -427,21 +426,15 @@ Public Class SourceFileCSVAdapter
         Dim coldFeederActualPercentage As String = "-4"
 
         Try
-            If (getColumnNameList(sourceFile).Contains(TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAggregateActualPercentage + (indexFeeder + 1).ToString)) Then
-                coldFeederActualPercentage = getColumnFromCSVFile(TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAggregateActualPercentage + (indexFeeder + 1).ToString, indexCycle, sourceFile)
 
-            ElseIf (getColumnNameList(sourceFile).Contains(TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAdditiveActualPercentage + (indexFeeder + 1).ToString)) Then
-                coldFeederActualPercentage = getColumnFromCSVFile(TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAdditiveActualPercentage + (indexFeeder + 1).ToString, indexCycle, sourceFile)
+            If (getColdFeederID(indexFeeder, indexCycle, sourceFile).Equals(sourceFile.importConstant.coldFeederID + (indexFeeder + 1).ToString)) Then
+                coldFeederActualPercentage = getColumnFromCSVFile(sourceFile.importConstant.coldFeederActualPercentage + (indexFeeder + 1).ToString, indexCycle, sourceFile)
 
-            ElseIf getColumnNameList(sourceFile).Contains(TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederFillerActualPercentage) Then
-                coldFeederActualPercentage = getColumnFromCSVFile(TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederFillerActualPercentage, indexCycle, sourceFile)
-
-            ElseIf getColumnNameList(sourceFile).Contains(TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederChauxActualPercentage) Then
-                coldFeederActualPercentage = getColumnFromCSVFile(TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederChauxActualPercentage.ToString, indexCycle, sourceFile)
-
+            ElseIf (getColdFeederID(indexFeeder, indexCycle, sourceFile).Equals(sourceFile.importConstant.coldFeederRecycledID + (indexFeeder + 1).ToString)) Then
+                coldFeederActualPercentage = getColumnFromCSVFile(sourceFile.importConstant.coldFeederRecycledActualPercentage + (indexFeeder + 1).ToString, indexCycle, sourceFile)
             End If
 
-            Return If(String.IsNullOrEmpty(coldFeederActualPercentage), "-1", coldFeederActualPercentage)
+            Return If(String.IsNullOrEmpty(coldFeederActualPercentage) Or coldFeederActualPercentage.Equals(""""""), "-1", coldFeederActualPercentage)
 
         Catch ex As Exception
             Return "-2"
@@ -456,7 +449,7 @@ Public Class SourceFileCSVAdapter
 
                 coldFeederCountForCycle = coldFeederCountForCycle + 1
 
-            ElseIf coldFeeder.Contains(sourceFile.importConstant.recycledID) Then
+            ElseIf coldFeeder.Contains(sourceFile.importConstant.coldFeederRecycledID) Then
 
                 coldFeederCountForCycle = coldFeederCountForCycle + 1
 
@@ -470,28 +463,33 @@ Public Class SourceFileCSVAdapter
         Dim coldFeederDebit As String = "-4"
 
         Try
-            coldFeederDebit = sourceFile.importConstant.coldFeederDebit
 
-            Return If(String.IsNullOrEmpty(coldFeederDebit), "-1", coldFeederDebit)
+            If (getColdFeederID(indexFeeder, indexCycle, sourceFile).Equals(sourceFile.importConstant.coldFeederID + (indexFeeder + 1).ToString)) Then
+                coldFeederDebit = sourceFile.importConstant.coldFeederDebit
+
+            ElseIf (getColdFeederID(indexFeeder, indexCycle, sourceFile).Equals(sourceFile.importConstant.coldFeederRecycledID + (indexFeeder + 1).ToString)) Then
+                coldFeederDebit = TryCast(sourceFile.importConstant, ImportConstant_csv).coldFeederRecycledDebit
+            End If
+
+            Return If(String.IsNullOrEmpty(coldFeederDebit) Or coldFeederDebit.Equals(""""""), "-1", coldFeederDebit)
         Catch ex As Exception
             Return "-2"
         End Try
     End Function
 
     Public Overrides Function getColdFeederID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim coldFeederID As String = "-4"
 
+        Dim coldFeederID As String = "-4"
         Try
 
-            Dim coldFeederCount As Integer = getColdFeederCountForCycle(indexCycle, sourceFile)
+            If (Not IsNothing(getColumnNameList(sourceFile).Find(Function(x) x.Contains(TryCast(sourceFile.importConstant, ImportConstant_csv).coldFeederID + (indexFeeder + 1).ToString)))) Then
+                coldFeederID = TryCast(sourceFile.importConstant, ImportConstant_csv).coldFeederID + (indexFeeder + 1).ToString
 
-            If ((indexFeeder + 1) <= coldFeederCount) Then
-                coldFeederID = sourceFile.importConstant.coldFeederID + (indexFeeder + 1).ToString
-                Return If(String.IsNullOrEmpty(coldFeederID), "-1", coldFeederID)
-            Else
-                coldFeederID = sourceFile.importConstant.recycledID + ((indexFeeder + 1) - coldFeederCount).ToString
-                Return If(String.IsNullOrEmpty(coldFeederID), "-1", coldFeederID)
+            ElseIf (Not IsNothing(getColumnNameList(sourceFile).Find(Function(x) x.Contains(TryCast(sourceFile.importConstant, ImportConstant_csv).coldFeederRecycledID + (getColdFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString.Trim)))) Then
+                coldFeederID = TryCast(sourceFile.importConstant, ImportConstant_csv).coldFeederRecycledID + (getColdFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString
             End If
+
+            Return If(String.IsNullOrEmpty(coldFeederID) Or coldFeederID.Equals(""""""), "-1", coldFeederID.Trim)
 
         Catch ex As Exception
             Return "-2"
@@ -503,9 +501,14 @@ Public Class SourceFileCSVAdapter
         Dim coldFeederMass As String = "-4"
 
         Try
-            coldFeederMass = sourceFile.importConstant.coldFeederMass
+            If (getColdFeederID(indexFeeder, indexCycle, sourceFile).Equals(sourceFile.importConstant.coldFeederID + (indexFeeder + 1).ToString)) Then
+                coldFeederMass = sourceFile.importConstant.coldFeederMass
 
-            Return If(String.IsNullOrEmpty(coldFeederMass), "-1", coldFeederMass)
+            ElseIf (getColdFeederID(indexFeeder, indexCycle, sourceFile).Equals(sourceFile.importConstant.coldFeederRecycledID + (indexFeeder + 1).ToString)) Then
+                coldFeederMass = TryCast(sourceFile.importConstant, ImportConstant_csv).coldFeederRecycledMass
+            End If
+
+            Return If(String.IsNullOrEmpty(coldFeederMass) Or coldFeederMass.Equals(""""""), "-1", coldFeederMass)
         Catch ex As Exception
             Return "-2"
         End Try
@@ -515,9 +518,14 @@ Public Class SourceFileCSVAdapter
         Dim coldFeederMoisturePercentage As String = "-4"
 
         Try
-            coldFeederMoisturePercentage = sourceFile.importConstant.coldFeederMoisturePercentage
+            If (getColdFeederID(indexFeeder, indexCycle, sourceFile).Equals(sourceFile.importConstant.coldFeederID + (indexFeeder + 1).ToString)) Then
+                coldFeederMoisturePercentage = sourceFile.importConstant.coldFeederMoisturePercentage
 
-            Return If(String.IsNullOrEmpty(coldFeederMoisturePercentage), "-1", coldFeederMoisturePercentage)
+            ElseIf (getColdFeederID(indexFeeder, indexCycle, sourceFile).Equals(sourceFile.importConstant.coldFeederRecycledID + (indexFeeder + 1).ToString)) Then
+                coldFeederMoisturePercentage = TryCast(sourceFile.importConstant, ImportConstant_csv).coldFeederRecycledMoisturePercentage
+            End If
+
+            Return If(String.IsNullOrEmpty(coldFeederMoisturePercentage) Or coldFeederMoisturePercentage.Equals(""""""), "-1", coldFeederMoisturePercentage)
         Catch ex As Exception
             Return "-2"
         End Try
@@ -541,9 +549,14 @@ Public Class SourceFileCSVAdapter
         Dim coldFeederTargetPercentage As String = "-4"
 
         Try
-            coldFeederTargetPercentage = sourceFile.importConstant.coldFeederTargetPercentage
+            If (getColdFeederID(indexFeeder, indexCycle, sourceFile).Equals(sourceFile.importConstant.coldFeederID + (indexFeeder + 1).ToString)) Then
+                coldFeederTargetPercentage = sourceFile.importConstant.coldFeederTargetPercentage
 
-            Return If(String.IsNullOrEmpty(coldFeederTargetPercentage), "-1", coldFeederTargetPercentage)
+            ElseIf (getColdFeederID(indexFeeder, indexCycle, sourceFile).Equals(sourceFile.importConstant.coldFeederRecycledID + (indexFeeder + 1).ToString)) Then
+                coldFeederTargetPercentage = TryCast(sourceFile.importConstant, ImportConstant_csv).coldFeederRecycledTargetPercentage
+
+            End If
+            Return If(String.IsNullOrEmpty(coldFeederTargetPercentage) Or coldFeederTargetPercentage.Equals(""""""), "-1", coldFeederTargetPercentage)
         Catch ex As Exception
             Return "-2"
         End Try
@@ -553,9 +566,14 @@ Public Class SourceFileCSVAdapter
         Dim materialID As String = "-4"
 
         Try
-            materialID = sourceFile.importConstant.coldFeederMaterialID
+            If (getColdFeederID(indexFeeder, indexCycle, sourceFile).Equals(sourceFile.importConstant.coldFeederID + (indexFeeder + 1).ToString)) Then
+                materialID = sourceFile.importConstant.coldFeederMaterialID
 
-            Return If(String.IsNullOrEmpty(materialID), "-1", materialID)
+            ElseIf (getColdFeederID(indexFeeder, indexCycle, sourceFile).Equals(sourceFile.importConstant.coldFeederRecycledID + (indexFeeder + 1).ToString)) Then
+                materialID = TryCast(sourceFile.importConstant, ImportConstant_csv).coldFeederRecycledMaterialID
+            End If
+
+            Return If(String.IsNullOrEmpty(materialID) Or materialID.Equals(""""""), "-1", materialID)
         Catch ex As Exception
             Return "-2"
         End Try
@@ -567,7 +585,32 @@ Public Class SourceFileCSVAdapter
 
     '' Cette information n'est pas disponible actuellement dans un csv
     Public Overrides Function getHotFeederDebit(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-3"
+        Dim hotFeederDebit As String = "-4"
+        Try
+            If (getHotFeederID(indexFeeder, indexCycle, sourceFile).Equals((TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAggregateID + (indexFeeder + 1).ToString).Trim)) Then
+
+                hotFeederDebit = TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAggregateDebit
+
+            ElseIf getHotFeederID(indexFeeder, indexCycle, sourceFile).Trim.Equals((TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAdditiveID + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString).Trim) Then
+
+                hotFeederDebit = TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAdditiveDebit
+
+            ElseIf getHotFeederID(indexFeeder, indexCycle, sourceFile).Trim.Equals((TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederDopeID + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString).Trim) Then
+
+                hotFeederDebit = TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederDopeDebit
+
+            ElseIf (getHotFeederID(indexFeeder, indexCycle, sourceFile).Equals((TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederChauxID).Trim)) Then
+
+                hotFeederDebit = TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederChauxDebit
+
+            ElseIf (getHotFeederID(indexFeeder, indexCycle, sourceFile).Equals((TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederFillerID).Trim)) Then
+                hotFeederDebit = TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederFillerDebit
+            End If
+
+            Return If(String.IsNullOrEmpty(hotFeederDebit), "-1", hotFeederDebit)
+        Catch ex As Exception
+            Return "-2"
+        End Try
     End Function
 
     Public Overrides Function getHotFeederActualPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
@@ -694,17 +737,47 @@ Public Class SourceFileCSVAdapter
         End Try
     End Function
 
-    '' Cette information n'est pas disponible actuellement dans un csv
+
     Public Overrides Function getHotFeederTargetPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-3"
+        Dim hotFeederTargetPercentage As String = "-4"
+        Try
+            If (getHotFeederID(indexFeeder, indexCycle, sourceFile).Equals((TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAggregateID + (indexFeeder + 1).ToString).Trim)) Then
+                hotFeederTargetPercentage = TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAggregateTargetPercentage
+            ElseIf getHotFeederID(indexFeeder, indexCycle, sourceFile).Trim.Equals((TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAdditiveID + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString).Trim) Then
+                hotFeederTargetPercentage = TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAdditiveTargetPercentage 
+            ElseIf getHotFeederID(indexFeeder, indexCycle, sourceFile).Trim.Equals((TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederDopeID + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString).Trim) Then
+                hotFeederTargetPercentage = TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederDopeTargetPercentage
+
+            ElseIf (getHotFeederID(indexFeeder, indexCycle, sourceFile).Equals((TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederChauxID).Trim)) Then
+                hotFeederTargetPercentage = TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederChauxTargetPercentage
+
+            ElseIf (getHotFeederID(indexFeeder, indexCycle, sourceFile).Equals((TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederFillerID).Trim)) Then
+                hotFeederTargetPercentage = TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederFillerTargetPercentage
+            End If
+
+            Return If(String.IsNullOrEmpty(hotFeederTargetPercentage), "-1", hotFeederTargetPercentage)
+        Catch ex As Exception
+            Return "-2"
+        End Try
     End Function
 
 
     Public Overrides Function getHotFeederMaterialID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
         Dim hotFeederMaterialID As String = "-4"
-
         Try
-            hotFeederMaterialID = sourceFile.importConstant.hotFeederMaterialID
+            If (getHotFeederID(indexFeeder, indexCycle, sourceFile).Equals((TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAggregateID + (indexFeeder + 1).ToString).Trim)) Then
+                hotFeederMaterialID = TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAggregateMaterialID
+            ElseIf getHotFeederID(indexFeeder, indexCycle, sourceFile).Trim.Equals((TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAdditiveID + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString).Trim) Then
+                hotFeederMaterialID = TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAdditiveMaterialID 
+            ElseIf getHotFeederID(indexFeeder, indexCycle, sourceFile).Trim.Equals((TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederDopeID + (getHotFeederCountForCycle(indexCycle, sourceFile) - (indexFeeder + 1)).ToString).Trim) Then
+                hotFeederMaterialID = TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederDopeMaterialID 
+            ElseIf (getHotFeederID(indexFeeder, indexCycle, sourceFile).Equals((TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederChauxID).Trim)) Then
+                hotFeederMaterialID = TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederChauxMaterialID
+
+            ElseIf (getHotFeederID(indexFeeder, indexCycle, sourceFile).Equals((TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederFillerID).Trim)) Then
+                hotFeederMaterialID = TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederFillerMaterialID
+            End If
+
             Return If(String.IsNullOrEmpty(hotFeederMaterialID), "-1", hotFeederMaterialID)
         Catch ex As Exception
             Return "-2"

@@ -14,8 +14,11 @@
     Private dureeMalaxSec As Double
     Private manuelle As Boolean
 
+    Private contractID As String
+    Private truckID As String
+
     Sub New(endOfCycle As Date, producedMix As ProducedMix, coldFeederList As List(Of ColdFeeder), hotFeederList As List(Of HotFeeder), totalAsphaltUsed As AsphaltUsed, dustRemovalDebit As Double, siloFillingNumber As String, bagHouseDiff As Double,
-            dureeCycle As Double, dureeMalaxHumide As Double, dureeMalaxSec As Double, manuelle As Boolean)
+            dureeCycle As Double, dureeMalaxHumide As Double, dureeMalaxSec As Double, manuelle As Boolean, contractID As String, truckID As String)
 
         Me.endOfCycle = endOfCycle
         Me.producedMix = producedMix
@@ -30,8 +33,23 @@
         Me.dureeMalaxHumide = dureeMalaxHumide
         Me.dureeMalaxSec = dureeMalaxSec
         Me.manuelle = manuelle
-
+        Me.contractID = contractID
+        Me.truckID = truckID
     End Sub
+
+
+    Public ReadOnly Property getContractID As String
+        Get
+            Return Me.contractID
+        End Get
+    End Property
+
+    Public ReadOnly Property getTruckID As String
+        Get
+            Return truckID
+        End Get
+    End Property
+
 
     Public ReadOnly Property getManuelle As Boolean
         Get

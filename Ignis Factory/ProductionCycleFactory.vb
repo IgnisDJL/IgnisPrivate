@@ -28,6 +28,8 @@ Public Class ProductionCycleFactory
         Dim dureeMalaxHumide As Double
         Dim dureeMalaxSec As Double
         Dim manuelle As Boolean
+        Dim contractID As String
+        Dim truckID As String
 
         endOfCycle = sourceFile.sourceFileAdapter.getTime(indexCycle, sourceFile)
         mixProduced = producedMixFactory.createProducedMix(indexCycle, sourceFile)
@@ -41,11 +43,12 @@ Public Class ProductionCycleFactory
         dureeMalaxHumide = sourceFile.sourceFileAdapter.getDureeMalaxHumideCycle(indexCycle, sourceFile)
         dureeMalaxSec = sourceFile.sourceFileAdapter.getDureeMalaxSecCycle(indexCycle, sourceFile)
         manuelle = sourceFile.sourceFileAdapter.getManuelle(indexCycle, sourceFile)
-
+        contractID = sourceFile.sourceFileAdapter.getContractID(indexCycle, sourceFile)
+        truckID = sourceFile.sourceFileAdapter.getTruckID(indexCycle, sourceFile)
 
         productionCycle = New ProductionCycle(endOfCycle, mixProduced, coldFeederList,
                                               hotFeederList, virginAsphaltUsed, dustRemovalDebit, siloFillingNumber, bagHouseDiff,
-                                              dureeCycle, dureeMalaxHumide, dureeMalaxSec, manuelle)
+                                              dureeCycle, dureeMalaxHumide, dureeMalaxSec, manuelle, contractID, truckID)
 
 
         Return productionCycle

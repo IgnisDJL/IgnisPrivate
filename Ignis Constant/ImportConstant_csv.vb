@@ -44,15 +44,21 @@ Public MustInherit Class ImportConstant_csv
     ''  getter des bennes froides
     ''**********************************************
 
-    Public MustOverride ReadOnly Property coldFeederID() As String Implements GlobalImportConstant.coldFeederID
     Public MustOverride ReadOnly Property coldFeederTargetPercentage As String Implements GlobalImportConstant.coldFeederTargetPercentage
     Public MustOverride ReadOnly Property coldFeederActualPercentage As String Implements GlobalImportConstant.coldFeederActualPercentage
     Public MustOverride ReadOnly Property coldFeederDebit As String Implements GlobalImportConstant.coldFeederDebit
     Public MustOverride ReadOnly Property coldFeederMass As String Implements GlobalImportConstant.coldFeederMass
     Public MustOverride ReadOnly Property coldFeederMoisturePercentage As String Implements GlobalImportConstant.coldFeederMoisturePercentage
-    Public MustOverride ReadOnly Property coldFeederRecycledID As String Implements GlobalImportConstant.coldFeederRecycledID
-    Public MustOverride ReadOnly Property coldFeederRecycledActualPercentage As String Implements GlobalImportConstant.coldFeederRecycledActualPercentage
+    Public MustOverride ReadOnly Property coldFeederID() As String Implements GlobalImportConstant.coldFeederID
     Public MustOverride ReadOnly Property coldFeederMaterialID As String Implements GlobalImportConstant.coldFeederMaterialID
+
+    Public MustOverride ReadOnly Property coldFeederRecycledTargetPercentage As String
+    Public MustOverride ReadOnly Property coldFeederRecycledActualPercentage As String Implements GlobalImportConstant.coldFeederRecycledActualPercentage
+    Public MustOverride ReadOnly Property coldFeederRecycledDebit As String
+    Public MustOverride ReadOnly Property coldFeederRecycledMass As String
+    Public MustOverride ReadOnly Property coldFeederRecycledMoisturePercentage As String
+    Public MustOverride ReadOnly Property coldFeederRecycledID As String Implements GlobalImportConstant.coldFeederRecycledID
+    Public MustOverride ReadOnly Property coldFeederRecycledMaterialID As String
 
 
     ''***************************************************************************************************
@@ -61,21 +67,41 @@ Public MustInherit Class ImportConstant_csv
 
     ' ID des bennes chaudes
 
-    Public MustOverride ReadOnly Property hotFeederAggregateID() As String
-    Public MustOverride ReadOnly Property hotFeederFillerID() As String
-    Public MustOverride ReadOnly Property hotFeederAdditiveID() As String
-    Public MustOverride ReadOnly Property hotFeederChauxID() As String
-    Public MustOverride ReadOnly Property hotFeederFillerActualPercentage() As String
+    Public MustOverride ReadOnly Property hotFeederAggregateTargetPercentage() As String
     Public MustOverride ReadOnly Property hotFeederAggregateActualPercentage() As String
-    Public MustOverride ReadOnly Property hotFeederAdditiveActualPercentage() As String
-    Public MustOverride ReadOnly Property hotFeederChauxActualPercentage() As String
-    Public MustOverride ReadOnly Property hotFeederFillerMass() As String
+    Public MustOverride ReadOnly Property hotFeederAggregateDebit() As String
     Public MustOverride ReadOnly Property hotFeederAggregateMass() As String
+    Public MustOverride ReadOnly Property hotFeederAggregateID() As String
+    Public MustOverride ReadOnly Property hotFeederAggregateMaterialID() As String
+
+    Public MustOverride ReadOnly Property hotFeederFillerTargetPercentage() As String
+    Public MustOverride ReadOnly Property hotFeederFillerActualPercentage() As String
+    Public MustOverride ReadOnly Property hotFeederFillerDebit() As String
+    Public MustOverride ReadOnly Property hotFeederFillerMass() As String
+    Public MustOverride ReadOnly Property hotFeederFillerID() As String
+    Public MustOverride ReadOnly Property hotFeederFillerMaterialID() As String
+
+    Public MustOverride ReadOnly Property hotFeederAdditiveTargetPercentage() As String
+    Public MustOverride ReadOnly Property hotFeederAdditiveActualPercentage() As String
+    Public MustOverride ReadOnly Property hotFeederAdditiveDebit() As String
     Public MustOverride ReadOnly Property hotFeederAdditiveMass() As String
+    Public MustOverride ReadOnly Property hotFeederAdditiveID() As String
+    Public MustOverride ReadOnly Property hotFeederAdditiveMaterialID() As String
+
+    Public MustOverride ReadOnly Property hotFeederChauxTargetPercentage() As String
+    Public MustOverride ReadOnly Property hotFeederChauxActualPercentage() As String
+    Public MustOverride ReadOnly Property hotFeederChauxDebit() As String
     Public MustOverride ReadOnly Property hotFeederChauxMass() As String
-    Public MustOverride ReadOnly Property hotFeederDopeID() As String
+    Public MustOverride ReadOnly Property hotFeederChauxID() As String
+    Public MustOverride ReadOnly Property hotFeederChauxMaterialID() As String
+
+    Public MustOverride ReadOnly Property hotFeederDopeTargetPercentage() As String
     Public MustOverride ReadOnly Property hotFeederDopeActualPercentage() As String
+    Public MustOverride ReadOnly Property hotFeederDopeDebit() As String
     Public MustOverride ReadOnly Property hotFeederDopeMass() As String
+    Public MustOverride ReadOnly Property hotFeederDopeID() As String
+    Public MustOverride ReadOnly Property hotFeederDopeMaterialID() As String
+
 
     ''**********************************************
     ''  getter des bennes chaudes
@@ -119,17 +145,6 @@ Public MustInherit Class ImportConstant_csv
             Return "-5"
         End Get
     End Property
-
-    '' TODO 
-    '' Retirer la fonction en commentaire lorsqu'on sera certain qu'elle n'est plus utile
-
-    'Public ReadOnly Property hotFeederMoisturePercentage As String Implements GlobalImportConstant.hotFeederMoisturePercentage
-    '    Get
-    '        '' Cette constante est inutilisé dans le contexte des fichiers .csv produit par minds, car une fonction plus spécifique est déjà définit dans 
-    '        '' la classe ImportConstant_csv
-    '        Return "-5"
-    '    End Get
-    'End Property
 
     Public ReadOnly Property hotFeederRecycledActualPercentage As String Implements GlobalImportConstant.hotFeederRecycledActualPercentage
         Get

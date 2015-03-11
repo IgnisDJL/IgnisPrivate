@@ -41,7 +41,7 @@
         End Get
     End Property
 
-    Public ReadOnly Property getTankId() As Double
+    Public ReadOnly Property getTankId() As String
         Get
             Return tankId
         End Get

@@ -397,11 +397,11 @@ Public Class SourceFileMarcotteAdapter
         Dim query = "SELECT " + sourceFile.importConstant.truckID + " FROM " + ImportConstantEn_mdb.tableCommande +
             " INNER JOIN " + ImportConstantEn_mdb.tableCycle + " ON " + ImportConstantEn_mdb.cycleCommandeID + " = " + ImportConstantEn_mdb.commandeCommandeID +
             " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
+
+
+        Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+        Dim mdbListDate = dbCommand.ExecuteReader
         Try
-
-            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
-
             mdbListDate.Read()
             truckID = mdbListDate(0)
             dbCommand.Dispose()
@@ -410,6 +410,10 @@ Public Class SourceFileMarcotteAdapter
             Return If(String.IsNullOrEmpty(truckID), "-1", truckID)
 
         Catch ex As Exception
+
+            dbCommand.Dispose()
+            mdbListDate.Close()
+
             Return "-2"
         End Try
 
@@ -419,23 +423,26 @@ Public Class SourceFileMarcotteAdapter
         Dim contractID As String = "-4"
 
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
+
+
+        Dim query = "SELECT " + sourceFile.importConstant.contractID + " FROM " + ImportConstantEn_mdb.tableCommande +
+            " INNER JOIN " + ImportConstantEn_mdb.tableCycle + " ON " + ImportConstantEn_mdb.commandeCommandeID + " = " + ImportConstantEn_mdb.cycleCommandeID +
+            " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
+
+        Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+        Dim mdbListDate = dbCommand.ExecuteReader
         Try
-
-            Dim query = "SELECT " + sourceFile.importConstant.contractID + " FROM " + ImportConstantEn_mdb.tableCommande +
-                " INNER JOIN " + ImportConstantEn_mdb.tableCycle + " ON " + ImportConstantEn_mdb.commandeCommandeID + " = " + ImportConstantEn_mdb.cycleCommandeID +
-                " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
-
-            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
-
             mdbListDate.Read()
             contractID = mdbListDate(0)
             dbCommand.Dispose()
             mdbListDate.Close()
 
-            Return If(String.IsNullOrEmpty(contractID), "-1", contractID)
+            Return If(IsDBNull(contractID), "-1", contractID)
 
         Catch ex As Exception
+            dbCommand.Dispose()
+            mdbListDate.Close()
+
             Return "-2"
         End Try
 
