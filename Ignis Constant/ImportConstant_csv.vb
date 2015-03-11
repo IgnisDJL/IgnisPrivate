@@ -34,14 +34,6 @@ Public MustInherit Class ImportConstant_csv
     Public MustOverride ReadOnly Property virginAsphaltConcreteGrade() As String Implements GlobalImportConstant.virginAsphaltConcreteGrade
 
     ''**********************************************
-    ''  getter cycleAggregate
-    ''**********************************************
-    Public MustOverride ReadOnly Property cycleAggregateTargetPercentage() As String Implements GlobalImportConstant.cycleAggregateTargetPercentage
-    Public MustOverride ReadOnly Property cycleAggregateActualPercentage() As String Implements GlobalImportConstant.cycleAggregateActualPercentage
-    Public MustOverride ReadOnly Property cycleAggregateDebit() As String Implements GlobalImportConstant.cycleAggregateDebit
-    Public MustOverride ReadOnly Property cycleAggregateMass() As String Implements GlobalImportConstant.cycleAggregateMass
-
-    ''**********************************************
     ''  getter de l'enrobé produit
     ''**********************************************
     Public MustOverride ReadOnly Property mixName() As String Implements GlobalImportConstant.mixName

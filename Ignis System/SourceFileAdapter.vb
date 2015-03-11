@@ -64,14 +64,6 @@
     Public MustOverride Function getCycleAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getCycleAsphaltConcreteGrade(indexCycle As Integer, sourceFile As SourceFile) As String
 
-    ''***********************************************************************************************************************
-    ''                                     Somme des Aggregate utilisées pour un cycle
-    ''***********************************************************************************************************************
-    Public MustOverride Function getCycleAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
-
 
 
     ''***********************************************************************************************************************

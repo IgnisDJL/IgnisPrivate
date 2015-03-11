@@ -190,52 +190,7 @@ Public Class SourceFileLogAdapter
     End Function
 
 
-    '' TODO 
-    '' Cette information est disponible donc il faut la calculer
-    Public Overrides Function getCycleAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim cycleAggregateActualPercentage As String = "-4"
-        Try
 
-            Return cycleAggregateActualPercentage
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
-
-    '' TODO 
-    '' Cette information est disponible donc il faut la calculer
-    Public Overrides Function getCycleAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim cycleAggregateDebit As String = "-4"
-
-        Try
-            Return If(String.IsNullOrEmpty(cycleAggregateDebit), "-1", cycleAggregateDebit)
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
-
-    '' TODO 
-    '' Cette information est disponible donc il faut la calculer
-    Public Overrides Function getCycleAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim cycleAggregateMass As String = "-4"
-
-        Try
-            Return If(String.IsNullOrEmpty(cycleAggregateMass), "-1", cycleAggregateMass)
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
-
-    '' TODO 
-    '' Cette information est disponible donc il faut la calculer
-    Public Overrides Function getCycleAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim cycleAggregateTargetPercentage As String = "-4"
-        Try
-            Return If(String.IsNullOrEmpty(cycleAggregateTargetPercentage), "-1", cycleAggregateTargetPercentage)
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
 
     ''***********************************************************************************************************************
     ''  Section concernant les donnée liées au bitume ou A/C d'un cycle 

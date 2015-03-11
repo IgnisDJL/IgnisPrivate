@@ -555,28 +555,6 @@ Public Class SourceFileMarcotteAdapter
         End Try
     End Function
 
-    ''TotalAggregate
-
-    '' Information non récupéré pour ce fichier source
-    Public Overrides Function getCycleAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-6"
-    End Function
-
-    '' Information non récupéré pour ce fichier source
-    Public Overrides Function getCycleAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-6"
-    End Function
-
-    '' Information non récupéré pour ce fichier source
-    Public Overrides Function getCycleAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-6"
-    End Function
-
-    '' Information non récupéré pour ce fichier source
-    Public Overrides Function getCycleAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-        Return "-6"
-    End Function
-
     ''TotalMass
     Public Overrides Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalMass As Double = -4

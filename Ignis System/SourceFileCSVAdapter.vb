@@ -213,55 +213,6 @@ Public Class SourceFileCSVAdapter
         End Try
     End Function
 
-    ''Total aggregate
-    Public Overrides Function getCycleAggregateActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim cycleAggregateActualPercentage As String = "-4"
-
-        Try
-            cycleAggregateActualPercentage = sourceFile.importConstant.cycleAggregateActualPercentage
-
-            Return If(String.IsNullOrEmpty(cycleAggregateActualPercentage), "-1", cycleAggregateActualPercentage)
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
-
-    Public Overrides Function getCycleAggregateDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim cycleAggregateDebit As String = "-4"
-
-        Try
-            cycleAggregateDebit = sourceFile.importConstant.cycleAggregateDebit
-
-            Return If(String.IsNullOrEmpty(cycleAggregateDebit), "-1", cycleAggregateDebit)
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
-
-    Public Overrides Function getCycleAggregateMass(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalAggregateMass As String = "-4"
-
-        Try
-            totalAggregateMass = getColumnFromCSVFile(sourceFile.importConstant.cycleAggregateMass, indexCycle, sourceFile)
-            Return If(String.IsNullOrEmpty(totalAggregateMass), "-1", totalAggregateMass)
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
-
-    '' Cette information n'est pas disponible actuellement dans un csv
-    Public Overrides Function getCycleAggregateTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim cycleAggregateTargetPercentage As String = "-4"
-
-        Try
-            cycleAggregateTargetPercentage = sourceFile.importConstant.cycleAggregateTargetPercentage
-
-            Return If(String.IsNullOrEmpty(cycleAggregateTargetPercentage), "-1", cycleAggregateTargetPercentage)
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
-
 
     ''***********************************************************************************************************************
     ''  Section concernant les donnée liées un ProductionCycle 

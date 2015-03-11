@@ -90,29 +90,6 @@
         End Get
     End Property
 
-
-    ''***********************************************
-    ''                  Aggregate
-    ''***********************************************
-
-    Public Overrides ReadOnly Property cycleAggregateActualPercentage As String
-        Get
-            Return "-3"
-        End Get
-    End Property
-
-    Public Overrides ReadOnly Property cycleAggregateDebit As String
-        Get
-            Return "-3"
-        End Get
-    End Property
-
-    Public Overrides ReadOnly Property cycleAggregateTargetPercentage As String
-        Get
-            Return "-3"
-        End Get
-    End Property
-
     ''***********************************************
     ''                 Production Day
     ''***********************************************
@@ -205,14 +182,6 @@
     End Property
 
     Public Overrides ReadOnly Property truckID As String
-        Get
-            '' Cette information n'est pas disponible pour un fichier .log produit par minds
-            Return "-3"
-        End Get
-    End Property
-
-
-    Public Overrides ReadOnly Property cycleAggregateMass As String
         Get
             '' Cette information n'est pas disponible pour un fichier .log produit par minds
             Return "-3"

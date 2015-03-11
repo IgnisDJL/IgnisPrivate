@@ -177,35 +177,6 @@ Public Class ImportConstantEn_csv
         End Get
     End Property
 
-    ''**********************************************
-    ''               Aggregate
-    ''**********************************************
-
-    Public Overrides ReadOnly Property cycleAggregateTargetPercentage As String
-        Get
-            Return "-3"
-        End Get
-    End Property
-
-
-    Public Overrides ReadOnly Property cycleAggregateActualPercentage As String
-        Get
-            Return "-3"
-        End Get
-    End Property
-
-    Public Overrides ReadOnly Property cycleAggregateDebit As String
-        Get
-            Return "-3"
-        End Get
-    End Property
-
-    Public Overrides ReadOnly Property cycleAggregateMass As String
-        Get
-            Return totalAggregateMass_En
-        End Get
-    End Property
-
 
     ''**********************************************
     ''              Bennes froides

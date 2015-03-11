@@ -17,14 +17,6 @@
     ReadOnly Property manuel() As String
 
     ''**********************************************
-    ''  getter cycleAggregate
-    ''**********************************************
-    ReadOnly Property cycleAggregateTargetPercentage() As String
-    ReadOnly Property cycleAggregateActualPercentage() As String
-    ReadOnly Property cycleAggregateDebit() As String
-    ReadOnly Property cycleAggregateMass() As String
-
-    ''**********************************************
     ''  getter virginAsphaltConcrete
     ''**********************************************
     ReadOnly Property virginAsphaltConcreteTargetPercentage() As String
