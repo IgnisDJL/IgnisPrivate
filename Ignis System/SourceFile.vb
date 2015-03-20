@@ -1,6 +1,8 @@
 ﻿
 Public Class SourceFile
     Inherits DataFile
+    Implements IEquatable(Of SourceFile)
+
     Public sourceFileAdapter As SourceFileAdapter
     Public importConstant As GlobalImportConstant
 
@@ -28,4 +30,11 @@ Public Class SourceFile
         End Get
     End Property
 
+    Public Overloads Function Equals(sourceFile As SourceFile) As Boolean Implements IEquatable(Of SourceFile).Equals
+        If Me.productionDate = sourceFile.Date_ Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
 End Class

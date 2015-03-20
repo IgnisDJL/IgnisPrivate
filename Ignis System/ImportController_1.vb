@@ -2,7 +2,10 @@
 Public Class ImportController_1
 
     Private settings As XmlSettings.Settings
-    Private lastIdentifiedFiles As List(Of DataFile)
+
+
+    Private continueSourceFileList As List(Of SourceFile)
+    Private discontinueSourceFileList As List(Of SourceFile)
     Private _usbDirectory As IO.DirectoryInfo
     Private temporaryArchivesDirectory As IO.DirectoryInfo
     Private dataDirectory As IO.DirectoryInfo
@@ -11,36 +14,64 @@ Public Class ImportController_1
     Private newestImportedFiles As List(Of IO.FileInfo)
     Private productionDayList As List(Of ProductionDay_1)
     Private productionDayFactory As ProductionDayFactory
+    Private plantProduction As PlantProduction
 
     Public Sub New(settings As XmlSettings.Settings)
 
         Me.settings = settings
-        Me.lastIdentifiedFiles = New List(Of DataFile)
+        Me.continueSourceFileList = New List(Of SourceFile)
+        Me.discontinueSourceFileList = New List(Of SourceFile)
         Me.newestImportedFiles = New List(Of IO.FileInfo)
         Me.productionDayFactory = New ProductionDayFactory
+        Me.plantProduction = New PlantProduction(Me.settings.Usine.PLANT_NAME, Me.settings.Usine.TYPE)
 
     End Sub
 
     Public Function importFiles() As Integer
 
-        productionDayList= New List(Of ProductionDay_1)
+        productionDayList = New List(Of ProductionDay_1)
+        Dim productionDay As ProductionDay_1
 
-        For Each sourceFile As SourceFile In Me.lastIdentifiedFiles
+        If plantProduction.getPlantType = Constants.Settings.UsineType.HYBRID Then
+            For Each continueSourceFile As SourceFile In continueSourceFileList
 
-            Dim productionDay As ProductionDay_1
+                If discontinueSourceFileList.Contains(continueSourceFile) Then
+                    productionDay = productionDayFactory.createProductionDayHybrid(continueSourceFile, discontinueSourceFileList.Item(discontinueSourceFileList.IndexOf(continueSourceFile)))
+                    productionDayList.Add(productionDay)
+                Else
+                    productionDay = productionDayFactory.createProductionDayHybrid(continueSourceFile)
+                    productionDayList.Add(productionDay)
+                End If
 
-            productionDay = productionDayFactory.createProductionDay(sourceFile)
-            productionDayList.Add(productionDay)
-        Next
-        
+            Next
+
+        ElseIf plantProduction.getPlantType = Constants.Settings.UsineType.LOG Then
+
+            For Each continueSourceFile As SourceFile In Me.continueSourceFileList
+
+                productionDay = productionDayFactory.createProductionDayContinue(continueSourceFile)
+                productionDayList.Add(productionDay)
+            Next
+
+        ElseIf plantProduction.getPlantType = Constants.Settings.UsineType.CSV Or plantProduction.getPlantType = Constants.Settings.UsineType.MDB Then
+
+            For Each discontinueSourceFile As SourceFile In Me.discontinueSourceFileList
+                productionDay = productionDayFactory.createProductionDayDiscontinue(discontinueSourceFile)
+                productionDayList.Add(productionDay)
+            Next
+
+        End If
+
         Return productionDayList.Count
 
     End Function
 
 
     Public Function identifyFilesToImport() As List(Of DataFile)
+        Me.plantProduction.setPlantType(Me.settings.Usine.TYPE)
 
-        Me.lastIdentifiedFiles.Clear()
+        Me.continueSourceFileList.Clear()
+        Me.discontinueSourceFileList.Clear()
 
         If (IsNothing(USBDirectory)) Then
             USBDirectory = New IO.DirectoryInfo(XmlSettings.Settings.instance.Usine.USB_DIRECTORY)
@@ -58,13 +89,10 @@ Public Class ImportController_1
 
             For Each file As IO.FileInfo In dataDirectory.GetFiles
 
-                If (regexLogFile.Match(file.Name).Success) Then
-
-
+                If (regexLogFile.Match(file.Name).Success) And (plantProduction.getPlantType = Constants.Settings.UsineType.LOG Or plantProduction.getPlantType = Constants.Settings.UsineType.HYBRID) Then
                     Dim sourceFile As New SourceFile(file.FullName, New SourceFileLogAdapter())
 
-
-                    Me.lastIdentifiedFiles.Add(sourceFile)
+                    Me.continueSourceFileList.Add(sourceFile)
 
                     If (IsNothing(newestSourceFile)) Then
                         newestSourceFile = sourceFile
@@ -72,10 +100,10 @@ Public Class ImportController_1
                         newestSourceFile = sourceFile
                     End If
 
-                ElseIf (regexCSVFile.Match(file.Name).Success) Then
+                ElseIf (regexCSVFile.Match(file.Name).Success) And (plantProduction.getPlantType = Constants.Settings.UsineType.CSV Or plantProduction.getPlantType = Constants.Settings.UsineType.MDB Or plantProduction.getPlantType = Constants.Settings.UsineType.HYBRID) Then
                     Dim sourceFile As New SourceFile(file.FullName, New SourceFileCSVAdapter())
 
-                    Me.lastIdentifiedFiles.Add(sourceFile)
+                    Me.discontinueSourceFileList.Add(sourceFile)
 
                     If (IsNothing(newestSourceFile)) Then
                         newestSourceFile = sourceFile
@@ -83,13 +111,13 @@ Public Class ImportController_1
                         newestSourceFile = sourceFile
                     End If
 
-                ElseIf (regexMDBFile.Match(file.Name).Success) Then
+                ElseIf (regexMDBFile.Match(file.Name).Success) And (plantProduction.getPlantType = Constants.Settings.UsineType.CSV Or plantProduction.getPlantType = Constants.Settings.UsineType.MDB) Then
 
 
                     For Each nouvelleDate As Date In getNouvellesDates(getLastDate(), file.FullName)
 
                         Dim sourceFile As New SourceFile(file.FullName, New SourceFileMarcotteAdapter(), nouvelleDate)
-                        Me.lastIdentifiedFiles.Add(sourceFile)
+                        Me.discontinueSourceFileList.Add(sourceFile)
 
                         If (IsNothing(newestSourceFile)) Then
                             newestSourceFile = sourceFile
@@ -103,7 +131,11 @@ Public Class ImportController_1
 
         End If
 
-        Return Me.lastIdentifiedFiles
+        Dim allFileToImport As List(Of DataFile) = New List(Of DataFile)
+
+        allFileToImport.InsertRange(0, continueSourceFileList)
+        allFileToImport.InsertRange(0, discontinueSourceFileList)
+        Return allFileToImport
     End Function
 
     Private Function getLastDate() As Date
@@ -221,7 +253,8 @@ Public Class ImportController_1
     End Function
 
     Public Sub clear()
-        Me.lastIdentifiedFiles.Clear()
+        Me.continueSourceFileList.Clear()
+        Me.discontinueSourceFileList.Clear()
     End Sub
 
     Public Property USBDirectory As IO.DirectoryInfo
@@ -307,7 +340,7 @@ Public Class ImportController_1
 
     Public ReadOnly Property NB_FILES_TO_IMPORT As Integer
         Get
-            Return If(IsNothing(Me.lastIdentifiedFiles), 0, Me.lastIdentifiedFiles.Count)
+            Return If(IsNothing(Me.continueSourceFileList.Concat(Me.discontinueSourceFileList)), 0, Me.continueSourceFileList.Concat(Me.discontinueSourceFileList).Count)
         End Get
     End Property
 

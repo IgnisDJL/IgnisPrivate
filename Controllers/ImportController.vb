@@ -374,6 +374,7 @@
 
     Public ReadOnly Property NB_FILES_TO_IMPORT As Integer
         Get
+            ''
             Return If(IsNothing(Me.lastIdentifiedFiles), 0, Me.lastIdentifiedFiles.Count)
         End Get
     End Property

@@ -1,9 +1,11 @@
-﻿Public Class PlantProduction
-    Private plantType As String
+﻿Imports IGNIS.Constants.Settings
+
+Public Class PlantProduction
+    Private plantType As UsineType
     Private plantName As String
     Private _productionDayList As List(Of ProductionDay_1)
 
-    Sub New(plantName As String, plantType As String)
+    Sub New(plantName As String, plantType As UsineType)
         Me.plantName = plantName
         Me.plantType = plantType
         _productionDayList = New List(Of ProductionDay_1)
@@ -18,7 +20,7 @@
         End Get
     End Property
 
-    Public ReadOnly Property getPlantType As String
+    Public ReadOnly Property getPlantType As UsineType
         Get
             Return plantType
         End Get
@@ -29,5 +31,9 @@
             Return plantName
         End Get
     End Property
+
+    Public Sub setPlantType(usineType As UsineType)
+        Me.plantType = UsineType
+    End Sub
 
 End Class

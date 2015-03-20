@@ -440,6 +440,11 @@ Public Class ReportGenerationController
 
     Private Sub finishDelayJustificationStep()
 
+        '' Section à analyser plus tard, utilse à comprendre pour pouvoir terminer la section des délais
+        '' Break point à ajouter si, la durée du délais est inférieur à l'écart possible entre deux cycles consécutif.
+        '' Cas particulié avec des fichiers logs.
+
+
         For Each day As ProductionDay In Me.selectedReportReadyProductionDays
 
             day.finalizeDelayStatistics()

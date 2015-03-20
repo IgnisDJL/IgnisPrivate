@@ -25,7 +25,6 @@ Public Class CSVFile
 
         MyBase.New(pathToCSVFile)
         Me._date = getDateFromFileName(Me.getFileInfo.Name)
-
     End Sub
 
     ''' <summary>#comment</summary>

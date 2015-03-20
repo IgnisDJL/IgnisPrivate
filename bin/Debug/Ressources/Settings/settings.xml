@@ -66,11 +66,11 @@
       </defaultRecipients>
     </emails>
     <dataFiles>
-      <csv active="yes" stopOffset="60">
+      <csv active="no" stopOffset="60">
         <format />
         <feedsInfo />
       </csv>
-      <log active="yes">
+      <log active="no">
         <feedsInfo>
           <unknownFeed material="" tag="#ColdFeed">Fdr1</unknownFeed>
           <unknownFeed material="" tag="#ColdFeed">Fdr2</unknownFeed>
@@ -94,7 +94,7 @@
           <unknownFeed material="" tag="#ColdFeed">Rec2</unknownFeed>
         </feedsInfo>
       </log>
-      <mdb active="no" stopOffset="60">
+      <mdb active="yes" stopOffset="60">
         <feedsInfo />
       </mdb>
     </dataFiles>

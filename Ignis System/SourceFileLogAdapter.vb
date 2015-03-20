@@ -176,16 +176,16 @@ Public Class SourceFileLogAdapter
                     Return If(realTotalMass < -4, -1, realTotalMass)
                 Else
                     '' Le cycle courant n'a pas utilisé de bitume, donc il n'y a pas production d'enrobé binumineux 
-                    Return -3
+                    Return 0
                 End If
 
             Else
                 '' Le premier cycle n'a pas de cycle précédant pour calculer la masse d'enrobé bitumineux
-                Return -3
+                Return 0
             End If
 
         Catch ex As Exception
-            Return -2.0
+            Return 0
         End Try
     End Function
 

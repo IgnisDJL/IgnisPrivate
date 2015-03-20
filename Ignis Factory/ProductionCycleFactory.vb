@@ -13,7 +13,7 @@ Public Class ProductionCycleFactory
         Application.CurrentCulture = New CultureInfo("EN-US")
     End Sub
 
-    Public Function createProductionCycle(indexCycle As Integer, sourceFile As SourceFile) As ProductionCycle
+    Private Function createProductionCycle(indexCycle As Integer, sourceFile As SourceFile) As ProductionCycle
         Dim productionCycle As ProductionCycle
 
         Dim endOfCycle As Date
