@@ -1,13 +1,23 @@
 ﻿Public Class ProductionDay_1
     Private _productionContinue As List(Of ProductionCycle)
     Private _productionDiscontinue As List(Of ProductionCycle)
+    Private sourceFileComplementPathDiscontinue As List(Of String)
+    Private sourceFileComplementPathContinue As List(Of String)
     Private productionDate As Date
 
     Sub New(productionDate As Date)
         Me.productionDate = productionDate
         Me.productionContinue = New List(Of ProductionCycle)
         Me.productionDiscontinue = New List(Of ProductionCycle)
+        Me.sourceFileComplementPathDiscontinue = New List(Of String)
+        Me.sourceFileComplementPathContinue = New List(Of String)
     End Sub
+
+    Public ReadOnly Property getProductionDate As Date
+        Get
+            Return productionDate
+        End Get
+    End Property
 
     Public Property productionContinue As List(Of ProductionCycle)
         Get
@@ -30,6 +40,23 @@
     Public Sub addProductionCycleContinue(productionCycle As ProductionCycle)
         _productionContinue.Add(productionCycle)
     End Sub
+
+    Public Sub setSourceFileComplementPathDiscontinue(pathList As List(Of String))
+        sourceFileComplementPathDiscontinue = pathList
+    End Sub
+
+    Public Sub setSourceFileComplementPathContinue(pathList As List(Of String))
+        sourceFileComplementPathContinue = pathList
+    End Sub
+
+    Public Function getSourceFileComplementPathContinue() As List(Of String)
+        Return sourceFileComplementPathContinue
+    End Function
+
+    Public Function getsourceFileComplementPathDiscontinue() As List(Of String)
+
+        Return sourceFileComplementPathDiscontinue
+    End Function
 
     Public Sub addProductionCycleDiscontinue(productionCycle As ProductionCycle)
         _productionDiscontinue.Add(productionCycle)

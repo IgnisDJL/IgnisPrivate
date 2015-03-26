@@ -236,7 +236,7 @@ Public Class ImportConstantEn_mdb
 
     Public Overrides ReadOnly Property time As String
         Get
-            Return "FORMAT(" + cycleDate + ",'hh:nn:ss am/pm')"
+            Return cycleDate
         End Get
     End Property
 

@@ -8,7 +8,7 @@
     Private coldFeederList As List(Of ColdFeeder)
     Private hotFeederList As List(Of HotFeeder)
     Private recycledAsphaltUsed As RecycledAsphaltUsed
-    Private totalAsphaltUsed As AsphaltUsed
+    Private virginAsphaltUsed As AsphaltUsed
     Private dureeCycle As Double
     Private dureeMalaxHumide As Double
     Private dureeMalaxSec As Double
@@ -17,7 +17,7 @@
     Private contractID As String
     Private truckID As String
 
-    Sub New(endOfCycle As Date, producedMix As ProducedMix, coldFeederList As List(Of ColdFeeder), hotFeederList As List(Of HotFeeder), totalAsphaltUsed As AsphaltUsed, dustRemovalDebit As Double, siloFillingNumber As String, bagHouseDiff As Double,
+    Sub New(endOfCycle As Date, producedMix As ProducedMix, coldFeederList As List(Of ColdFeeder), hotFeederList As List(Of HotFeeder), virginAsphaltUsed As AsphaltUsed, dustRemovalDebit As Double, siloFillingNumber As String, bagHouseDiff As Double,
             dureeCycle As Double, dureeMalaxHumide As Double, dureeMalaxSec As Double, manuelle As Boolean, contractID As String, truckID As String)
 
         Me.endOfCycle = endOfCycle
@@ -28,13 +28,14 @@
         Me.coldFeederList = coldFeederList
         Me.hotFeederList = hotFeederList
         Me.recycledAsphaltUsed = recycledAsphaltUsed
-        Me.totalAsphaltUsed = totalAsphaltUsed
+        Me.virginAsphaltUsed = virginAsphaltUsed
         Me.dureeCycle = dureeCycle
         Me.dureeMalaxHumide = dureeMalaxHumide
         Me.dureeMalaxSec = dureeMalaxSec
         Me.manuelle = manuelle
         Me.contractID = contractID
         Me.truckID = truckID
+
     End Sub
 
 
@@ -95,20 +96,26 @@
         End Get
     End Property
 
+    Public ReadOnly Property getHotFeederList As List(Of HotFeeder)
+        Get
+            Return hotFeederList
+        End Get
+    End Property
+
     Public ReadOnly Property getRecycledAsphaltUsed As RecycledAsphaltUsed
         Get
             Return recycledAsphaltUsed
         End Get
     End Property
 
-    Public ReadOnly Property getTotalAsphaltUsed As AsphaltUsed
+    Public ReadOnly Property getVirginAsphaltUsed As AsphaltUsed
         Get
-            Return totalAsphaltUsed
+            Return virginAsphaltUsed
         End Get
     End Property
 
     Public Function getAsphaltName() As String
-        Return Plant.asphaltCatalog.getDescriptionFromContainer(totalAsphaltUsed.getTankId, endOfCycle)
+        Return Plant.asphaltCatalog.getDescriptionFromContainer(virginAsphaltUsed.getTankId, endOfCycle)
     End Function
 
     Public ReadOnly Property getDureeCycle As Double
@@ -128,4 +135,45 @@
             Return Me.dureeMalaxSec
         End Get
     End Property
+
+    Public Function getTime() As TimeSpan
+        Return endOfCycle.TimeOfDay()
+    End Function
+
+    Public Function isHotFeederEmpty() As Boolean
+        Dim totalMass As Double
+
+        For Each hotFeeder As HotFeeder In getHotFeederList()
+            totalMass += hotFeeder.getMass()
+        Next
+        If totalMass <= 0 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+    Public Function isColdFeederEmpty() As Boolean
+        Dim totalMass As Double
+
+        For Each coldFeeder As ColdFeeder In getColdFeederList()
+            totalMass += coldFeeder.getMass()
+        Next
+        If totalMass <= 0 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+    Public Function isVirginAsphaltEmpty() As Boolean
+
+        If getVirginAsphaltUsed().getMass() <= 0 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+
 End Class

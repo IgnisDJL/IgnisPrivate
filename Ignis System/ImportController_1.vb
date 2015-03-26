@@ -6,6 +6,8 @@ Public Class ImportController_1
 
     Private continueSourceFileList As List(Of SourceFile)
     Private discontinueSourceFileList As List(Of SourceFile)
+    Private continueSourceFileComplementList As List(Of String)
+    Private discontinueSourceFileComplementList As List(Of String)
     Private _usbDirectory As IO.DirectoryInfo
     Private temporaryArchivesDirectory As IO.DirectoryInfo
     Private dataDirectory As IO.DirectoryInfo
@@ -14,13 +16,15 @@ Public Class ImportController_1
     Private newestImportedFiles As List(Of IO.FileInfo)
     Private productionDayList As List(Of ProductionDay_1)
     Private productionDayFactory As ProductionDayFactory
-    Private plantProduction As PlantProduction
+    Public plantProduction As PlantProduction
 
     Public Sub New(settings As XmlSettings.Settings)
 
         Me.settings = settings
         Me.continueSourceFileList = New List(Of SourceFile)
         Me.discontinueSourceFileList = New List(Of SourceFile)
+        Me.continueSourceFileComplementList = New List(Of String)
+        Me.discontinueSourceFileComplementList = New List(Of String)
         Me.newestImportedFiles = New List(Of IO.FileInfo)
         Me.productionDayFactory = New ProductionDayFactory
         Me.plantProduction = New PlantProduction(Me.settings.Usine.PLANT_NAME, Me.settings.Usine.TYPE)
@@ -33,24 +37,31 @@ Public Class ImportController_1
         Dim productionDay As ProductionDay_1
 
         If plantProduction.getPlantType = Constants.Settings.UsineType.HYBRID Then
+
             For Each continueSourceFile As SourceFile In continueSourceFileList
 
                 If discontinueSourceFileList.Contains(continueSourceFile) Then
                     productionDay = productionDayFactory.createProductionDayHybrid(continueSourceFile, discontinueSourceFileList.Item(discontinueSourceFileList.IndexOf(continueSourceFile)))
+                    productionDay.setSourceFileComplementPathContinue(continueSourceFileComplementList)
                     productionDayList.Add(productionDay)
+
                 Else
                     productionDay = productionDayFactory.createProductionDayHybrid(continueSourceFile)
+                    productionDay.setSourceFileComplementPathContinue(continueSourceFileComplementList)
                     productionDayList.Add(productionDay)
+
+
                 End If
 
             Next
-
         ElseIf plantProduction.getPlantType = Constants.Settings.UsineType.LOG Then
 
             For Each continueSourceFile As SourceFile In Me.continueSourceFileList
 
                 productionDay = productionDayFactory.createProductionDayContinue(continueSourceFile)
+                productionDay.setSourceFileComplementPathContinue(continueSourceFileComplementList)
                 productionDayList.Add(productionDay)
+
             Next
 
         ElseIf plantProduction.getPlantType = Constants.Settings.UsineType.CSV Or plantProduction.getPlantType = Constants.Settings.UsineType.MDB Then
@@ -62,6 +73,29 @@ Public Class ImportController_1
 
         End If
 
+        Dim delayFactory = New DelayFactory()
+
+        Dim dateDebut As Date
+        Dim dateFin As Date
+        Dim delayList As List(Of Delay_1)
+
+
+        dateDebut = New Date(2014, 12, 4, 7, 0, 0)
+        dateFin = New Date(2014, 12, 4, 23, 0, 0)
+
+
+        For Each productionDay_1 As ProductionDay_1 In productionDayList
+
+            If plantProduction.getPlantType = Constants.Settings.UsineType.CSV Or plantProduction.getPlantType = Constants.Settings.UsineType.MDB Then
+
+                delayList = delayFactory.createBatchDelayList(dateDebut, dateFin, productionDay_1.getProductionCycle_Discontinue(dateDebut, dateFin), productionDay_1.getsourceFileComplementPathDiscontinue)
+            ElseIf plantProduction.getPlantType = Constants.Settings.UsineType.LOG Then
+
+                delayList = delayFactory.createDrumDelayList(dateDebut, dateFin, productionDay_1.getProductionCycle_Continue(dateDebut, dateFin), productionDay_1.getSourceFileComplementPathContinue)
+            End If
+
+        Next
+        plantProduction.productionDayList = productionDayList
         Return productionDayList.Count
 
     End Function
@@ -84,6 +118,7 @@ Public Class ImportController_1
             Dim newestSourceFile As SourceFile = Nothing
 
             Dim regexLogFile As New System.Text.RegularExpressions.Regex(Constants.Input.LOG.FILE_NAME_REGEX)
+
             Dim regexCSVFile As New System.Text.RegularExpressions.Regex(Constants.Input.CSV.FILE_NAME_REGEX)
             Dim regexMDBFile As New System.Text.RegularExpressions.Regex(Constants.Input.MDB.FILE_NAME_REGEX)
 
@@ -128,8 +163,22 @@ Public Class ImportController_1
 
                 End If
             Next
-
         End If
+
+        If eventDirectory.Exists Then
+            Dim regexEventFile As New System.Text.RegularExpressions.Regex(Constants.Input.Events.FILE_NAME_REGEX)
+
+            For Each file As IO.FileInfo In eventDirectory.GetFiles
+
+                If (regexEventFile.Match(file.Name).Success) And (plantProduction.getPlantType = Constants.Settings.UsineType.LOG Or plantProduction.getPlantType = Constants.Settings.UsineType.HYBRID) Then
+
+                    continueSourceFileComplementList.Add(file.FullName)
+                End If
+
+            Next
+        End If
+
+
 
         Dim allFileToImport As List(Of DataFile) = New List(Of DataFile)
 

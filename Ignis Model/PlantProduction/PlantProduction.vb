@@ -20,6 +20,18 @@ Public Class PlantProduction
         End Get
     End Property
 
+    Public Function getProductionDay(dateDebut As Date, dateFin As Date) As List(Of ProductionDay_1)
+        Dim productionDayToReturn = New List(Of ProductionDay_1)
+
+        For Each productionDay As ProductionDay_1 In _productionDayList
+            If productionDay.getProductionDate >= New Date(dateDebut.Year, dateDebut.Month, dateDebut.Day) And productionDay.getProductionDate <= New Date(dateFin.Year, dateFin.Month, dateFin.Day) Then
+                productionDayToReturn.Add(productionDay)
+            End If
+        Next
+
+        Return productionDayToReturn
+    End Function
+
     Public ReadOnly Property getPlantType As UsineType
         Get
             Return plantType
