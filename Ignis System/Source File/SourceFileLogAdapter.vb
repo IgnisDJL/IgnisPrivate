@@ -142,48 +142,33 @@ Public Class SourceFileLogAdapter
     ''  Section concernant les totaux d'un cycle de production 
     ''***********************************************************************************************************************
 
-    
     ''Total Mass
     Public Overrides Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim realTotalMass As Double = -4
         Try
-            If indexCycle > 0 Then
 
-                Dim previousAsphaltConcreteTotalMass As Double
-                Dim actualAsphaltConcreteTotalMass As Double
+            Dim actualAsphaltConcreteTotalMass As Double
 
-                previousAsphaltConcreteTotalMass = getCycleAsphaltConcreteTotalMass(indexCycle - 1, sourceFile)
-                actualAsphaltConcreteTotalMass = getCycleAsphaltConcreteTotalMass(indexCycle, sourceFile)
+            actualAsphaltConcreteTotalMass = getRealTotalAsphaltConcreteMass(indexCycle, sourceFile)
 
-                If actualAsphaltConcreteTotalMass > previousAsphaltConcreteTotalMass Then
-
-                    Dim previousTotalMass As Double
-                    Dim actualTotalMass As Double
+            If actualAsphaltConcreteTotalMass > 0 Then
+                Dim actualTotalMass As Double
 
 
-                    For indexFeeder As Integer = 0 To hotFeederValidIndexList.Count - 1
+                For indexFeeder As Integer = 0 To hotFeederValidIndexList.Count - 1
 
-                        previousTotalMass += getHotFeederMass(indexFeeder, indexCycle - 1, sourceFile)
-                        actualTotalMass += getHotFeederMass(indexFeeder, indexCycle, sourceFile)
+                    actualTotalMass += getHotFeederMass(indexFeeder, indexCycle, sourceFile)
 
-                    Next
+                Next
 
-                    previousTotalMass += previousAsphaltConcreteTotalMass
-                    actualTotalMass += actualAsphaltConcreteTotalMass
+                actualTotalMass += actualAsphaltConcreteTotalMass
+                realTotalMass = actualTotalMass
 
-                    realTotalMass = actualTotalMass - previousTotalMass
-
-                    Return If(realTotalMass < -4, -1, realTotalMass)
-                Else
-                    '' Le cycle courant n'a pas utilisé de bitume, donc il n'y a pas production d'enrobé binumineux 
-                    Return 0
-                End If
-
+                Return If(realTotalMass < -4, -1, realTotalMass)
             Else
-                '' Le premier cycle n'a pas de cycle précédant pour calculer la masse d'enrobé bitumineux
+                '' Le cycle courant n'a pas utilisé de bitume, donc il n'y a pas production d'enrobé binumineux 
                 Return 0
             End If
-
         Catch ex As Exception
             Return 0
         End Try
@@ -218,7 +203,57 @@ Public Class SourceFileLogAdapter
         End Try
     End Function
 
+
     Public Overrides Function getCycleAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
+        Try
+            If indexCycle > 0 Then
+
+                Dim previousAsphaltConcreteTotalMass As Double
+                Dim actualAsphaltConcreteTotalMass As Double
+                Dim realAsphaltConcreteMass As Double
+
+                previousAsphaltConcreteTotalMass = getEstimatedCycleAsphaltConcreteMass(indexCycle - 1, sourceFile)
+                actualAsphaltConcreteTotalMass = getEstimatedCycleAsphaltConcreteMass(indexCycle, sourceFile)
+
+
+                realAsphaltConcreteMass = actualAsphaltConcreteTotalMass - previousAsphaltConcreteTotalMass
+
+                Return If(realAsphaltConcreteMass < -4, -1, realAsphaltConcreteMass)
+            Else
+                '' Le premier cycle n'a pas de cycle précédant pour calculer la masse 
+                Return getEstimatedCycleAsphaltConcreteMass(indexCycle, sourceFile)
+            End If
+        Catch ex As Exception
+            Return 0
+        End Try
+    End Function
+
+    Private Function getRealTotalAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
+        Try
+            If indexCycle > 0 Then
+
+                Dim previousAsphaltConcreteTotalMass As Double
+                Dim actualAsphaltConcreteTotalMass As Double
+                Dim realAsphaltConcreteMass As Double
+
+                previousAsphaltConcreteTotalMass = getEstimatedTotalAsphaltConcreteTotalMass(indexCycle - 1, sourceFile)
+                actualAsphaltConcreteTotalMass = getEstimatedTotalAsphaltConcreteTotalMass(indexCycle, sourceFile)
+
+
+                realAsphaltConcreteMass = actualAsphaltConcreteTotalMass - previousAsphaltConcreteTotalMass
+
+                Return If(realAsphaltConcreteMass < -4, -1, realAsphaltConcreteMass)
+            Else
+                '' Le premier cycle n'a pas de cycle précédant pour calculer la masse 
+                Return getEstimatedTotalAsphaltConcreteTotalMass(indexCycle, sourceFile)
+            End If
+        Catch ex As Exception
+            Return 0
+        End Try
+    End Function
+
+
+    Private Function getEstimatedCycleAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltMass As String = "-4"
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
@@ -230,7 +265,7 @@ Public Class SourceFileLogAdapter
     End Function
 
 
-    Private Function getCycleAsphaltConcreteTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    Private Function getEstimatedTotalAsphaltConcreteTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltConcreteTotalMass As String = "-4"
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
@@ -315,7 +350,7 @@ Public Class SourceFileLogAdapter
         Try
             Dim regex = New Regex("([\d]+:[\d]+:[\d]+[\s]AM)|([\d]+:[\d]+:[\d]+[\s]PM)")
             time = regex.Match(getCycle(indexCycle, sourceFile)).Groups(0).Value.Trim
-            Return time
+            Return getDate(sourceFile) + " " + time
         Catch ex As Exception
             Return "-2"
         End Try
@@ -502,8 +537,7 @@ Public Class SourceFileLogAdapter
             Return "-2"
         End Try
     End Function
-
-    Public Overrides Function getColdFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+    Private Function getEstimatedColdFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
         Dim feederMass As String = "-4"
 
         Dim regex = New Regex("([\d]+.[\d]+)")
@@ -511,6 +545,28 @@ Public Class SourceFileLogAdapter
             feederMass = regex.Matches(getLineFromLogFile(EnumLineLogFile.coldFeederMass, indexCycle, sourceFile))(indexFeeder).Value.Trim
 
             Return If(String.IsNullOrEmpty(feederMass), "-1", feederMass)
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getColdFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+        Try
+            If indexCycle > 0 Then
+
+                Dim previousTotalMass As Double
+                Dim actualTotalMass As Double
+                Dim realColdFeederMass As Double
+
+                previousTotalMass += getEstimatedColdFeederMass(indexFeeder, indexCycle - 1, sourceFile)
+                actualTotalMass += getEstimatedColdFeederMass(indexFeeder, indexCycle, sourceFile)
+                realColdFeederMass = actualTotalMass - previousTotalMass
+
+                Return If(realColdFeederMass < -4, -1, realColdFeederMass)
+            Else
+                '' Le premier cycle n'a pas de cycle précédant pour calculer la masse d'enrobé bitumineux
+                Return getEstimatedColdFeederMass(indexFeeder, indexCycle, sourceFile)
+            End If
         Catch ex As Exception
             Return "-2"
         End Try
@@ -635,7 +691,31 @@ Public Class SourceFileLogAdapter
         End Try
     End Function
 
+
     Public Overrides Function getHotFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+        Try
+            If indexCycle > 0  Then
+
+                Dim previousTotalMass As Double
+                Dim actualTotalMass As Double
+                Dim realHotFeederMass As Double
+
+                previousTotalMass += getEstimatedHotFeederMass(indexFeeder, indexCycle - 1, sourceFile)
+                actualTotalMass += getEstimatedHotFeederMass(indexFeeder, indexCycle, sourceFile)
+                realHotFeederMass = actualTotalMass - previousTotalMass
+
+                Return If(realHotFeederMass < -4, -1, realHotFeederMass)
+            Else
+                '' Le premier cycle n'a pas de cycle précédant pour calculer la masse d'enrobé bitumineux
+                Return getEstimatedHotFeederMass(indexFeeder, indexCycle, sourceFile)
+            End If
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+
+    Private Function getEstimatedHotFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
         Dim feederMass As String = "-4"
 
         Dim regex = New Regex("([\d]+.[\d]+)")

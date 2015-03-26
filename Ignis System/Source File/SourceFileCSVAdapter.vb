@@ -223,7 +223,7 @@ Public Class SourceFileCSVAdapter
 
         Try
             time = getColumnFromCSVFile(sourceFile.importConstant.time, indexCycle, sourceFile)
-            Return time
+            Return getDate(sourceFile) + " " + time
         Catch ex As Exception
             Return "-2"
         End Try

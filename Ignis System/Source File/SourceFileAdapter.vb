@@ -12,7 +12,7 @@
     ''***********************************************************************************************************************
 
     ''***********************************************************************************************************************
-    ''  Fonction protected force l'adapteur a implémenté une fonction utile a la lecture du fichier source ou au formatage des donnée
+    ''  Fonction protected, force l'adapteur a implémenté une fonction utile a la lecture du fichier source ou au formatage des donnée
     ''***********************************************************************************************************************
     Protected MustOverride Function getCycleList(sourceFile As SourceFile) As List(Of String)
     Protected MustOverride Function getCycle(indexCycle As Integer, sourceFile As SourceFile) As String
