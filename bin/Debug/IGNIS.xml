@@ -6,7 +6,47 @@ IGNIS
 </name>
 </assembly>
 <members>
-<member name="F:IGNIS.ImportController.newestImportedFiles">
+<member name="F:IGNIS.Delay_1.idDelay">
+	<summary>
+ Permet d'identifier de manière unique un délais dans le sysème, ainsi que dans la futur base de donnée
+ </summary>
+	<remarks>
+	</remarks>
+</member><member name="F:IGNIS.Delay_1.idJustification">
+	<summary>
+ Permet de lier un délais a un code de délais
+ </summary>
+	<remarks></remarks>
+</member><member name="F:IGNIS.Delay_1.idCategorie">
+	<summary>
+ Permet de lier un délais a une catégorie de code de délais
+ </summary>
+	<remarks></remarks>
+</member><member name="F:IGNIS.Delay_1.startDelay">
+	<summary>
+ Date et heure du début du délais
+ </summary>
+	<remarks></remarks>
+</member><member name="F:IGNIS.Delay_1.endDelay">
+	<summary>
+ Date et heure de la fin du délais
+ </summary>
+	<remarks></remarks>
+</member><member name="F:IGNIS.Delay_1.idDailyReport">
+	<summary>
+ Identifiant unique d'un rapport périodique court (journalier)
+ </summary>
+	<remarks>
+ Ce paramètre peut être vide
+ </remarks>
+</member><member name="T:IGNIS.Delay_1">
+	<summary>
+  La classe Delay est utilisé pour représenter les périodes d'une journée de travail où il n'y a pas de production
+ </summary>
+	<remarks>
+ La production n'est pas calculé de la même façon pour une usine en continue et une usine en discontinue
+ </remarks>
+</member><member name="F:IGNIS.ImportController.newestImportedFiles">
 	<summary>
  The files that wont be added to the archive image in case they are not complete.
  Only the newestFiles can be incomplete (e.g. Importation is done in the middle of a production day).
@@ -164,20 +204,6 @@ IGNIS
 	<summary>
  Takes care of saving and getting data files
  </summary>
-</member><member name="M:IGNIS.SourceFileLogAdapter.getCycleCount(IGNIS.SourceFile)">
-	<summary>
- Cette fonction renvoi le nombre de cycle qui ont été détecté dans le fichier source
- </summary>
-	<param name="sourceFile"></param>
-	<returns>Le nombre de cycle détecté dans le fichier source</returns>
-	<remarks>Cette donnée n'est utilisé que pour ittéré sur le bon nombre de cycle, elle n'est conservé nulle part</remarks>
-</member><member name="M:IGNIS.SourceFileLogAdapter.getDate(IGNIS.SourceFile)">
-	<summary>
- Fonction qui utilise le nom du fichier source pour déterminer la date de création du fichier source
- </summary>
-	<param name="sourceFile"></param>
-	<returns>Renvoi la date de création du fichier source</returns>
-	<remarks>Utilisé par l'objet sourceFile pour lister les fichiers disponible a l'importation</remarks>
 </member><member name="F:IGNIS.Constants.Input.LOG.EMPTY_DATA_REGEX">
 	<summary>Regex to check if a value is empty in the log files (only in the tables)</summary>
 </member><member name="F:IGNIS.Constants.Input.LOG.FILE_NAME_REGEX">
@@ -266,6 +292,20 @@ IGNIS
 	<remarks></remarks>
 </member><member name="M:IGNIS.DataFilesSQLDatabase.getAllCSVLOGAndEventsFiles">
 	<remarks>This doesn't actually returns all the csv, log and events files (only the log and events files that have the same date than the csv files are joined)</remarks>
+</member><member name="M:IGNIS.SourceFileLogAdapter.getCycleCount(IGNIS.SourceFile)">
+	<summary>
+ Cette fonction renvoi le nombre de cycle qui ont été détecté dans le fichier source
+ </summary>
+	<param name="sourceFile"></param>
+	<returns>Le nombre de cycle détecté dans le fichier source</returns>
+	<remarks>Cette donnée n'est utilisé que pour ittéré sur le bon nombre de cycle, elle n'est conservé nulle part</remarks>
+</member><member name="M:IGNIS.SourceFileLogAdapter.getDate(IGNIS.SourceFile)">
+	<summary>
+ Fonction qui utilise le nom du fichier source pour déterminer la date de création du fichier source
+ </summary>
+	<param name="sourceFile"></param>
+	<returns>Renvoi la date de création du fichier source</returns>
+	<remarks>Utilisé par l'objet sourceFile pour lister les fichiers disponible a l'importation</remarks>
 </member><member name="M:IGNIS.UI.MainFrame._OnResize(System.Object,System.EventArgs)">
 	<summary>
  Calls methods that should be executed during a resize event

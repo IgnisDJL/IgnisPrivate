@@ -144,7 +144,7 @@ Public Class ReportGenerationController
 
         AddHandler ProgramController.UIController.MainFrame.FormClosing, Me.cancelGenerationHandler
 
-        ProgramController.UIController.DataFilesAnalysisStepView.ProductionDays = Me.selectedReportReadyProductionDays
+        'ProgramController.UIController.DataFilesAnalysisStepView.ProductionDays = Me.selectedReportReadyProductionDays
         ProgramController.UIController.ReportGenerationFrame.changeStep(ProgramController.UIController.DataFilesAnalysisStepView, 0)
 
         nbThreadsStarted = 0
@@ -357,7 +357,7 @@ Public Class ReportGenerationController
             finishDelayJustificationStep()
         Else
             Me.currentDelayIndex = 0
-            ProgramController.UIController.DelaysJustificationStepView.showDelay(allDelays(Me.currentDelayIndex), Me.currentDelayIndex + 1, allDelays.Count)
+            'ProgramController.UIController.DelaysJustificationStepView.showDelay(allDelays(Me.currentDelayIndex), Me.currentDelayIndex + 1, allDelays.Count)
         End If
 
 
@@ -371,7 +371,7 @@ Public Class ReportGenerationController
 
         Else
             Me.currentDelayIndex += 1
-            ProgramController.UIController.DelaysJustificationStepView.showDelay(allDelays(Me.currentDelayIndex), Me.currentDelayIndex + 1, allDelays.Count)
+            'ProgramController.UIController.DelaysJustificationStepView.showDelay(allDelays(Me.currentDelayIndex), Me.currentDelayIndex + 1, allDelays.Count)
         End If
 
     End Sub
@@ -389,7 +389,7 @@ Public Class ReportGenerationController
         Else
 
             Me.currentDelayIndex -= 1
-            ProgramController.UIController.DelaysJustificationStepView.showDelay(allDelays(Me.currentDelayIndex), Me.currentDelayIndex + 1, allDelays.Count)
+            'ProgramController.UIController.DelaysJustificationStepView.showDelay(allDelays(Me.currentDelayIndex), Me.currentDelayIndex + 1, allDelays.Count)
 
         End If
 
@@ -407,7 +407,7 @@ Public Class ReportGenerationController
                 Me.allDelays.Insert(Me.currentDelayIndex, newDelays(0))
                 Me.allDelays.Insert(Me.currentDelayIndex + 1, newDelays(1))
 
-                ProgramController.UIController.DelaysJustificationStepView.showDelay(allDelays(Me.currentDelayIndex), Me.currentDelayIndex + 1, allDelays.Count)
+                'ProgramController.UIController.DelaysJustificationStepView.showDelay(allDelays(Me.currentDelayIndex), Me.currentDelayIndex + 1, allDelays.Count)
 
                 Exit Sub
             End If
@@ -429,7 +429,7 @@ Public Class ReportGenerationController
                 Me.allDelays.RemoveAt(indexOfDelay)
                 Me.allDelays.Insert(indexOfDelay, newDelay)
 
-                ProgramController.UIController.DelaysJustificationStepView.showDelay(allDelays(Me.currentDelayIndex), Me.currentDelayIndex + 1, allDelays.Count)
+                'ProgramController.UIController.DelaysJustificationStepView.showDelay(allDelays(Me.currentDelayIndex), Me.currentDelayIndex + 1, allDelays.Count)
 
                 Exit Sub
             End If
@@ -483,7 +483,7 @@ Public Class ReportGenerationController
 
         ProgramController.UIController.ReportGenerationFrame.changeStep(ProgramController.UIController.CommentsStepView, ProgramController.UIController.DelaysJustificationStepView.OverallProgressValue)
 
-        ProgramController.UIController.CommentsStepView.showDay(Me.selectedReportReadyProductionDays.First, Me.currentCommentIndex + 1, Me.selectedReportReadyProductionDays.Count)
+        'ProgramController.UIController.CommentsStepView.showDay(Me.selectedReportReadyProductionDays.First, Me.currentCommentIndex + 1, Me.selectedReportReadyProductionDays.Count)
 
     End Sub
 
@@ -495,7 +495,7 @@ Public Class ReportGenerationController
 
         Else
             Me.currentCommentIndex += 1
-            ProgramController.UIController.CommentsStepView.showDay(Me.selectedReportReadyProductionDays(Me.currentCommentIndex), Me.currentCommentIndex + 1, Me.selectedReportReadyProductionDays.Count)
+            'ProgramController.UIController.CommentsStepView.showDay(Me.selectedReportReadyProductionDays(Me.currentCommentIndex), Me.currentCommentIndex + 1, Me.selectedReportReadyProductionDays.Count)
         End If
 
     End Sub
@@ -510,7 +510,7 @@ Public Class ReportGenerationController
 
             If (Me.allDelays.Count > 0) Then
 
-                ProgramController.UIController.DelaysJustificationStepView.showDelay(allDelays(Me.currentDelayIndex), Me.currentDelayIndex + 1, allDelays.Count)
+                'ProgramController.UIController.DelaysJustificationStepView.showDelay(allDelays(Me.currentDelayIndex), Me.currentDelayIndex + 1, allDelays.Count)
             Else
 
                 Me.showPreviousDelay()
@@ -519,7 +519,7 @@ Public Class ReportGenerationController
         Else
 
             Me.currentCommentIndex -= 1
-            ProgramController.UIController.CommentsStepView.showDay(Me.selectedReportReadyProductionDays(Me.currentCommentIndex), Me.currentCommentIndex + 1, Me.selectedReportReadyProductionDays.Count)
+            'ProgramController.UIController.CommentsStepView.showDay(Me.selectedReportReadyProductionDays(Me.currentCommentIndex), Me.currentCommentIndex + 1, Me.selectedReportReadyProductionDays.Count)
 
         End If
 
@@ -572,7 +572,7 @@ Public Class ReportGenerationController
             AddHandler Me.summaryDailyReportsGenerator.ProcessComplete, AddressOf onReportFinished
             AddHandler Me.summaryDailyReportsGenerator.CurrentProgress, AddressOf monitorReportGenerationProgress
 
-            Me.summaryDailyReportsGenerator.generateReport(_productionDay)
+            'Me.summaryDailyReportsGenerator.generateReport(_productionDay)
 
             RemoveHandler Me.summaryDailyReportsGenerator.ProcessComplete, AddressOf onReportFinished
             RemoveHandler Me.summaryDailyReportsGenerator.CurrentProgress, AddressOf monitorReportGenerationProgress
@@ -615,7 +615,7 @@ Public Class ReportGenerationController
 
         ProgramController.UIController.ReportGenerationFrame.CommentsStepFinished = False
 
-        ProgramController.UIController.CommentsStepView.showDay(Me.selectedReportReadyProductionDays(Me.currentCommentIndex), Me.currentCommentIndex + 1, Me.selectedReportReadyProductionDays.Count)
+        'ProgramController.UIController.CommentsStepView.showDay(Me.selectedReportReadyProductionDays(Me.currentCommentIndex), Me.currentCommentIndex + 1, Me.selectedReportReadyProductionDays.Count)
     End Sub
 
     Public Sub emailLastGeneratedReports()

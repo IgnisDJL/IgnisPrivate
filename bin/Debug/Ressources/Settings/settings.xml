@@ -70,7 +70,7 @@
         <format />
         <feedsInfo />
       </csv>
-      <log active="no">
+      <log active="yes">
         <feedsInfo>
           <unknownFeed material="" tag="#ColdFeed">Fdr1</unknownFeed>
           <unknownFeed material="" tag="#ColdFeed">Fdr2</unknownFeed>
@@ -94,7 +94,7 @@
           <unknownFeed material="" tag="#ColdFeed">Rec2</unknownFeed>
         </feedsInfo>
       </log>
-      <mdb active="yes" stopOffset="60">
+      <mdb active="no" stopOffset="60">
         <feedsInfo />
       </mdb>
     </dataFiles>
@@ -102,12 +102,12 @@
       <important>
       </important>
       <start>
-        <event replace="Start">DEMARRAGE SEQUENTIEL en progression</event>
-        <event replace="HOT Start">DEMARRAGE EN CHARGE</event>
+        <event replace="Start">SEQUENTIAL START in progress</event>
+        <event replace="Hot Start">HOT START in progress</event>
       </start>
       <stop>
-        <event replace="Stop">ARRET SEQUENTIEL en progression</event>
-        <event replace="HOT Stop">* LE PLANT EST EN ARRET EN CHARGE *</event>
+        <event replace="Stop">SEQUENTIAL STOP in progress</event>
+        <event replace="Hot Stop">*PLANT IS HOT STOPPED*</event>
       </stop>
       <delays justifiableDuration="600">
         <type name="Pause" color="FFFFFF" pause="yes">

@@ -2,7 +2,7 @@
 
     Private Shared _settingsControllers As SettingsControllerCollection ' #refactor - All ui calls to settings should come through this
     Private Shared _persistenceController As PersistenceController
-    Private Shared _reportGenerationController As ReportGenerationController
+    Private Shared _reportGenerationController As ReportGenerationController_1
     Private Shared _dataFilesPersistence As DataFilesPersistence
     Private Shared _reportsPersistence As ReportsPersistence
     Private Shared _manualDataPersistence As ManualDataPersistence
@@ -48,7 +48,7 @@
         UI.SplashScreen.instance.Message = "Initialisation des controleurs"
 
         ' Report Generation Controller
-        _reportGenerationController = New ReportGenerationController()
+        _reportGenerationController = New ReportGenerationController_1()
 
         ' Files Import controller
         _importController = New ImportController_1(XmlSettings.Settings.instance)
@@ -71,7 +71,7 @@
         End Get
     End Property
 
-    Public Shared ReadOnly Property ReportGenerationController As ReportGenerationController
+    Public Shared ReadOnly Property ReportGenerationController As ReportGenerationController_1
         Get
             Return _reportGenerationController
         End Get
