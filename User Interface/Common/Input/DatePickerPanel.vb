@@ -12,8 +12,8 @@
         Public Shared ReadOnly SPACE_BETWEEN_CONTROLS_X As Integer = 5
 
         Private Shared ReadOnly DATE_PICKER_CONDENSED_WIDTH As Integer = 210
-        Private Shared ReadOnly DATE_PICKER_FORMAT_CONDENSED As String = " d MMM  yyyy"
-        Private Shared ReadOnly DATE_PICKER_FORMAT_FULL As String = "    dd MMMM  yyyy"
+        Private Shared ReadOnly DATE_PICKER_FORMAT_CONDENSED As String = " d MMM  yyyy HH mm ss"
+        Private Shared ReadOnly DATE_PICKER_FORMAT_FULL As String = "    dd MMMM  yyyy HH mm ss"
 
         Private Const SHOW_END_DATE_TIME_PICKER_TOOL_TIP_TEXT As String = "Sélectionner plusieur dates"
         Private Const HIDE_END_DATE_TIME_PICKER_TOOL_TIP_TEXT As String = "Sélectionner une seule date"

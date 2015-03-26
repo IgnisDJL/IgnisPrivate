@@ -92,7 +92,16 @@ Namespace UI
             Me.beforeUpdateDatesList()
 
             ' If dates are valid
-            If (endDate.Subtract(startDate).TotalDays >= 0) Then
+            If Me.datePickerPanel.EndDate.Subtract(Me.datePickerPanel.StartDate) > TimeSpan.FromHours(24) Then
+
+                Me.incorrectDatesMessagePanel = New Common.UserMessagePanel("Attention!", "La période doit être de maximum 24 heures.", Constants.UI.Images._64x64.WARNING)
+                Me.incorrectDatesMessagePanel.Location = New Point(Me.datePickerPanel.Location.X, Me.datePickerPanel.Location.Y + Me.datePickerPanel.Size.Height + 5)
+                Me.incorrectDatesMessagePanel.ajustLayout(INCORRECT_DATES_MESSAGE_SIZE)
+                Me.Controls.Add(Me.incorrectDatesMessagePanel)
+                Me.incorrectDatesMessagePanel.BringToFront()
+                Me.availableDatesListView.clear()
+
+            ElseIf (endDate.Subtract(startDate).TotalDays >= 0) Then
 
                 Me.updateDatesListThread = New Threading.Thread(New Threading.ThreadStart(AddressOf fillDatesList))
 
@@ -122,9 +131,9 @@ Namespace UI
         Private Sub fillDatesList()
 
             Dim shouldFillList As Boolean = False
+            Dim datesList As List(Of ProductionDay_1)
 
-            Dim datesList As List(Of ProductionDay) = ProgramController.PersistenceController.selectProductionDays(Me.datePickerPanel.StartDate, Me.datePickerPanel.EndDate)
-
+            datesList = ProgramController.ImportController.plantProduction.getProductionDay(Me.datePickerPanel.StartDate, Me.datePickerPanel.EndDate)
             ' Check if new dates are the same as the ones in the list
             If (datesList.Count = Me.availableDatesListView.DisplayedObjectList.Count) Then
 
@@ -146,7 +155,7 @@ Namespace UI
 
                 Me.Invoke(Sub() Me.availableDatesListView.clear())
 
-                For Each productionDay As ProductionDay In datesList
+                For Each productionDay As ProductionDay_1 In datesList
                     Me.Invoke(Sub() Me.availableDatesListView.addObject(productionDay)) ' Filters are applyed here...
                 Next
 
@@ -175,35 +184,35 @@ Namespace UI
             End If
         End Sub
 
-        Private Sub onDateSelected(itemObject As ProductionDay) Handles availableDatesListView.ItemSelectedEvent
+        Private Sub onDateSelected(itemObject As ProductionDay_1) Handles availableDatesListView.ItemSelectedEvent
 
             Me.availableFilesListView.clear()
 
-            If (Not IsNothing(itemObject) AndAlso Not IsNothing(itemObject.DataFilesInfo)) Then
+            If Not IsNothing(itemObject) Then
 
-                If (itemObject.DataFilesInfo.HasCSVFile) Then
-                    Me.availableFilesListView.addObject(itemObject.DataFilesInfo.CSVFile)
-                End If
+                'If (itemObject.DataFilesInfo.HasCSVFile) Then
+                '    Me.availableFilesListView.addObject(itemObject.DataFilesInfo.CSVFile)
+                'End If
 
-                If (itemObject.DataFilesInfo.HasLOGFile) Then
-                    Me.availableFilesListView.addObject(itemObject.DataFilesInfo.LOGFile)
-                End If
+                'If (itemObject.DataFilesInfo.HasLOGFile) Then
+                '    Me.availableFilesListView.addObject(itemObject.DataFilesInfo.LOGFile)
+                'End If
 
-                If (itemObject.DataFilesInfo.HasMDBFile) Then
-                    Me.availableFilesListView.addObject(itemObject.DataFilesInfo.MDBFile)
-                End If
+                'If (itemObject.DataFilesInfo.HasMDBFile) Then
+                '    Me.availableFilesListView.addObject(itemObject.DataFilesInfo.MDBFile)
+                'End If
 
-                If (itemObject.DataFilesInfo.HasEventsFile) Then
-                    Me.availableFilesListView.addObject(itemObject.DataFilesInfo.EventsFile)
-                End If
+                'If (itemObject.DataFilesInfo.HasEventsFile) Then
+                '    Me.availableFilesListView.addObject(itemObject.DataFilesInfo.EventsFile)
+                'End If
 
-                If (Not IsNothing(itemObject.ReportFilesInfo.SummaryDailyReport)) Then
-                    Me.availableFilesListView.addObject(itemObject.ReportFilesInfo.SummaryDailyReport)
-                End If
+                'If (Not IsNothing(itemObject.ReportFilesInfo.SummaryDailyReport)) Then
+                '    Me.availableFilesListView.addObject(itemObject.ReportFilesInfo.SummaryDailyReport)
+                'End If
 
-                If (Not IsNothing(itemObject.ReportFilesInfo.SummaryReadOnlyDailyReport)) Then
-                    Me.availableFilesListView.addObject(itemObject.ReportFilesInfo.SummaryReadOnlyDailyReport)
-                End If
+                'If (Not IsNothing(itemObject.ReportFilesInfo.SummaryReadOnlyDailyReport)) Then
+                '    Me.availableFilesListView.addObject(itemObject.ReportFilesInfo.SummaryReadOnlyDailyReport)
+                'End If
 
                 Me.availableFilesListView.refreshList()
 

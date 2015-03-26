@@ -1,14 +1,14 @@
 ﻿Namespace UI.Common
 
     Public Class DatesListControl
-        Inherits ListControlTemplate(Of ProductionDay)
+        Inherits ListControlTemplate(Of ProductionDay_1)
 
         Public Sub New(title As String)
             MyBase.New(title)
 
         End Sub
 
-        Public Overrides Sub addObject(obj As ProductionDay)
+        Public Overrides Sub addObject(obj As ProductionDay_1)
 
             Me.addItem(New DatesListItem(obj))
 
@@ -16,7 +16,7 @@
 
         Public Sub showAllDates()
 
-            Me.FilterMethod = Function(day As ProductionDay)
+            Me.FilterMethod = Function(day As ProductionDay_1)
                                   Return True
                               End Function
 
@@ -25,8 +25,9 @@
 
         Public Sub showOnlyReportReadyDates()
 
-            Me.FilterMethod = Function(day As ProductionDay)
-                                  Return day.IsReportReady
+            Me.FilterMethod = Function(day As ProductionDay_1)
+                                  Return True
+                                  'Return day.IsReportReady
                               End Function
 
             Me.refreshList()

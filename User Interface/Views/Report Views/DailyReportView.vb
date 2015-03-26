@@ -31,7 +31,7 @@
         Private WithEvents noLastReportReadyDateMessagePanel As Common.UserMessagePanel
 
         ' Attributes
-        Private generationController As ReportGenerationController
+        Private generationController As ReportGenerationController_1
 
         Public Sub New()
             MyBase.New()

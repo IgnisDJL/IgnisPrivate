@@ -1,12 +1,12 @@
 ﻿Namespace UI.Common
 
     Public Class DatesListItem
-        Inherits ListItem(Of ProductionDay)
+        Inherits ListItem(Of ProductionDay_1)
 
         Private WithEvents dateLabel As Label
         Private WithEvents readyForReportPanel As Panel
 
-        Public Sub New(productionDay As ProductionDay)
+        Public Sub New(productionDay As ProductionDay_1)
             MyBase.New(productionDay)
 
             Me.initializeComponents()
@@ -16,12 +16,12 @@
 
             Me.dateLabel = New Label
             Me.dateLabel.AutoSize = False
-            Me.dateLabel.Text = Me.ItemObject.Date_.ToString("dd MMMM yyyy")
+            Me.dateLabel.Text = Me.ItemObject.getProductionDate.ToString("dd MMMM yyyy")
             Me.dateLabel.TextAlign = ContentAlignment.MiddleLeft
 
             Me.readyForReportPanel = New Panel
             Me.readyForReportPanel.BackgroundImageLayout = ImageLayout.Center
-            Me.readyForReportPanel.BackgroundImage = If(Me.ItemObject.IsReportReady, Constants.UI.Images._24x24.GOOD, Constants.UI.Images._24x24.WRONG)
+            'Me.readyForReportPanel.BackgroundImage = If(Me.ItemObject.IsReportReady, Constants.UI.Images._24x24.GOOD, Constants.UI.Images._24x24.WRONG)
 
             Me.Controls.Add(dateLabel)
             Me.Controls.Add(readyForReportPanel)

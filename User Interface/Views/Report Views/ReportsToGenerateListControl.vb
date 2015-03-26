@@ -32,9 +32,9 @@
             AddHandler summaryDaily.CheckedChange, AddressOf Me.onItemChecked
             Me.addItem(summaryDaily)
 
-            Dim summaryNightShift As New ReportsToGenerateListItem(ReportFile.ReportTypes.SummaryNightShiftReport)
-            AddHandler summaryNightShift.CheckedChange, AddressOf Me.onItemChecked
-            Me.addItem(summaryNightShift)
+            'Dim summaryNightShift As New ReportsToGenerateListItem(ReportFile.ReportTypes.SummaryNightShiftReport)
+            'AddHandler summaryNightShift.CheckedChange, AddressOf Me.onItemChecked
+            'Me.addItem(summaryNightShift)
 
         End Sub
 

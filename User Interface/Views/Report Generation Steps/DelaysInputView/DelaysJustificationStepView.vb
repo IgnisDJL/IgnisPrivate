@@ -50,7 +50,7 @@
         Private WithEvents skipWarningMessagePanel As Common.UserMessagePanel
 
         ' Attributes
-        Private currentDelay As Delay
+        Private currentDelay As Delay_1
 
 
         Public Sub New()
@@ -213,12 +213,12 @@
             Me.delayCodeCombobox.BackColor = DirectCast(Me.delayCodeCombobox.SelectedItem, DelayCode).Type.Color
 
             If (Not IsNothing(Me.currentDelay)) Then
-                Me.currentDelay.Code = Me.delayCodeCombobox.SelectedItem
+                'Me.currentDelay.Code = Me.delayCodeCombobox.SelectedItem
             End If
         End Sub
 
         Public Sub onJustificationChanged() Handles delayJustificationTextbox.TextChanged
-            Me.currentDelay.Justification = delayJustificationTextbox.Text
+            'Me.currentDelay.Justification = delayJustificationTextbox.Text
         End Sub
 
 
@@ -242,8 +242,8 @@
 
                 Me.delayJustificationTextbox.Focus()
 
-                Me.currentDelay.Code = Nothing
-                Me.currentDelay.IsUnknown = True
+                'Me.currentDelay.Code = Nothing
+                'Me.currentDelay.IsUnknown = True
 
                 Exit Sub
             Else
@@ -256,15 +256,15 @@
 
             End If
 
-            If (IsNothing(Me.currentDelay)) OrElse _
-                IsNothing(Me.currentDelay.Code) OrElse _
-                Not Me.delayCodeCombobox.Items.Contains(Me.currentDelay.Code) Then
+            'If (IsNothing(Me.currentDelay)) OrElse _
+            '    'IsNothing(Me.currentDelay.Code) OrElse _
+            '    Not Me.delayCodeCombobox.Items.Contains(Me.currentDelay.Code) Then
 
-                Me.delayCodeCombobox.SelectedIndex = 0
+            Me.delayCodeCombobox.SelectedIndex = 0
 
-            Else
-                Me.delayCodeCombobox.SelectedItem = Me.currentDelay.Code
-            End If
+            'Else
+            'Me.delayCodeCombobox.SelectedItem = Me.currentDelay.Code
+            'End If
 
         End Sub
 
@@ -331,7 +331,7 @@
 
         End Sub
 
-        Public Sub showDelay(delay As Delay, currentDelayNumber As Integer, totalNumberOfDelays As Integer)
+        Public Sub showDelay(delay As Delay_1, currentDelayNumber As Integer, totalNumberOfDelays As Integer)
 
             Me.currentDelay = delay
 
@@ -345,36 +345,36 @@
 
         Public Sub updateLabels(currentDelayNumber As Integer, totalNumberOfDelays As Integer)
 
-            Me.dateLabel.Text = StrConv(Me.currentDelay.StartTime.ToString("dddd d MMMM"), VbStrConv.ProperCase)
+            Me.dateLabel.Text = StrConv(Me.currentDelay.getStartDelay.ToString("dddd d MMMM"), VbStrConv.ProperCase)
 
-            Me.startTimeLabel.Text = Me.currentDelay.StartTime.ToString("HH:mm")
-            Me.endTimeLabel.Text = Me.currentDelay.EndTime.ToString("HH:mm")
-            Me.durationValueLabel.Text = Me.currentDelay.Duration.ToString("h\hmm")
+            Me.startTimeLabel.Text = Me.currentDelay.getStartDelay.ToString("HH:mm")
+            Me.endTimeLabel.Text = Me.currentDelay.getEndDelay.ToString("HH:mm")
+            Me.durationValueLabel.Text = Me.currentDelay.getDuration.ToString("h\hmm")
             Me.delayNumberValueLabel.Text = currentDelayNumber & " / " & totalNumberOfDelays
 
-            If (Not IsNothing(Me.currentDelay.Type) AndAlso _
-                Me.delayTypeCombobox.Items.Contains(Me.currentDelay.Type)) Then
+            'If (Not IsNothing(Me.currentDelay.Type) AndAlso _
+            '    Me.delayTypeCombobox.Items.Contains(Me.currentDelay.Type)) Then
 
-                Me.delayTypeCombobox.SelectedItem = ALL_DELAYS
+            '    Me.delayTypeCombobox.SelectedItem = ALL_DELAYS
 
-                If (Me.delayCodeCombobox.Items.Contains(Me.currentDelay.Code)) Then
-                    Me.delayCodeCombobox.SelectedItem = Me.currentDelay.Code
-                End If
+            '    If (Me.delayCodeCombobox.Items.Contains(Me.currentDelay.Code)) Then
+            '        Me.delayCodeCombobox.SelectedItem = Me.currentDelay.Code
+            '    End If
 
-            ElseIf (Me.currentDelay.IsUnknown) Then
+            'ElseIf (Me.currentDelay.IsUnknown) Then
 
-                Me.delayTypeCombobox.SelectedItem = UNKNOWN_DELAY
+            '    Me.delayTypeCombobox.SelectedItem = UNKNOWN_DELAY
 
-            Else
+            'Else
 
-                Me.delayTypeCombobox.SelectedItem = ALL_DELAYS
-                Me.delayCodeCombobox.SelectedIndex = 0
+            Me.delayTypeCombobox.SelectedItem = ALL_DELAYS
+            Me.delayCodeCombobox.SelectedIndex = 0
 
-                Me.currentDelay.Code = Me.delayCodeCombobox.SelectedItem
+            'Me.currentDelay.Code = Me.delayCodeCombobox.SelectedItem
 
-            End If
+            'End If
 
-            Me.delayJustificationTextbox.Text = Me.currentDelay.Justification
+            Me.delayJustificationTextbox.Text = Me.currentDelay.getIdJustification.ToString
 
         End Sub
 
@@ -449,7 +449,7 @@
                 Me.spliterPanel.Location = New Point(Me.ClientSize.Width - SPLITTER_PANEL_SIZE.Width - 2, Me.ClientSize.Height - SPLITTER_PANEL_SIZE.Height - 2)
                 Me.spliterPanel.ajustLayout(SPLITTER_PANEL_SIZE)
 
-                Me.spliterPanel.beforeShow(Me.currentDelay.StartTime, Me.currentDelay.EndTime)
+                Me.spliterPanel.beforeShow(Me.currentDelay.getStartDelay, Me.currentDelay.getEndDelay)
                 Me.Controls.Add(Me.spliterPanel)
 
                 Me.spliterPanel.BringToFront()
@@ -465,7 +465,7 @@
 
             If (messageClosingStatus = Common.PopUpMessage.ClosingStatus.Ok) Then
 
-                If (Me.spliterPanel.SplitTime.Subtract(Me.currentDelay.StartTime).TotalMinutes >= 1 AndAlso Me.currentDelay.EndTime.Subtract(Me.spliterPanel.SplitTime).TotalMinutes >= 1) Then
+                If (Me.spliterPanel.SplitTime.Subtract(Me.currentDelay.getStartDelay).TotalMinutes >= 1 AndAlso Me.currentDelay.getEndDelay.Subtract(Me.spliterPanel.SplitTime).TotalMinutes >= 1) Then
 
                     ProgramController.ReportGenerationController.splitDelay(Me.currentDelay, Me.spliterPanel.SplitTime)
 

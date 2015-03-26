@@ -116,8 +116,8 @@
             If (Me.datePickerPanel.StartDate.CompareTo(file.Date_) <= 0 AndAlso _
                 Me.datePickerPanel.EndDate.CompareTo(file.Date_) >= 0) Then
 
-                For Each _day As ProductionDay In Me.availableDatesListView.DisplayedObjectList
-                    If (_day.Date_.Equals(file.Date_)) Then
+                For Each _day As ProductionDay_1 In Me.availableDatesListView.DisplayedObjectList
+                    If (_day.getProductionDate.Equals(file.Date_)) Then
 
                         Me.availableDatesListView.selectItem(_day)
                         Me.availableFilesListView.selectItem(file)
