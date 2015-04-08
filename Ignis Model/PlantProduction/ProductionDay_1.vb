@@ -72,7 +72,6 @@
     End Function
 
     Public Function getProducedMixList_Discontinue(startPeriod As Date, endPeriod As Date) As List(Of ProducedMix)
-
         Return getProducedMixList(getProductionCycle_Discontinue(startPeriod, endPeriod))
     End Function
 
@@ -84,12 +83,10 @@
     End Function
 
     Public Function getProductionCycle_Continue(startPeriod As Date, endPeriod As Date) As List(Of ProductionCycle)
-
         Return getProductionCycleForPeriod(startPeriod, endPeriod, productionContinue)
     End Function
 
     Public Function getProductionCycle_Discontinue(startPeriod As Date, endPeriod As Date) As List(Of ProductionCycle)
-
         Return getProductionCycleForPeriod(startPeriod, endPeriod, productionDiscontinue)
     End Function
 
@@ -125,4 +122,6 @@
         Return productionCycleListForPeriod
     End Function
 
+
+    
 End Class

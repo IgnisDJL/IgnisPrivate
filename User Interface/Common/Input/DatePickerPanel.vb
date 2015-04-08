@@ -37,6 +37,8 @@
 
         Private _shortCutButtons As List(Of Control)
 
+        '' Note pour moi même, revoir la disposition des fonction d'ici la première release
+
         ' Events
         Public Event DatesChanged(startDate As Date, endDate As Date)
         Public Event LayoutChanged(newLayoutType As LayoutTypes)
@@ -151,7 +153,7 @@
             ' Shortcut buttons
             If (Me._shortCutButtons.Count > 0) Then
 
-                Dim shorcutButtonsWidth As Integer= (Me.Width - (Me._shortCutButtons.Count + 1) * SPACE_BETWEEN_CONTROLS_X) / Me._shortCutButtons.Count
+                Dim shorcutButtonsWidth As Integer = (Me.Width - (Me._shortCutButtons.Count + 1) * SPACE_BETWEEN_CONTROLS_X) / Me._shortCutButtons.Count
 
                 For i = 0 To Me._shortCutButtons.Count - 1
                     With Me._shortCutButtons(i)

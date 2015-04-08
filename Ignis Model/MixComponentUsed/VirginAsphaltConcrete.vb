@@ -1,4 +1,4 @@
-﻿Public Class AsphaltUsed
+﻿Public Class VirginAsphaltConcrete
     Inherits MixComponentUsed
 
     Private density As Double

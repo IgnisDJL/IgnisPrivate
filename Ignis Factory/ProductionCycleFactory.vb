@@ -19,7 +19,7 @@ Public Class ProductionCycleFactory
         Dim endOfCycle As Date
         Dim mixProduced As ProducedMix
         Dim coldFeederList As List(Of ColdFeeder)
-        Dim virginAsphaltUsed As AsphaltUsed
+        Dim virginAsphaltUsed As VirginAsphaltConcrete
         Dim dustRemovalDebit As Double
         Dim siloFillingNumber As String
         Dim bagHouseDiff As Double

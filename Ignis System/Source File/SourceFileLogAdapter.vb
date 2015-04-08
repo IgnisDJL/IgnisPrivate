@@ -62,13 +62,10 @@ Public Class SourceFileLogAdapter
         Return getCycleList(sourceFile).Item(indexCycle)
     End Function
 
-
-
-
     ''***********************************************************************************************************************
     ''  Fonction publique mais qui n'ont pas la responsabilié de retourner une informations directement au modèle du domaine
     ''
-    ''*********************************************************************************************************************
+    ''******************************************************************************************************************** 
 
 
     ''' <summary>
@@ -325,6 +322,37 @@ Public Class SourceFileLogAdapter
             Return "-2"
         End Try
     End Function
+
+    'Private Function getAverageDureeCycle() As TimeSpan
+    '    Dim cycleDuration As TimeSpan
+    '    Dim averageCycleDuration = New Dictionary(Of TimeSpan, Integer)
+
+    '    Dim actualDurationOccurance As Integer = 0
+    '    Dim averageDuration As TimeSpan
+
+    '    For index As Integer = 1 To Math.Floor((productionCycleList.Count * 0.25))
+
+    '        cycleDuration = productionCycleList.Item(index).getEndOfCycle().Subtract(productionCycleList.Item(index - 1).getEndOfCycle())
+
+    '        If (averageCycleDuration.Keys.Contains(cycleDuration)) Then
+    '            averageCycleDuration.Item(cycleDuration) += 1
+    '        Else
+    '            averageCycleDuration.Add(cycleDuration, 1)
+    '        End If
+
+    '        If averageDuration = cycleDuration Then
+    '            actualDurationOccurance = averageCycleDuration.Item(cycleDuration)
+
+    '        ElseIf (actualDurationOccurance < averageCycleDuration.Item(cycleDuration)) Then
+    '            actualDurationOccurance = averageCycleDuration.Item(cycleDuration)
+    '            averageDuration = cycleDuration
+    '        End If
+
+
+    '    Next
+
+    '    Return averageDuration
+    'End Function
 
     Public Overrides Function getDureeCycle(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim dureeCycle As String = "-4"

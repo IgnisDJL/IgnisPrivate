@@ -110,11 +110,11 @@
             Me.availableDatesListView.addTitleBarButton(Me.showOnlyReportReadyDatesCheckbox)
 
             Me.reportsToGenerateListControl.ItemIsCheckedMethod = Function(item As ReportFile.ReportTypes) As Boolean
-                                                                      Return Me.generationController.ReportsToGenerate.Contains(item)
+                                                                      Return True
                                                                   End Function
 
             Me.reportsToGenerateListControl.ItemIsEnabledMethod = Function(item As ReportFile.ReportTypes) As Boolean
-                                                                      Return Me.generationController.AvailableReportsToGenerate.Contains(item)
+                                                                      Return True
                                                                   End Function
 
         End Sub
@@ -172,25 +172,25 @@
 
         Private Sub onReportToGenerateChecked(reportType As ReportFile.ReportTypes, checked As Boolean) Handles reportsToGenerateListControl.ItemChecked
 
-            If (checked) Then
-                Me.generationController.ReportsToGenerate.Add(reportType)
-            Else
-                Me.generationController.ReportsToGenerate.Remove(reportType)
-            End If
+            'If (checked) Then
+            '    Me.generationController.ReportsToGenerate.Add(reportType)
+            'Else
+            '    Me.generationController.ReportsToGenerate.Remove(reportType)
+            'End If
 
             Me.enableGenerateButtons()
         End Sub
 
         Private Sub enableGenerateButtons()
 
-            If (Me.generationController.ReportsToGenerate.Count > 0) Then
+            'If (Me.generationController.ReportsToGenerate.Count > 0) Then
 
-                Me.generateButton.Enabled = True
-                Me.generateButton.Focus()
+            '    Me.generateButton.Enabled = True
+            '    Me.generateButton.Focus()
 
-            Else
-                Me.generateButton.Enabled = False
-            End If
+            'Else
+            Me.generateButton.Enabled = True
+            'End If
 
         End Sub
 
@@ -356,7 +356,7 @@
         End Sub
 
         Private Sub startGeneration() Handles generateButton.Click
-            Me.generationController.startDailyReportGenerationSequence()
+            Me.generationController.startDailyReportGenerationSequence(Me.datePickerPanel.StartDate, Me.datePickerPanel.EndDate)
         End Sub
 
         Public Overrides ReadOnly Property Name As String

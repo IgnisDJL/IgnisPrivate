@@ -33,6 +33,9 @@ Namespace UI
             Me.datePickerPanel = New DatePickerPanel
             Me.datePickerPanel.ShowChangeLayoutButton = True
 
+            Me.datePickerPanel.StartDate = New Date(2014, 12, 4)
+            Me.datePickerPanel.EndDate = New Date(2014, 12, 4)
+
             Me.availableDatesListView = New DatesListControl("Dates disponibles")
 
             Me.availableFilesListView = New FileListControl("Fichiers disponibles")

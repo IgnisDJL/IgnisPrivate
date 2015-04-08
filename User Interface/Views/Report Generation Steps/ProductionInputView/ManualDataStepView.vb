@@ -55,11 +55,11 @@
         Private WithEvents fuelQuantityAtStart2Field As ManualDataQuantityField
         Private WithEvents fuelQuantityAtEnd2Field As ManualDataQuantityField
 
-        Private hourCountersLabel As Label
-        Private WithEvents drumsHourCounterAtStartField As ManualDataQuantityField
-        Private WithEvents drumsHourCounterAtEndField As ManualDataQuantityField
-        Private WithEvents boilerHourCounterAtStartField As ManualDataQuantityField
-        Private WithEvents boilerHourCounterAtEndField As ManualDataQuantityField
+        'Private hourCountersLabel As Label
+        'Private WithEvents drumsHourCounterAtStartField As ManualDataQuantityField
+        'Private WithEvents drumsHourCounterAtEndField As ManualDataQuantityField
+        'Private WithEvents boilerHourCounterAtStartField As ManualDataQuantityField
+        'Private WithEvents boilerHourCounterAtEndField As ManualDataQuantityField
 
         ' --- Buttons
         Private WithEvents toggleOptionalFieldsButton As Button
@@ -206,18 +206,18 @@
             End With
 
 
-            ' Hour counters section
-            Me.hourCountersLabel = New Label
-            Me.hourCountersLabel.AutoSize = False
-            Me.hourCountersLabel.ForeColor = Constants.UI.Colors.DARK_GREY
-            Me.hourCountersLabel.Font = Constants.UI.Fonts.DEFAULT_FONT_UNDERLINED
-            Me.hourCountersLabel.TextAlign = ContentAlignment.MiddleCenter
-            Me.hourCountersLabel.Text = "Compte-heures"
+            '' Hour counters section
+            'Me.hourCountersLabel = New Label
+            'Me.hourCountersLabel.AutoSize = False
+            'Me.hourCountersLabel.ForeColor = Constants.UI.Colors.DARK_GREY
+            'Me.hourCountersLabel.Font = Constants.UI.Fonts.DEFAULT_FONT_UNDERLINED
+            'Me.hourCountersLabel.TextAlign = ContentAlignment.MiddleCenter
+            'Me.hourCountersLabel.Text = "Compte-heures"
 
-            Me.drumsHourCounterAtStartField = New ManualDataQuantityField("Tambour (Début de journée)", ManualData.HOUR_COUNTERS_UNIT)
-            Me.drumsHourCounterAtEndField = New ManualDataQuantityField("Tambour (Fin de journée)", ManualData.HOUR_COUNTERS_UNIT)
-            Me.boilerHourCounterAtStartField = New ManualDataQuantityField("Bouilloire (Début de journée)", ManualData.HOUR_COUNTERS_UNIT)
-            Me.boilerHourCounterAtEndField = New ManualDataQuantityField("Bouilloire (Fin de journée)", ManualData.HOUR_COUNTERS_UNIT)
+            'Me.drumsHourCounterAtStartField = New ManualDataQuantityField("Tambour (Début de journée)", ManualData.HOUR_COUNTERS_UNIT)
+            'Me.drumsHourCounterAtEndField = New ManualDataQuantityField("Tambour (Fin de journée)", ManualData.HOUR_COUNTERS_UNIT)
+            'Me.boilerHourCounterAtStartField = New ManualDataQuantityField("Bouilloire (Début de journée)", ManualData.HOUR_COUNTERS_UNIT)
+            'Me.boilerHourCounterAtEndField = New ManualDataQuantityField("Bouilloire (Fin de journée)", ManualData.HOUR_COUNTERS_UNIT)
 
             ' Buttons
             Me.toggleOptionalFieldsButton = New Button
@@ -278,12 +278,12 @@
             Me.Controls.Add(fuelQuantityAtStart2Field)
             Me.Controls.Add(fuelQuantityAtEnd2Field)
 
-            ' Hour counters Section
-            Me.Controls.Add(hourCountersLabel)
-            Me.Controls.Add(drumsHourCounterAtStartField)
-            Me.Controls.Add(drumsHourCounterAtEndField)
-            Me.Controls.Add(boilerHourCounterAtStartField)
-            Me.Controls.Add(boilerHourCounterAtEndField)
+            '' Hour counters Section
+            'Me.Controls.Add(hourCountersLabel)
+            'Me.Controls.Add(drumsHourCounterAtStartField)
+            'Me.Controls.Add(drumsHourCounterAtEndField)
+            'Me.Controls.Add(boilerHourCounterAtStartField)
+            'Me.Controls.Add(boilerHourCounterAtEndField)
 
             ' Toggle optionnal fields button
             Me.Controls.Add(toggleOptionalFieldsButton)
@@ -315,11 +315,11 @@
             Me.optionalFields.Add(fuelQuantityAtStart2Field)
             Me.optionalFields.Add(fuelQuantityAtEnd2Field)
 
-            Me.optionalFields.Add(hourCountersLabel)
-            Me.optionalFields.Add(drumsHourCounterAtStartField)
-            Me.optionalFields.Add(drumsHourCounterAtEndField)
-            Me.optionalFields.Add(boilerHourCounterAtStartField)
-            Me.optionalFields.Add(boilerHourCounterAtEndField)
+            'Me.optionalFields.Add(hourCountersLabel)
+            'Me.optionalFields.Add(drumsHourCounterAtStartField)
+            'Me.optionalFields.Add(drumsHourCounterAtEndField)
+            'Me.optionalFields.Add(boilerHourCounterAtStartField)
+            'Me.optionalFields.Add(boilerHourCounterAtEndField)
 
             ' Tab index
             Me.operationStartTimeField.TabStop = False
@@ -337,10 +337,10 @@
             Me.fuelQuantityAtEnd1Field.TabIndex = 12
             Me.fuelQuantityAtStart2Field.TabIndex = 13
             Me.fuelQuantityAtEnd2Field.TabIndex = 14
-            Me.drumsHourCounterAtStartField.TabIndex = 15
-            Me.drumsHourCounterAtEndField.TabIndex = 16
-            Me.boilerHourCounterAtStartField.TabIndex = 17
-            Me.boilerHourCounterAtEndField.TabIndex = 18
+            'Me.drumsHourCounterAtStartField.TabIndex = 15
+            'Me.drumsHourCounterAtEndField.TabIndex = 16
+            'Me.boilerHourCounterAtStartField.TabIndex = 17
+            'Me.boilerHourCounterAtEndField.TabIndex = 18
             Me.nextButton.TabIndex = 19
             Me.skipButton.TabIndex = 20
             Me.cancelButton.TabIndex = 21
@@ -484,9 +484,9 @@
 
             Me.currentManualData = data
 
-            If (_raiseProgressEvent) Then
-                raiseProgressEvent(progressPercentage)
-            End If
+            'If (_raiseProgressEvent) Then
+            '    'raiseProgressEvent(progressPercentage)
+            'End If
 
             updateFields()
 
@@ -534,10 +534,10 @@
             Me.fuelQuantityAtEnd1Field.Value = Me.currentManualData.FUEL_QUANTITY_AT_END_1
             Me.fuelQuantityAtStart2Field.Value = Me.currentManualData.FUEL_QUANTITY_AT_START_2
             Me.fuelQuantityAtEnd2Field.Value = Me.currentManualData.FUEL_QUANTITY_AT_END_2
-            Me.drumsHourCounterAtStartField.Value = Me.currentManualData.DRUMS_HOURS_COUNTER_AT_START
-            Me.drumsHourCounterAtEndField.Value = Me.currentManualData.DRUMS_HOURS_COUNTER_AT_END
-            Me.boilerHourCounterAtStartField.Value = Me.currentManualData.BOILERS_HOUR_COUNTER_AT_START
-            Me.boilerHourCounterAtEndField.Value = Me.currentManualData.BOILERS_HOUR_COUNTER_AT_END
+            'Me.drumsHourCounterAtStartField.Value = Me.currentManualData.DRUMS_HOURS_COUNTER_AT_START
+            'Me.drumsHourCounterAtEndField.Value = Me.currentManualData.DRUMS_HOURS_COUNTER_AT_END
+            'Me.boilerHourCounterAtStartField.Value = Me.currentManualData.BOILERS_HOUR_COUNTER_AT_START
+            'Me.boilerHourCounterAtEndField.Value = Me.currentManualData.BOILERS_HOUR_COUNTER_AT_END
 
             Me.nextButton.Enabled = Me.currentManualData.isComplete
 
@@ -744,11 +744,11 @@
                                                                                   fuelQuantityAtStart1Field.ValueChangedEvent, _
                                                                                   fuelQuantityAtEnd1Field.ValueChangedEvent, _
                                                                                   fuelQuantityAtStart2Field.ValueChangedEvent, _
-                                                                                  fuelQuantityAtEnd2Field.ValueChangedEvent, _
-                                                                                  drumsHourCounterAtStartField.ValueChangedEvent, _
-                                                                                  drumsHourCounterAtEndField.ValueChangedEvent, _
-                                                                                  boilerHourCounterAtStartField.ValueChangedEvent, _
-                                                                                  boilerHourCounterAtEndField.ValueChangedEvent
+                                                                                  fuelQuantityAtEnd2Field.ValueChangedEvent
+            'drumsHourCounterAtStartField.ValueChangedEvent
+            'drumsHourCounterAtEndField.ValueChangedEvent, _
+            'boilerHourCounterAtStartField.ValueChangedEvent, _
+            'boilerHourCounterAtEndField.ValueChangedEvent
             Try
 
                 If (field.Equals(Me.siloQuantityAtStartField)) Then ' Silo at start
@@ -795,21 +795,21 @@
 
                     Me.currentManualData.FUEL_QUANTITY_AT_END_2 = Me.fuelQuantityAtEnd2Field.Value
 
-                ElseIf (field.Equals(Me.drumsHourCounterAtStartField)) Then ' Drums at start
+                    'ElseIf (field.Equals(Me.drumsHourCounterAtStartField)) Then ' Drums at start
 
-                    Me.currentManualData.DRUMS_HOURS_COUNTER_AT_START = Me.drumsHourCounterAtStartField.Value
+                    '    Me.currentManualData.DRUMS_HOURS_COUNTER_AT_START = Me.drumsHourCounterAtStartField.Value
 
-                ElseIf (field.Equals(Me.drumsHourCounterAtEndField)) Then ' Drums at end
+                    'ElseIf (field.Equals(Me.drumsHourCounterAtEndField)) Then ' Drums at end
 
-                    Me.currentManualData.DRUMS_HOURS_COUNTER_AT_END = Me.drumsHourCounterAtEndField.Value
+                    '    Me.currentManualData.DRUMS_HOURS_COUNTER_AT_END = Me.drumsHourCounterAtEndField.Value
 
-                ElseIf (field.Equals(Me.boilerHourCounterAtStartField)) Then ' Boiler at start
+                    'ElseIf (field.Equals(Me.boilerHourCounterAtStartField)) Then ' Boiler at start
 
-                    Me.currentManualData.BOILERS_HOUR_COUNTER_AT_START = Me.boilerHourCounterAtStartField.Value
+                    '    Me.currentManualData.BOILERS_HOUR_COUNTER_AT_START = Me.boilerHourCounterAtStartField.Value
 
-                ElseIf (field.Equals(Me.boilerHourCounterAtEndField)) Then ' Boiler at end
+                    'ElseIf (field.Equals(Me.boilerHourCounterAtEndField)) Then ' Boiler at end
 
-                    Me.currentManualData.BOILERS_HOUR_COUNTER_AT_END = Me.boilerHourCounterAtEndField.Value
+                    '    Me.currentManualData.BOILERS_HOUR_COUNTER_AT_END = Me.boilerHourCounterAtEndField.Value
 
                 End If
 
@@ -922,11 +922,11 @@
                                             fuelQuantityAtStart1Field.EnterKeyPressed, _
                                             fuelQuantityAtEnd1Field.EnterKeyPressed, _
                                             fuelQuantityAtStart2Field.EnterKeyPressed, _
-                                            fuelQuantityAtEnd2Field.EnterKeyPressed, _
-                                            drumsHourCounterAtStartField.EnterKeyPressed, _
-                                            drumsHourCounterAtEndField.EnterKeyPressed, _
-                                            boilerHourCounterAtStartField.EnterKeyPressed, _
-                                            boilerHourCounterAtEndField.EnterKeyPressed
+                                            fuelQuantityAtEnd2Field.EnterKeyPressed
+            'drumsHourCounterAtStartField.EnterKeyPressed, _
+            'drumsHourCounterAtEndField.EnterKeyPressed, _
+            'boilerHourCounterAtStartField.EnterKeyPressed, _
+            'boilerHourCounterAtEndField.EnterKeyPressed
 
 
             If (Me.nextButton.Enabled) Then

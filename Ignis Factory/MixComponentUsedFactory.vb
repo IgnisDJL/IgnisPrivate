@@ -4,8 +4,8 @@ Public Class MixComponentUsedFactory
     Public Sub New()
         Application.CurrentCulture = New CultureInfo("EN-US")
     End Sub
-    Public Function createAsphaltUsed(indexCycle As Integer, sourceFile As SourceFile) As AsphaltUsed
-        Dim asphaltUsed As AsphaltUsed
+    Public Function createAsphaltUsed(indexCycle As Integer, sourceFile As SourceFile) As VirginAsphaltConcrete
+        Dim asphaltUsed As VirginAsphaltConcrete
         Dim targetPercentage As Double
         Dim actualPercentage As Double
         Dim debit As Double
@@ -14,7 +14,6 @@ Public Class MixComponentUsedFactory
         Dim asphaltDensity As Double
         Dim asphaltTankId As String
         Dim asphaltGrade As String
-
 
         asphaltRecordedTemperature = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteRecordedTemperature(indexCycle, sourceFile)
         asphaltDensity = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteDensity(indexCycle, sourceFile)
@@ -25,7 +24,7 @@ Public Class MixComponentUsedFactory
         debit = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteDebit(indexCycle, sourceFile)
         mass = sourceFile.sourceFileAdapter.getCycleAsphaltConcreteMass(indexCycle, sourceFile)
 
-        asphaltUsed = New AsphaltUsed(targetPercentage, actualPercentage, debit, mass, asphaltRecordedTemperature, asphaltDensity, asphaltTankId, asphaltGrade)
+        asphaltUsed = New VirginAsphaltConcrete(targetPercentage, actualPercentage, debit, mass, asphaltRecordedTemperature, asphaltDensity, asphaltTankId, asphaltGrade)
 
         Return asphaltUsed
     End Function

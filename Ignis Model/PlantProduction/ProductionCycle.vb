@@ -7,8 +7,8 @@
     Private bagHouseDiff As Double
     Private coldFeederList As List(Of ColdFeeder)
     Private hotFeederList As List(Of HotFeeder)
-    Private recycledAsphaltUsed As RecycledAsphaltUsed
-    Private virginAsphaltUsed As AsphaltUsed
+    Private recycledAsphaltUsed As RapAsphaltConcrete
+    Private virginAsphaltUsed As VirginAsphaltConcrete
     Private dureeCycle As Double
     Private dureeMalaxHumide As Double
     Private dureeMalaxSec As Double
@@ -17,7 +17,7 @@
     Private contractID As String
     Private truckID As String
 
-    Sub New(endOfCycle As Date, producedMix As ProducedMix, coldFeederList As List(Of ColdFeeder), hotFeederList As List(Of HotFeeder), virginAsphaltUsed As AsphaltUsed, dustRemovalDebit As Double, siloFillingNumber As String, bagHouseDiff As Double,
+    Sub New(endOfCycle As Date, producedMix As ProducedMix, coldFeederList As List(Of ColdFeeder), hotFeederList As List(Of HotFeeder), virginAsphaltUsed As VirginAsphaltConcrete, dustRemovalDebit As Double, siloFillingNumber As String, bagHouseDiff As Double,
             dureeCycle As Double, dureeMalaxHumide As Double, dureeMalaxSec As Double, manuelle As Boolean, contractID As String, truckID As String)
 
         Me.endOfCycle = endOfCycle
@@ -102,13 +102,13 @@
         End Get
     End Property
 
-    Public ReadOnly Property getRecycledAsphaltUsed As RecycledAsphaltUsed
+    Public ReadOnly Property getRecycledAsphaltUsed As RapAsphaltConcrete
         Get
             Return recycledAsphaltUsed
         End Get
     End Property
 
-    Public ReadOnly Property getVirginAsphaltUsed As AsphaltUsed
+    Public ReadOnly Property getVirginAsphaltUsed As VirginAsphaltConcrete
         Get
             Return virginAsphaltUsed
         End Get

@@ -12,7 +12,7 @@ Public Class ProducedMixFactory
         Dim mixName As String = sourceFile.sourceFileAdapter.getMixName(indexCycle, sourceFile)
         Dim recordedTemperature As Double = sourceFile.sourceFileAdapter.getMixRecordedTemperature(indexCycle, sourceFile)
         Dim mixMass As Double = sourceFile.sourceFileAdapter.getTotalMass(indexCycle, sourceFile)
-
+        ''Dim mixDebit As Double = sourceFile.sourceFile
         producedMix = New ProducedMix(mixNumber, mixName, recordedTemperature, mixMass)
 
         Return producedMix
