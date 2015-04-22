@@ -5,7 +5,7 @@ Public Class SourceFile
 
     Public sourceFileAdapter As SourceFileAdapter
     Public importConstant As GlobalImportConstant
-
+    Private eventFilePath As String
     Private productionDate As Date
 
     Public Sub New(filePath As String, sourceFileAdapter As SourceFileAdapter)
@@ -36,5 +36,13 @@ Public Class SourceFile
         Else
             Return False
         End If
+    End Function
+
+    Public Sub setEventFilePath(eventFilePath As String)
+        Me.eventFilePath = eventFilePath
+    End Sub
+
+    Public Function getEventFilePath() As String
+        Return eventFilePath
     End Function
 End Class

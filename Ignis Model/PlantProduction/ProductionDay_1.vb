@@ -1,16 +1,14 @@
 ﻿Public Class ProductionDay_1
     Private _productionContinue As List(Of ProductionCycle)
     Private _productionDiscontinue As List(Of ProductionCycle)
-    Private sourceFileComplementPathDiscontinue As List(Of String)
-    Private sourceFileComplementPathContinue As List(Of String)
+    Private sourceFileComplementPathDiscontinue As String
+    Private sourceFileComplementPathContinue As String
     Private productionDate As Date
 
     Sub New(productionDate As Date)
         Me.productionDate = productionDate
         Me.productionContinue = New List(Of ProductionCycle)
         Me.productionDiscontinue = New List(Of ProductionCycle)
-        Me.sourceFileComplementPathDiscontinue = New List(Of String)
-        Me.sourceFileComplementPathContinue = New List(Of String)
     End Sub
 
     Public ReadOnly Property getProductionDate As Date
@@ -41,19 +39,19 @@
         _productionContinue.Add(productionCycle)
     End Sub
 
-    Public Sub setSourceFileComplementPathDiscontinue(pathList As List(Of String))
-        sourceFileComplementPathDiscontinue = pathList
+    Public Sub setSourceFileComplementPathDiscontinue(path As String)
+        sourceFileComplementPathDiscontinue = path
     End Sub
 
-    Public Sub setSourceFileComplementPathContinue(pathList As List(Of String))
-        sourceFileComplementPathContinue = pathList
+    Public Sub setSourceFileComplementPathContinue(path As String)
+        sourceFileComplementPathContinue = path
     End Sub
 
-    Public Function getSourceFileComplementPathContinue() As List(Of String)
+    Public Function getSourceFileComplementPathContinue() As String
         Return sourceFileComplementPathContinue
     End Function
 
-    Public Function getsourceFileComplementPathDiscontinue() As List(Of String)
+    Public Function getsourceFileComplementPathDiscontinue() As String
 
         Return sourceFileComplementPathDiscontinue
     End Function
@@ -90,14 +88,15 @@
         Return getProductionCycleForPeriod(startPeriod, endPeriod, productionDiscontinue)
     End Function
 
-    Private Function getProducedMixList(productionCycleList As List(Of ProductionCycle)) As List(Of ProducedMix)
+    Public Function getProducedMixList(productionCycleList As List(Of ProductionCycle)) As List(Of ProducedMix)
 
         Dim mixProducedList = New List(Of ProducedMix)
 
         For Each productionCycle As ProductionCycle In productionCycleList
 
             If mixProducedList.Contains(productionCycle.getProducedMix) Then
-                mixProducedList.Item(mixProducedList.IndexOf(productionCycle.getProducedMix)).addMass(productionCycle.getProducedMix.getMixMass)
+                mixProducedList.Item(mixProducedList.IndexOf(productionCycle.getProducedMix)).addMass(productionCycle.getProducedMix.getHotFeederList,
+                                                                                                      productionCycle.getProducedMix.getVirginAsphaltConcrete, productionCycle.getProducedMix.getTempsDeProduction)
             Else
                 mixProducedList.Add(New ProducedMix(productionCycle.getProducedMix))
             End If
@@ -122,6 +121,15 @@
         Return productionCycleListForPeriod
     End Function
 
+    Public Function getTotalMixMass(startPeriod As Date, endPeriod As Date) As Double
+        Dim mixTotalMass As Double
 
-    
+        For Each producedMix As ProducedMix In getProducedMixList_Hybrid(startPeriod, endPeriod)
+            mixTotalMass += producedMix.getMixMass
+        Next
+
+        Return mixTotalMass
+    End Function
+
+
 End Class

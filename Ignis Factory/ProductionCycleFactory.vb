@@ -4,12 +4,12 @@ Public Class ProductionCycleFactory
 
     Private feederFactory As FeederFactory
     Private producedMixFactory As ProducedMixFactory
-    Private mixComponentUsedFactory As MixComponentUsedFactory
+
 
     Public Sub New()
         Me.feederFactory = New FeederFactory
         Me.producedMixFactory = New ProducedMixFactory
-        Me.mixComponentUsedFactory = New MixComponentUsedFactory
+
         Application.CurrentCulture = New CultureInfo("EN-US")
     End Sub
 
@@ -19,14 +19,12 @@ Public Class ProductionCycleFactory
         Dim endOfCycle As Date
         Dim mixProduced As ProducedMix
         Dim coldFeederList As List(Of ColdFeeder)
-        Dim virginAsphaltUsed As VirginAsphaltConcrete
         Dim dustRemovalDebit As Double
         Dim siloFillingNumber As String
         Dim bagHouseDiff As Double
-        Dim hotFeederList As List(Of HotFeeder)
-        Dim dureeCycle As Double
-        Dim dureeMalaxHumide As Double
-        Dim dureeMalaxSec As Double
+        Dim dureeCycle As TimeSpan
+        Dim dureeMalaxHumide As TimeSpan
+        Dim dureeMalaxSec As TimeSpan
         Dim manuelle As Boolean
         Dim contractID As String
         Dim truckID As String
@@ -34,8 +32,6 @@ Public Class ProductionCycleFactory
         endOfCycle = sourceFile.sourceFileAdapter.getTime(indexCycle, sourceFile)
         mixProduced = producedMixFactory.createProducedMix(indexCycle, sourceFile)
         coldFeederList = feederFactory.createColdFeederList(indexCycle, sourceFile)
-        hotFeederList = feederFactory.createHotFeederList(indexCycle, sourceFile)
-        virginAsphaltUsed = mixComponentUsedFactory.createAsphaltUsed(indexCycle, sourceFile)
         dustRemovalDebit = sourceFile.sourceFileAdapter.getDustRemovalDebit(indexCycle, sourceFile)
         siloFillingNumber = sourceFile.sourceFileAdapter.getSiloFillingNumber(indexCycle, sourceFile)
         bagHouseDiff = sourceFile.sourceFileAdapter.getBagHouseDiff(indexCycle, sourceFile)
@@ -47,7 +43,7 @@ Public Class ProductionCycleFactory
         truckID = sourceFile.sourceFileAdapter.getTruckID(indexCycle, sourceFile)
 
         productionCycle = New ProductionCycle(endOfCycle, mixProduced, coldFeederList,
-                                              hotFeederList, virginAsphaltUsed, dustRemovalDebit, siloFillingNumber, bagHouseDiff,
+                                                dustRemovalDebit, siloFillingNumber, bagHouseDiff,
                                               dureeCycle, dureeMalaxHumide, dureeMalaxSec, manuelle, contractID, truckID)
 
 

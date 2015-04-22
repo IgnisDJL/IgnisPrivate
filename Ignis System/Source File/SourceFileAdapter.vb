@@ -47,24 +47,31 @@
     Public MustOverride Function getContractID(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getSiloFillingNumber(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getBagHouseDiff(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getDureeCycle(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getDureeMalaxHumideCycle(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getDureeMalaxSecCycle(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getDureeCycle(indexCycle As Integer, sourceFile As SourceFile) As TimeSpan
+    Public MustOverride Function getDureeMalaxHumideCycle(indexCycle As Integer, sourceFile As SourceFile) As TimeSpan
+    Public MustOverride Function getDureeMalaxSecCycle(indexCycle As Integer, sourceFile As SourceFile) As TimeSpan
     Public MustOverride Function getManuelle(indexCycle As Integer, sourceFile As SourceFile) As Boolean
 
     ''***********************************************************************************************************************
     ''                                      Asphalt Concrete utilisé pour un cycle (A/C) 
     ''***********************************************************************************************************************
-    Public MustOverride Function getCycleAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getCycleAsphaltConcreteGrade(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getVirginAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getVirginAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getVirginAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getVirginAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getVirginAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getVirginAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getVirginAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getVirginAsphaltConcreteGrade(indexCycle As Integer, sourceFile As SourceFile) As String
 
-
+    'Public MustOverride Function getRapAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    'Public MustOverride Function getRapAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    'Public MustOverride Function getRapAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+    'Public MustOverride Function getRapAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    'Public MustOverride Function getRapAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
+    'Public MustOverride Function getRapAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
+    'Public MustOverride Function getRapAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
+    'Public MustOverride Function getRapAsphaltConcreteGrade(indexCycle As Integer, sourceFile As SourceFile) As String
 
     ''***********************************************************************************************************************
     ''  Section concernant les données liées a l'enrobé bitumineux produit dans un cycle

@@ -374,7 +374,7 @@
 
             'End If
 
-            Me.delayJustificationTextbox.Text = Me.currentDelay.getIdJustification.ToString
+            Me.delayJustificationTextbox.Text = Me.currentDelay.getDelayDescription.ToString
 
         End Sub
 

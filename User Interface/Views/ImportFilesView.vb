@@ -197,7 +197,7 @@ Namespace UI
                 Me.importSuccessfulMessagePanel.Focus()
             Else
 
-                Debugger.Break()
+                'Debugger.Break()
             End If
         End Sub
 

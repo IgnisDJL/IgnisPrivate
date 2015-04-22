@@ -33,8 +33,8 @@ Namespace UI
             Me.datePickerPanel = New DatePickerPanel
             Me.datePickerPanel.ShowChangeLayoutButton = True
 
-            Me.datePickerPanel.StartDate = New Date(2014, 12, 4)
-            Me.datePickerPanel.EndDate = New Date(2014, 12, 4)
+            Me.datePickerPanel.StartDate = New Date(2014, 11, 24, 8, 0, 0)
+            Me.datePickerPanel.EndDate = New Date(2014, 11, 25, 8, 0, 0)
 
             Me.availableDatesListView = New DatesListControl("Dates disponibles")
 
@@ -136,7 +136,7 @@ Namespace UI
             Dim shouldFillList As Boolean = False
             Dim datesList As List(Of ProductionDay_1)
 
-            datesList = ProgramController.ImportController.plantProduction.getProductionDay(Me.datePickerPanel.StartDate, Me.datePickerPanel.EndDate)
+            datesList = PlantProduction.getProductionDay(Me.datePickerPanel.StartDate, Me.datePickerPanel.EndDate)
             ' Check if new dates are the same as the ones in the list
             If (datesList.Count = Me.availableDatesListView.DisplayedObjectList.Count) Then
 

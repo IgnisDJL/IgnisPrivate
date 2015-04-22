@@ -282,13 +282,10 @@ Public Class SourceFileMarcotteAdapter
 
 
             Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
+            Dim mdbListDate = dbCommand.ExecuteScalar
 
-            mdbListDate.Read()
-            manuelle = mdbListDate(0)
+            manuelle = mdbListDate
             dbCommand.Dispose()
-            mdbListDate.Close()
-
             Return If(String.IsNullOrEmpty(manuelle), "-1", manuelle)
 
         Catch ex As Exception
@@ -297,8 +294,8 @@ Public Class SourceFileMarcotteAdapter
     End Function
 
 
-    Public Overrides Function getDureeMalaxHumideCycle(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim dureeMalaxHumideCycle As String = "-4"
+    Public Overrides Function getDureeMalaxHumideCycle(indexCycle As Integer, sourceFile As SourceFile) As TimeSpan
+        Dim dureeMalaxHumideCycle = New TimeSpan
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
 
         Dim query = "SELECT " + sourceFile.importConstant.dureeMalaxHumide + " FROM " + ImportConstantEn_mdb.tableCycle +
@@ -306,22 +303,21 @@ Public Class SourceFileMarcotteAdapter
         Try
 
             Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
+            Dim mdbListDate = dbCommand.ExecuteScalar
 
-            mdbListDate.Read()
-            dureeMalaxHumideCycle = mdbListDate(0)
+            dureeMalaxHumideCycle = TimeSpan.FromSeconds(mdbListDate)
             dbCommand.Dispose()
-            mdbListDate.Close()
 
-            Return If(String.IsNullOrEmpty(dureeMalaxHumideCycle), "-1", dureeMalaxHumideCycle)
+
+            Return dureeMalaxHumideCycle
 
         Catch ex As Exception
-            Return "-2"
+            Return TimeSpan.Zero
         End Try
     End Function
 
-    Public Overrides Function getDureeMalaxSecCycle(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim dureeMalaxSecCycle As String = "-4"
+    Public Overrides Function getDureeMalaxSecCycle(indexCycle As Integer, sourceFile As SourceFile) As TimeSpan
+        Dim dureeMalaxSecCycle = New TimeSpan
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
 
         Dim query = "SELECT " + sourceFile.importConstant.dureeMalaxSec + " FROM " + ImportConstantEn_mdb.tableCycle +
@@ -329,22 +325,21 @@ Public Class SourceFileMarcotteAdapter
         Try
 
             Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
+            Dim mdbListDate = dbCommand.ExecuteScalar
 
-            mdbListDate.Read()
-            dureeMalaxSecCycle = mdbListDate(0)
+            dureeMalaxSecCycle = TimeSpan.FromSeconds(mdbListDate)
             dbCommand.Dispose()
-            mdbListDate.Close()
 
-            Return If(String.IsNullOrEmpty(dureeMalaxSecCycle), "-1", dureeMalaxSecCycle)
+
+            Return dureeMalaxSecCycle
 
         Catch ex As Exception
-            Return "-2"
+            Return TimeSpan.Zero
         End Try
     End Function
 
-    Public Overrides Function getDureeCycle(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim dureeCycle As String = "-4"
+    Public Overrides Function getDureeCycle(indexCycle As Integer, sourceFile As SourceFile) As TimeSpan
+        Dim dureeCycle = New TimeSpan
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
 
         Dim query = "SELECT " + sourceFile.importConstant.dureeCycle + " FROM " + ImportConstantEn_mdb.tableCycle +
@@ -352,17 +347,15 @@ Public Class SourceFileMarcotteAdapter
         Try
 
             Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
+            Dim mdbListDate = dbCommand.ExecuteScalar
 
-            mdbListDate.Read()
-            dureeCycle = mdbListDate(0)
+            dureeCycle = TimeSpan.FromSeconds(mdbListDate)
             dbCommand.Dispose()
-            mdbListDate.Close()
 
-            Return If(String.IsNullOrEmpty(dureeCycle), "-1", dureeCycle)
+            Return dureeCycle
 
         Catch ex As Exception
-            Return "-2"
+            Return TimeSpan.Zero
         End Try
     End Function
 
@@ -375,12 +368,10 @@ Public Class SourceFileMarcotteAdapter
         Dim query = "SELECT " + sourceFile.importConstant.time + " FROM " + ImportConstantEn_mdb.tableCycle + " WHERE " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
 
         Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-        Dim mdbListDate = dbCommand.ExecuteReader
+        Dim mdbListDate = dbCommand.ExecuteScalar
+        time = mdbListDate
 
-        mdbListDate.Read()
-        time = mdbListDate(0)
-        mdbListDate.Close()
-        dbCommand.Dispose()
+
 
         Return time
     End Function
@@ -400,19 +391,18 @@ Public Class SourceFileMarcotteAdapter
 
 
         Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-        Dim mdbListDate = dbCommand.ExecuteReader
+        Dim mdbListDate = dbCommand.ExecuteScalar
         Try
-            mdbListDate.Read()
-            truckID = mdbListDate(0)
+            truckID = mdbListDate
             dbCommand.Dispose()
-            mdbListDate.Close()
+
 
             Return If(String.IsNullOrEmpty(truckID), "-1", truckID)
 
         Catch ex As Exception
 
             dbCommand.Dispose()
-            mdbListDate.Close()
+
 
             Return "-2"
         End Try
@@ -430,18 +420,20 @@ Public Class SourceFileMarcotteAdapter
             " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
 
         Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-        Dim mdbListDate = dbCommand.ExecuteReader
+        Dim mdbListDate = dbCommand.ExecuteScalar
         Try
-            mdbListDate.Read()
-            contractID = mdbListDate(0)
+
+            If Not (IsDBNull(mdbListDate)) Then
+                contractID = mdbListDate
+            End If
             dbCommand.Dispose()
-            mdbListDate.Close()
+
 
             Return If(IsDBNull(contractID), "-1", contractID)
 
         Catch ex As Exception
             dbCommand.Dispose()
-            mdbListDate.Close()
+
 
             Return "-2"
         End Try
@@ -459,12 +451,12 @@ Public Class SourceFileMarcotteAdapter
                 " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
 
             Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
+            Dim mdbListDate = dbCommand.ExecuteScalar
 
-            mdbListDate.Read()
-            siloFillingNumber = mdbListDate(0)
+
+            siloFillingNumber = mdbListDate
             dbCommand.Dispose()
-            mdbListDate.Close()
+
 
             Return If(String.IsNullOrEmpty(siloFillingNumber), "-1", siloFillingNumber)
 
@@ -483,7 +475,7 @@ Public Class SourceFileMarcotteAdapter
     ''***********************************************************************************************************************
 
     '' Total asphalt
-    Public Overrides Function getCycleAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
 
         Dim virginAsphaltActualPercentage As String = "-4"
 
@@ -494,12 +486,11 @@ Public Class SourceFileMarcotteAdapter
             " AND " + ImportConstantEn_mdb.detailsTypeID + " = " + ImportConstantEn_mdb.typeAsphalt
 
             Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
+            Dim mdbListDate = dbCommand.ExecuteScalar
 
-            mdbListDate.Read()
-            virginAsphaltActualPercentage = mdbListDate(0)
+            virginAsphaltActualPercentage = mdbListDate
             dbCommand.Dispose()
-            mdbListDate.Close()
+
 
             Return If(String.IsNullOrEmpty(virginAsphaltActualPercentage), "-1", virginAsphaltActualPercentage)
 
@@ -509,11 +500,11 @@ Public Class SourceFileMarcotteAdapter
 
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Return "-3"
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltMass As String = "-4"
 
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
@@ -524,12 +515,11 @@ Public Class SourceFileMarcotteAdapter
             " AND " + ImportConstantEn_mdb.detailsTypeID + " = " + ImportConstantEn_mdb.typeAsphalt
 
             Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
+            Dim mdbListDate = dbCommand.ExecuteScalar
 
-            mdbListDate.Read()
-            virginAsphaltMass = mdbListDate(0)
+            virginAsphaltMass = mdbListDate
             dbCommand.Dispose()
-            mdbListDate.Close()
+
 
             Return If(String.IsNullOrEmpty(virginAsphaltMass), "-1", virginAsphaltMass)
 
@@ -538,7 +528,7 @@ Public Class SourceFileMarcotteAdapter
         End Try
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltTargetPercentage As String
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
         Try
@@ -548,12 +538,11 @@ Public Class SourceFileMarcotteAdapter
             " AND " + ImportConstantEn_mdb.detailsTypeID + " = " + ImportConstantEn_mdb.typeAsphalt
 
             Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
+            Dim mdbListDate = dbCommand.ExecuteScalar
 
-            mdbListDate.Read()
-            virginAsphaltTargetPercentage = mdbListDate(0)
+            virginAsphaltTargetPercentage = mdbListDate
             dbCommand.Dispose()
-            mdbListDate.Close()
+
 
             Return If(String.IsNullOrEmpty(virginAsphaltTargetPercentage), "-1", virginAsphaltTargetPercentage)
 
@@ -573,13 +562,12 @@ Public Class SourceFileMarcotteAdapter
             " Group By " + ImportConstantEn_mdb.detailsCycleID
 
             Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
+            Dim mdbListDate = dbCommand.ExecuteScalar
 
-            mdbListDate.Read()
-            totalMass = mdbListDate(0)
+            totalMass = mdbListDate
 
             dbCommand.Dispose()
-            mdbListDate.Close()
+
 
             Return If(String.IsNullOrEmpty(totalMass.ToString), "-1", totalMass.ToString)
 
@@ -588,184 +576,7 @@ Public Class SourceFileMarcotteAdapter
         End Try
     End Function
 
-    ''***********************************************************************************************************************
-    ''  Section concernant les données liées au bitume utilisé dans un cycle 
-    ''***********************************************************************************************************************
 
-    Public Overrides Function getCycleAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim virginAsphaltConcreteDensity As String = "-4"
-        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
-
-        Try
-            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteDensity + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
-            " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile) +
-            " AND " + ImportConstantEn_mdb.detailsTypeID + " = " + ImportConstantEn_mdb.typeAsphalt
-
-            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
-
-            mdbListDate.Read()
-            virginAsphaltConcreteDensity = mdbListDate(0)
-            dbCommand.Dispose()
-            mdbListDate.Close()
-
-            Return If(String.IsNullOrEmpty(virginAsphaltConcreteDensity), "-1", virginAsphaltConcreteDensity)
-
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
-
-    Public Overrides Function getCycleAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim asphaltRecordedTemperature As String = "-4"
-        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
-
-        Try
-            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteRecordedTemperature + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
-            " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile) +
-            " AND " + ImportConstantEn_mdb.detailsTypeID + " = " + ImportConstantEn_mdb.typeAsphalt
-
-            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
-
-            mdbListDate.Read()
-            asphaltRecordedTemperature = mdbListDate(0)
-            dbCommand.Dispose()
-            mdbListDate.Close()
-
-            Return If(String.IsNullOrEmpty(asphaltRecordedTemperature), "-1", asphaltRecordedTemperature)
-
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
-
-    Public Overrides Function getCycleAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim asphaltTankId As String = "-4"
-        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
-        Try
-
-            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteTankId + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
-            " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile) +
-            " AND " + ImportConstantEn_mdb.detailsTypeID + " = " + ImportConstantEn_mdb.typeAsphalt
-
-            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
-
-            mdbListDate.Read()
-            asphaltTankId = mdbListDate(0)
-            dbCommand.Dispose()
-            mdbListDate.Close()
-            Return If(String.IsNullOrEmpty(asphaltTankId), "-1", asphaltTankId)
-
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
-
-
-    Public Overrides Function getCycleAsphaltConcreteGrade(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim virginAsphaltConcreteGrade As String = "-4"
-        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
-        Try
-
-            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteGrade +
-            " FROM (" + ImportConstantEn_mdb.tableCycle +
-            " INNER JOIN " + ImportConstantEn_mdb.tableCommande + " ON " + ImportConstantEn_mdb.commandeCommandeID + " = " + ImportConstantEn_mdb.cycleCommandeID +
-            " )INNER JOIN " + ImportConstantEn_mdb.tableMateriau + " ON " + ImportConstantEn_mdb.materiauMateriauID + " = " + ImportConstantEn_mdb.commandeNewBitumeID +
-            " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
-
-            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
-
-            mdbListDate.Read()
-            virginAsphaltConcreteGrade = mdbListDate(0)
-            dbCommand.Dispose()
-            mdbListDate.Close()
-            Return If(String.IsNullOrEmpty(virginAsphaltConcreteGrade), "-1", virginAsphaltConcreteGrade)
-
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
-
-
-    ''***********************************************************************************************************************
-    ''  Section concernant les données liées a l'enrobé bitumineux produit dans un cycle
-    ''***********************************************************************************************************************
-    Public Overrides Function getMixNumber(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim mixNumber As String
-        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
-
-        Try
-
-            Dim query = "SELECT " + sourceFile.importConstant.mixNumber + " FROM (" + ImportConstantEn_mdb.tableStringCache +
-                " INNER JOIN " + ImportConstantEn_mdb.tableCommande + " ON " + ImportConstantEn_mdb.commandeNomFormuleID + " = " + ImportConstantEn_mdb.stringCacheStringCacheID +
-                ") INNER JOIN " + ImportConstantEn_mdb.tableCycle + " ON " + ImportConstantEn_mdb.commandeCommandeID + " = " + ImportConstantEn_mdb.cycleCommandeID +
-                " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
-
-            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
-
-            mdbListDate.Read()
-            mixNumber = mdbListDate(0)
-            dbCommand.Dispose()
-            mdbListDate.Close()
-            Return If(String.IsNullOrEmpty(mixNumber), "-1", mixNumber)
-
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
-
-    Public Overrides Function getMixName(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim mixName As String = "-4"
-        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
-
-        Try
-
-            Dim query = "SELECT " + sourceFile.importConstant.mixName + " FROM (" + ImportConstantEn_mdb.tableStringCache +
-                " INNER JOIN " + ImportConstantEn_mdb.tableCommande + " ON " + ImportConstantEn_mdb.commandeDescriptionFormuleID + " = " + ImportConstantEn_mdb.stringCacheStringCacheID +
-                ") INNER JOIN " + ImportConstantEn_mdb.tableCycle + " ON " + ImportConstantEn_mdb.commandeCommandeID + " = " + ImportConstantEn_mdb.cycleCommandeID +
-                " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
-
-            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
-
-            mdbListDate.Read()
-            mixName = mdbListDate(0)
-            dbCommand.Dispose()
-            mdbListDate.Close()
-
-            Return If(String.IsNullOrEmpty(mixName), "-1", mixName)
-
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
-
-    Public Overrides Function getMixRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim mixRecordedTemperature As String = "-4"
-        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
-
-        Try
-
-            Dim query = "SELECT " + sourceFile.importConstant.mixRecordedTemperature + " FROM " + ImportConstantEn_mdb.tableCycle +
-            " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
-
-            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteReader
-
-            mdbListDate.Read()
-            mixRecordedTemperature = mdbListDate(0)
-            dbCommand.Dispose()
-            mdbListDate.Close()
-            Return If(String.IsNullOrEmpty(mixRecordedTemperature), "-1", mixRecordedTemperature)
-
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
 
 
     ''***********************************************************************************************************************
@@ -951,5 +762,176 @@ Public Class SourceFileMarcotteAdapter
         End Try
     End Function
 
+
+    ''***********************************************************************************************************************
+    ''  Section concernant les données liées au bitume utilisé dans un cycle 
+    ''***********************************************************************************************************************
+
+    Public Overrides Function getVirginAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim virginAsphaltConcreteDensity As String = "-4"
+        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
+
+        Try
+            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteDensity + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
+            " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile) +
+            " AND " + ImportConstantEn_mdb.detailsTypeID + " = " + ImportConstantEn_mdb.typeAsphalt
+
+            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+            Dim mdbListDate = dbCommand.ExecuteScalar
+
+            virginAsphaltConcreteDensity = mdbListDate
+            dbCommand.Dispose()
+
+
+            Return If(String.IsNullOrEmpty(virginAsphaltConcreteDensity), "-1", virginAsphaltConcreteDensity)
+
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getVirginAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim asphaltRecordedTemperature As String = "-4"
+        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
+
+        Try
+            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteRecordedTemperature + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
+            " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile) +
+            " AND " + ImportConstantEn_mdb.detailsTypeID + " = " + ImportConstantEn_mdb.typeAsphalt
+
+            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+            Dim mdbListDate = dbCommand.ExecuteScalar
+
+            asphaltRecordedTemperature = mdbListDate
+            dbCommand.Dispose()
+
+
+            Return If(String.IsNullOrEmpty(asphaltRecordedTemperature), "-1", asphaltRecordedTemperature)
+
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getVirginAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim asphaltTankId As String = "-4"
+        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
+        Try
+
+            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteTankId + " FROM " + ImportConstantEn_mdb.tableCycleDetails +
+            " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile) +
+            " AND " + ImportConstantEn_mdb.detailsTypeID + " = " + ImportConstantEn_mdb.typeAsphalt
+
+            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+            Dim mdbListDate = dbCommand.ExecuteScalar
+
+            asphaltTankId = mdbListDate
+            dbCommand.Dispose()
+
+            Return If(String.IsNullOrEmpty(asphaltTankId), "-1", asphaltTankId)
+
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+
+    Public Overrides Function getVirginAsphaltConcreteGrade(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim virginAsphaltConcreteGrade As String = "-4"
+        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
+        Try
+
+            Dim query = "SELECT " + sourceFile.importConstant.virginAsphaltConcreteGrade +
+            " FROM (" + ImportConstantEn_mdb.tableCycle +
+            " INNER JOIN " + ImportConstantEn_mdb.tableCommande + " ON " + ImportConstantEn_mdb.commandeCommandeID + " = " + ImportConstantEn_mdb.cycleCommandeID +
+            " )INNER JOIN " + ImportConstantEn_mdb.tableMateriau + " ON " + ImportConstantEn_mdb.materiauMateriauID + " = " + ImportConstantEn_mdb.commandeNewBitumeID +
+            " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
+
+            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+            Dim mdbListDate = dbCommand.ExecuteScalar
+
+            virginAsphaltConcreteGrade = mdbListDate
+            dbCommand.Dispose()
+
+            Return If(String.IsNullOrEmpty(virginAsphaltConcreteGrade), "-1", virginAsphaltConcreteGrade)
+
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    ''***********************************************************************************************************************
+    ''  Section concernant les données liées a l'enrobé bitumineux produit dans un cycle
+    ''***********************************************************************************************************************
+    Public Overrides Function getMixNumber(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim mixNumber As String
+        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
+
+        Try
+
+            Dim query = "SELECT " + sourceFile.importConstant.mixNumber + " FROM (" + ImportConstantEn_mdb.tableStringCache +
+                " INNER JOIN " + ImportConstantEn_mdb.tableCommande + " ON " + ImportConstantEn_mdb.commandeNomFormuleID + " = " + ImportConstantEn_mdb.stringCacheStringCacheID +
+                ") INNER JOIN " + ImportConstantEn_mdb.tableCycle + " ON " + ImportConstantEn_mdb.commandeCommandeID + " = " + ImportConstantEn_mdb.cycleCommandeID +
+                " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
+
+            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+            Dim mdbListDate = dbCommand.ExecuteScalar
+
+            mixNumber = mdbListDate
+            dbCommand.Dispose()
+
+            Return If(String.IsNullOrEmpty(mixNumber), "-1", mixNumber)
+
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getMixName(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim mixName As String = "-4"
+        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
+
+        Try
+
+            Dim query = "SELECT " + sourceFile.importConstant.mixName + " FROM (" + ImportConstantEn_mdb.tableStringCache +
+                " INNER JOIN " + ImportConstantEn_mdb.tableCommande + " ON " + ImportConstantEn_mdb.commandeDescriptionFormuleID + " = " + ImportConstantEn_mdb.stringCacheStringCacheID +
+                ") INNER JOIN " + ImportConstantEn_mdb.tableCycle + " ON " + ImportConstantEn_mdb.commandeCommandeID + " = " + ImportConstantEn_mdb.cycleCommandeID +
+                " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
+
+            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+            Dim mdbListDate = dbCommand.ExecuteScalar
+
+            mixName = mdbListDate
+            dbCommand.Dispose()
+
+
+            Return If(String.IsNullOrEmpty(mixName), "-1", mixName)
+
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
+
+    Public Overrides Function getMixRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
+        Dim mixRecordedTemperature As String = "-4"
+        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
+
+        Try
+
+            Dim query = "SELECT " + sourceFile.importConstant.mixRecordedTemperature + " FROM " + ImportConstantEn_mdb.tableCycle +
+            " Where " + ImportConstantEn_mdb.cycleCycleID + " = " + getCycle(indexCycle, sourceFile)
+
+            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+            Dim mdbListDate = dbCommand.ExecuteScalar
+
+            mixRecordedTemperature = mdbListDate
+            dbCommand.Dispose()
+
+            Return If(String.IsNullOrEmpty(mixRecordedTemperature), "-1", mixRecordedTemperature)
+
+        Catch ex As Exception
+            Return "-2"
+        End Try
+    End Function
 End Class
 

@@ -1,5 +1,7 @@
 ﻿Public Class HotFeeder
     Inherits Feeder_1
+    Implements IEquatable(Of HotFeeder)
+
     Private targetPercentage As Double
     Private actualPercentage As Double
     Private debit As Double
@@ -35,5 +37,17 @@
 
     Public Overrides Function isRecycled() As Boolean
         Return False
+    End Function
+
+    Public Sub addMass(mass As Double)
+        Me.mass += mass
+    End Sub
+
+    Public Overloads Function Equals(ByVal hotFeeder As HotFeeder) As Boolean Implements IEquatable(Of HotFeeder).Equals
+        If Me.getFeederID = hotFeeder.getFeederID Then
+            Return True
+        Else
+            Return False
+        End If
     End Function
 End Class

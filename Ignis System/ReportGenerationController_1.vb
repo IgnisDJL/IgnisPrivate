@@ -61,6 +61,18 @@ Public Class ReportGenerationController_1
 
         report = dailyReportFactory.createDailyReport(dateDebut, dateFin)
 
+        TryCast(report, DailyReport).getTableauHoraire()
+        TryCast(report, DailyReport).getTableauEnrobes()
+        TryCast(report, DailyReport).getTableauModeProduction()
+        TryCast(report, DailyReport).getTableauDelais()
+        TryCast(report, DailyReport).getTableauBitumeConsommes()
+        TryCast(report, DailyReport).getTableauEcartValeurVisee()
+        TryCast(report, DailyReport).getTableauVariationEnProduction()
+        TryCast(report, DailyReport).getTableauValeursAberrantes()
+        TryCast(report, DailyReport).getTableauCarburants()
+        TryCast(report, DailyReport).getTableauRejets()
+        TryCast(report, DailyReport).getTableauDelay()
+
         startManualDataStep(report)
     End Sub
 
@@ -72,7 +84,7 @@ Public Class ReportGenerationController_1
 
         Me.currentManualDataIndex = 0
         ProgramController.UIController.ReportGenerationFrame.changeStep(ProgramController.UIController.ManualDataStepView, ProgramController.UIController.DataFilesAnalysisStepView.OverallProgressValue)
-        ProgramController.UIController.ManualDataStepView.showManualData(New ManualData(Date.Now, report.getDateDebut, report.getDateFin, 0), 1)
+        ProgramController.UIController.ManualDataStepView.showManualData(report.getDonneeManuel(), 1)
 
     End Sub
 

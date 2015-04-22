@@ -178,7 +178,7 @@ Public Class SourceFileLogAdapter
     ''  Section concernant les donnée liées au bitume ou A/C d'un cycle 
     ''***********************************************************************************************************************
 
-    Public Overrides Function getCycleAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltActualPercentage As String = "-4"
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
@@ -189,7 +189,7 @@ Public Class SourceFileLogAdapter
         End Try
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltDebit As String = "-4"
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
@@ -201,7 +201,7 @@ Public Class SourceFileLogAdapter
     End Function
 
 
-    Public Overrides Function getCycleAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Try
             If indexCycle > 0 Then
 
@@ -273,7 +273,7 @@ Public Class SourceFileLogAdapter
         End Try
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltTargetPercentage As String = "-4"
         Dim regex = New Regex("([\d]+.[\d]+)")
         Try
@@ -284,7 +284,7 @@ Public Class SourceFileLogAdapter
         End Try
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteGrade(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteGrade(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltConcreteGrade As String = "-4"
 
         Try
@@ -299,70 +299,71 @@ Public Class SourceFileLogAdapter
     ''***********************************************************************************************************************
     ''  Section concernant les donnée liées un ProductionCycle 
     ''***********************************************************************************************************************
-    Public Overrides Function getDureeMalaxHumideCycle(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim dureeMalaxHumideCycle As String = "-4"
+    Public Overrides Function getDureeMalaxHumideCycle(indexCycle As Integer, sourceFile As SourceFile) As TimeSpan
+        Dim dureeMalaxHumideCycle = New TimeSpan
         Try
 
-            dureeMalaxHumideCycle = sourceFile.importConstant.dureeMalaxHumide()
+            dureeMalaxHumideCycle = TimeSpan.Zero
 
-            Return If(String.IsNullOrEmpty(dureeMalaxHumideCycle), "-1", dureeMalaxHumideCycle)
+            Return dureeMalaxHumideCycle
         Catch ex As Exception
-            Return "-2"
+            Return TimeSpan.Zero
         End Try
     End Function
 
-    Public Overrides Function getDureeMalaxSecCycle(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim dureeMalaxSecCycle As String = "-4"
+    Public Overrides Function getDureeMalaxSecCycle(indexCycle As Integer, sourceFile As SourceFile) As TimeSpan
+        Dim dureeMalaxSecCycle = New TimeSpan
         Try
 
-            dureeMalaxSecCycle = sourceFile.importConstant.dureeMalaxSec()
+            dureeMalaxSecCycle = TimeSpan.Zero
 
-            Return If(String.IsNullOrEmpty(dureeMalaxSecCycle), "-1", dureeMalaxSecCycle)
+            Return dureeMalaxSecCycle
         Catch ex As Exception
-            Return "-2"
+            Return TimeSpan.Zero
         End Try
     End Function
 
-    'Private Function getAverageDureeCycle() As TimeSpan
-    '    Dim cycleDuration As TimeSpan
-    '    Dim averageCycleDuration = New Dictionary(Of TimeSpan, Integer)
+    Private Function getAverageDureeCycle(sourceFile As SourceFile) As TimeSpan
+        Dim cycleDuration As TimeSpan
+        Dim averageCycleDuration = New Dictionary(Of TimeSpan, Integer)
 
-    '    Dim actualDurationOccurance As Integer = 0
-    '    Dim averageDuration As TimeSpan
+        Dim actualDurationOccurance As Integer = 0
+        Dim averageDuration As TimeSpan
 
-    '    For index As Integer = 1 To Math.Floor((productionCycleList.Count * 0.25))
+        Dim cycleList = New List(Of String)
+        cycleList = getCycleList(sourceFile)
 
-    '        cycleDuration = productionCycleList.Item(index).getEndOfCycle().Subtract(productionCycleList.Item(index - 1).getEndOfCycle())
+        For index As Integer = 1 To Math.Floor(cycleList.Count * 0.25)
 
-    '        If (averageCycleDuration.Keys.Contains(cycleDuration)) Then
-    '            averageCycleDuration.Item(cycleDuration) += 1
-    '        Else
-    '            averageCycleDuration.Add(cycleDuration, 1)
-    '        End If
+            cycleDuration = getTime(index, sourceFile).Subtract(getTime(index - 1, sourceFile))
 
-    '        If averageDuration = cycleDuration Then
-    '            actualDurationOccurance = averageCycleDuration.Item(cycleDuration)
+            If (averageCycleDuration.Keys.Contains(cycleDuration)) Then
+                averageCycleDuration.Item(cycleDuration) += 1
+            Else
+                averageCycleDuration.Add(cycleDuration, 1)
+            End If
 
-    '        ElseIf (actualDurationOccurance < averageCycleDuration.Item(cycleDuration)) Then
-    '            actualDurationOccurance = averageCycleDuration.Item(cycleDuration)
-    '            averageDuration = cycleDuration
-    '        End If
+            If averageDuration = cycleDuration Then
+                actualDurationOccurance = averageCycleDuration.Item(cycleDuration)
+
+            ElseIf (actualDurationOccurance < averageCycleDuration.Item(cycleDuration)) Then
+                actualDurationOccurance = averageCycleDuration.Item(cycleDuration)
+                averageDuration = cycleDuration
+            End If
+        Next
+
+        Return averageDuration
+    End Function
 
 
-    '    Next
-
-    '    Return averageDuration
-    'End Function
-
-    Public Overrides Function getDureeCycle(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim dureeCycle As String = "-4"
+    Public Overrides Function getDureeCycle(indexCycle As Integer, sourceFile As SourceFile) As TimeSpan
+        Dim dureeCycle = New TimeSpan
         Try
+            dureeCycle = getAverageDureeCycle(sourceFile)
 
-            dureeCycle = sourceFile.importConstant.dureeCycle()
-
-            Return If(String.IsNullOrEmpty(dureeCycle), "-1", dureeCycle)
+            Return dureeCycle
         Catch ex As Exception
-            Return "-2"
+            Return TimeSpan.Zero
         End Try
     End Function
 
@@ -432,7 +433,7 @@ Public Class SourceFileLogAdapter
     ''  Section concernant les données liées au bitume utilisé dans un cycle 
     ''**********************************************************************************************************************
 
-    Public Overrides Function getCycleAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltTankId As String = "-4"
         Try
             Dim regex = New Regex(sourceFile.importConstant.virginAsphaltConcreteTankId + "[\s]([\d]+)")
@@ -444,7 +445,7 @@ Public Class SourceFileLogAdapter
 
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltRecordedTemperature As String = "-4"
         Try
             Dim regex = New Regex(sourceFile.importConstant.virginAsphaltConcreteRecordedTemperature + "[\s]+(\-?[\d]*)")
@@ -456,7 +457,7 @@ Public Class SourceFileLogAdapter
 
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltDensity As String = "-4"
         Try
             Dim regex = New Regex(sourceFile.importConstant.virginAsphaltConcreteDensity + "[\s]+([\d].[\d]{3})")
@@ -722,7 +723,7 @@ Public Class SourceFileLogAdapter
 
     Public Overrides Function getHotFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
         Try
-            If indexCycle > 0  Then
+            If indexCycle > 0 Then
 
                 Dim previousTotalMass As Double
                 Dim actualTotalMass As Double

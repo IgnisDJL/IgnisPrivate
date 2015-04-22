@@ -30,31 +30,31 @@
         Dim dateBoundaryList As List(Of List(Of Date))
 
         dateBoundaryList = New List(Of List(Of Date))
-
+        productionCycleList.Sort()
 
         If productionCycleList.Count = 0 Then
             Return getDateBoundaryList(startPeriod, endPeriod)
         Else
 
-            If (productionCycleList.Item(0).getEndOfCycle() - TimeSpan.FromSeconds(productionCycleList.Item(0).getDureeCycle)).Subtract(startPeriod) > TimeSpan.Zero Then
+            If (productionCycleList.Item(0).getEndOfCycle() - productionCycleList.Item(0).getDureeCycle).Subtract(startPeriod) > TimeSpan.Zero Then
                 dateBoundary = New List(Of Date)
                 dateBoundary.Add(startPeriod)
-                dateBoundary.Add(productionCycleList.Item(0).getEndOfCycle() - TimeSpan.FromSeconds(productionCycleList.Item(0).getDureeCycle))
+                dateBoundary.Add(productionCycleList.Item(0).getEndOfCycle() - productionCycleList.Item(0).getDureeCycle)
                 dateBoundaryList.Add(dateBoundary)
             End If
 
             For index As Integer = 1 To productionCycleList.Count - 1
-                If (productionCycleList.Item(index).getEndOfCycle() - TimeSpan.FromSeconds(productionCycleList.Item(index).getDureeCycle)).Subtract(productionCycleList.Item(index - 1).getEndOfCycle) > TimeSpan.Zero Then
+                If (productionCycleList.Item(index).getEndOfCycle() - productionCycleList.Item(index).getDureeCycle).Subtract(productionCycleList.Item(index - 1).getEndOfCycle) > TimeSpan.Zero Then
                     dateBoundary = New List(Of Date)
                     dateBoundary.Add(productionCycleList.Item(index - 1).getEndOfCycle)
-                    dateBoundary.Add(productionCycleList.Item(index).getEndOfCycle() - TimeSpan.FromSeconds(productionCycleList.Item(index).getDureeCycle))
+                    dateBoundary.Add(productionCycleList.Item(index).getEndOfCycle() - productionCycleList.Item(index).getDureeCycle)
                     dateBoundaryList.Add(dateBoundary)
                 End If
             Next
 
             If (endPeriod).Subtract(productionCycleList.Item(productionCycleList.Count - 1).getEndOfCycle()) > TimeSpan.Zero Then
                 dateBoundary = New List(Of Date)
-                dateBoundary.Add(productionCycleList.Item(productionCycleList.Count - 1).getEndOfCycle() - TimeSpan.FromSeconds(productionCycleList.Item(productionCycleList.Count - 1).getDureeCycle))
+                dateBoundary.Add(productionCycleList.Item(productionCycleList.Count - 1).getEndOfCycle() - productionCycleList.Item(productionCycleList.Count - 1).getDureeCycle)
                 dateBoundary.Add(endPeriod)
                 dateBoundaryList.Add(dateBoundary)
 

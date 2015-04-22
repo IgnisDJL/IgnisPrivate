@@ -16,7 +16,6 @@ Public Class ImportController_1
     Private newestImportedFiles As List(Of IO.FileInfo)
     Private productionDayList As List(Of ProductionDay_1)
     Private productionDayFactory As ProductionDayFactory
-    Public plantProduction As PlantProduction
 
     Public Sub New(settings As XmlSettings.Settings)
 
@@ -27,7 +26,9 @@ Public Class ImportController_1
         Me.discontinueSourceFileComplementList = New List(Of String)
         Me.newestImportedFiles = New List(Of IO.FileInfo)
         Me.productionDayFactory = New ProductionDayFactory
-        Me.plantProduction = New PlantProduction(Me.settings.Usine.PLANT_NAME, Me.settings.Usine.TYPE)
+        PlantProduction.setPlantType(Me.settings.Usine.TYPE)
+
+        PlantProduction.setPlantName(Me.settings.Usine.PLANT_NAME)
 
     End Sub
 
@@ -42,12 +43,14 @@ Public Class ImportController_1
 
                 If discontinueSourceFileList.Contains(continueSourceFile) Then
                     productionDay = productionDayFactory.createProductionDayHybrid(continueSourceFile, discontinueSourceFileList.Item(discontinueSourceFileList.IndexOf(continueSourceFile)))
-                    productionDay.setSourceFileComplementPathContinue(continueSourceFileComplementList)
+
+                    productionDay.setSourceFileComplementPathContinue(continueSourceFile.getEventFilePath)
+
                     productionDayList.Add(productionDay)
 
                 Else
                     productionDay = productionDayFactory.createProductionDayHybrid(continueSourceFile)
-                    productionDay.setSourceFileComplementPathContinue(continueSourceFileComplementList)
+                    productionDay.setSourceFileComplementPathContinue(continueSourceFile.getEventFilePath)
                     productionDayList.Add(productionDay)
 
 
@@ -59,7 +62,7 @@ Public Class ImportController_1
             For Each continueSourceFile As SourceFile In Me.continueSourceFileList
 
                 productionDay = productionDayFactory.createProductionDayContinue(continueSourceFile)
-                productionDay.setSourceFileComplementPathContinue(continueSourceFileComplementList)
+                productionDay.setSourceFileComplementPathContinue(continueSourceFile.getEventFilePath)
                 productionDayList.Add(productionDay)
 
             Next
@@ -73,28 +76,28 @@ Public Class ImportController_1
 
         End If
 
-        Dim delayFactory = New DelayFactory()
+        'Dim delayFactory = New DelayFactory()
 
-        Dim dateDebut As Date
-        Dim dateFin As Date
-        Dim delayList As List(Of Delay_1)
-
-
-        dateDebut = New Date(2014, 12, 4, 7, 0, 0)
-        dateFin = New Date(2014, 12, 4, 23, 0, 0)
+        'Dim dateDebut As Date
+        'Dim dateFin As Date
+        'Dim delayList As List(Of Delay_1)
 
 
-        For Each productionDay_1 As ProductionDay_1 In productionDayList
+        'dateDebut = New Date(2014, 12, 4, 7, 0, 0)
+        'dateFin = New Date(2014, 12, 4, 23, 0, 0)
 
-            If plantProduction.getPlantType = Constants.Settings.UsineType.CSV Or plantProduction.getPlantType = Constants.Settings.UsineType.MDB Then
 
-                delayList = delayFactory.createBatchDelayList(dateDebut, dateFin, productionDay_1.getProductionCycle_Discontinue(dateDebut, dateFin), productionDay_1.getsourceFileComplementPathDiscontinue)
-            ElseIf plantProduction.getPlantType = Constants.Settings.UsineType.LOG Then
+        'For Each productionDay_1 As ProductionDay_1 In productionDayList
 
-                delayList = delayFactory.createDrumDelayList(dateDebut, dateFin, productionDay_1.getProductionCycle_Continue(dateDebut, dateFin), productionDay_1.getSourceFileComplementPathContinue)
-            End If
+        '    If plantProduction.getPlantType = Constants.Settings.UsineType.CSV Or plantProduction.getPlantType = Constants.Settings.UsineType.MDB Then
 
-        Next
+        '        delayList = delayFactory.createBatchDelayList(dateDebut, dateFin, productionDay_1.getProductionCycle_Discontinue(dateDebut, dateFin), productionDay_1.getsourceFileComplementPathDiscontinue)
+        '    ElseIf plantProduction.getPlantType = Constants.Settings.UsineType.LOG Then
+
+        '        delayList = delayFactory.createDrumDelayList(dateDebut, dateFin, productionDay_1.getProductionCycle_Continue(dateDebut, dateFin), productionDay_1.getSourceFileComplementPathContinue)
+        '    End If
+
+        'Next
         plantProduction.productionDayList = productionDayList
         Return productionDayList.Count
 
@@ -102,7 +105,7 @@ Public Class ImportController_1
 
 
     Public Function identifyFilesToImport() As List(Of DataFile)
-        Me.plantProduction.setPlantType(Me.settings.Usine.TYPE)
+        PlantProduction.setPlantType(Me.settings.Usine.TYPE)
 
         Me.continueSourceFileList.Clear()
         Me.discontinueSourceFileList.Clear()
@@ -118,7 +121,7 @@ Public Class ImportController_1
             Dim newestSourceFile As SourceFile = Nothing
 
             Dim regexLogFile As New System.Text.RegularExpressions.Regex(Constants.Input.LOG.FILE_NAME_REGEX)
-
+            Dim regexEventFile As New System.Text.RegularExpressions.Regex(Constants.Input.Events.FILE_NAME_REGEX)
             Dim regexCSVFile As New System.Text.RegularExpressions.Regex(Constants.Input.CSV.FILE_NAME_REGEX)
             Dim regexMDBFile As New System.Text.RegularExpressions.Regex(Constants.Input.MDB.FILE_NAME_REGEX)
 
@@ -127,7 +130,17 @@ Public Class ImportController_1
                 If (regexLogFile.Match(file.Name).Success) And (plantProduction.getPlantType = Constants.Settings.UsineType.LOG Or plantProduction.getPlantType = Constants.Settings.UsineType.HYBRID) Then
                     Dim sourceFile As New SourceFile(file.FullName, New SourceFileLogAdapter())
 
+                    If eventDirectory.Exists Then
+                        For Each eventfile As IO.FileInfo In eventDirectory.GetFiles
+                            If (sourceFile.Date_.Year.ToString + sourceFile.Date_.Month.ToString + sourceFile.Date_.Day.ToString + ".log").Equals(eventfile.Name) Then
+                                sourceFile.setEventFilePath(eventfile.FullName)
+                            End If
+
+                        Next
+                    End If
+
                     Me.continueSourceFileList.Add(sourceFile)
+
 
                     If (IsNothing(newestSourceFile)) Then
                         newestSourceFile = sourceFile
@@ -157,7 +170,7 @@ Public Class ImportController_1
                         If (IsNothing(newestSourceFile)) Then
                             newestSourceFile = sourceFile
                         ElseIf (newestSourceFile.Date_.CompareTo(sourceFile.Date_) < 0) Then
-                            newestSourceFile = sourceFile
+                            'newestSourceFile = sourceFile
                         End If
                     Next
 
@@ -165,18 +178,18 @@ Public Class ImportController_1
             Next
         End If
 
-        If eventDirectory.Exists Then
-            Dim regexEventFile As New System.Text.RegularExpressions.Regex(Constants.Input.Events.FILE_NAME_REGEX)
+        'If eventDirectory.Exists Then
+        '    Dim regexEventFile As New System.Text.RegularExpressions.Regex(Constants.Input.Events.FILE_NAME_REGEX)
 
-            For Each file As IO.FileInfo In eventDirectory.GetFiles
+        '    For Each file As IO.FileInfo In eventDirectory.GetFiles
 
-                If (regexEventFile.Match(file.Name).Success) And (plantProduction.getPlantType = Constants.Settings.UsineType.LOG Or plantProduction.getPlantType = Constants.Settings.UsineType.HYBRID) Then
+        '            If (regexEventFile.Match(file.Name).Success) And (PlantProduction.getPlantType = Constants.Settings.UsineType.LOG Or PlantProduction.getPlantType = Constants.Settings.UsineType.HYBRID) Then
 
-                    continueSourceFileComplementList.Add(file.FullName)
-                End If
+        '                continueSourceFileComplementList.Add(file.FullName)
+        '            End If
 
-            Next
-        End If
+        '    Next
+        'End If
 
 
 

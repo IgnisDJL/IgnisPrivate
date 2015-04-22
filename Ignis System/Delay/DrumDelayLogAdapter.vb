@@ -1,7 +1,6 @@
 ﻿Public Class DrumDelayLogAdapter
     Inherits DrumDelayAdapter
 
-
     '' *************************************************************************************************
     ''                                      Constructeur 
     '' *************************************************************************************************
@@ -26,7 +25,6 @@
         Return dateBoundaryList
     End Function
 
-
     Public Overloads Overrides Function getDateBoundaryList(startPeriod As Date, endPeriod As Date, productionCycleList As List(Of ProductionCycle), sourceFileComplementList As List(Of String)) As List(Of List(Of Date))
         If sourceFileComplementList.Count = 0 Then
             Return getDateBoundaryList(startPeriod, endPeriod, productionCycleList)
@@ -36,24 +34,28 @@
             Dim dateBoundaryList As List(Of List(Of Date))
             Dim dateBoundaryFinalList As List(Of List(Of Date))
             Dim dateBoundaryEventList As List(Of List(Of Date))
-            Dim averageDureeCycle As TimeSpan = getAverageDureeCycle(productionCycleList)
 
             dateBoundaryEventList = New List(Of List(Of Date))
             dateBoundaryList = getDateBoundaryList(startPeriod, endPeriod, productionCycleList)
-            eventLog = New EventsFile(sourceFileComplementList.Item(0))
 
-            For Each stopEvent As StopEvent In eventLog.getEvents().STOP_EVENTS
-                dateBoundary = New List(Of Date)
-                dateBoundary.Add(stopEvent.TIME)
+            For Each sourceFileComplement As String In sourceFileComplementList
 
-                If IsNothing(stopEvent.NEXT_START) Then
-                    dateBoundary.Add(endPeriod)
-                Else
-                    dateBoundary.Add(stopEvent.NEXT_START.TIME)
-                End If
+                eventLog = New EventsFile(sourceFileComplement)
+
+                For Each stopEvent As StopEvent In eventLog.getEvents().STOP_EVENTS
+                    dateBoundary = New List(Of Date)
+                    dateBoundary.Add(stopEvent.TIME)
+
+                    If IsNothing(stopEvent.NEXT_START) Then
+                        dateBoundary.Add(getEndPeriod(stopEvent.TIME, endPeriod))
+                    Else
+                        dateBoundary.Add(stopEvent.NEXT_START.TIME)
+                    End If
 
 
-                dateBoundaryEventList.Add(dateBoundary)
+                    dateBoundaryEventList.Add(dateBoundary)
+                Next
+
             Next
 
             dateBoundaryFinalList = New List(Of List(Of Date))
@@ -72,6 +74,15 @@
 
             Return dateBoundaryFinalList
         End If
+    End Function
+
+    Private Function getEndPeriod(stopEventTime As Date, endPeriod As Date) As Date
+
+        If stopEventTime.Day < endPeriod.Day Then
+            Return New Date(stopEventTime.Year, stopEventTime.Month, stopEventTime.Day + 1) - TimeSpan.FromSeconds(1)
+        End If
+
+        Return endPeriod
     End Function
 
 End Class

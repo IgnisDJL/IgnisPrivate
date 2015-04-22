@@ -13,19 +13,6 @@ Public Class Delay_1
     ''' <remarks>
     ''' </remarks>
     Private idDelay As Guid
-
-    ''' <summary>
-    ''' Permet de lier un délais a un code de délais
-    ''' </summary>
-    ''' <remarks></remarks>
-    Private idJustification As Guid
-
-    ''' <summary>
-    ''' Permet de lier un délais a une catégorie de code de délais
-    ''' </summary>
-    ''' <remarks></remarks>
-    Private idCategorie As Guid
-
     ''' <summary>
     ''' Date et heure du début du délais
     ''' </summary>
@@ -46,6 +33,13 @@ Public Class Delay_1
     ''' </remarks>
     Private idDailyReport As Guid
 
+
+    Private delayCode As Integer
+    Private delayCategorie As Integer
+
+    Private delayName As String
+    Private delayDescription As String
+    Private delayComment As String
     '' *************************************************************************************************
     ''                                          Constructeur 
     '' *************************************************************************************************
@@ -54,11 +48,17 @@ Public Class Delay_1
         Me.startDelay = startDelay
         Me.endDelay = endDelay
 
+        Me.delayCode = 0
+        Me.delayCategorie = 0
+
+        Me.delayName = String.Empty
+        Me.delayDescription = String.Empty
+        Me.delayComment = String.Empty
+
         '' GUID
         Me.idDelay = Guid.NewGuid()
         Me.idDailyReport = Nothing
-        Me.idCategorie = Nothing
-        Me.idJustification = Nothing
+
     End Sub
 
     '' *************************************************************************************************
@@ -79,21 +79,45 @@ Public Class Delay_1
     '' *************************************************************************************************
     ''                                          Get / Set 
     '' *************************************************************************************************
-    Public Function getIdJustification() As Guid
-        Return idJustification
+    Public Function getDelayCode() As Integer
+        Return delayCode
     End Function
 
-    Public Sub setIdJustification(idJustification As Guid)
-        Me.idJustification = idJustification
+    Public Sub setDelayCode(delayCode As Integer)
+        Me.delayCode = delayCode
+    End Sub
+
+    Function getDelayName() As String
+        Return delayName
+    End Function
+
+    Public Sub setDelayName(delayName As String)
+        Me.delayName = delayName
+    End Sub
+
+    Function getDelayDescription() As String
+        Return delayDescription
+    End Function
+
+    Public Sub setDelayDescription(delayDescription As String)
+        Me.delayDescription = delayDescription
+    End Sub
+
+    Function getDelayComment() As String
+        Return delayComment
+    End Function
+
+    Public Sub setDelayComment(delayComment As String)
+        Me.delayComment = delayComment
     End Sub
 
 
-    Function getIdCategorie() As Guid
-        Return idCategorie
+    Function getDelayCategorie() As Integer
+        Return delayCategorie
     End Function
 
-    Public Sub setIdCategorie(idCategorie As Guid)
-        Me.idCategorie = idCategorie
+    Public Sub setDelayCategorie(delayCategorie As Integer)
+        Me.delayCategorie = delayCategorie
     End Sub
 
 
@@ -109,6 +133,6 @@ Public Class Delay_1
     ''                                      Fonction Publique
     '' *************************************************************************************************
     Public Function getDuration() As TimeSpan
-        Return startDelay.Subtract(endDelay)
+        Return endDelay.Subtract(startDelay)
     End Function
 End Class

@@ -51,7 +51,7 @@
             delay = createDelay(dateBoundary(0), dateBoundary(1), idDailyReport)
             delayList.Add(delay)
         Next
-
+        'Return delayList
         Return filterDelayList(delayList)
     End Function
 
@@ -67,6 +67,7 @@
         Dim delayList As List(Of Delay_1)
         Dim dateBoundaryList As List(Of List(Of Date))
 
+
         delayList = New List(Of Delay_1)
 
         If (sourceFileComplementPathList.Count = 0) Then
@@ -79,7 +80,7 @@
             delay = createDelay(dateBoundary(0), dateBoundary(1), idDailyReport)
             delayList.Add(delay)
         Next
-
+        'Return delayList
         Return filterDelayList(delayList)
     End Function
 
@@ -153,7 +154,7 @@
                 Next
             Next
         End If
-
+        'Return hybridDelayList
         Return filterDelayList(hybridDelayList)
     End Function
 
@@ -161,20 +162,41 @@
         Return createHybridDelayList(startPeriod, endPeriod, Nothing, drumProductionCycleList, batchProductionCycleList, drumStringPathList, batchStringPathList)
     End Function
 
-
-
     '' *************************************************************************************************
-    ''                                          Fonction Private 
+    ''                                          Fonction private 
     '' *************************************************************************************************
     Private Function filterDelayList(delayList As List(Of Delay_1)) As List(Of Delay_1)
+        Return removeDelayLowerThen(delayList, TimeSpan.FromSeconds(60))
+    End Function
+
+
+    '' *************************************************************************************************
+    ''                                          Fonction public 
+    '' *************************************************************************************************
+    Public Function removeDelayLowerThen(delayList As List(Of Delay_1), timeSpan As TimeSpan) As List(Of Delay_1)
+        Dim tempDelayList = New List(Of Delay_1)
+        tempDelayList.InsertRange(0, delayList)
 
         For Each delay As Delay_1 In delayList
-            If delay.getEndDelay.Subtract(delay.getStartDelay) < TimeSpan.FromSeconds(60) Then
-                delayList.Remove(delay)
+            If delay.getEndDelay.Subtract(delay.getStartDelay) < timeSpan Then
+                tempDelayList.Remove(delay)
             End If
         Next
 
-        Return delayList
+        Return tempDelayList
+    End Function
+
+    Public Function removeDelayHigherThen(delayList As List(Of Delay_1), timeSpan As TimeSpan) As List(Of Delay_1)
+        Dim tempDelayList = New List(Of Delay_1)
+        tempDelayList.InsertRange(0, delayList)
+
+        For Each delay As Delay_1 In delayList
+            If delay.getEndDelay.Subtract(delay.getStartDelay) >= timeSpan Then
+                tempDelayList.Remove(delay)
+            End If
+        Next
+
+        Return tempDelayList
     End Function
 
 End Class

@@ -37,4 +37,8 @@
         End Get
     End Property
 
+    Public Sub addMass(mass As Double)
+        Me.mass += mass
+    End Sub
+
 End Class

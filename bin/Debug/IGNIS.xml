@@ -12,16 +12,6 @@ IGNIS
  </summary>
 	<remarks>
 	</remarks>
-</member><member name="F:IGNIS.Delay_1.idJustification">
-	<summary>
- Permet de lier un délais a un code de délais
- </summary>
-	<remarks></remarks>
-</member><member name="F:IGNIS.Delay_1.idCategorie">
-	<summary>
- Permet de lier un délais a une catégorie de code de délais
- </summary>
-	<remarks></remarks>
 </member><member name="F:IGNIS.Delay_1.startDelay">
 	<summary>
  Date et heure du début du délais

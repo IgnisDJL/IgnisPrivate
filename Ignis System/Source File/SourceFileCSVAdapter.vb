@@ -167,36 +167,36 @@ Public Class SourceFileCSVAdapter
             Return manuelle
     End Function
 
-    Public Overrides Function getDureeMalaxHumideCycle(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim dureeMalaxHumideCycle As Integer = -4
+    Public Overrides Function getDureeMalaxHumideCycle(indexCycle As Integer, sourceFile As SourceFile) As TimeSpan
+        Dim dureeMalaxHumideCycle = New  TimeSpan 
 
         Try
-            dureeMalaxHumideCycle = getColumnFromCSVFile(sourceFile.importConstant.dureeMalaxHumide, indexCycle, sourceFile)
-            Return If(dureeMalaxHumideCycle < -4, "-1", dureeMalaxHumideCycle.ToString())
+            dureeMalaxHumideCycle = TimeSpan.FromSeconds(getColumnFromCSVFile(sourceFile.importConstant.dureeMalaxHumide, indexCycle, sourceFile))
+            Return dureeMalaxHumideCycle
         Catch ex As Exception
-            Return "-2"
+            Return TimeSpan.Zero
         End Try
     End Function
 
-    Public Overrides Function getDureeMalaxSecCycle(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim dureeMalaxSecCycle As Integer = -4
+    Public Overrides Function getDureeMalaxSecCycle(indexCycle As Integer, sourceFile As SourceFile) As TimeSpan
+        Dim dureeMalaxSecCycle = New TimeSpan
 
         Try
-            dureeMalaxSecCycle = getColumnFromCSVFile(sourceFile.importConstant.dureeCycle, indexCycle, sourceFile) - getColumnFromCSVFile(sourceFile.importConstant.dureeMalaxHumide, indexCycle, sourceFile)
-            Return If(dureeMalaxSecCycle < -4, "-1", dureeMalaxSecCycle.ToString())
+            dureeMalaxSecCycle = TimeSpan.FromSeconds(getColumnFromCSVFile(sourceFile.importConstant.dureeCycle, indexCycle, sourceFile) - getColumnFromCSVFile(sourceFile.importConstant.dureeMalaxHumide, indexCycle, sourceFile))
+            Return dureeMalaxSecCycle
         Catch ex As Exception
-            Return "-2"
+            Return TimeSpan.Zero
         End Try
     End Function
 
-    Public Overrides Function getDureeCycle(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim dureeCycle As Integer = -4
+    Public Overrides Function getDureeCycle(indexCycle As Integer, sourceFile As SourceFile) As TimeSpan
+        Dim dureeCycle = New TimeSpan
 
         Try
-            dureeCycle = getColumnFromCSVFile(sourceFile.importConstant.dureeCycle, indexCycle, sourceFile)
-            Return If(dureeCycle < -4, "-1", dureeCycle.ToString())
+            dureeCycle = TimeSpan.FromSeconds(getColumnFromCSVFile(sourceFile.importConstant.dureeCycle, indexCycle, sourceFile))
+            Return dureeCycle
         Catch ex As Exception
-            Return "-2"
+            Return TimeSpan.Zero
         End Try
     End Function
 
@@ -292,7 +292,7 @@ Public Class SourceFileCSVAdapter
     ''**********************************************************************************************************************
     '' Cette information n'est pas disponible actuellement dans le fichier source des .csv
     '' Cette information est disponible dans une base de donnée en parrallele, dans une version ultérieur elle sera récupéré de la formule
-    Public Overrides Function getCycleAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltConcreteTargetPercentage As String = "-4"
         Try
             virginAsphaltConcreteTargetPercentage = sourceFile.importConstant.virginAsphaltConcreteTargetPercentage
@@ -303,7 +303,7 @@ Public Class SourceFileCSVAdapter
         End Try
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAsphaltActualPercentage As String = "-4"
 
         Try
@@ -314,7 +314,7 @@ Public Class SourceFileCSVAdapter
         End Try
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltConcreteDebit As String = "-4"
 
         Try
@@ -326,7 +326,7 @@ Public Class SourceFileCSVAdapter
         End Try
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim totalAsphaltMass As String = "-4"
 
         Try
@@ -337,7 +337,7 @@ Public Class SourceFileCSVAdapter
         End Try
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltRecordedTemperature As String = "-4"
 
         Try
@@ -348,7 +348,7 @@ Public Class SourceFileCSVAdapter
         End Try
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltConcreteDensity As String = "-4"
         Try
             virginAsphaltConcreteDensity = sourceFile.importConstant.virginAsphaltConcreteDensity
@@ -359,7 +359,7 @@ Public Class SourceFileCSVAdapter
         End Try
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim asphaltTankId As String = "-4"
 
         Try
@@ -371,7 +371,7 @@ Public Class SourceFileCSVAdapter
 
     End Function
 
-    Public Overrides Function getCycleAsphaltConcreteGrade(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public Overrides Function getVirginAsphaltConcreteGrade(indexCycle As Integer, sourceFile As SourceFile) As String
         Dim virginAsphaltConcreteGrade As String = "-4"
         Try
             virginAsphaltConcreteGrade = sourceFile.importConstant.virginAsphaltConcreteGrade
