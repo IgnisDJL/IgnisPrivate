@@ -18,7 +18,11 @@
     End Function
 
     Public Function getDescriptionFromContainer(containerId As String, productionDate As Date) As String
-        Return getCatalogContainerItem(containerId).getDescription(productionDate)
+        If (_catalogContainer.Keys.Contains(containerId)) Then
+            Return getCatalogContainerItem(containerId).getDescription(productionDate)
+        Else
+            Return String.Empty
+        End If
     End Function
 
     Public Sub addDescriptionToContainer(containerId As String, effectiveDate As Date, containerDescription As String)

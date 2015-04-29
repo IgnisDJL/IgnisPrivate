@@ -2,7 +2,7 @@
     Inherits ReportFormater
 
     Private Shared ReadOnly TIME_FORMAT As String = "HH:mm"
-    Private Shared ReadOnly DURATION_FORMAT As String = "h\hmm"
+    Private Shared ReadOnly DURATION_FORMAT As String = "hh\hmm"
     Private Shared ReadOnly SHORT_DATE_FORMAT As String = "d MMMM yyyy"
     Private Shared ReadOnly FULL_DATE_FORMAT As String = "dd MMMM yyyy"
     Private Shared ReadOnly DATE_TIME_FORMAT As String = FULL_DATE_FORMAT & " " & TIME_FORMAT

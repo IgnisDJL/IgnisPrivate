@@ -14,9 +14,8 @@ Public Class SummaryDailyReportGenerator
     Private bookMarks As Constants.Reports.BookMarks.SummaryDailyReportBookMarks
 
     Public Sub New()
-        MyBase.New(ReportType.SummaryDailyReport, _
-                   New SummaryDailyReportFormater)
-
+        'MyBase.New(ReportType.SummaryDailyReport, New SummaryDailyReportFormater)
+        MyBase.New(New SummaryDailyReportFormater)
         initializeWordApplication()
 
         Me.bookMarks = New Constants.Reports.BookMarks.SummaryDailyReportBookMarks
@@ -26,7 +25,7 @@ Public Class SummaryDailyReportGenerator
 
     Public Sub generateReport(productionDay As ProductionDay_1)
 
-        RaiseEvent ProcessStarting(Me)
+        'RaiseEvent ProcessStarting(Me)
 
         'Try
 

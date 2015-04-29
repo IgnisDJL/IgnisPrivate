@@ -4,9 +4,8 @@ Public Enum EnumDailyReportTableauIndex
     '' Tableau Horaire 1.1
     ligne_Operation = 0
     ligne_Production = 1
-    ligne_PostePesee = 2
-    ligne_DelaisPauses = 3
-    ligne_DelaisEntretiens = 4
+    ligne_DelaisPauses = 2
+    ligne_DelaisEntretiens = 3
 
     '' Colonne Tableau Horaire
     colonne_OpperationDebut = 0
@@ -115,11 +114,11 @@ Public Enum EnumDailyReportTableauIndex
 
     '' Colonne Tableau temps de production
     colonne_TempsTotalOperationsDuree = 0
-    colonne_TempsNetOperationsDuree = 1
-    colonne_ProductionNetteDuree = 2
-    colonne_ProductionEfficaceDuree = 3
-    colonne_ProductionEfficaceInterneDuree = 4
-    colonne_DelaisDuree = 5
+    colonne_TempsNetOperationsDuree = 0
+    colonne_ProductionNetteDuree = 0
+    colonne_ProductionEfficaceDuree = 0
+    colonne_ProductionEfficaceInterneDuree = 0
+    colonne_DelaisDuree = 0
 
 
     '' Tableau des Delais 2.3
@@ -155,7 +154,7 @@ Public Enum EnumDailyReportTableauIndex
 
     '' Colonne Écart Par rapport à la valeur visée
     colonne_BitumeEcartPourcentage = 0
-    colonne_TemperatureEcart
+    colonne_TemperatureEcart = 0
 
     '' Tableau Écart Par rapport à la valeur visée 3.3
     ligne_VariationTemperature = 0
@@ -183,11 +182,11 @@ Public Enum EnumDailyReportTableauIndex
     colonne_TauxDeConsommation = 3
     colonne_UniteTauxDeConsommation = 4
 
-    '' Tableau Carburants 4.1
+    '' Tableau Rejets 5.1
     ligne_QuantiteRejete = 0
     ligne_TauxDeRejet = 1
 
-    '' Colonne Carburants
+    '' Colonne Rejets
     colonne_RejetGranulats = 0
     colonne_RejetFiller = 1
     colonne_RejetGBR = 2
@@ -202,28 +201,37 @@ Public Enum EnumDailyReportTableauIndex
     colonne_DelaisJustifiableName = 3
     colonne_DelaisJustifiableDescription = 4
     colonne_DelaisJustifiableCommentaire = 5
+    colonne_DelaisColor = 6
 
     colonne_DelaisNonJustifiableNombre = 0
     colonne_DelaisNonJustifiableDuree = 1
+    colonne_DelaisNonJustifiableLimite = 2
 
     colonne_DelaisTotalDuree = 0
 
     '' Tableau Sommaire Production Enrobe 7.1
-    ligne_SommaireContinuEntete = 0
+    ligne_SommaireEntete = 0
+    ligne_SommaireFirstLigneEnrobe = 1
+
+    '' Colonne Sommaire entête 
+    colonne_SommaireEnteteFeederID = 0
+    colonne_SommaireEnteteFeederName = 1
 
     '' Colonne Sommaire Production Enrobe
-    ''colonne_SommaireContinuEnteteFeederName = 0
+    colonne_EnrobeFormule = 0
+    colonne_EnrobeName = 1
+    colonne_EnrobeGrade = 2
+    colonne_EnrobeRapVise = 3
+    colonne_EnrobeMasse = 4
+    colonne_EnrobeMasseBitume = 5
 
-    colonne_EnrobeContinuFormule = 0
-    colonne_EnrobeContinuName = 1
-    colonne_EnrobeContinuGrade = 2
-    colonne_EnrobeContinuRapVise = 3
-    colonne_EnrobeContinuMasse = 4
-    colonne_EnrobeContinuMasseBitume = 5
-    ''colonne_EnrobeContinuMassFeeder = 6
+    colonne_EnrobeFirstFeederMasse = 6
 
-    colonne_EnrobeContinuTotalMasse = 0
-    colonne_EnrobeContinuTotalMasseBitume = 1
+    colonne_EnrobeTotalMasse = 0
+    colonne_EnrobeTotalMasseBitume = 1
+
+    colonne_SommairePourcentageAvecGBR = 0
+    colonne_SommairePourcentageDeGBR = 0
 
 
 End Enum

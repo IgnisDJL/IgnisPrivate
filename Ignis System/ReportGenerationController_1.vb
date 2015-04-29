@@ -4,10 +4,11 @@ Public Class ReportGenerationController_1
     ' Takes care of all the report generation sychronizing and such
 
     ' Attributes
-    Private report As Report
+    Private report As DailyReport
     Private selectedProductionDays As List(Of ProductionDay_1)
     Private selectedReportReadyProductionDays As List(Of ProductionDay_1)
     Private dailyReportFactory As DailyReportFactory
+    Private summaryDailyReportsGenerator As SummaryDailyReportGenerator_1
 
     Private _generationCancelled As Boolean
     Private currentManualDataIndex As Integer
@@ -92,13 +93,13 @@ Public Class ReportGenerationController_1
 
         'If (currentManualDataIndex = Me.selectedReportReadyProductionDays.Count - 1) Then
 
-        '    finishManualDataStep()
+        finishManualDataStep()
 
         'Else
 
-        '    Me.currentManualDataIndex += 1
+        'Me.currentManualDataIndex += 1
 
-        '    'ProgramController.UIController.ManualDataStepView.showManualData(selectedReportReadyProductionDays(currentManualDataIndex).ManualData, currentManualDataIndex / selectedReportReadyProductionDays.Count * 100)
+        ''ProgramController.UIController.ManualDataStepView.showManualData(selectedReportReadyProductionDays(currentManualDataIndex).ManualData, currentManualDataIndex / selectedReportReadyProductionDays.Count * 100)
 
         'End If
 
@@ -122,29 +123,27 @@ Public Class ReportGenerationController_1
 
     Private Sub finishManualDataStep()
 
-        'ProgramController.UIController.ReportGenerationFrame.ManualDataStepFinished = True
+        ProgramController.UIController.ReportGenerationFrame.ManualDataStepFinished = True
 
+        saveManualData()
 
-        'Me.manualDataSavingThread = New Thread(AddressOf saveManualData)
-        'manualDataSavingThread.Start()
-
-        'startDelayJustificationStep()
+        startDelayJustificationStep()
 
     End Sub
 
     Private Sub saveManualData()
 
-        'For Each day As ProductionDay_1 In Me.selectedReportReadyProductionDays
+        For Each day As ProductionDay_1 In Me.selectedReportReadyProductionDays
 
-        '    'If (day.ManualData.isComplete) Then
+            If (report.getDonneeManuel.isComplete) Then
 
-        '    '    ProgramController.ManualDataPersistence.addData(day.ManualData)
+                ProgramController.ManualDataPersistence.addData(report.getDonneeManuel)
 
-        '    'End If
+            End If
 
-        'Next
+        Next
 
-        'Console.WriteLine("Done saving manual data")
+        Console.WriteLine("Done saving manual data")
     End Sub
 
     Public Sub skipManualDataStep()
@@ -164,7 +163,7 @@ Public Class ReportGenerationController_1
     ' --------------------
     Private Sub startDelayJustificationStep()
 
-        'ProgramController.UIController.ReportGenerationFrame.changeStep(ProgramController.UIController.DelaysJustificationStepView, ProgramController.UIController.ManualDataStepView.OverallProgressValue)
+        ProgramController.UIController.ReportGenerationFrame.changeStep(ProgramController.UIController.DelaysJustificationStepView, ProgramController.UIController.ManualDataStepView.OverallProgressValue)
 
         'allDelays = New List(Of Delay_1)
 
@@ -274,9 +273,9 @@ Public Class ReportGenerationController_1
 
         'Next
 
-        'ProgramController.UIController.ReportGenerationFrame.DelaysJustificationStepFinished = True
+        ProgramController.UIController.ReportGenerationFrame.DelaysJustificationStepFinished = True
 
-        'startCommentsStep()
+        startCommentsStep()
 
     End Sub
 
@@ -286,14 +285,14 @@ Public Class ReportGenerationController_1
 
         'Me.currentDelayIndex = 0
 
-        'ProgramController.UIController.ReportGenerationFrame.DelaysJustificationStepSkipped = True
+        ProgramController.UIController.ReportGenerationFrame.DelaysJustificationStepSkipped = True
 
         'For Each delay In allDelays
         '    delay.setIdCategorie(Nothing)
         '    delay.setIdJustification(Nothing)
         'Next
 
-        'startCommentsStep()
+        startCommentsStep()
 
     End Sub
 
@@ -302,11 +301,10 @@ Public Class ReportGenerationController_1
     ' ----------------
     Public Sub startCommentsStep()
 
-        'Me.currentCommentIndex = 0
 
-        'ProgramController.UIController.ReportGenerationFrame.changeStep(ProgramController.UIController.CommentsStepView, ProgramController.UIController.DelaysJustificationStepView.OverallProgressValue)
+        ProgramController.UIController.ReportGenerationFrame.changeStep(ProgramController.UIController.CommentsStepView, ProgramController.UIController.DelaysJustificationStepView.OverallProgressValue)
 
-        'ProgramController.UIController.CommentsStepView.showDay(Me.selectedReportReadyProductionDays.First, Me.currentCommentIndex + 1, Me.selectedReportReadyProductionDays.Count)
+        ProgramController.UIController.CommentsStepView.showDay(Me.selectedReportReadyProductionDays.First, 1, Me.selectedReportReadyProductionDays.Count)
 
     End Sub
 
@@ -350,15 +348,15 @@ Public Class ReportGenerationController_1
 
     Public Sub finishCommentsStep()
 
-        'ProgramController.UIController.ReportGenerationFrame.CommentsStepFinished = True
+        ProgramController.UIController.ReportGenerationFrame.CommentsStepFinished = True
 
-        'startFinishingGenerationStep()
+        startFinishingGenerationStep()
 
     End Sub
 
     Public Sub skipCommentsStep()
 
-        'ProgramController.UIController.ReportGenerationFrame.CommentsStepWasSkipped = True
+        ProgramController.UIController.ReportGenerationFrame.CommentsStepWasSkipped = True
 
         'Me.currentCommentIndex = 0
 
@@ -366,7 +364,7 @@ Public Class ReportGenerationController_1
         '    'day.Comments = Nothing
         'Next
 
-        'startFinishingGenerationStep()
+        startFinishingGenerationStep()
 
     End Sub
 
@@ -375,46 +373,44 @@ Public Class ReportGenerationController_1
     ' ----------------
     Public Sub startFinishingGenerationStep()
 
-        'ProgramController.UIController.ReportGenerationFrame.changeStep(ProgramController.UIController.FinishingGenerationStepView, ProgramController.UIController.CommentsStepView.OverallProgressValue)
+        ProgramController.UIController.ReportGenerationFrame.changeStep(ProgramController.UIController.FinishingGenerationStepView, ProgramController.UIController.CommentsStepView.OverallProgressValue)
 
 
-        'Me.summaryDailyReportGenerationThread = New Thread(Sub() generateSummaryDailyReports(Me.selectedReportReadyProductionDays))
+        generateSummaryDailyReports(Me.selectedReportReadyProductionDays)
 
-        'Me.summaryDailyReportGenerationThread.Start()
+
 
     End Sub
 
     Private Sub generateSummaryDailyReports(productionDays As List(Of ProductionDay_1))
 
-        'Me.summaryDailyReportsGenerator = New SummaryDailyReportGenerator()
+        Me.summaryDailyReportsGenerator = New SummaryDailyReportGenerator_1(report)
 
-        'nbReportsFinished = 0
+        For Each _productionDay In productionDays
 
-        'For Each _productionDay In productionDays
+            AddHandler Me.summaryDailyReportsGenerator.ProcessComplete, AddressOf onReportFinished
+            AddHandler Me.summaryDailyReportsGenerator.CurrentProgress, AddressOf monitorReportGenerationProgress
 
-        '    AddHandler Me.summaryDailyReportsGenerator.ProcessComplete, AddressOf onReportFinished
-        '    AddHandler Me.summaryDailyReportsGenerator.CurrentProgress, AddressOf monitorReportGenerationProgress
+            Me.summaryDailyReportsGenerator.generateReport()
 
-        '    Me.summaryDailyReportsGenerator.generateReport(_productionDay)
+            RemoveHandler Me.summaryDailyReportsGenerator.ProcessComplete, AddressOf onReportFinished
+            RemoveHandler Me.summaryDailyReportsGenerator.CurrentProgress, AddressOf monitorReportGenerationProgress
+        Next
 
-        '    RemoveHandler Me.summaryDailyReportsGenerator.ProcessComplete, AddressOf onReportFinished
-        '    RemoveHandler Me.summaryDailyReportsGenerator.CurrentProgress, AddressOf monitorReportGenerationProgress
-        'Next
+        ProgramController.UIController.ReportGenerationFrame.FinishingGenerationStepFinished = True
 
-        'ProgramController.UIController.ReportGenerationFrame.FinishingGenerationStepFinished = True
+        Me.summaryDailyReportsGenerator.disposeOfRessources()
 
-        'Me.summaryDailyReportsGenerator.disposeOfRessources()
+        Thread.Sleep(1000)
 
-        'Thread.Sleep(1000)
-
-        'ProgramController.UIController.invokeFromUIThread(Sub() finalizeGenrationStep())
+        ProgramController.UIController.invokeFromUIThread(Sub() finalizeGenrationStep())
 
     End Sub
 
     'Private nbReportsFinished As Integer = 0
     Public Sub monitorReportGenerationProgress(currentReportProgress As Object)
 
-        'ProgramController.UIController.invokeFromUIThread(Sub() ProgramController.UIController.FinishingGenerationStepView.showProgress((nbReportsFinished + CInt(currentReportProgress) / 100) * 100, Me.selectedReportReadyProductionDays.Count * 100))
+        ProgramController.UIController.invokeFromUIThread(Sub() ProgramController.UIController.FinishingGenerationStepView.showProgress((1 + CInt(currentReportProgress) / 100) * 100, Me.selectedReportReadyProductionDays.Count * 100))
     End Sub
 
     Private Sub onReportFinished(sender As Object)
@@ -423,11 +419,11 @@ Public Class ReportGenerationController_1
 
     Private Sub finalizeGenrationStep()
 
-        'ProgramController.UIController.changeView(ProgramController.UIController.DailyReportView)
+        ProgramController.UIController.changeView(ProgramController.UIController.DailyReportView)
 
-        'If (XmlSettings.Settings.instance.Usine.EmailsInfo.SHOW_POPUP_AFTER_GENERATION) Then
-        '    ProgramController.UIController.DailyReportView.showSendReportsByEmailPanel(Me.selectedReportReadyProductionDays.Count)
-        'End If
+        If (XmlSettings.Settings.instance.Usine.EmailsInfo.SHOW_POPUP_AFTER_GENERATION) Then
+            ProgramController.UIController.DailyReportView.showSendReportsByEmailPanel(Me.selectedReportReadyProductionDays.Count)
+        End If
     End Sub
 
     Public Sub goBackFromFinishingGenerationStep()

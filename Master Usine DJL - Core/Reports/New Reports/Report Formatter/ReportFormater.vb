@@ -22,21 +22,21 @@
         Me._invalidValue = invalidValueCharacter
     End Sub
 
-    Public Function getProductionTypeString(reportType As MixStatistics.ProductionTypes)
+    'Public Function getProductionTypeString(reportType As MixStatistics.ProductionTypes)
 
-        Select Case reportType
+    '    Select Case reportType
 
-            Case MixStatistics.ProductionTypes.Continuous
-                Return "Continu"
+    '        Case MixStatistics.ProductionTypes.Continuous
+    '            Return "Continu"
 
-            Case MixStatistics.ProductionTypes.Discontinuous
-                Return "Discontinu"
+    '        Case MixStatistics.ProductionTypes.Discontinuous
+    '            Return "Discontinu"
 
-            Case Else
-                Return Me.InvalidValueCharacter
+    '        Case Else
+    '            Return Me.InvalidValueCharacter
 
-        End Select
-    End Function
+    '    End Select
+    'End Function
 
     Public Function getManualDataString(value As Double, Optional stringFormat As String = Nothing, Optional canBeInvalid As Boolean = True, Optional canBeUnknown As Boolean = True) As String
 

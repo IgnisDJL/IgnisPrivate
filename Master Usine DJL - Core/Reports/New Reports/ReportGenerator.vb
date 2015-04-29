@@ -6,14 +6,14 @@ Public MustInherit Class ReportGenerator
     Private _wordApp As Word.Application
     Private _wordDoc As Word.Document
 
-    Private currentReportType As ReportType
+    'Private currentReportType As ReportType
     Private _reportFormater As ReportFormater
 
     Protected Property CurrentWordView As WordView = WordView.None
 
-    Protected Sub New(reportType As ReportType, reportFormater As ReportFormater)
+    Protected Sub New(reportFormater As ReportFormater)
 
-        Me.currentReportType = reportType
+        'Me.currentReportType = reportType
         Me._reportFormater = reportFormater
 
         Threading.Thread.CurrentThread.CurrentCulture = XmlSettings.Settings.LANGUAGE.Culture
@@ -22,8 +22,8 @@ Public MustInherit Class ReportGenerator
     Protected Sub initializeWordApplication()
 
         Me._wordApp = New Word.Application()
-        _wordApp.DisplayAlerts = Word.WdAlertLevel.wdAlertsNone
-        Me.WordApp.Visible = False
+        _wordApp.DisplayAlerts = Word.WdAlertLevel.wdAlertsAll
+        Me.WordApp.Visible = True
 
     End Sub
 
@@ -71,14 +71,14 @@ Public MustInherit Class ReportGenerator
         HeaderFooter = 2
     End Enum
 
-    ' #refactor - move to constants
-    Public Enum ReportType
-        SummaryDailyReport = 1
-        CompleteDailyReport = 2
-        SummaryPeriodicRepord = 3
-        CompletePeriodicReport = 4
-        ManualDataReport = 5
-    End Enum
+    '' #refactor - move to constants
+    'Public Enum ReportType
+    '    SummaryDailyReport = 1
+    '    CompleteDailyReport = 2
+    '    SummaryPeriodicRepord = 3
+    '    CompletePeriodicReport = 4
+    '    ManualDataReport = 5
+    'End Enum
 
     Protected ReadOnly Property WordApp As Word.Application
         Get

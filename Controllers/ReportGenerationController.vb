@@ -26,7 +26,7 @@ Public Class ReportGenerationController
     Private manualDataStepWasSkipped As Boolean
     Private delayJustificationStepWasSkipped As Boolean
 
-    Private summaryDailyReportsGenerator As SummaryDailyReportGenerator
+    Private summaryDailyReportsGenerator As SummaryDailyReportGenerator_1
 
     ' Threads
     Private csvAnalysisThread As Thread
@@ -563,28 +563,28 @@ Public Class ReportGenerationController
 
     Private Sub generateSummaryDailyReports(productionDays As List(Of ProductionDay))
 
-        Me.summaryDailyReportsGenerator = New SummaryDailyReportGenerator()
+        'Me.summaryDailyReportsGenerator = New SummaryDailyReportGenerator_1()
 
-        nbReportsFinished = 0
+        'nbReportsFinished = 0
 
-        For Each _productionDay In productionDays
+        'For Each _productionDay In productionDays
 
-            AddHandler Me.summaryDailyReportsGenerator.ProcessComplete, AddressOf onReportFinished
-            AddHandler Me.summaryDailyReportsGenerator.CurrentProgress, AddressOf monitorReportGenerationProgress
+        '    AddHandler Me.summaryDailyReportsGenerator.ProcessComplete, AddressOf onReportFinished
+        '    AddHandler Me.summaryDailyReportsGenerator.CurrentProgress, AddressOf monitorReportGenerationProgress
 
-            'Me.summaryDailyReportsGenerator.generateReport(_productionDay)
+        '    'Me.summaryDailyReportsGenerator.generateReport(_productionDay)
 
-            RemoveHandler Me.summaryDailyReportsGenerator.ProcessComplete, AddressOf onReportFinished
-            RemoveHandler Me.summaryDailyReportsGenerator.CurrentProgress, AddressOf monitorReportGenerationProgress
-        Next
+        '    RemoveHandler Me.summaryDailyReportsGenerator.ProcessComplete, AddressOf onReportFinished
+        '    RemoveHandler Me.summaryDailyReportsGenerator.CurrentProgress, AddressOf monitorReportGenerationProgress
+        'Next
 
-        ProgramController.UIController.ReportGenerationFrame.FinishingGenerationStepFinished = True
+        'ProgramController.UIController.ReportGenerationFrame.FinishingGenerationStepFinished = True
 
-        Me.summaryDailyReportsGenerator.disposeOfRessources()
+        'Me.summaryDailyReportsGenerator.disposeOfRessources()
 
-        Thread.Sleep(1000)
+        'Thread.Sleep(1000)
 
-        ProgramController.UIController.invokeFromUIThread(Sub() finalizeGenrationStep())
+        'ProgramController.UIController.invokeFromUIThread(Sub() finalizeGenrationStep())
 
     End Sub
 

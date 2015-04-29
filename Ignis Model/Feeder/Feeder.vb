@@ -7,7 +7,14 @@
     End Sub
 
     Public Function getFeederName(productionDate As Date) As String
-        Return Plant.feederCatalog.getDescriptionFromContainer(feederId, productionDate)
+        Dim name As String = Plant.feederCatalog.getDescriptionFromContainer(feederId, productionDate)
+
+        If (String.IsNullOrEmpty(name)) Then
+            Return feederId
+        Else
+            Return name
+        End If
+
     End Function
 
     Public Function getFeederID() As String

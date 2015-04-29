@@ -652,6 +652,28 @@ IGNIS
  Return's the date of the last report ready day
  </summary>
 	<returns>The date of the last report ready day or Date.maxValue if no report ready day was found</returns>
+</member><member name="M:IGNIS.SummaryDailyReportGenerator_1.moveSelectionToCellBelow(Microsoft.Office.Interop.Word.Range)">
+	<summary>
+ Moves the selection to the table cell beneith.
+ </summary>
+	<param name="bookMark">The bookmark in the cell above</param>
+	<remarks></remarks>
+</member><member name="M:IGNIS.SummaryDailyReportGenerator_1.ajustDateString(System.DateTime,Microsoft.Office.Interop.Word.Range)">
+	<summary>
+ Adds a 'er' in superscript next to the 1 so the date looks like 1er octobre 2012 and not 1 octobre 2012
+ </summary>
+	<param name="_date">The date</param>
+	<param name="bookMark">The bookmark where the date is written</param>
+	<remarks>
+ Will be used a lot more when english version comes out. #language
+ </remarks>
+</member><member name="T:IGNIS.SummaryDailyReportGenerator_1">
+	<summary>
+	</summary>
+	<remarks>
+ Find first and iterate from last method prooved to be the fastest (after comparing with using table objects).
+ I know it's a lot of duplicated code but it's worth it performance wise. Using bookmarks is also very fast.
+ </remarks>
 </member><member name="P:IGNIS.EventsStatistics.PausesDuration">
 	<summary></summary>
 </member><member name="P:IGNIS.EventsStatistics.NbPauses">

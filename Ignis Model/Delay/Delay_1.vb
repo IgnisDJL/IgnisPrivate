@@ -40,6 +40,8 @@ Public Class Delay_1
     Private delayName As String
     Private delayDescription As String
     Private delayComment As String
+
+    Private color As Color
     '' *************************************************************************************************
     ''                                          Constructeur 
     '' *************************************************************************************************
@@ -54,6 +56,7 @@ Public Class Delay_1
         Me.delayName = String.Empty
         Me.delayDescription = String.Empty
         Me.delayComment = String.Empty
+        Me.color = Drawing.Color.White
 
         '' GUID
         Me.idDelay = Guid.NewGuid()
@@ -85,6 +88,14 @@ Public Class Delay_1
 
     Public Sub setDelayCode(delayCode As Integer)
         Me.delayCode = delayCode
+    End Sub
+
+    Public Function getColor() As Color
+        Return color
+    End Function
+
+    Public Sub setColor(color As Color)
+        Me.color = color
     End Sub
 
     Function getDelayName() As String
