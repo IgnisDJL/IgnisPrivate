@@ -25,7 +25,7 @@ Public Class SummaryDailyReportGenerator_1
 
     End Sub
 
-    Public Sub generateReport()
+    Public Function generateReport() As SummaryDailyReport
 
         Try
 
@@ -1097,10 +1097,10 @@ Public Class SummaryDailyReportGenerator_1
                     WordApp.Selection.Text = ligneFedderInfo.Item(EnumDailyReportTableauIndex.colonne_SommaireEnteteFeederID) & Environment.NewLine & ligneFedderInfo.Item(EnumDailyReportTableauIndex.colonne_SommaireEnteteFeederName) & " (T)"
 
                     'WordApp.Selection.Columns.Last.Width = columnsWidth
-                WordApp.Selection.Columns.Last.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter
+                    WordApp.Selection.Columns.Last.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter
 
-                ' Total quantity
-                WordApp.Selection.MoveDown(WdUnits.wdLine, 2, WdMovementType.wdMove)
+                    ' Total quantity
+                    WordApp.Selection.MoveDown(WdUnits.wdLine, 2, WdMovementType.wdMove)
 
                 Next
 
@@ -1214,14 +1214,6 @@ Public Class SummaryDailyReportGenerator_1
 
             End If
 
-
-
-
-
-
-
-
-
             RaiseEvent CurrentProgress(90) ' 90 % Progress
 
             ' ---------
@@ -1269,17 +1261,19 @@ Public Class SummaryDailyReportGenerator_1
 
             RaiseEvent CurrentProgress(100) ' 100 % Progress
 
+            Return readOnlyReport
 
         Catch ex As Threading.ThreadAbortException
 
             Me.disposeOfRessources()
 
             RaiseEvent ProcessInterrupted(Me, ex)
+            Return Nothing
         End Try
 
         RaiseEvent ProcessComplete(Me)
 
-    End Sub
+    End Function
 
     ''' <summary>
     ''' Moves the selection to the table cell beneith.

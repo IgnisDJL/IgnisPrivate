@@ -199,4 +199,40 @@
         Return tempDelayList
     End Function
 
+
+    Public Function splitDelay(delay As Delay_1, splitTime As Date) As List(Of Delay_1)
+
+        Dim newDelays As List(Of Delay_1) = New List(Of Delay_1)
+
+        If (delay.getEndDelay.Subtract(delay.getStartDelay) > TimeSpan.FromSeconds(60)) Then
+
+            Dim firstDelay As Delay_1 = New Delay_1(delay.getStartDelay, splitTime - TimeSpan.FromSeconds(1))
+            Dim secondDelay As Delay_1 = New Delay_1(splitTime, delay.getEndDelay)
+
+            newDelays.Add(firstDelay)
+            newDelays.Add(secondDelay)
+
+            Return newDelays
+        Else
+            Return newDelays
+        End If
+
+    End Function
+
+    Public Function mergeDelays(firstDelay As Delay_1, secondDelay As Delay_1) As Delay_1
+        Dim newDelay As Delay_1
+
+        If firstDelay.getEndDelay < secondDelay.getStartDelay Then
+            newDelay = New Delay_1(firstDelay.getStartDelay, secondDelay.getEndDelay)
+
+            Return newDelay
+        ElseIf secondDelay.getEndDelay < firstDelay.getStartDelay Then
+            newDelay = New Delay_1(secondDelay.getStartDelay, firstDelay.getEndDelay)
+
+            Return newDelay
+        Else
+            Return Nothing
+        End If
+
+    End Function
 End Class

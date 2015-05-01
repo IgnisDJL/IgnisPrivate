@@ -20,13 +20,14 @@
     Private tempsDeProductionContinu As TimeSpan
     Private tempsDeProductionHybrid As TimeSpan
 
+    Private commentaire As String
     ''**********************************************************
     ''*                     Constructeur
     ''**********************************************************
     Public Sub New(dateDebut As Date, dateFin As Date)
 
         MyBase.New(dateDebut, dateFin)
-
+        commentaire = ""
         productionCycleContinuList = getProductionCycleContiuList()
         productionCycleDiscontinuList = getProductionCycleDiscontiuList()
         producedMixContinuList = getProducedMixList(productionCycleContinuList)
@@ -597,9 +598,9 @@
             ligneDelay.Insert(EnumDailyReportTableauIndex.colonne_DelaisJustifiableDebut, delay.getStartDelay)
             ligneDelay.Insert(EnumDailyReportTableauIndex.colonne_DelaisJustifiableFin, delay.getEndDelay)
             ligneDelay.Insert(EnumDailyReportTableauIndex.colonne_DelaisJustifiableDuree, delay.getDuration)
-            ligneDelay.Insert(EnumDailyReportTableauIndex.colonne_DelaisJustifiableName, delay.getDelayName)
-            ligneDelay.Insert(EnumDailyReportTableauIndex.colonne_DelaisJustifiableDescription, delay.getDelayName)
-            ligneDelay.Insert(EnumDailyReportTableauIndex.colonne_DelaisJustifiableCommentaire, delay.getDelayComment)
+            ligneDelay.Insert(EnumDailyReportTableauIndex.colonne_DelaisJustifiableName, delay.getDelayCode)
+            ligneDelay.Insert(EnumDailyReportTableauIndex.colonne_DelaisJustifiableDescription, delay.getDelayDescription)
+            ligneDelay.Insert(EnumDailyReportTableauIndex.colonne_DelaisJustifiableCommentaire, delay.getDelayJustification)
             ligneDelay.Insert(EnumDailyReportTableauIndex.colonne_DelaisColor, delay.getColor)
 
             tableauDelay.Insert(indexLigneDelay, ligneDelay)
@@ -1284,7 +1285,7 @@
         delayHybridList = delayFactory.createHybridDelayList(getDebutPeriode, getFinPeriode, productionCycleContinuList, productionCycleDiscontinuList, getSourceFileComplementContinuList(), New List(Of String))
     End Sub
 
-    Private Function getHybridDelayList() As List(Of Delay_1)
+    Public Function getHybridDelayList() As List(Of Delay_1)
         If IsNothing(delayHybridList) Then
             setHybridDelayList()
             Return delayHybridList
@@ -1430,4 +1431,49 @@
         Return donneeManuel.FACTORY_OPERATOR
     End Function
 
+    Public Sub splitDelay(delay As Delay_1, splitTime As Date)
+
+        If (Me.getHybridDelayList.Contains(delay)) Then
+
+            Dim newDelays As List(Of Delay_1)
+
+            newDelays = delayFactory.splitDelay(delay, splitTime)
+
+            If (newDelays.Count > 0) Then
+                Me.getHybridDelayList.InsertRange(Me.getHybridDelayList.IndexOf(delay), newDelays)
+                Me.getHybridDelayList.Remove(delay)
+            End If
+
+        End If
+
+    End Sub
+
+    Public Sub mergeDelays(firstDelay As Delay_1, secondDelay As Delay_1)
+
+        If Me.getHybridDelayList.Contains(firstDelay) And Me.getHybridDelayList.Contains(secondDelay) Then
+            Dim newDelay As Delay_1
+            newDelay = delayFactory.mergeDelays(firstDelay, secondDelay)
+
+            If (Not IsNothing(newDelay)) Then
+
+                Me.getHybridDelayList.InsertRange(Me.getHybridDelayList.IndexOf(firstDelay), newDelay)
+                Me.getHybridDelayList.Remove(firstDelay)
+                Me.getHybridDelayList.Remove(secondDelay)
+            End If
+
+        End If
+
+    End Sub
+
+    Public Function getProductionDate() As Date
+        Return New Date(Me.getDebutPeriode.Year, Me.getDebutPeriode.Month, Me.getDebutPeriode.Day)
+    End Function
+
+    Public Function getReportComment() As String
+        Return Me.commentaire
+    End Function
+
+    Public Sub setReportComment(reportComment As String)
+        Me.commentaire = reportComment
+    End Sub
 End Class

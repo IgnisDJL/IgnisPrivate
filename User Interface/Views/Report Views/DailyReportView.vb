@@ -153,8 +153,6 @@
         Protected Overrides Sub afterUpdateDatesList()
             MyBase.afterUpdateDatesList()
 
-            Me.generationController.setSelectedProductionDays(Me.availableDatesListView.InitialObjectList)
-
             If (Me.showOnlyReportReadyDatesCheckbox.Checked) Then
                 Me.availableDatesListView.showOnlyReportReadyDates()
             End If

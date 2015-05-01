@@ -261,7 +261,7 @@ Public Class ReportGenerationController
 
         ProgramController.UIController.ReportGenerationFrame.changeStep(ProgramController.UIController.ManualDataStepView, ProgramController.UIController.DataFilesAnalysisStepView.OverallProgressValue)
 
-        ProgramController.UIController.ManualDataStepView.showManualData(selectedReportReadyProductionDays(currentManualDataIndex).ManualData, currentManualDataIndex / (selectedReportReadyProductionDays.Count) * 100)
+        'ProgramController.UIController.ManualDataStepView.showManualData(selectedReportReadyProductionDays(currentManualDataIndex).ManualData, currentManualDataIndex / (selectedReportReadyProductionDays.Count) * 100)
 
     End Sub
 
@@ -275,7 +275,7 @@ Public Class ReportGenerationController
 
             Me.currentManualDataIndex += 1
 
-            ProgramController.UIController.ManualDataStepView.showManualData(selectedReportReadyProductionDays(currentManualDataIndex).ManualData, currentManualDataIndex / selectedReportReadyProductionDays.Count * 100)
+            'ProgramController.UIController.ManualDataStepView.showManualData(selectedReportReadyProductionDays(currentManualDataIndex).ManualData, currentManualDataIndex / selectedReportReadyProductionDays.Count * 100)
 
         End If
 
@@ -291,7 +291,7 @@ Public Class ReportGenerationController
 
             Me.currentManualDataIndex -= 1
 
-            ProgramController.UIController.ManualDataStepView.showManualData(selectedReportReadyProductionDays(currentManualDataIndex).ManualData, currentManualDataIndex / selectedReportReadyProductionDays.Count * 100)
+            'ProgramController.UIController.ManualDataStepView.showManualData(selectedReportReadyProductionDays(currentManualDataIndex).ManualData, currentManualDataIndex / selectedReportReadyProductionDays.Count * 100)
 
         End If
 
@@ -384,7 +384,7 @@ Public Class ReportGenerationController
 
             ProgramController.UIController.ReportGenerationFrame.ManualDataStepFinished = False
 
-            ProgramController.UIController.ManualDataStepView.showManualData(selectedReportReadyProductionDays(currentManualDataIndex).ManualData, currentManualDataIndex / (selectedReportReadyProductionDays.Count) * 100)
+            'ProgramController.UIController.ManualDataStepView.showManualData(selectedReportReadyProductionDays(currentManualDataIndex).ManualData, currentManualDataIndex / (selectedReportReadyProductionDays.Count) * 100)
 
         Else
 

@@ -480,17 +480,12 @@
             Me.AutoScroll = True
         End Sub
 
-        Public Sub showManualData(data As ManualData, progressPercentage As Integer, Optional _raiseProgressEvent As Boolean = True)
+        Public Sub showManualData(data As ManualData)
 
             Me.currentManualData = data
-
-            'If (_raiseProgressEvent) Then
-            '    'raiseProgressEvent(progressPercentage)
-            'End If
-
             updateFields()
 
-            Me.operationStartTimeField.Focus()
+            Me.operationStartTimeField.focus()
 
         End Sub
 

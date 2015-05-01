@@ -34,12 +34,11 @@ Public Class Delay_1
     Private idDailyReport As Guid
 
 
-    Private delayCode As Integer
-    Private delayCategorie As Integer
 
-    Private delayName As String
+    Private delayCategorieName As String
+    Private delayCode As String
     Private delayDescription As String
-    Private delayComment As String
+    Private delayJustification As String
 
     Private color As Color
     '' *************************************************************************************************
@@ -50,12 +49,10 @@ Public Class Delay_1
         Me.startDelay = startDelay
         Me.endDelay = endDelay
 
-        Me.delayCode = 0
-        Me.delayCategorie = 0
-
-        Me.delayName = String.Empty
+        Me.delayCode = String.Empty
+        Me.delayCategorieName = String.Empty
         Me.delayDescription = String.Empty
-        Me.delayComment = String.Empty
+        Me.delayJustification = String.Empty
         Me.color = Drawing.Color.White
 
         '' GUID
@@ -82,11 +79,11 @@ Public Class Delay_1
     '' *************************************************************************************************
     ''                                          Get / Set 
     '' *************************************************************************************************
-    Public Function getDelayCode() As Integer
+    Public Function getDelayCode() As String
         Return delayCode
     End Function
 
-    Public Sub setDelayCode(delayCode As Integer)
+    Public Sub setDelayCode(delayCode As String)
         Me.delayCode = delayCode
     End Sub
 
@@ -98,13 +95,13 @@ Public Class Delay_1
         Me.color = color
     End Sub
 
-    Function getDelayName() As String
-        Return delayName
-    End Function
+    'Function getDelayName() As String
+    '    Return delayName
+    'End Function
 
-    Public Sub setDelayName(delayName As String)
-        Me.delayName = delayName
-    End Sub
+    'Public Sub setDelayName(delayName As String)
+    '    Me.delayName = delayName
+    'End Sub
 
     Function getDelayDescription() As String
         Return delayDescription
@@ -114,23 +111,21 @@ Public Class Delay_1
         Me.delayDescription = delayDescription
     End Sub
 
-    Function getDelayComment() As String
-        Return delayComment
+    Function getDelayJustification() As String
+        Return delayJustification
     End Function
 
-    Public Sub setDelayComment(delayComment As String)
-        Me.delayComment = delayComment
+    Public Sub setDelayJustification(delayJustification As String)
+        Me.delayJustification = delayJustification
     End Sub
 
-
-    Function getDelayCategorie() As Integer
-        Return delayCategorie
+    Function getDelayCategorieName() As String
+        Return delayCategorieName
     End Function
 
-    Public Sub setDelayCategorie(delayCategorie As Integer)
-        Me.delayCategorie = delayCategorie
+    Public Sub setDelayCategorieName(delayCategorieName As String)
+        Me.delayCategorieName = delayCategorieName
     End Sub
-
 
     Function getIdDailyReport() As Guid
         Return idDailyReport

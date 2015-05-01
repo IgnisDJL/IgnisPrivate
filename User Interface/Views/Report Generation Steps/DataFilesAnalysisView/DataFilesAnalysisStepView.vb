@@ -256,57 +256,57 @@
 
         'End Sub
 
-        Public WriteOnly Property ProductionDays As List(Of ProductionDay_1)
-            Set(days As List(Of ProductionDay_1))
+        'Public WriteOnly Property ProductionDays As List(Of ProductionDay_1)
+        '    Set(days As List(Of ProductionDay_1))
 
-                Me.reset()
+        '        Me.reset()
 
-                'Dim csvIsActive As Boolean = Me.Controls.Contains(Me.csvLabel)
-                'Dim logIsActive As Boolean = Me.Controls.Contains(Me.logLabel)
-                'Dim mdbIsActive As Boolean = Me.Controls.Contains(Me.mdbLabel)
-                'Dim eventsIsActive As Boolean = Me.Controls.Contains(Me.eventsLabel)
+        '        'Dim csvIsActive As Boolean = Me.Controls.Contains(Me.csvLabel)
+        '        'Dim logIsActive As Boolean = Me.Controls.Contains(Me.logLabel)
+        '        'Dim mdbIsActive As Boolean = Me.Controls.Contains(Me.mdbLabel)
+        '        'Dim eventsIsActive As Boolean = Me.Controls.Contains(Me.eventsLabel)
 
-                For Each productionDay As ProductionDay_1 In days
+        '        For Each productionDay As ProductionDay_1 In days
 
-                    nbProductionDaysToAnalyse += 1
-                    'Dim datafilesInfo As DataFilesInformation = productionDay.DataFilesInfo
+        '            nbProductionDaysToAnalyse += 1
+        '            'Dim datafilesInfo As DataFilesInformation = productionDay.DataFilesInfo
 
-                    'If (datafilesInfo.HasCSVFile AndAlso csvIsActive) Then
+        '            'If (datafilesInfo.HasCSVFile AndAlso csvIsActive) Then
 
-                    '    AddHandler datafilesInfo.CSVFile.AnalysisStartedEvent, AddressOf newCSVFileAnalysisStartedEventsHandler
-                    'AddHandler datafilesInfo.CSVFile.AnalysisProgress, AddressOf csvFileProgressEventHandler
-                    '    AddHandler datafilesInfo.CSVFile.AnalysisStopedEvent, AddressOf csvFileAnalysisFinishedEventHandler
+        '            '    AddHandler datafilesInfo.CSVFile.AnalysisStartedEvent, AddressOf newCSVFileAnalysisStartedEventsHandler
+        '            'AddHandler datafilesInfo.CSVFile.AnalysisProgress, AddressOf csvFileProgressEventHandler
+        '            '    AddHandler datafilesInfo.CSVFile.AnalysisStopedEvent, AddressOf csvFileAnalysisFinishedEventHandler
 
-                    'End If
+        '            'End If
 
-                    'If (datafilesInfo.HasLOGFile AndAlso logIsActive) Then
+        '            'If (datafilesInfo.HasLOGFile AndAlso logIsActive) Then
 
-                    '    AddHandler datafilesInfo.LOGFile.AnalysisStartedEvent, AddressOf newLOGFileAnalysisStartedEventHandler
-                    '    AddHandler datafilesInfo.LOGFile.AnalysisProgress, AddressOf logFileProgressEventHandler
-                    '    AddHandler datafilesInfo.LOGFile.AnalysisStopedEvent, AddressOf logFileAnalysisFinishedEventHandler
+        '            '    AddHandler datafilesInfo.LOGFile.AnalysisStartedEvent, AddressOf newLOGFileAnalysisStartedEventHandler
+        '            '    AddHandler datafilesInfo.LOGFile.AnalysisProgress, AddressOf logFileProgressEventHandler
+        '            '    AddHandler datafilesInfo.LOGFile.AnalysisStopedEvent, AddressOf logFileAnalysisFinishedEventHandler
 
-                    'End If
+        '            'End If
 
-                    'If (datafilesInfo.HasMDBFile AndAlso mdbIsActive) Then
+        '            'If (datafilesInfo.HasMDBFile AndAlso mdbIsActive) Then
 
-                    '    AddHandler datafilesInfo.MDBFile.AnalysisStartedEvent, AddressOf newMDBFileAnalysisStartedEventHandler
-                    '    AddHandler datafilesInfo.MDBFile.AnalysisProgress, AddressOf mdbFileProgressEventHandler
-                    '    AddHandler datafilesInfo.MDBFile.AnalysisStopedEvent, AddressOf mdbFileAnalysisFinishedEventHandler
+        '            '    AddHandler datafilesInfo.MDBFile.AnalysisStartedEvent, AddressOf newMDBFileAnalysisStartedEventHandler
+        '            '    AddHandler datafilesInfo.MDBFile.AnalysisProgress, AddressOf mdbFileProgressEventHandler
+        '            '    AddHandler datafilesInfo.MDBFile.AnalysisStopedEvent, AddressOf mdbFileAnalysisFinishedEventHandler
 
-                    'End If
+        '            'End If
 
-                    'If (datafilesInfo.HasEventsFile AndAlso eventsIsActive) Then
+        '            'If (datafilesInfo.HasEventsFile AndAlso eventsIsActive) Then
 
-                    '    AddHandler datafilesInfo.EventsFile.AnalysisStartedEvent, AddressOf newEventsFileAnalysisStartedEventHandler
-                    '    AddHandler datafilesInfo.EventsFile.AnalysisProgress, AddressOf eventsFileProgressEventHandler
-                    '    AddHandler datafilesInfo.EventsFile.AnalysisStopedEvent, AddressOf eventsFileAnalysisFinishedEventHandler
+        '            '    AddHandler datafilesInfo.EventsFile.AnalysisStartedEvent, AddressOf newEventsFileAnalysisStartedEventHandler
+        '            '    AddHandler datafilesInfo.EventsFile.AnalysisProgress, AddressOf eventsFileProgressEventHandler
+        '            '    AddHandler datafilesInfo.EventsFile.AnalysisStopedEvent, AddressOf eventsFileAnalysisFinishedEventHandler
 
-                    'End If
+        '            'End If
 
-                Next
+        '        Next
 
-            End Set
-        End Property
+        '    End Set
+        'End Property
 
         Protected Overloads Overrides Sub beforeShow()
 

@@ -209,16 +209,18 @@
         End Sub
 
         Public Sub onSelectedCode()
-
             Me.delayCodeCombobox.BackColor = DirectCast(Me.delayCodeCombobox.SelectedItem, DelayCode).Type.Color
 
             If (Not IsNothing(Me.currentDelay)) Then
-                'Me.currentDelay.Code = Me.delayCodeCombobox.SelectedItem
+                Me.currentDelay.setColor(DirectCast(Me.delayCodeCombobox.SelectedItem, DelayCode).Type.Color)
+                Me.currentDelay.setDelayCode(DirectCast(Me.delayCodeCombobox.SelectedItem, DelayCode).Code)
+                Me.currentDelay.setDelayDescription(DirectCast(Me.delayCodeCombobox.SelectedItem, DelayCode).Description)
+                Me.currentDelay.setDelayCategorieName(DirectCast(Me.delayCodeCombobox.SelectedItem, DelayCode).Type.Name)
             End If
         End Sub
 
         Public Sub onJustificationChanged() Handles delayJustificationTextbox.TextChanged
-            'Me.currentDelay.Justification = delayJustificationTextbox.Text
+            Me.currentDelay.setDelayJustification(delayJustificationTextbox.Text)
         End Sub
 
 
@@ -242,7 +244,7 @@
 
                 Me.delayJustificationTextbox.Focus()
 
-                'Me.currentDelay.Code = Nothing
+                Me.currentDelay.setDelayCode(Nothing)
                 'Me.currentDelay.IsUnknown = True
 
                 Exit Sub
@@ -255,16 +257,6 @@
                 Me.delayCodeCombobox.Items.AddRange(delayType.Codes.ToArray)
 
             End If
-
-            'If (IsNothing(Me.currentDelay)) OrElse _
-            '    'IsNothing(Me.currentDelay.Code) OrElse _
-            '    Not Me.delayCodeCombobox.Items.Contains(Me.currentDelay.Code) Then
-
-            Me.delayCodeCombobox.SelectedIndex = 0
-
-            'Else
-            'Me.delayCodeCombobox.SelectedItem = Me.currentDelay.Code
-            'End If
 
         End Sub
 
@@ -331,7 +323,7 @@
 
         End Sub
 
-        Public Sub showDelay(delay As Delay_1, currentDelayNumber As Integer, totalNumberOfDelays As Integer)
+        Public Sub showDelay(ByRef delay As Delay_1, currentDelayNumber As Integer, totalNumberOfDelays As Integer)
 
             Me.currentDelay = delay
 
@@ -352,29 +344,43 @@
             Me.durationValueLabel.Text = Me.currentDelay.getDuration.ToString("h\hmm")
             Me.delayNumberValueLabel.Text = currentDelayNumber & " / " & totalNumberOfDelays
 
-            'If (Not IsNothing(Me.currentDelay.Type) AndAlso _
-            '    Me.delayTypeCombobox.Items.Contains(Me.currentDelay.Type)) Then
+            If (Not String.IsNullOrEmpty(Me.currentDelay.getDelayCategorieName) AndAlso (Not String.IsNullOrEmpty(Me.currentDelay.getDelayCategorieName))) Then
 
-            '    Me.delayTypeCombobox.SelectedItem = ALL_DELAYS
+                For Each delayType In Me.delayTypeCombobox.Items
+                    If Not IsNothing(TryCast(delayType, DelayType)) Then
+                        Dim item As DelayType = DirectCast(delayType, DelayType)
+                        If item.Name.Equals(Me.currentDelay.getDelayCategorieName) Then
+                            Me.delayTypeCombobox.SelectedItem = item
+                        End If
+                    End If
 
-            '    If (Me.delayCodeCombobox.Items.Contains(Me.currentDelay.Code)) Then
-            '        Me.delayCodeCombobox.SelectedItem = Me.currentDelay.Code
-            '    End If
+                Next
 
-            'ElseIf (Me.currentDelay.IsUnknown) Then
+                For Each delayCode In Me.delayCodeCombobox.Items
+                    Dim item As DelayCode = DirectCast(delayCode, DelayCode)
+                    If item.Code.Equals(Me.currentDelay.getDelayCode) Then
+                        Me.delayCodeCombobox.SelectedItem = item
+                    End If
+                Next
 
-            '    Me.delayTypeCombobox.SelectedItem = UNKNOWN_DELAY
+                Me.delayJustificationTextbox.Text = Me.currentDelay.getDelayJustification
 
-            'Else
+            ElseIf (String.IsNullOrEmpty(Me.currentDelay.getDelayCategorieName)) Then
 
-            Me.delayTypeCombobox.SelectedItem = ALL_DELAYS
-            Me.delayCodeCombobox.SelectedIndex = 0
+                Me.delayTypeCombobox.SelectedItem = ALL_DELAYS
+                Me.delayCodeCombobox.SelectedIndex = 0
 
-            'Me.currentDelay.Code = Me.delayCodeCombobox.SelectedItem
+                Dim delayCode As DelayCode = DirectCast(Me.delayCodeCombobox.SelectedItem, DelayCode)
 
-            'End If
+                Me.currentDelay.setDelayCode(delayCode.Code)
+                Me.currentDelay.setDelayCategorieName(delayCode.Type.Name)
+            Else
+                Me.delayTypeCombobox.SelectedItem = UNKNOWN_DELAY
 
-            Me.delayJustificationTextbox.Text = Me.currentDelay.getDelayDescription.ToString
+
+            End If
+
+            Me.delayJustificationTextbox.Text = Me.currentDelay.getDelayJustification
 
         End Sub
 

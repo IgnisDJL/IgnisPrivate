@@ -22,7 +22,7 @@
         Private WithEvents skipWarningMessagePanel As Common.UserMessagePanel
 
         ' Attributes
-        Private currentDay As ProductionDay_1
+        Private report As DailyReport
 
 
         Public Sub New()
@@ -97,21 +97,17 @@
 
         End Sub
 
-        Public Sub showDay(day As ProductionDay_1, currentDayNumber As Integer, totalNumberOfDays As Integer)
+        Public Sub showReport()
 
-            Me.currentDay = day
+            Me.dateLabel.Text = StrConv(Me.report.getProductionDate().ToString("dddd d MMMM"), VbStrConv.ProperCase)
 
-            raiseProgressEvent((currentDayNumber - 1) / totalNumberOfDays * 100)
-
-            Me.dateLabel.Text = StrConv(Me.currentDay.getProductionDate.ToString("dddd d MMMM"), VbStrConv.ProperCase)
-
-            'Me.commentTextBox.Text = Me.currentDay.Comments
+            Me.commentTextBox.Text = Me.report.getReportComment
 
             Me.commentTextBox.Focus()
         End Sub
 
         Private Sub saveComment() Handles commentTextBox.TextChanged
-            'Me.currentDay.Comments = Me.commentTextBox.Text
+            Me.report.setReportComment(Me.commentTextBox.Text)
         End Sub
 
         Public Overrides Sub afterShow()
@@ -199,5 +195,11 @@
                 Return 15
             End Get
         End Property
+
+
+        Public Sub setReport(ByRef report As DailyReport)
+            Me.report = report
+        End Sub
     End Class
+
 End Namespace
