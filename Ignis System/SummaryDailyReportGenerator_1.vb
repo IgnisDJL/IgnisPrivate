@@ -1064,10 +1064,10 @@ Public Class SummaryDailyReportGenerator_1
             If tableauProductionDiscontinu.Count > 4 Then
 
                 Dim ligneSommaireEntete As ArrayList = tableauProductionDiscontinu.Item(EnumDailyReportTableauIndex.ligne_SommaireEntete)
-
+                Dim columnsWidth = bookMarks.FirstDiscontinuousProductionFeederDescription.Columns.Width / ligneSommaireEntete.Count
                 If ligneSommaireEntete.Count > 0 Then
 
-                    Dim columnsWidth = bookMarks.FirstDiscontinuousProductionFeederDescription.Columns.Width / ligneSommaireEntete.Count
+
                     bookMarks.FirstDiscontinuousProductionFeederDescription.Select()
 
                     Dim ligneFedderInfo As ArrayList = ligneSommaireEntete.Item(0)
@@ -1086,21 +1086,17 @@ Public Class SummaryDailyReportGenerator_1
                 For feederEnteteIndex = ligneSommaireEntete.Count - 1 To 1 Step -1
 
                     WordDoc.Bookmarks("FirstDiscontinuousProductionFeederDesc").Range.Select()
-
                     WordApp.Selection.InsertColumnsRight()
 
-                    Dim columnsWidth = bookMarks.FirstDiscontinuousProductionFeederDescription.Columns.Width / ligneSommaireEntete.Count
-                    bookMarks.FirstDiscontinuousProductionFeederDescription.Select()
-
+                    'Dim columnsWidth = bookMarks.FirstDiscontinuousProductionFeederDescription.Columns.Width / ligneSommaireEntete.Count
                     Dim ligneFedderInfo As ArrayList = ligneSommaireEntete(feederEnteteIndex)
 
                     WordApp.Selection.Text = ligneFedderInfo.Item(EnumDailyReportTableauIndex.colonne_SommaireEnteteFeederID) & Environment.NewLine & ligneFedderInfo.Item(EnumDailyReportTableauIndex.colonne_SommaireEnteteFeederName) & " (T)"
 
-                    'WordApp.Selection.Columns.Last.Width = columnsWidth
-                    WordApp.Selection.Columns.Last.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter
-
                     ' Total quantity
                     WordApp.Selection.MoveDown(WdUnits.wdLine, 2, WdMovementType.wdMove)
+                    WordApp.Selection.Columns.Last.Width = columnsWidth
+                    WordApp.Selection.Columns.Last.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter
 
                 Next
 
@@ -1134,10 +1130,11 @@ Public Class SummaryDailyReportGenerator_1
 
                     For feedIndex = 1 To ligneSommaireEntete.Count - 1
 
-                        WordApp.Selection.MoveRight(WdUnits.wdCell, WdMovementType.wdMove)
+                        WordApp.Selection.MoveRight(WdUnits.wdCell, 1)
 
                         WordApp.Selection.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeFirstFeederMasse + feedIndex), Double).ToString("N1")
-
+                        'WordApp.Selection.Columns.Last.Width = columnsWidth
+                        'WordApp.Selection.Columns.Last.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter
                     Next
 
                 Else
@@ -1157,28 +1154,35 @@ Public Class SummaryDailyReportGenerator_1
 
                     ligneEnrobe = tableauProductionDiscontinu.Item(indexLigneEnrobe)
 
-                    bookMarks.FirstDiscontinuousProductionFormulaName.Text = ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeFormule)
+                    WordApp.Selection.Text = ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeFormule)
+                    WordApp.Selection.MoveRight(WdUnits.wdCell, 1)
 
-                    bookMarks.FirstDiscontinuousProductionMixName.Text = ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeName)
+                    WordApp.Selection.Text = ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeName)
+                    WordApp.Selection.MoveRight(WdUnits.wdCell, 1)
 
-                    bookMarks.FirstDiscontinuousProductionAsphaltName.Text = ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeGrade)
+                    WordApp.Selection.Text = ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeGrade)
+                    WordApp.Selection.MoveRight(WdUnits.wdCell, 1)
 
-                    bookMarks.FirstDiscontinuousProductionRAP.Text = If(Double.IsNaN(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeRapVise)), "-", CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeRapVise), Double).ToString("N0"))
+                    WordApp.Selection.Text = If(Double.IsNaN(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeRapVise)), "-", CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeRapVise), Double).ToString("N0"))
+                    WordApp.Selection.MoveRight(WdUnits.wdCell, 1)
 
-                    bookMarks.FirstDiscontinuousProductionTotalQuantity.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeMasse), Double).ToString("N1")
+                    WordApp.Selection.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeMasse), Double).ToString("N1")
+                    WordApp.Selection.MoveRight(WdUnits.wdCell, 1)
 
-                    bookMarks.FirstDiscontinuousProductionAsphaltQuantity.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeMasseBitume), Double).ToString("N1")
+                    WordApp.Selection.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeMasseBitume), Double).ToString("N1")
+                    WordApp.Selection.MoveRight(WdUnits.wdCell, 1)
 
-                    bookMarks.FirstDiscontinuousProductionFeederQuantity.Select()
-
+                    'WordApp.Selection.Columns.Last.Width = columnsWidth
+                    'WordApp.Selection.Columns.Last.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter
                     WordApp.Selection.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeFirstFeederMasse), Double).ToString("N1")
 
                     For feedIndex = 1 To ligneSommaireEntete.Count - 1
 
-                        WordApp.Selection.MoveRight(WdUnits.wdCell, WdMovementType.wdMove)
-
+                        WordApp.Selection.MoveRight(WdUnits.wdCell, 1)
+                        'WordApp.Selection.Columns.Last.Width = columnsWidth
+                        'WordApp.Selection.Columns.Last.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter
                         WordApp.Selection.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeFirstFeederMasse + feedIndex), Double).ToString("N1")
-
+        
                     Next
                 Next
 
