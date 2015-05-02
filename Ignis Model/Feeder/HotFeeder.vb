@@ -17,6 +17,15 @@
         Me.materialID = materialID
     End Sub
 
+    Public Sub New(ByVal hotFeeder As HotFeeder)
+        MyBase.New(hotFeeder.getFeederID)
+        Me.targetPercentage = hotFeeder.getTargetPercentage
+        Me.debit = hotFeeder.getDebit
+        Me.actualPercentage = hotFeeder.getActualPercentage
+        Me.mass = hotFeeder.getMass
+        Me.materialID = hotFeeder.getMaterialID
+    End Sub
+
     Public ReadOnly Property getTargetPercentage() As Double
         Get
             Return targetPercentage
@@ -32,6 +41,18 @@
     Public ReadOnly Property getMass() As Double
         Get
             Return mass
+        End Get
+    End Property
+
+    Public ReadOnly Property getMaterialID() As Double
+        Get
+            Return materialID
+        End Get
+    End Property
+
+    Public ReadOnly Property getDebit() As Double
+        Get
+            Return debit
         End Get
     End Property
 

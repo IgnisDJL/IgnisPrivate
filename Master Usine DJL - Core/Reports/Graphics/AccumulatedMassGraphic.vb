@@ -17,10 +17,18 @@ Public Class AccumulatedMassGraphic
     Private notContinuousMass As Double
     Private cycleMassList As New List(Of CycleMass)
 
-    Public Sub New(date_ As Date, Optional isHybrid As Boolean = False)
+    Public Sub New(debutPeriode As Date, finPeriode As Date, Optional isHybrid As Boolean = False)
         MyBase.New()
 
-        Me.DATE_ = date_.Date
+
+
+        Dim axeX As TimeSpan = TimeSpan.FromHours(24) - finPeriode.Subtract(debutPeriode)
+
+        Dim ecart As TimeSpan = TimeSpan.FromSeconds(axeX.TotalSeconds / 2)
+
+        Me.X_MINIMUM = (debutPeriode - ecart).ToOADate
+
+        Me.X_MAXIMUM = (finPeriode + ecart).ToOADate
 
         Me.isHybrid = isHybrid
 
@@ -54,14 +62,6 @@ Public Class AccumulatedMassGraphic
 
     Public Property MAXIMUM_TONS As Integer
 
-    Private WriteOnly Property DATE_ As Date
-        Set(value As Date)
-
-            Me.X_MINIMUM = value.ToOADate
-            Me.X_MAXIMUM = value.Add(TimeSpan.FromHours(24.01)).ToOADate
-
-        End Set
-    End Property
 
     Public Sub toggleMarkerColor()
 
@@ -74,33 +74,55 @@ Public Class AccumulatedMassGraphic
 
     End Sub
 
-    Public Overrides Sub addCycle(cycle As Cycle, dataFileNode As XmlSettings.DataFileNode)
+    Public Sub setGraphicData(cyclesDateTime As List(Of Date), cyclesMass As List(Of Double), cyclesProductionSpeed As List(Of Double))
 
-        Dim cycleDateTime = cycle.TIME
-        Dim cycleTons = dataFileNode.getUnitByTag(cycle.MIX_MASS_TAG).convert(cycle.MIX_ACCUMULATED_MASS, Me.UNIT)
+        'Dim cycleDateTime = Cycle.TIME
+        'Dim cycleTons = dataFileNode.getUnitByTag(Cycle.MIX_MASS_TAG).convert(Cycle.MIX_ACCUMULATED_MASS, Me.UNIT)
 
-        If (cycle.PRODUCTION_SPEED > 0) Then
+        'If (Cycle.PRODUCTION_SPEED > 0) Then
 
-            Me.cycleMassList.Add(New CycleMass(cycleDateTime, dataFileNode.getUnitByTag(cycle.MIX_MASS_TAG).convert(cycle.MIX_MASS, Me.UNIT)))
+        'Me.cycleMassList.Add(New CycleMass(cycleDateTime, dataFileNode.getUnitByTag(cycle.MIX_MASS_TAG).convert(cycle.MIX_MASS, Me.UNIT)))
 
-            If (TypeOf cycle Is LOGCycle) Then
-                cycleTons = cycleTons - Me.notContinuousMass
+        '    If (TypeOf Cycle Is LOGCycle) Then
+        '        cycleTons = cycleTons - Me.notContinuousMass
+        '    End If
+
+        '    Me.MAIN_DATA_SERIE.Points.AddXY(cycleDateTime, cycleTons)
+        '    Me.MAIN_DATA_SERIE.Points.Last.Color = Me.lastPointFormat.COLOR
+        '    Me.MAIN_DATA_SERIE.Points.Last.MarkerStyle = Me.lastPointFormat.MARKER
+
+        '    ' To be removed when data accessible
+        '    If (cycleTons > Me.MAXIMUM_TONS) Then
+        '        Me.MAXIMUM_TONS = cycleTons
+        '    End If
+
+        'ElseIf (isHybrid And TypeOf Cycle Is LOGCycle) Then
+
+        '    Me.notContinuousMass += dataFileNode.getUnitByTag(Cycle.MIX_MASS_TAG).convert(Cycle.MIX_MASS, Me.UNIT)
+
+        'End If
+
+        Dim massAccumulee As Double = 0
+
+        For indexCycle As Integer = 0 To cyclesDateTime.Count - 1 Step 1
+
+            If (cyclesProductionSpeed(indexCycle) > 0) Then
+                Me.cycleMassList.Add(New CycleMass(cyclesDateTime(indexCycle), cyclesMass(indexCycle) / 1000))
+
+                massAccumulee += (cyclesMass(indexCycle) / 1000)
+
+                Me.MAIN_DATA_SERIE.Points.AddXY(cyclesDateTime(indexCycle), massAccumulee)
+                Me.MAIN_DATA_SERIE.Points.Last.Color = Me.lastPointFormat.COLOR
+                Me.MAIN_DATA_SERIE.Points.Last.MarkerStyle = Me.lastPointFormat.MARKER
+
+                If (massAccumulee > Me.MAXIMUM_TONS) Then
+                    Me.MAXIMUM_TONS = massAccumulee
+                End If
+
             End If
 
-            Me.MAIN_DATA_SERIE.Points.AddXY(cycleDateTime, cycleTons)
-            Me.MAIN_DATA_SERIE.Points.Last.Color = Me.lastPointFormat.COLOR
-            Me.MAIN_DATA_SERIE.Points.Last.MarkerStyle = Me.lastPointFormat.MARKER
+        Next
 
-            ' To be removed when data accessible
-            If (cycleTons > Me.MAXIMUM_TONS) Then
-                Me.MAXIMUM_TONS = cycleTons
-            End If
-
-        ElseIf (isHybrid And TypeOf cycle Is LOGCycle) Then
-
-            Me.notContinuousMass += dataFileNode.getUnitByTag(cycle.MIX_MASS_TAG).convert(cycle.MIX_MASS, Me.UNIT)
-
-        End If
     End Sub
 
     Private Sub buildLegend()
@@ -151,7 +173,7 @@ Public Class AccumulatedMassGraphic
 
                 buildLegend()
 
-                Dim totalMass As Double
+                Dim totalMass As Double = 0
 
                 Me.cycleMassList.Sort()
                 For Each cycle In Me.cycleMassList
@@ -203,4 +225,8 @@ Public Class AccumulatedMassGraphic
             Return "unavailableProduction_FR.bmp"
         End Get
     End Property
+
+    Public Overrides Sub addCycle(cycle As Cycle, dataFileNode As XmlSettings.DataFileNode)
+
+    End Sub
 End Class

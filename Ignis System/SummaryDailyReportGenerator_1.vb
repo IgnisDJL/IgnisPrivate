@@ -206,46 +206,42 @@ Public Class SummaryDailyReportGenerator_1
             ' --------------------
             XYScatterGraphic.pointFormatList_asphalt = New PointFormatList
             XYScatterGraphic.pointFormatList_mix = New PointFormatList
+            Dim accumulateGraphicData As ArrayList
 
             Dim isHybrid As Boolean = XmlSettings.Settings.instance.Usine.DataFiles.CSV.ACTIVE AndAlso XmlSettings.Settings.instance.Usine.DataFiles.LOG.ACTIVE
 
-            Dim accumulatedMass As New AccumulatedMassGraphic(New Date(dailyReport.getDebutPeriode.Year, dailyReport.getDebutPeriode.Month, dailyReport.getDebutPeriode.Day), isHybrid)
-            Dim productionSpeed As New ProductionSpeedGraphic(New Date(dailyReport.getDebutPeriode.Year, dailyReport.getDebutPeriode.Month, dailyReport.getDebutPeriode.Day))
+            Dim accumulatedMass As New AccumulatedMassGraphic(dailyReport.getDebutPeriode, dailyReport.getFinPeriode, isHybrid)
+            'Dim productionSpeed As New ProductionSpeedGraphic(dailyReport.getProductionDate)
 
-            'For Each _cycle As Cycle In productionDay.Statistics.DiscontinuousProduction.Cycles
+            accumulateGraphicData = dailyReport.getGraphicMasseAccumuleeDiscontinu()
 
-            '    If (TypeOf _cycle Is CSVCycle) Then
+            Dim cycleListDiscontinuDateTime As List(Of Date) = accumulateGraphicData.Item(0)
+            Dim cycleListDiscontinuMass As List(Of Double) = accumulateGraphicData.Item(1)
+            Dim cycleListDiscontinuProductionSpeed As List(Of Double) = accumulateGraphicData.Item(2)
 
-            '        accumulatedMass.addCycle(_cycle, XmlSettings.Settings.instance.Usine.DataFiles.CSV)
-            '        productionSpeed.addCycle(_cycle, XmlSettings.Settings.instance.Usine.DataFiles.CSV)
+            accumulatedMass.setGraphicData(cycleListDiscontinuDateTime, cycleListDiscontinuMass, cycleListDiscontinuProductionSpeed)
+            'productionSpeed.addCycle(_cycle, XmlSettings.Settings.instance.Usine.DataFiles.MDB)
 
-            '    ElseIf (TypeOf _cycle Is MDBCycle) Then
-
-            '        accumulatedMass.addCycle(_cycle, XmlSettings.Settings.instance.Usine.DataFiles.MDB)
-            '        productionSpeed.addCycle(_cycle, XmlSettings.Settings.instance.Usine.DataFiles.MDB)
-            '    End If
-
-            'Next
-
-            'accumulatedMass.toggleMarkerColor()
+            accumulatedMass.toggleMarkerColor()
             'productionSpeed.toggleMarkerColor()
 
-            'For Each _cycle In productionDay.Statistics.ContinuousProduction.Cycles
+            accumulateGraphicData = dailyReport.getGraphicMasseAccumuleeContinu()
 
-            '    accumulatedMass.addCycle(_cycle, XmlSettings.Settings.instance.Usine.DataFiles.LOG)
-            '    productionSpeed.addCycle(_cycle, XmlSettings.Settings.instance.Usine.DataFiles.LOG)
-            'Next
+            Dim cycleListContinuDateTime As List(Of Date) = accumulateGraphicData.Item(0)
+            Dim cycleListContinuMass As List(Of Double) = accumulateGraphicData.Item(1)
+            Dim cycleListContinuProductionSpeed As List(Of Double) = accumulateGraphicData.Item(2)
 
-            'accumulatedMass.save()
+            accumulatedMass.setGraphicData(cycleListContinuDateTime, cycleListContinuMass, cycleListContinuProductionSpeed)
+            'productionSpeed.addCycle(_cycle, XmlSettings.Settings.instance.Usine.DataFiles.LOG)
+
+            accumulatedMass.save()
             'productionSpeed.save()
 
-            'Dim g1 = bookMarks.ProductionQuantityGraphic.InlineShapes.AddPicture(Constants.Paths.OUTPUT_DIRECTORY & Constants.Output.Graphics.SaveAsNames.ACCUMULATED_MASS_GRAPHIC, False, True)
+            Dim g1 = bookMarks.ProductionQuantityGraphic.InlineShapes.AddPicture(Constants.Paths.OUTPUT_DIRECTORY & Constants.Output.Graphics.SaveAsNames.ACCUMULATED_MASS_GRAPHIC, False, True)
             'Dim g2 = bookMarks.ProductionRateGraphic.InlineShapes.AddPicture(Constants.Paths.OUTPUT_DIRECTORY & Constants.Output.Graphics.SaveAsNames.PRODUCTION_SPEED_GRAPHIC, False, True)
 
-            'g1.Width = bookMarks.ProductionQuantityGraphic.Cells(1).Width
+            g1.Width = bookMarks.ProductionQuantityGraphic.Cells(1).Width
             'g2.Width = bookMarks.ProductionQuantityGraphic.Cells(1).Width
-
-
             ' --------------------
             ' PRODUCTION ET DELAIS
             ' --------------------
@@ -1182,7 +1178,7 @@ Public Class SummaryDailyReportGenerator_1
                         'WordApp.Selection.Columns.Last.Width = columnsWidth
                         'WordApp.Selection.Columns.Last.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter
                         WordApp.Selection.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeFirstFeederMasse + feedIndex), Double).ToString("N1")
-        
+
                     Next
                 Next
 

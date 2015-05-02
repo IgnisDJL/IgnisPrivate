@@ -726,7 +726,6 @@
                 '' TODO
                 '' À Valider que ce for fonctionne correctement
 
-
                 For index As Integer = 0 To ligneSommaireEntete.Count - 1 Step 1
                     ligneEnrobe.Insert(ligneEnrobe.Count, producedMix.getHotFeederList.Item(index).getMass)
 
@@ -763,14 +762,40 @@
 
         'Next
 
-
-
         ligneSommairePourcentageAvecGBR.Insert(EnumDailyReportTableauIndex.colonne_SommairePourcentageAvecGBR, 0)
 
         ligneSommairePourcentageDeGBR.Insert(EnumDailyReportTableauIndex.colonne_SommairePourcentageDeGBR, 0)
 
 
         Return tableauProduction
+    End Function
+
+    Public Function getGraphicMasseAccumuleeDiscontinu() As ArrayList
+        Return getGraphicMasseAccumulee(productionCycleDiscontinuList)
+    End Function
+
+    Public Function getGraphicMasseAccumuleeContinu() As ArrayList
+        Return getGraphicMasseAccumulee(productionCycleContinuList)
+    End Function
+
+    Public Function getGraphicMasseAccumulee(productionCycleList As List(Of ProductionCycle)) As ArrayList
+        Dim graphicDate As ArrayList = New ArrayList
+
+        Dim cyclesDateTime = New List(Of Date)
+        Dim cyclesProductionSpeed = New List(Of Double)
+        Dim cyclesMass = New List(Of Double)
+
+        For Each productionCycle As ProductionCycle In productionCycleList
+            cyclesDateTime.Add(productionCycle.getEndOfCycle)
+            cyclesMass.Add(productionCycle.getProducedMix.getHotFeederMass() + productionCycle.getProducedMix.getVirginAsphaltConcrete.getMass())
+            cyclesProductionSpeed.Add(productionCycle.getProducedMix.getMixDebit)
+        Next
+
+        graphicDate.Add(cyclesDateTime)
+        graphicDate.Add(cyclesMass)
+        graphicDate.Add(cyclesProductionSpeed)
+
+        Return graphicDate
     End Function
 
 

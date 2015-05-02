@@ -24,7 +24,7 @@
 
     End Sub
 
-    Public Sub New(virginAsphaltConcrete As VirginAsphaltConcrete)
+    Public Sub New(ByVal virginAsphaltConcrete As VirginAsphaltConcrete)
         MyBase.New(virginAsphaltConcrete.getTargetPercentage, virginAsphaltConcrete.getActualPercentage, virginAsphaltConcrete.getDebit, virginAsphaltConcrete.getMass)
         Me.density = virginAsphaltConcrete.getDensity
         Me.recordedTemperature = virginAsphaltConcrete.getRecordedTemperature

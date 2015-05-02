@@ -114,9 +114,10 @@
 
     Public Function getProducedMixList(productionCycleList As List(Of ProductionCycle)) As List(Of ProducedMix)
         Dim producedMixList = New List(Of ProducedMix)
-
+        ' TODO A REPARER NE PAS UTILISER UN PRODUCTIONDAY_1 
         If productionDayList.Count > 0 Then
-            producedMixList = productionDayList.Item(0).getProducedMixList(productionCycleList)
+            Dim productionDay = New ProductionDay_1(Date.Now)
+            producedMixList = productionDay.getProducedMixList(productionCycleList)
         End If
 
         Return producedMixList

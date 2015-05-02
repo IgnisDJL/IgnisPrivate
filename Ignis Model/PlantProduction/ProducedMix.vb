@@ -28,14 +28,20 @@
         Me.rapAsphaltConcreteList = rapAsphaltConcreteList
     End Sub
 
-    Sub New(producedMix As ProducedMix)
+    Sub New(ByVal producedMix As ProducedMix)
 
         Me.mixNumber = producedMix.getMixNumber
         Me.mixName = producedMix.getMixName
         Me.recordedTemperature = producedMix.getRecordedTemperature
         Me.tempsDeProduction = producedMix.getTempsDeProduction
-        Me.hotFeederList = producedMix.getHotFeederList()
-        Me.virginAsphaltConcrete = producedMix.getVirginAsphaltConcrete()
+
+        Me.hotFeederList = New List(Of HotFeeder)
+
+        For Each hotFeeder As HotFeeder In producedMix.getHotFeederList
+            hotFeederList.Add(New HotFeeder(hotFeeder))
+        Next
+
+        Me.virginAsphaltConcrete = New VirginAsphaltConcrete(producedMix.getVirginAsphaltConcrete())
         Me.rapAsphaltConcreteList = producedMix.getRapAsphaltConcreteList()
     End Sub
 
@@ -99,10 +105,9 @@
         addTempsDeProduction(tempsDeProduction)
     End Sub
 
+    Public Function getHotFeederMass() As Double
 
-    Private Function getHotFeederMass() As Double
-
-        Dim hotFeederMass As Double
+        Dim hotFeederMass As Double = 0
         For Each hotFeeder As HotFeeder In Me.hotFeederList
 
             hotFeederMass += hotFeeder.getMass
