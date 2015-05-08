@@ -271,7 +271,7 @@
                                     Math.Round((tempsDeProductionDiscontinu.TotalSeconds / getDureePeriode().TotalSeconds) * 100))
 
         lignePourcentageDuTemps.Insert(EnumDailyReportTableauIndex.colonne_PourcentageDuTempsDelais,
-                                    Math.Round(((getDureePeriode().TotalSeconds - totalDelaisHybrid.TotalSeconds) / getDureePeriode().TotalSeconds) * 100))
+                                    Math.Round(((totalDelaisHybrid.TotalSeconds) / getDureePeriode().TotalSeconds) * 100))
 
         tableauModeProduction.Insert(EnumDailyReportTableauIndex.ligne_PourcentageDuTemps, lignePourcentageDuTemps)
 
@@ -298,7 +298,7 @@
     End Function
 
     ''**********************************************************
-    ''*         Tableau des mode de production 2.2
+    ''*         Tableau Temps de production 2.2
     ''**********************************************************
 
     Public Function getTableauTempsDeProduction() As List(Of ArrayList)
@@ -667,7 +667,7 @@
         Dim totalMassBitume As Double = 0
         Dim totalMassFeederList As ArrayList = New ArrayList
 
-
+        producedMixList.Sort()
 
         '' Ligne des entêtes de chaque bennes
 
@@ -762,9 +762,10 @@
         'Next
 
         ligneSommairePourcentageAvecGBR.Insert(EnumDailyReportTableauIndex.colonne_SommairePourcentageAvecGBR, 0)
+        tableauProduction.Insert(tableauProduction.Count, ligneSommairePourcentageAvecGBR)
 
         ligneSommairePourcentageDeGBR.Insert(EnumDailyReportTableauIndex.colonne_SommairePourcentageDeGBR, 0)
-
+        tableauProduction.Insert(tableauProduction.Count, ligneSommairePourcentageDeGBR)
 
         Return tableauProduction
     End Function
@@ -1092,25 +1093,47 @@
 
         For Each producedMix As ProducedMix In producedMixList
 
-            If IsNothing(producedMix_1) Then
-                producedMix_1 = producedMix
-                productionModeMix_1 = productionMode
+            If (producedMix.getMixMass > 0) Then
 
-            ElseIf IsNothing(producedMix_2) Then
 
-                If (producedMix.getMixMass > producedMix_1.getMixMass) Then
-                    producedMix_2 = producedMix_1
-                    productionModeMix_2 = productionModeMix_1
+                If IsNothing(producedMix_1) Then
                     producedMix_1 = producedMix
                     productionModeMix_1 = productionMode
-                Else
-                    producedMix_2 = producedMix
-                    productionModeMix_2 = productionMode
-                End If
 
-            ElseIf IsNothing(producedMix_3) Then
+                ElseIf IsNothing(producedMix_2) Then
 
-                If (producedMix.getMixMass > producedMix_1.getMixMass) Then
+                    If (producedMix.getMixMass > producedMix_1.getMixMass) Then
+                        producedMix_2 = producedMix_1
+                        productionModeMix_2 = productionModeMix_1
+                        producedMix_1 = producedMix
+                        productionModeMix_1 = productionMode
+                    Else
+                        producedMix_2 = producedMix
+                        productionModeMix_2 = productionMode
+                    End If
+
+                ElseIf IsNothing(producedMix_3) Then
+
+                    If (producedMix.getMixMass > producedMix_1.getMixMass) Then
+                        producedMix_3 = producedMix_2
+                        productionModeMix_3 = productionModeMix_2
+                        producedMix_2 = producedMix_1
+                        productionModeMix_2 = productionModeMix_1
+                        producedMix_1 = producedMix
+                        productionModeMix_1 = productionMode
+
+                    ElseIf (producedMix.getMixMass > producedMix_2.getMixMass) Then
+                        producedMix_3 = producedMix_2
+                        productionModeMix_3 = productionModeMix_2
+                        producedMix_2 = producedMix
+                        productionModeMix_2 = productionMode
+                    Else
+                        producedMix_3 = producedMix
+                        productionModeMix_3 = productionMode
+                    End If
+
+                ElseIf (producedMix.getMixMass > producedMix_1.getMixMass) Then
+                    producedMixAutresList.Add(producedMix_3)
                     producedMix_3 = producedMix_2
                     productionModeMix_3 = productionModeMix_2
                     producedMix_2 = producedMix_1
@@ -1119,41 +1142,24 @@
                     productionModeMix_1 = productionMode
 
                 ElseIf (producedMix.getMixMass > producedMix_2.getMixMass) Then
+
+                    producedMixAutresList.Add(producedMix_3)
                     producedMix_3 = producedMix_2
                     productionModeMix_3 = productionModeMix_2
                     producedMix_2 = producedMix
                     productionModeMix_2 = productionMode
-                Else
+
+                ElseIf (producedMix.getMixMass > producedMix_3.getMixMass) Then
+
+                    producedMixAutresList.Add(producedMix_3)
                     producedMix_3 = producedMix
                     productionModeMix_3 = productionMode
+
+                Else
+                    producedMixAutresList.Add(producedMix)
                 End If
-
-            ElseIf (producedMix.getMixMass > producedMix_1.getMixMass) Then
-                producedMixAutresList.Add(producedMix_3)
-                producedMix_3 = producedMix_2
-                productionModeMix_3 = productionModeMix_2
-                producedMix_2 = producedMix_1
-                productionModeMix_2 = productionModeMix_1
-                producedMix_1 = producedMix
-                productionModeMix_1 = productionMode
-
-            ElseIf (producedMix.getMixMass > producedMix_2.getMixMass) Then
-
-                producedMixAutresList.Add(producedMix_3)
-                producedMix_3 = producedMix_2
-                productionModeMix_3 = productionModeMix_2
-                producedMix_2 = producedMix
-                productionModeMix_2 = productionMode
-
-            ElseIf (producedMix.getMixMass > producedMix_3.getMixMass) Then
-
-                producedMixAutresList.Add(producedMix_3)
-                producedMix_3 = producedMix
-                productionModeMix_3 = productionMode
-
-            Else
-                producedMixAutresList.Add(producedMix)
             End If
+
         Next
 
         resultSort.Add(producedMix_1)
@@ -1251,8 +1257,7 @@
         For Each productionCycle As ProductionCycle In productionCycleList
             If Not productionCycle.Equals(productionCycleList.Item(0)) Then
 
-                If productionCycle.getProducedMix.getMixNumber.Equals(previousProductionCycle.getProducedMix.getMixNumber) _
-                    And productionCycle.getProducedMix.getVirginAsphaltConcrete.getTankId = previousProductionCycle.getProducedMix.getVirginAsphaltConcrete.getTankId Then
+                If Not productionCycle.getProducedMix.getMixNumber.Equals(previousProductionCycle.getProducedMix.getMixNumber) Then
                     nombreDeChangement = nombreDeChangement + 1
                 End If
                 previousProductionCycle = productionCycle

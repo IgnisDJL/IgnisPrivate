@@ -69,11 +69,6 @@ Public Class ProductionSpeedGraphic
 
             If (cyclesProductionSpeed(indexCycle) > 0) Then
 
-                Me.MAIN_DATA_SERIE.Points.AddXY(cyclesDateTime(indexCycle), cyclesProductionSpeed(indexCycle))
-                Me.MAIN_DATA_SERIE.Points.Last.Color = Me.lastPointFormat.COLOR
-                Me.MAIN_DATA_SERIE.Points.Last.MarkerStyle = Me.lastPointFormat.MARKER
-
-
                 If (cyclesProductionSpeed(indexCycle) > Me.MAXIMUM_TPH) Then
                     Me.MAXIMUM_TPH = cyclesProductionSpeed(indexCycle)
                 End If

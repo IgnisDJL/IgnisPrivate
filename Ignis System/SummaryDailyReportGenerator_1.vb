@@ -505,7 +505,7 @@ Public Class SummaryDailyReportGenerator_1
 
             Dim mixTemperatureVariationGraphicData As ArrayList = dailyReport.getMixTemperatureVariationGraphicData
 
-            Dim mixTemperatureVariation As New MixTemperatureVariationGraphic(dailyReport.getProductionDate)
+            Dim mixTemperatureVariation As New MixTemperatureVariationGraphic(dailyReport.getDebutPeriode, dailyReport.getFinPeriode)
 
             mixTemperatureVariation.setGraphicData(mixTemperatureVariationGraphicData(0), mixTemperatureVariationGraphicData(1), mixTemperatureVariationGraphicData(2), mixTemperatureVariationGraphicData(3), mixTemperatureVariationGraphicData(4))
 

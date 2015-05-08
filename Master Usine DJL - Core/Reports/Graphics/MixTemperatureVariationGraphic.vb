@@ -10,16 +10,31 @@ Public Class MixTemperatureVariationGraphic
     Private MAX_PRECISION_SERIE As New Serie
     Private MIN_PRECISION_SERIE As New Serie
 
-    Public Sub New(date_ As Date)
+    Public Sub New(debutPeriode As Date, finPeriode As Date)
         MyBase.New()
-
-        Me.DATE_ = date_.Date
 
         Me.Y_TITLE = "Variation (" & Me.UNIT.ToString & ")"
 
         Me.X_LABEL_FORMAT = "HH:mm"
 
         Me.X_LABEL_ORENTATION = 0
+
+        Dim borneDebutAxeX As Date
+
+        If debutPeriode < New Date(debutPeriode.Year, debutPeriode.Month, debutPeriode.Day, 12, 0, 0) Then
+            borneDebutAxeX = New Date(debutPeriode.Year, debutPeriode.Month, debutPeriode.Day)
+            Me.X_MINIMUM = borneDebutAxeX.ToOADate
+        Else
+            borneDebutAxeX = New Date(debutPeriode.Year, debutPeriode.Month, debutPeriode.Day, 12, 0, 0)
+            Me.X_MINIMUM = borneDebutAxeX.ToOADate
+        End If
+
+        If finPeriode < borneDebutAxeX + TimeSpan.FromHours(24) Then
+            Me.X_MAXIMUM = (borneDebutAxeX + TimeSpan.FromHours(24)).ToOADate
+        Else
+            Me.X_MAXIMUM = (borneDebutAxeX + TimeSpan.FromHours(36)).ToOADate
+        End If
+
 
         ' settings
         Me.X_INTERVAL = Constants.Output.Graphics.intervalFromHours(4)
@@ -52,15 +67,6 @@ Public Class MixTemperatureVariationGraphic
     Public Property MAXIMUM_TEMP_VAR As Double
     Public Property MINIMUM_TEMP_VAR As Double = Celsius.UNIT.convert(1000, Me.UNIT)
 
-
-    Private WriteOnly Property DATE_ As Date
-        Set(value As Date)
-
-            Me.X_MINIMUM = value.ToOADate
-            Me.X_MAXIMUM = value.Add(TimeSpan.FromHours(24.01)).ToOADate
-
-        End Set
-    End Property
     Public Sub setGraphicData(cyclesDateTime As List(Of Date), cyclesProductionSpeed As List(Of Double), virginAsphaltNameList As List(Of String), recordedTemperatureList As List(Of Double), targetTemperatureList As List(Of Double))
         For indexCycle As Integer = 0 To cyclesDateTime.Count - 1 Step 1
 
