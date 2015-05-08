@@ -36,41 +36,97 @@
             Dim dateBoundaryEventList As List(Of List(Of Date))
 
             dateBoundaryEventList = New List(Of List(Of Date))
-            dateBoundaryList = getDateBoundaryList(startPeriod, endPeriod, productionCycleList)
 
-            For Each sourceFileComplement As String In sourceFileComplementList
+            Dim date1 As Date = New Date(endPeriod.Year, endPeriod.Month, endPeriod.Day)
+            Dim date2 As Date = New Date(startPeriod.Year, startPeriod.Month, startPeriod.Day)
 
-                eventLog = New EventsFile(sourceFileComplement)
+            Dim nomberOfProductionDay As Integer = date1.Subtract(date2).TotalDays
 
-                For Each stopEvent As StopEvent In eventLog.getEvents().STOP_EVENTS
-                    dateBoundary = New List(Of Date)
-                    dateBoundary.Add(stopEvent.TIME)
+            If (sourceFileComplementList.Count = nomberOfProductionDay + 1) Then
 
-                    If IsNothing(stopEvent.NEXT_START) Then
-                        dateBoundary.Add(getEndPeriod(stopEvent.TIME, endPeriod))
-                    Else
-                        dateBoundary.Add(stopEvent.NEXT_START.TIME)
+                If productionCycleList.Count = 0 Then
+                    Return getDateBoundaryList(startPeriod, endPeriod)
+                Else
+                    dateBoundaryList = New List(Of List(Of Date))
+
+                    If (productionCycleList.Item(0).getEndOfCycle() - productionCycleList.Item(0).getDureeCycle).Subtract(startPeriod) > TimeSpan.Zero Then
+                        dateBoundary = New List(Of Date)
+                        dateBoundary.Add(startPeriod)
+                        dateBoundary.Add(productionCycleList.Item(0).getEndOfCycle() - productionCycleList.Item(0).getDureeCycle)
+                        dateBoundaryList.Add(dateBoundary)
                     End If
 
+                    If emptyProduction(productionCycleList.Item(0)) Then
+                        dateBoundary = New List(Of Date)
+                        dateBoundary.Add(productionCycleList.Item(0).getEndOfCycle() - productionCycleList.Item(0).getDureeCycle)
+                        dateBoundary.Add(productionCycleList.Item(0).getEndOfCycle())
+                        dateBoundaryList.Add(dateBoundary)
+                    End If
 
-                    dateBoundaryEventList.Add(dateBoundary)
+                End If
+
+
+                For Each sourceFileComplement As String In sourceFileComplementList
+
+                    eventLog = New EventsFile(sourceFileComplement)
+
+                    For Each stopEvent As StopEvent In eventLog.getEvents().STOP_EVENTS
+                        dateBoundary = New List(Of Date)
+
+                        If (stopEvent.TIME < endPeriod) Then
+
+                            If stopEvent.TIME < startPeriod Then
+                                dateBoundary.Add(startPeriod)
+                            Else
+                                dateBoundary.Add(stopEvent.TIME)
+                            End If
+
+                        End If
+
+                        If Not IsNothing(stopEvent.NEXT_START) Then
+
+                            If (stopEvent.NEXT_START.TIME > startPeriod) Then
+
+                                If (stopEvent.NEXT_START.TIME > endPeriod) Then
+                                    dateBoundary.Add(endPeriod)
+                                Else
+                                    dateBoundary.Add(stopEvent.NEXT_START.TIME)
+                                End If
+                            
+                            End If
+                        Else
+                            dateBoundary.Add(getEndPeriod(stopEvent.TIME, endPeriod))
+                        End If
+
+                        dateBoundaryEventList.Add(dateBoundary)
+                    Next
+
                 Next
 
-            Next
+                If (endPeriod).Subtract(productionCycleList.Item(productionCycleList.Count - 1).getEndOfCycle()) > TimeSpan.Zero Then
+                    dateBoundary = New List(Of Date)
+                    dateBoundary.Add(productionCycleList.Item(productionCycleList.Count - 1).getEndOfCycle())
+                    dateBoundary.Add(endPeriod)
+                    dateBoundaryList.Add(dateBoundary)
+                End If
+
+            Else
+                dateBoundaryList = getDateBoundaryList(startPeriod, endPeriod, productionCycleList)
+            End If
 
             dateBoundaryFinalList = New List(Of List(Of Date))
             dateBoundaryFinalList.InsertRange(0, dateBoundaryList)
 
-            For Each dateBoundaryEvent As List(Of Date) In dateBoundaryEventList
+            'For Each dateBoundaryEvent As List(Of Date) In dateBoundaryEventList
 
-                For Each dateBoundaryBrut As List(Of Date) In dateBoundaryList
+            '    For Each dateBoundaryBrut As List(Of Date) In dateBoundaryList
 
-                    If dateBoundaryBrut.Item(0) > dateBoundaryEvent.Item(0) And dateBoundaryBrut.Item(1) < dateBoundaryEvent.Item(1) And dateBoundaryBrut.Item(0) < dateBoundaryEvent.Item(1) Then
-                        dateBoundaryFinalList.Remove(dateBoundaryBrut)
-                        dateBoundaryFinalList.Add(dateBoundaryEvent)
-                    End If
-                Next
-            Next
+            '        If dateBoundaryBrut.Item(0) > dateBoundaryEvent.Item(0) And dateBoundaryBrut.Item(1) < dateBoundaryEvent.Item(1) And dateBoundaryBrut.Item(0) < dateBoundaryEvent.Item(1) Then
+            '            dateBoundaryFinalList.Remove(dateBoundaryBrut)
+            '            dateBoundaryFinalList.Add(dateBoundaryEvent)
+            '        End If
+            '    Next
+            'Next
 
             Return dateBoundaryFinalList
         End If

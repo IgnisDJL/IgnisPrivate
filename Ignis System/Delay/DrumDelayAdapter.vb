@@ -120,7 +120,7 @@
     'End Function
 
 
-    Private Function emptyProduction(productionCycle As ProductionCycle) As Boolean
+    Protected Function emptyProduction(productionCycle As ProductionCycle) As Boolean
 
         If productionCycle.getProducedMix.isHotFeederEmpty() And productionCycle.getProducedMix.getVirginAsphaltConcrete.isVirginAsphaltEmpty() And productionCycle.isColdFeederEmpty() Then
             Return True

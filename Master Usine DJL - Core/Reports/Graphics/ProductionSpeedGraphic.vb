@@ -79,7 +79,7 @@ Public Class ProductionSpeedGraphic
 
                 Dim valuesForAverage As New List(Of Double)
 
-                For i = 1 To 9
+                For i = 1 To 10
 
                     If ((indexCycle - i) >= 0) Then
 
