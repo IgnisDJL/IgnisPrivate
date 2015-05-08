@@ -504,8 +504,8 @@ Public Class SourceFileMarcotteAdapter
         Return "-3"
     End Function
 
-    Public Overrides Function getVirginAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim virginAsphaltMass As String = "-4"
+    Public Overrides Function getVirginAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As Double
+        Dim virginAsphaltMass As Double = Double.NaN
 
         OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
         Try
@@ -521,10 +521,10 @@ Public Class SourceFileMarcotteAdapter
             dbCommand.Dispose()
 
 
-            Return If(String.IsNullOrEmpty(virginAsphaltMass), "-1", virginAsphaltMass)
+            Return If(virginAsphaltMass < 0, Double.NaN, virginAsphaltMass)
 
         Catch ex As Exception
-            Return "-2"
+            Return Double.NaN
         End Try
     End Function
 
@@ -552,29 +552,29 @@ Public Class SourceFileMarcotteAdapter
     End Function
 
     ''TotalMass
-    Public Overrides Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalMass As Double = -4
-        OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
-        Try
-            Dim query = "SELECT sum(" + sourceFile.importConstant.totalMass + "), " + ImportConstantEn_mdb.detailsCycleID +
-            " FROM " + ImportConstantEn_mdb.tableCycleDetails +
-            " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile) +
-            " Group By " + ImportConstantEn_mdb.detailsCycleID
+    'Public Overrides Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    '    Dim totalMass As Double = -4
+    '    OleDBAdapter.initialize(sourceFile.getFileInfo.FullName)
+    '    Try
+    '        Dim query = "SELECT sum(" + sourceFile.importConstant.totalMass + "), " + ImportConstantEn_mdb.detailsCycleID +
+    '        " FROM " + ImportConstantEn_mdb.tableCycleDetails +
+    '        " Where " + ImportConstantEn_mdb.detailsCycleID + " = " + getCycle(indexCycle, sourceFile) +
+    '        " Group By " + ImportConstantEn_mdb.detailsCycleID
 
-            Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
-            Dim mdbListDate = dbCommand.ExecuteScalar
+    '        Dim dbCommand = New System.Data.OleDb.OleDbCommand(query, OleDBAdapter.MDB_CONNECTION)
+    '        Dim mdbListDate = dbCommand.ExecuteScalar
 
-            totalMass = mdbListDate
+    '        totalMass = mdbListDate
 
-            dbCommand.Dispose()
+    '        dbCommand.Dispose()
 
 
-            Return If(String.IsNullOrEmpty(totalMass.ToString), "-1", totalMass.ToString)
+    '        Return If(String.IsNullOrEmpty(totalMass.ToString), "-1", totalMass.ToString)
 
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
+    '    Catch ex As Exception
+    '        Return "-2"
+    '    End Try
+    'End Function
 
 
 
@@ -647,15 +647,15 @@ Public Class SourceFileMarcotteAdapter
         End Try
     End Function
 
-    Public Overrides Function getColdFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim coldFeederMass As String = "-4"
+    Public Overrides Function getColdFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As Double
+        Dim coldFeederMass As Double = Double.NaN
 
         Try
             coldFeederMass = getColdFeeder(indexCycle, sourceFile).Item(indexFeeder).Item(EnumMDB.coldFeederMass)
-            Return If(String.IsNullOrEmpty(coldFeederMass), "-1", coldFeederMass)
+            Return If(coldFeederMass < 0, Double.NaN, coldFeederMass)
 
         Catch ex As Exception
-            Return "-2"
+            Return Double.NaN
         End Try
     End Function
 
@@ -738,15 +738,15 @@ Public Class SourceFileMarcotteAdapter
         End Try
     End Function
 
-    Public Overrides Function getHotFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim hotFeederMass As String = "-4"
+    Public Overrides Function getHotFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As Double
+        Dim hotFeederMass As Double = Double.NaN
 
         Try
             hotFeederMass = getHotFeeder(indexCycle, sourceFile).Item(indexFeeder).Item(EnumMDB.hotFeederMass)
-            Return If(String.IsNullOrEmpty(hotFeederMass), "-1", hotFeederMass)
+            Return If(hotFeederMass < 0, Double.NaN, hotFeederMass)
 
         Catch ex As Exception
-            Return "-2"
+            Return Double.NaN
         End Try
     End Function
 

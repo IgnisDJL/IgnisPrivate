@@ -201,17 +201,17 @@ Public Class SourceFileCSVAdapter
     End Function
 
 
-    ''Total Mass
-    Public Overrides Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalMass As String = "-4"
+    ' ''Total Mass
+    'Public Overrides Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    '    Dim totalMass As String = "-4"
 
-        Try
-            totalMass = getColumnFromCSVFile(sourceFile.importConstant.totalMass, indexCycle, sourceFile)
-            Return If(String.IsNullOrEmpty(totalMass), "-1", totalMass)
-        Catch ex As Exception
-            Return "-2"
-        End Try
-    End Function
+    '    Try
+    '        totalMass = getColumnFromCSVFile(sourceFile.importConstant.totalMass, indexCycle, sourceFile)
+    '        Return If(String.IsNullOrEmpty(totalMass), "-1", totalMass)
+    '    Catch ex As Exception
+    '        Return "-2"
+    '    End Try
+    'End Function
 
 
     ''***********************************************************************************************************************
@@ -326,14 +326,19 @@ Public Class SourceFileCSVAdapter
         End Try
     End Function
 
-    Public Overrides Function getVirginAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim totalAsphaltMass As String = "-4"
+    Public Overrides Function getVirginAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As Double
+        Dim totalAsphaltMass As Double = Double.NaN
 
         Try
             totalAsphaltMass = getColumnFromCSVFile(sourceFile.importConstant.virginAsphaltConcreteMass, indexCycle, sourceFile)
-            Return If(String.IsNullOrEmpty(totalAsphaltMass), "-1", totalAsphaltMass)
+
+            'Conversion de la masse en kilograme en Tonnes
+            ' TODO rendre la conversion plus propre
+            totalAsphaltMass = totalAsphaltMass / 1000
+
+            Return If(totalAsphaltMass < 0, Double.NaN, totalAsphaltMass)
         Catch ex As Exception
-            Return "-2"
+            Return Double.NaN
         End Try
     End Function
 
@@ -497,8 +502,8 @@ Public Class SourceFileCSVAdapter
 
     End Function
 
-    Public Overrides Function getColdFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim coldFeederMass As String = "-4"
+    Public Overrides Function getColdFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As Double
+        Dim coldFeederMass As Double = Double.NaN
 
         Try
             If (getColdFeederID(indexFeeder, indexCycle, sourceFile).Equals(sourceFile.importConstant.coldFeederID + (indexFeeder + 1).ToString)) Then
@@ -508,9 +513,13 @@ Public Class SourceFileCSVAdapter
                 coldFeederMass = TryCast(sourceFile.importConstant, ImportConstant_csv).coldFeederRecycledMass
             End If
 
-            Return If(String.IsNullOrEmpty(coldFeederMass) Or coldFeederMass.Equals(""""""), "-1", coldFeederMass)
+            'Conversion de la masse en kilograme en Tonnes
+            ' TODO rendre la conversion plus propre
+            coldFeederMass = coldFeederMass / 1000
+
+            Return If(coldFeederMass < 0, Double.NaN, coldFeederMass)
         Catch ex As Exception
-            Return "-2"
+            Return Double.NaN
         End Try
     End Function
 
@@ -711,8 +720,8 @@ Public Class SourceFileCSVAdapter
 
     End Function
 
-    Public Overrides Function getHotFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-        Dim hotFeederMass As String = "-4"
+    Public Overrides Function getHotFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As Double
+        Dim hotFeederMass As Double = Double.NaN
         Try
 
             If (getHotFeederID(indexFeeder, indexCycle, sourceFile).Equals((TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederAggregateID + (indexFeeder + 1).ToString).Trim)) Then
@@ -731,9 +740,14 @@ Public Class SourceFileCSVAdapter
                 hotFeederMass = getColumnFromCSVFile(TryCast(sourceFile.importConstant, ImportConstant_csv).hotFeederFillerMass, indexCycle, sourceFile)
             End If
 
-            Return If(String.IsNullOrEmpty(hotFeederMass), "-1", hotFeederMass)
+
+            'Conversion de la masse en kilograme en Tonnes
+            ' TODO rendre la conversion plus propre
+            hotFeederMass = hotFeederMass / 1000
+
+            Return If(hotFeederMass < 0, Double.NaN, hotFeederMass)
         Catch ex As Exception
-            Return "-2"
+            Return Double.NaN
         End Try
     End Function
 

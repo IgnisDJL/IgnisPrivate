@@ -71,7 +71,7 @@
         '' Ligne Production
         ligneProduction.Insert(EnumDailyReportTableauIndex.colonne_ProductionDebut, getDebutProduction)
         ligneProduction.Insert(EnumDailyReportTableauIndex.colonne_ProductionFin, getFinProduction)
-        ligneProduction.Insert(EnumDailyReportTableauIndex.colonne_ProductionDuree, getDureeProduction)
+        ligneProduction.Insert(EnumDailyReportTableauIndex.colonne_ProductionDuree, calculateDureeProduction)
 
         tableauHoraire.Insert(EnumDailyReportTableauIndex.ligne_Production, ligneProduction)
 
@@ -83,12 +83,12 @@
         'tableauHoraire.Insert(EnumDailyReportTableauIndex.ligne_PostePesee, lignePostePesee)
 
         ''Ligne Delais Pauses
-        ligneDelaisPauses.Insert(EnumDailyReportTableauIndex.colonne_PausesDuree, getDureeTotaleDesPauses)
+        ligneDelaisPauses.Insert(EnumDailyReportTableauIndex.colonne_PausesDuree, calculeDureeTotaleDelaisPause)
 
         tableauHoraire.Insert(EnumDailyReportTableauIndex.ligne_DelaisPauses, ligneDelaisPauses)
 
         ''Ligne Delais Entretiens
-        ligneDelaisEntretiens.Insert(EnumDailyReportTableauIndex.colonne_Entretiens, getDureeTotaleDesEntretiens)
+        ligneDelaisEntretiens.Insert(EnumDailyReportTableauIndex.colonne_Entretiens, calculateDureeTotaleDelaisEntretien)
 
         tableauHoraire.Insert(EnumDailyReportTableauIndex.ligne_DelaisEntretiens, ligneDelaisEntretiens)
 
@@ -178,7 +178,6 @@
             '' Ligne Enrobe Autres
             Dim totalMixMassAutre = getMixMass(TryCast(producedMixSortDecending.Item(6), List(Of ProducedMix)))
             totalMixProductionTimeAutre = getMixProductionTime(TryCast(producedMixSortDecending.Item(6), List(Of ProducedMix)))
-
             ligneEnrobeAutres.Insert(EnumDailyReportTableauIndex.colonne_EnrobeAutreNombre, TryCast(producedMixSortDecending.Item(6), List(Of ProducedMix)).Count)
             ligneEnrobeAutres.Insert(EnumDailyReportTableauIndex.colonne_EnrobeAutreQuantite, totalMixMassAutre)
             ligneEnrobeAutres.Insert(EnumDailyReportTableauIndex.colonne_EnrobeAutreProduction, totalMixMassAutre / totalMixProductionTimeAutre.TotalHours)
@@ -223,7 +222,7 @@
 
         '' Ligne Quantite Totale vendable
 
-        ligneQuantiteTotaleVendue.Insert(EnumDailyReportTableauIndex.colonne_QuantiteTotaleVendueQuantite, getQuantiteTotaleVendable)
+        ligneQuantiteTotaleVendue.Insert(EnumDailyReportTableauIndex.colonne_QuantiteTotaleVendueQuantite, getQuantiteTotalVendue)
         ligneQuantiteTotaleVendue.Insert(EnumDailyReportTableauIndex.colonne_QuantiteTotaleVenduePourcentageEcart, getPourcentageEcartQuantieVenduQuantiteRejete)
         tableauEnrobes.Insert(EnumDailyReportTableauIndex.ligne_QuantiteTotaleVendue, ligneQuantiteTotaleVendue)
 
@@ -248,7 +247,7 @@
         Dim ligneTauxDeProduction = New ArrayList
 
         '' Ligne Durée
-        Dim totalDelaisHybrid As TimeSpan = getTotalDelaisDuree(getHybridDelayList)
+        Dim totalDelaisHybrid As TimeSpan = calculateDureeTotal(getHybridDelayList)
 
         ligneDuree.Insert(EnumDailyReportTableauIndex.colonne_DureeContinu, getMixProductionTime(producedMixContinuList))
         ligneDuree.Insert(EnumDailyReportTableauIndex.colonne_DureeDiscontinu, getMixProductionTime(producedMixDiscontinuList))
@@ -258,7 +257,7 @@
 
 
         '' Ligne Pourcentage du temps
-        Dim totalDelaisContinu As TimeSpan = getTotalDelaisDuree(getContinuDelayList)
+        Dim totalDelaisContinu As TimeSpan = calculateDureeTotal(getContinuDelayList)
 
         If productionCycleDiscontinuList.Count = 0 Then
             lignePourcentageDuTemps.Insert(EnumDailyReportTableauIndex.colonne_PourcentageDuTempsContinu,
@@ -318,27 +317,27 @@
         tableauTempsDeProduction.Insert(EnumDailyReportTableauIndex.ligne_TempsTotalOperations, ligneTempsTotalOperations)
 
         '' ligne Temps nette Operations
-        ligneTempsNetOperations.Insert(EnumDailyReportTableauIndex.colonne_TempsNetOperationsDuree, getDureePeriode() - getDureeTotaleDesPauses())
+        ligneTempsNetOperations.Insert(EnumDailyReportTableauIndex.colonne_TempsNetOperationsDuree, getDureePeriode() - calculeDureeTotaleDelaisPause())
 
         tableauTempsDeProduction.Insert(EnumDailyReportTableauIndex.ligne_TempsNetOperations, ligneTempsNetOperations)
 
         '' ligne Production nette
-        ligneProductionNette.Insert(EnumDailyReportTableauIndex.colonne_ProductionNetteDuree, getDureePeriode() - getDureeTotaleDesPauses() - getDureeTotaleDesEntretiens())
+        ligneProductionNette.Insert(EnumDailyReportTableauIndex.colonne_ProductionNetteDuree, getDureePeriode() - calculeDureeTotaleDelaisPause() - calculateDureeTotaleDelaisEntretien())
 
         tableauTempsDeProduction.Insert(EnumDailyReportTableauIndex.ligne_ProductionNette, ligneProductionNette)
 
         '' ligne Production efficace
-        ligneProductionEfficace.Insert(EnumDailyReportTableauIndex.colonne_ProductionEfficaceDuree, getDureePeriode() - getDureeTotaleDesPauses() - getDureeTotaleDesEntretiens() - getTotalDelaisDuree(getHybridDelayList()))
+        ligneProductionEfficace.Insert(EnumDailyReportTableauIndex.colonne_ProductionEfficaceDuree, getDureePeriode() - calculeDureeTotaleDelaisPause() - calculateDureeTotaleDelaisEntretien() - calculateDureeTotal(getHybridDelayList()))
 
         tableauTempsDeProduction.Insert(EnumDailyReportTableauIndex.ligne_ProductionEfficace, ligneProductionEfficace)
 
         '' ligne Production efficace interne
-        ligneProductionEfficaceInterne.Insert(EnumDailyReportTableauIndex.colonne_ProductionEfficaceInterneDuree, getDureePeriode() - getDureeTotaleDesPauses() - getDureeTotaleDesEntretiens() - getDureeTotaleDesDelaisInternes())
+        ligneProductionEfficaceInterne.Insert(EnumDailyReportTableauIndex.colonne_ProductionEfficaceInterneDuree, getDureePeriode() - calculeDureeTotaleDelaisPause() - calculateDureeTotaleDelaisEntretien() - calculateDureeTotaleDelaisInterne())
 
         tableauTempsDeProduction.Insert(EnumDailyReportTableauIndex.ligne_ProductionEfficaceInterne, ligneProductionEfficaceInterne)
 
         '' ligne Delais
-        ligneDelais.Insert(EnumDailyReportTableauIndex.colonne_DelaisDuree, getTotalDelaisDuree(getHybridDelayList()))
+        ligneDelais.Insert(EnumDailyReportTableauIndex.colonne_DelaisDuree, calculateDureeTotal(getHybridDelayList()))
 
         tableauTempsDeProduction.Insert(EnumDailyReportTableauIndex.ligne_Delais, ligneDelais)
 
@@ -360,35 +359,35 @@
 
 
         '' ligne Nombre de bris
-        ligneNombreDeBris.Insert(EnumDailyReportTableauIndex.colonne_NombreDeBris, getNombreDeBrisInterne)
+        ligneNombreDeBris.Insert(EnumDailyReportTableauIndex.colonne_NombreDeBris, calculateNombreDeBrisInterne)
 
         tableauDelais.Insert(EnumDailyReportTableauIndex.ligne_NombreDeBris, ligneNombreDeBris)
 
         '' ligne Disponibilie
         ligneDisponibilite.Insert(EnumDailyReportTableauIndex.colonne_Disponibilite, _
-                                  (getDureePeriode() - getDureeTotaleDesPauses() - getDureeTotaleDesEntretiens() - getDureeTotaleDesDelaisInternes()).TotalSeconds / _
-                                  (getDureePeriode() - getDureeTotaleDesPauses() - getDureeTotaleDesEntretiens()).TotalSeconds * 100)
+                                  (getDureePeriode() - calculeDureeTotaleDelaisPause() - calculateDureeTotaleDelaisEntretien() - calculateDureeTotaleDelaisInterne()).TotalSeconds / _
+                                  (getDureePeriode() - calculeDureeTotaleDelaisPause() - calculateDureeTotaleDelaisEntretien()).TotalSeconds * 100)
 
         tableauDelais.Insert(EnumDailyReportTableauIndex.ligne_Disponibilite, ligneDisponibilite)
 
         '' ligne Utilisation
         ligneUtilisation.Insert(EnumDailyReportTableauIndex.colonne_Utilisation, _
-                                (getDureePeriode() - getDureeTotaleDesPauses() - getDureeTotaleDesEntretiens() - getTotalDelaisDuree(getHybridDelayList())).TotalSeconds / _
+                                (getDureePeriode() - calculeDureeTotaleDelaisPause() - calculateDureeTotaleDelaisEntretien() - calculateDureeTotal(getHybridDelayList())).TotalSeconds / _
                                  getDureePeriode().TotalSeconds * 100)
 
         tableauDelais.Insert(EnumDailyReportTableauIndex.ligne_Utilisation, ligneUtilisation)
 
         '' ligne Temps entre les pannes
         ligneTempsEntrePannes.Insert(EnumDailyReportTableauIndex.colonne_TempsEntrePannes, _
-                                     (getDureePeriode() - getDureeTotaleDesPauses() - getDureeTotaleDesEntretiens() - getTotalDelaisDuree(getHybridDelayList())).TotalHours / _
-                                      getNombreDeBrisInterne())
+                                     (getDureePeriode() - calculeDureeTotaleDelaisPause() - calculateDureeTotaleDelaisEntretien() - calculateDureeTotal(getHybridDelayList())).TotalHours / _
+                                      calculateNombreDeBrisInterne())
 
         tableauDelais.Insert(EnumDailyReportTableauIndex.ligne_TempsEntrePannes, ligneTempsEntrePannes)
 
         '' ligne Temps pour réparer les pannes
         ligneTempsPourReparer.Insert(EnumDailyReportTableauIndex.colonne_TempsPourReparer, _
-                                     getDureeTotalDelaisInterneAvecBris.TotalHours / _
-                                     getNombreDeBrisInterne())
+                                     calculerDureeTotaleDelaisInterneAvecBris.TotalHours / _
+                                     calculateNombreDeBrisInterne())
 
         tableauDelais.Insert(EnumDailyReportTableauIndex.ligne_TempsPourReparer, ligneTempsPourReparer)
 
@@ -612,14 +611,14 @@
 
         '' Ligne des délais de moins de 10 minutes
         ligneDelayNonJustifiable.Insert(EnumDailyReportTableauIndex.colonne_DelaisNonJustifiableNombre, delaisNonJustifiable.Count)
-        ligneDelayNonJustifiable.Insert(EnumDailyReportTableauIndex.colonne_DelaisNonJustifiableDuree, getTotalDelaisDuree(delaisNonJustifiable))
+        ligneDelayNonJustifiable.Insert(EnumDailyReportTableauIndex.colonne_DelaisNonJustifiableDuree, calculateDureeTotal(delaisNonJustifiable))
         ligneDelayNonJustifiable.Insert(EnumDailyReportTableauIndex.colonne_DelaisNonJustifiableLimite, XmlSettings.Settings.instance.Usine.Events.Delays.JUSTIFIABLE_DURATION.TotalMinutes.ToString("N0"))
         tableauDelay.Insert(indexLigneDelay, ligneDelayNonJustifiable)
 
         indexLigneDelay += 1
 
         '' Ligne du total des délais
-        ligneDelayTotal.Insert(EnumDailyReportTableauIndex.colonne_DelaisTotalDuree, getTotalDelaisDuree(getHybridDelayList()))
+        ligneDelayTotal.Insert(EnumDailyReportTableauIndex.colonne_DelaisTotalDuree, calculateDureeTotal(getHybridDelayList()))
         tableauDelay.Insert(indexLigneDelay, ligneDelayTotal)
 
         Return tableauDelay
@@ -770,37 +769,10 @@
         Return tableauProduction
     End Function
 
-    Public Function getGraphicMasseAccumuleeDiscontinu() As ArrayList
-        Return getGraphicMasseAccumulee(productionCycleDiscontinuList)
-    End Function
-
-    Public Function getGraphicMasseAccumuleeContinu() As ArrayList
-        Return getGraphicMasseAccumulee(productionCycleContinuList)
-    End Function
-
-    Public Function getGraphicMasseAccumulee(productionCycleList As List(Of ProductionCycle)) As ArrayList
-        Dim graphicDate As ArrayList = New ArrayList
-
-        Dim cyclesDateTime = New List(Of Date)
-        Dim cyclesProductionSpeed = New List(Of Double)
-        Dim cyclesMass = New List(Of Double)
-
-        For Each productionCycle As ProductionCycle In productionCycleList
-            cyclesDateTime.Add(productionCycle.getEndOfCycle)
-            cyclesMass.Add(productionCycle.getProducedMix.getHotFeederMass() + productionCycle.getProducedMix.getVirginAsphaltConcrete.getMass())
-            cyclesProductionSpeed.Add(productionCycle.getProducedMix.getMixDebit)
-        Next
-
-        graphicDate.Add(cyclesDateTime)
-        graphicDate.Add(cyclesMass)
-        graphicDate.Add(cyclesProductionSpeed)
-
-        Return graphicDate
-    End Function
 
 
     '' TODO
-    '' Vérifier avec Martin que la valeur souhaité est bel et bien le nombre de cycle (qui ont produit de l'enribé) avec un écart de plus ou moins 0.005 (0.5%) entre le poucentage de bitume visé et réel
+    '' Vérifier avec Martin que la valeur souhaité est bel et bien le nombre de cycle (qui ont produit de l'enrobé) avec un écart de plus ou moins 0.005 (0.5%) entre le poucentage de bitume visé et réel
     '' divisé par le nombre de cycle (qui ont produit de l'enribé) multiplié par 100
     Private Function getValeursAberrantesBitume() As Double
         Dim nombreDeCycle As Integer = 0
@@ -1027,64 +999,15 @@
     End Function
 
     '' Production
-    Private Function getDureeProduction() As TimeSpan
+    Private Function calculateDureeProduction() As TimeSpan
         Dim dureeProduction As TimeSpan = getFinProduction.Subtract(getDebutProduction)
 
         Return dureeProduction
     End Function
 
 
-    '' Delais Entretiens
-    Private Function getDureeTotaleDesEntretiens() As TimeSpan
-        Dim dureeTotaleDesEntretiens As TimeSpan = TimeSpan.Zero
 
-        '' TODO 
-        '' À faire
-
-        '' Ajouter boucle sur toute les delay_1 de type entretien
-        '' Categories: Entretien
-        Return dureeTotaleDesEntretiens
-    End Function
-
-    '' Delais Internes
-    Private Function getDureeTotaleDesDelaisInternes() As TimeSpan
-        Dim dureeTotaleDesDelaisInterne As TimeSpan = TimeSpan.Zero
-
-        '' TODO 
-        '' À faire
-
-        '' Ajouter boucle sur toute les delay_1 de type delais intenre (1 a 46)
-        '' Categories: Interne (avec bris), Interne (sans bris)
-
-        Return dureeTotaleDesDelaisInterne
-    End Function
-
-    '' Delais Pauses
-    Private Function getDureeTotaleDesPauses() As TimeSpan
-        Dim dureeTotaleDesPauses As TimeSpan = TimeSpan.Zero
-
-        '' TODO 
-        '' À faire
-
-        '' Ajouter boucle sur toute les delay_1 de type pause
-        '' Categories: Pause
-        Return dureeTotaleDesPauses
-    End Function
-
-    Private Function getDureeTotalDelaisInterneAvecBris() As TimeSpan
-        Dim dureeTotalDelaisInterneAvecBris As TimeSpan = TimeSpan.Zero
-
-        '' TODO 
-        '' À faire
-
-        '' Boucler sur le tableau des délais hybrid du rapport, puis calculer la durée
-        '' des délais appartenent à la catégorie: Interne (avec bris)
-        '' Code de délais de 1 à 17
-
-        Return dureeTotalDelaisInterneAvecBris
-    End Function
-
-    Private Function getNombreDeBrisInterne() As Integer
+    Private Function calculateNombreDeBrisInterne() As Integer
         Dim nombreDeBris As Integer = 0
 
         '' TODO 
@@ -1339,7 +1262,7 @@
         Return nombreDeChangement
     End Function
 
-    Private Function getTotalDelaisDuree(delayList As List(Of Delay_1)) As TimeSpan
+    Private Function calculateDureeTotal(delayList As List(Of Delay_1)) As TimeSpan
         Dim totalDelaisDuree = TimeSpan.Zero
 
         For Each delay As Delay_1 In delayList
@@ -1354,9 +1277,9 @@
         Dim UNKNOWN_QUANTITY As Double = Double.NegativeInfinity
         Dim INVALID_QUANTITY As Double = Double.NaN
 
-        If (donneeManuel.SILO_QUANTITY_AT_START.Equals(INVALID_QUANTITY)) Then
+        If Double.IsNaN(donneeManuel.SILO_QUANTITY_AT_START) Then
             Return INVALID_QUANTITY
-        ElseIf (donneeManuel.SILO_QUANTITY_AT_START.Equals(UNKNOWN_QUANTITY)) Then
+        ElseIf Double.IsNegativeInfinity(donneeManuel.SILO_QUANTITY_AT_START) Then
             Return UNKNOWN_QUANTITY
         Else
             Return donneeManuel.SILO_QUANTITY_AT_START
@@ -1369,9 +1292,9 @@
         Dim UNKNOWN_QUANTITY As Double = Double.NegativeInfinity
         Dim INVALID_QUANTITY As Double = Double.NaN
 
-        If (donneeManuel.SILO_QUANTITY_AT_END.Equals(INVALID_QUANTITY)) Then
+        If Double.IsNaN(donneeManuel.SILO_QUANTITY_AT_END) Then
             Return INVALID_QUANTITY
-        ElseIf (donneeManuel.SILO_QUANTITY_AT_END.Equals(UNKNOWN_QUANTITY)) Then
+        ElseIf Double.IsNegativeInfinity(donneeManuel.SILO_QUANTITY_AT_END) Then
             Return UNKNOWN_QUANTITY
         Else
             Return donneeManuel.SILO_QUANTITY_AT_END
@@ -1384,8 +1307,11 @@
         Dim UNKNOWN_QUANTITY As Double = Double.NegativeInfinity
         Dim INVALID_QUANTITY As Double = Double.NaN
 
-        If (Not getQuantiteEnSiloDebut.Equals(INVALID_QUANTITY) Or Not getQuantiteEnSiloFin.Equals(INVALID_QUANTITY) AndAlso _
-            Not getQuantiteEnSiloDebut.Equals(UNKNOWN_QUANTITY) Or Not getQuantiteEnSiloFin.Equals(UNKNOWN_QUANTITY)) Then
+        If Not (Double.IsNaN(getQuantiteEnSiloDebut) Or Double.IsNegativeInfinity(getQuantiteEnSiloDebut)) And _
+           Not (Double.IsNaN(getQuantiteEnSiloFin) Or Double.IsNegativeInfinity(getQuantiteEnSiloFin)) Then
+
+            getQuantiteEnSiloDebut.Equals(UNKNOWN_QUANTITY)
+            getQuantiteEnSiloFin.Equals(UNKNOWN_QUANTITY)
 
             Return totalMixMass + getQuantiteEnSiloDebut() - getQuantiteEnSiloFin()
         Else
@@ -1403,9 +1329,9 @@
         Dim UNKNOWN_QUANTITY As Double = Double.NegativeInfinity
         Dim INVALID_QUANTITY As Double = Double.NaN
 
-        If (getQuantiteEnrobeRejete().Equals(INVALID_QUANTITY)) Then
+        If Double.IsNaN(getQuantiteEnrobeRejete()) Then
             Return INVALID_QUANTITY
-        ElseIf (getQuantiteEnrobeRejete().Equals(UNKNOWN_QUANTITY)) Then
+        ElseIf Double.IsNegativeInfinity(getQuantiteEnrobeRejete()) Then
             Return UNKNOWN_QUANTITY
         Else
             Return getQuantiteEnrobeRejete() / totalMixMass * 100
@@ -1418,8 +1344,8 @@
         Dim UNKNOWN_QUANTITY As Double = Double.NegativeInfinity
         Dim INVALID_QUANTITY As Double = Double.NaN
 
-        If (Not getQuantiteEnrobeRejete().Equals(INVALID_QUANTITY) AndAlso _
-                Not getQuantiteEnrobeRejete().Equals(UNKNOWN_QUANTITY)) Then
+
+        If Not (Double.IsNaN(getQuantiteEnrobeRejete) Or Double.IsNegativeInfinity(getQuantiteEnrobeRejete)) Then
 
             Return getQuantiteTotaleVendable() - getQuantiteEnrobeRejete()
 
@@ -1431,7 +1357,6 @@
     End Function
 
     Private Function getQuantiteTotalVendue() As Double
-
         Return donneeManuel.WEIGHTED_QUANTITY
     End Function
 
@@ -1440,10 +1365,9 @@
         Dim UNKNOWN_QUANTITY As Double = Double.NegativeInfinity
         Dim INVALID_QUANTITY As Double = Double.NaN
 
-
-        If (getQuantiteTotalVendue().Equals(INVALID_QUANTITY)) Then
+        If Double.IsNaN(getQuantiteTotalVendue()) Then
             Return INVALID_QUANTITY
-        ElseIf (getQuantiteTotalVendue().Equals(UNKNOWN_QUANTITY)) Then
+        ElseIf Double.IsNegativeInfinity(getQuantiteTotalVendue()) Then
             Return UNKNOWN_QUANTITY
 
         Else
@@ -1501,4 +1425,329 @@
     Public Sub setReportComment(reportComment As String)
         Me.commentaire = reportComment
     End Sub
+
+
+
+    ''******************************************************************************************************************************************************************
+    ''*
+    ''*                                                 Sections des fonctions consernant les données des graphiques
+    ''*
+    ''******************************************************************************************************************************************************************
+
+    ''******************************************************************************************************************************************************************
+    ''*                                                                 Graphique des horaire en (h)
+    ''******************************************************************************************************************************************************************
+
+    ''' <summary>
+    '''
+    ''' </summary>
+    ''' <returns>Retourne une liste de TimeSpan contenant 4 objets: dureeProduction as TimeSpan, dureeTotaleDelaisPause as TimeSpan,
+    ''' dureeTotaleDelaisEntretien as TimeSpan, DureeTotaleDelais as TimeSpan  </returns>
+    ''' <remarks>La fonction est principalement utilité pour fournir les donnée d'entré à la classe ProductionDistributionGraphic</remarks>
+    Public Function getProductionDistributionGraphicData() As List(Of TimeSpan)
+
+        Dim productionDistributionGraphicData As List(Of TimeSpan) = New List(Of TimeSpan)
+
+        productionDistributionGraphicData.Add(calculateDureeProduction())
+        productionDistributionGraphicData.Add(calculeDureeTotaleDelaisPause())
+        productionDistributionGraphicData.Add(calculateDureeTotaleDelaisEntretien())
+        productionDistributionGraphicData.Add(calculateDureeTotal(getHybridDelayList))
+
+        Return productionDistributionGraphicData
+    End Function
+
+
+    ''******************************************************************************************************************************************************************
+    ''*                                                                 Graphique des Délais en (h)
+    ''******************************************************************************************************************************************************************
+
+    ''' <summary>
+    ''' Fonction qui retourne la durée totale des délais classé par catégories de délais, pour les catégories: Interne (avec bris), Interne (sans bris), Externe (chantier), Externe (autres)  
+    ''' </summary>
+    ''' <returns>Retourne une liste de TimeSpan contenant 4 objets: dureeTotaleDelaisInterneAvecBris as TimeSpan, DureeTotalDelaisInterneSansBris as TimeSpan,
+    ''' dureeTotalDelaisExterneChantier as TimeSpan, dureeTotalDelaisExterneAutres as TimeSpan  </returns>
+    ''' <remarks>La fonction est principalement utilité pour fournir les donnée d'entré à la classe DelaysDistributionGraphic</remarks>
+    Public Function getDelaysDistributionGraphicData() As List(Of TimeSpan)
+
+        Dim delaysDistributionGraphicData As List(Of TimeSpan) = New List(Of TimeSpan)
+
+        delaysDistributionGraphicData.Add(calculerDureeTotaleDelaisInterneAvecBris())
+        delaysDistributionGraphicData.Add(calculerDureeTotalDelaisInterneSansBris())
+        delaysDistributionGraphicData.Add(calculerDureeTotalDelaisExterneChantier())
+        delaysDistributionGraphicData.Add(calculerDureeTotalDelaisExterneAutres)
+
+        Return delaysDistributionGraphicData
+    End Function
+
+
+    ''******************************************************************************************************************************************************************
+    ''*                                                                 Graphique variation en (Celcius)
+    ''******************************************************************************************************************************************************************
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns>Retourne un ArrayList qui contient cinq objets Liste: cyclesDateTime as List(of Date),cyclesProductionSpeed as List(of Double),
+    ''' virginAsphaltNameList as List(Of String), recordedTemperatureList as List (of Double), targetTemperatureList as List( of Double)
+    ''' </returns>
+    ''' <remarks>La fonction est principalement utilité pour fournir les donnée d'entré à la classe MixTemperatureVariationGraphic</remarks>
+
+    Public Function getMixTemperatureVariationGraphicData() As ArrayList
+        Dim mixTemperatureVariationGraphicData As ArrayList = New ArrayList
+
+        Dim cyclesDateTime As List(Of Date) = New List(Of Date)
+        Dim cyclesProductionSpeed As List(Of Double) = New List(Of Double)
+        Dim virginAsphaltNameList As List(Of String) = New List(Of String)
+        Dim recordedTemperatureList As List(Of Double) = New List(Of Double)
+        Dim targetTemperatureList As List(Of Double) = New List(Of Double)
+
+        '' TODO faire une fonction pour getProductionCycleHybridList
+        Dim productionCycleHybridList = New List(Of ProductionCycle)
+        productionCycleHybridList.InsertRange(0, productionCycleContinuList)
+        productionCycleHybridList.InsertRange(0, productionCycleDiscontinuList)
+
+        '' TODO code dupliqué avec la méthode getValeursAberrantesBitume
+        For Each productionCycle As ProductionCycle In productionCycleHybridList
+
+            If (productionCycle.getProducedMix.getMixMass > 0) Then
+
+                cyclesDateTime.Add(productionCycle.getEndOfCycle)
+                cyclesProductionSpeed.Add(productionCycle.getProducedMix.getMixDebit)
+                virginAsphaltNameList.Add(productionCycle.getProducedMix.getVirginAsphaltConcrete.getAsphaltName(getProductionDate))
+                recordedTemperatureList.Add(productionCycle.getProducedMix.getRecordedTemperature)
+                targetTemperatureList.Add(productionCycle.getProducedMix.getTargetTemperature)
+            End If
+        Next
+
+        mixTemperatureVariationGraphicData.Add(cyclesDateTime)
+        mixTemperatureVariationGraphicData.Add(cyclesProductionSpeed)
+        mixTemperatureVariationGraphicData.Add(virginAsphaltNameList)
+        mixTemperatureVariationGraphicData.Add(recordedTemperatureList)
+        mixTemperatureVariationGraphicData.Add(targetTemperatureList)
+
+        Return mixTemperatureVariationGraphicData
+    End Function
+
+
+    ''******************************************************************************************************************************************************************
+    ''*                                                                 Graphique du tonnage accumulé en (T)
+    ''******************************************************************************************************************************************************************
+
+    ''' <summary>
+    ''' Fonction retourne pour chacun des cycles disontinu de la période: et extrait pour chacun: la data de fin du cycle, la masse totale du cycle, le débit de production d'enrobé bitumineux.
+    ''' </summary>
+    ''' <returns>Retourne un ArrayList qui contient trois objets Liste: cyclesDateTime as List(of Date), cyclesMass as List(of Double), cyclesProductionSpeed as List(of Double)  </returns>
+    ''' <remarks>La fonction est principalement utilité pour fournir les donnée d'entré à la classe AccumulatedMassGraphic pour les cycles continu de la période</remarks>
+    Public Function getAccumulatedMassGraphicDataDiscontinu() As ArrayList
+        Return getAccumulatedMassGraphicData(productionCycleDiscontinuList)
+    End Function
+
+    ''' <summary>
+    ''' Fonction retourne pour chacun des cycles continu de la période: fin du cycle, la masse totale du cycle, le débit de production d'enrobé bitumineux.
+    ''' </summary>
+    ''' <returns>Retourne un ArrayList qui contient trois objets Liste: cyclesDateTime as List(of Date), cyclesMass as List(of Double), cyclesProductionSpeed as List(of Double)  </returns>
+    ''' <remarks>La fonction est principalement utilité pour fournir les donnée d'entré à la classe AccumulatedMassGraphic pour les cycles discontinu de la période</remarks>
+    Public Function getAccumulatedMassGraphicDataContinu() As ArrayList
+        Return getAccumulatedMassGraphicData(productionCycleContinuList)
+    End Function
+
+    ''' <summary>
+    ''' La fonction permet de boucler sur une collection d'objets ProductionCycle, puis d'en extraire pour chacun: la data de fin du cycle, la masse totale du cycle, le débit de production d'enrobé bitumineux.
+    ''' </summary>
+    ''' <param name="productionCycleList">Collection d'objets ProductionCycle</param>
+    ''' <returns>Retourne un ArrayList qui contient trois objets Liste: cyclesDateTime as List(of Date), cyclesMass as List(of Double), cyclesProductionSpeed as List(of Double)  </returns>
+    ''' <remarks>Fonction pour usage interne de la classe seulement  </remarks>
+    Private Function getAccumulatedMassGraphicData(productionCycleList As List(Of ProductionCycle)) As ArrayList
+        Dim graphicDate As ArrayList = New ArrayList
+
+        Dim cyclesDateTime = New List(Of Date)
+        Dim cyclesProductionSpeed = New List(Of Double)
+        Dim cyclesMass = New List(Of Double)
+
+        For Each productionCycle As ProductionCycle In productionCycleList
+            cyclesDateTime.Add(productionCycle.getEndOfCycle)
+            cyclesMass.Add(productionCycle.getProducedMix.getHotFeederMass() + productionCycle.getProducedMix.getVirginAsphaltConcrete.getMass())
+            cyclesProductionSpeed.Add(productionCycle.getProducedMix.getMixDebit)
+        Next
+
+        graphicDate.Add(cyclesDateTime)
+        graphicDate.Add(cyclesMass)
+        graphicDate.Add(cyclesProductionSpeed)
+
+        Return graphicDate
+    End Function
+    ''******************************************************************************************************************************************************************
+    ''*                                                                 Graphique de la production en (T/h)
+    ''******************************************************************************************************************************************************************
+
+    ''' <summary>
+    ''' Fonction retourne pour chacun des cycles discontinu de la période: fin du cycle,  le débit de production d'enrobé bitumineux.
+    ''' </summary>
+    ''' <returns>Retourne un ArrayList qui contient deux objets Liste: cyclesDateTime as List(of Date), cyclesProductionSpeed as List(of Double)  </returns>
+    ''' <remarks>La fonction est principalement utilité pour fournir les donnée d'entré à la classe ProductionSpeedGraphic pour les cycles continu de la période</remarks>
+    Public Function getProductionSpeedGraphicDataDiscontinu() As ArrayList
+        Return getProductionSpeedGraphicData(productionCycleDiscontinuList)
+    End Function
+
+    ''' <summary>
+    ''' Fonction boucle sur la liste complète des cycles de la production continu, et extrait pour chacun: la data de fin du cycle, le débit de production d'enrobé bitumineux.
+    ''' </summary>
+    ''' <returns>Retourne un ArrayList qui contient deux objets Liste: cyclesDateTime as List(of Date), cyclesProductionSpeed as List(of Double)  </returns>
+    ''' <remarks>La fonction est principalement utilité pour fournir les donnée d'entré à la classe ProductionSpeedGraphic pour les cycles discontinu de la période</remarks>
+    Public Function getProductionSpeedGraphicDataContinu() As ArrayList
+        Return getProductionSpeedGraphicData(productionCycleContinuList)
+    End Function
+
+    ''' <summary>
+    ''' La fonction permet de boucler sur une collection d'objets ProductionCycle, puis d'en extraire pour chacun: la data de fin du cycle, le débit de production d'enrobé bitumineux.
+    ''' </summary>
+    ''' <param name="productionCycleList">Collection d'objets ProductionCycle</param>
+    ''' <returns>Retourne un ArrayList qui contient deux objets Liste: cyclesDateTime as List(of Date), cyclesProductionSpeed as List(of Double)  </returns>
+    ''' <remarks>Fonction pour usage interne de la classe seulement  </remarks>
+    Private Function getProductionSpeedGraphicData(productionCycleList As List(Of ProductionCycle)) As ArrayList
+        Dim graphicDate As ArrayList = New ArrayList
+
+        Dim cyclesDateTime = New List(Of Date)
+        Dim cyclesProductionSpeed = New List(Of Double)
+
+        For Each productionCycle As ProductionCycle In productionCycleList
+            cyclesDateTime.Add(productionCycle.getEndOfCycle)
+            cyclesProductionSpeed.Add(productionCycle.getProducedMix.getMixDebit)
+        Next
+
+        graphicDate.Add(cyclesDateTime)
+        graphicDate.Add(cyclesProductionSpeed)
+
+        Return graphicDate
+    End Function
+
+
+    ''******************************************************************************************************************************************************************
+    ''*
+    ''*                                                       Sections des fonctions privées concernant les délais
+    ''*
+    ''******************************************************************************************************************************************************************
+
+    ''' <summary>
+    ''' Fonction qui boucle sur la liste complète des délais pour la période choisi et
+    ''' retourne la somme des durées de chaque délais appartenent à la catégorie: Entretien    
+    ''' </summary>
+    ''' <returns>Somme des durées des délais pour la catégorie: Entretien</returns>
+    ''' <remarks>La facon d'identifier la catégorie n'est pas idéal</remarks>
+    Private Function calculateDureeTotaleDelaisEntretien() As TimeSpan
+        Dim dureeTotaleDelaisEntretien As TimeSpan = TimeSpan.Zero
+
+        For Each delay As Delay_1 In getHybridDelayList()
+            If delay.getDelayCategorieName().Equals(DelayTypeNameConstant.delayTypeEntretien) Then
+                dureeTotaleDelaisEntretien += delay.getDuration
+            End If
+        Next
+
+        Return dureeTotaleDelaisEntretien
+    End Function
+
+
+    ''' <summary>
+    ''' Fonction qui boucle sur la liste complète des délais pour la période choisi et
+    ''' retourne la somme des durées de chaque délais appartenent à la catégorie: Pause    
+    ''' </summary>
+    ''' <returns>Somme des durées des délais pour la catégorie: Pause</returns>
+    ''' <remarks>La facon d'identifier la catégorie n'est pas idéal</remarks>
+    Private Function calculeDureeTotaleDelaisPause() As TimeSpan
+        Dim dureeTotaleDelaisPause As TimeSpan = TimeSpan.Zero
+
+        For Each delay As Delay_1 In getHybridDelayList()
+            If delay.getDelayCategorieName().Equals(DelayTypeNameConstant.delayTypePause) Then
+                dureeTotaleDelaisPause += delay.getDuration
+            End If
+        Next
+
+        Return dureeTotaleDelaisPause
+    End Function
+
+
+    ''' <summary>
+    ''' Fonction qui calcule la somme totale des durée de chaque délais pour la période choisi, appartenent à la catégorie: Interne (avec bris) ou à la catégorie: Interne (sans bris) 
+    ''' </summary>
+    ''' <returns>Duree totale des délais pour la catégorie Interne (avec bris) et Interne (sans bris)</returns>
+    ''' <remarks></remarks>
+    Private Function calculateDureeTotaleDelaisInterne() As TimeSpan
+        Dim dureeTotaleDelaisInterne As TimeSpan = TimeSpan.Zero
+
+        dureeTotaleDelaisInterne = calculerDureeTotaleDelaisInterneAvecBris() + calculerDureeTotalDelaisInterneSansBris()
+
+        Return dureeTotaleDelaisInterne
+    End Function
+
+    ''' <summary>
+    ''' Fonction qui boucle sur la liste complète des délais pour la période choisi et
+    ''' retourne la somme des durée de chaque délais appartenent à la catégorie: Interne (avec bris)    
+    ''' </summary>
+    ''' <returns>Duree totale des délais pour la catégorie Interne (avec bris)</returns>
+    ''' <remarks>La facon d'identifier la catégorie n'est pas idéal</remarks>
+    Private Function calculerDureeTotaleDelaisInterneAvecBris() As TimeSpan
+        Dim dureeTotaleDelaisInterneAvecBris As TimeSpan = TimeSpan.Zero
+
+        For Each delay As Delay_1 In getHybridDelayList()
+            If delay.getDelayCategorieName().Equals(DelayTypeNameConstant.delayTypeInterneAvecBris) Then
+                dureeTotaleDelaisInterneAvecBris += delay.getDuration
+            End If
+        Next
+
+        Return dureeTotaleDelaisInterneAvecBris
+    End Function
+
+    ''' <summary>
+    ''' Fonction qui boucle sur la liste complète des délais pour la période choisi et
+    ''' retourne la somme des durées de chaque délais appartenent à la catégorie: Interne (sans bris)    
+    ''' </summary>
+    ''' <returns>Somme des durées des délais pour la catégorie: Interne (sans bris)</returns>
+    ''' <remarks>La facon d'identifier la catégorie n'est pas idéal</remarks>
+    Private Function calculerDureeTotalDelaisInterneSansBris() As TimeSpan
+        Dim dureeTotaleDelaisInterneSansBris As TimeSpan = TimeSpan.Zero
+
+        For Each delay As Delay_1 In getHybridDelayList()
+            If delay.getDelayCategorieName().Equals(DelayTypeNameConstant.delayTypeInterneSansBris) Then
+                dureeTotaleDelaisInterneSansBris += delay.getDuration
+            End If
+        Next
+
+        Return dureeTotaleDelaisInterneSansBris
+    End Function
+
+    ''' <summary>
+    ''' Fonction qui boucle sur la liste complète des délais pour la période choisi et
+    ''' retourne la somme des durées de chaque délais appartenent à la catégorie: Externe (chantier)    
+    ''' </summary>
+    ''' <returns>Somme des durées des délais pour la catégorie: Externe (chantier)</returns>
+    ''' <remarks>La facon d'identifier la catégorie n'est pas idéal</remarks>
+    Private Function calculerDureeTotalDelaisExterneChantier() As TimeSpan
+        Dim dureeTotalDelaisExterneChantier As TimeSpan = TimeSpan.Zero
+
+        For Each delay As Delay_1 In getHybridDelayList()
+            If delay.getDelayCategorieName().Equals(DelayTypeNameConstant.delayTypeExterneChantier) Then
+                dureeTotalDelaisExterneChantier += delay.getDuration
+            End If
+        Next
+
+        Return dureeTotalDelaisExterneChantier
+    End Function
+
+    ''' <summary>
+    ''' Fonction qui boucle sur la liste complète des délais pour la période choisi et
+    ''' retourne la somme des durées de chaque délais appartenent à la catégorie: Externe (autres)    
+    ''' </summary>
+    ''' <returns>Somme des durées des délais pour la catégorie: Externe (autres)</returns>
+    ''' <remarks>La facon d'identifier la catégorie n'est pas idéal</remarks>
+    Private Function calculerDureeTotalDelaisExterneAutres() As TimeSpan
+        Dim dureeTotalDelaisExterneAutres As TimeSpan = TimeSpan.Zero
+
+        For Each delay As Delay_1 In getHybridDelayList()
+            If delay.getDelayCategorieName().Equals(DelayTypeNameConstant.delayTypeExterneAutres) Then
+                dureeTotalDelaisExterneAutres += delay.getDuration
+            End If
+        Next
+
+        Return dureeTotalDelaisExterneAutres
+    End Function
 End Class

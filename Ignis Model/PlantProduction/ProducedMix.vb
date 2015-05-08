@@ -74,7 +74,7 @@
             Return recordedTemperature
         End Get
     End Property
-
+    '' TODO utiliser le catalogue pour récupérer cette valeur
     Public ReadOnly Property getTargetTemperature As Double
         Get
             Return targetTemperature

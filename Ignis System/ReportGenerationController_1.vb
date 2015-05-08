@@ -162,8 +162,7 @@ Public Class ReportGenerationController_1
         ProgramController.UIController.ReportGenerationFrame.DelaysJustificationStepSkipped = True
 
         For Each delay As Delay_1 In report.getHybridDelayList
-            delay.setDelayCategorieName(Nothing)
-            delay.setDelayCode(Nothing)
+            delay.setEmpty()
         Next
 
         startCommentsStep()

@@ -114,4 +114,10 @@
         End Get
     End Property
 
+    Public Shared Function FormatTimeSpan(span As TimeSpan) As String
+        Return String.Format("{0}h{1}", _
+                             CInt(Math.Truncate(span.TotalHours)), _
+                             span.Minutes)
+    End Function
+
 End Class

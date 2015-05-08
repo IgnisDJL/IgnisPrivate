@@ -61,7 +61,45 @@ Public Class MixTemperatureVariationGraphic
 
         End Set
     End Property
+    Public Sub setGraphicData(cyclesDateTime As List(Of Date), cyclesProductionSpeed As List(Of Double), virginAsphaltNameList As List(Of String), recordedTemperatureList As List(Of Double), targetTemperatureList As List(Of Double))
+        For indexCycle As Integer = 0 To cyclesDateTime.Count - 1 Step 1
 
+            If (cyclesProductionSpeed(indexCycle) > 0) Then
+
+                If Not Double.IsNaN(recordedTemperatureList(indexCycle)) And Not Double.IsNaN(targetTemperatureList(indexCycle)) Then
+
+                    If Not (recordedTemperatureList(indexCycle) >= 200 Or recordedTemperatureList(indexCycle) <= 100) Then
+
+                        Dim cycleDateTime = cyclesDateTime(indexCycle)
+                        Dim temperatureVariation As Double = recordedTemperatureList(indexCycle) - targetTemperatureList(indexCycle)
+
+                        Me.MAIN_DATA_SERIE.Points.AddXY(cycleDateTime, temperatureVariation)
+
+                        With XYScatterGraphic.pointFormatList_asphalt.getFormatFor("", virginAsphaltNameList(indexCycle))
+                            Me.MAIN_DATA_SERIE.Points.Last.Color = .COLOR
+                            Me.MAIN_DATA_SERIE.Points.Last.MarkerStyle = .MARKER
+                        End With
+
+                        ' To be removed when data accessible
+                        If (temperatureVariation > Me.MAXIMUM_TEMP_VAR) Then
+
+                            Me.MAXIMUM_TEMP_VAR = temperatureVariation
+
+                        End If
+                        If (temperatureVariation < Me.MINIMUM_TEMP_VAR) Then
+
+                            Me.MINIMUM_TEMP_VAR = temperatureVariation
+
+                        End If
+                    End If
+
+                End If
+
+            End If
+
+        Next
+
+    End Sub
 
     Public Overrides Sub addCycle(cycle As Cycle, dataFileNode As XmlSettings.DataFileNode)
 

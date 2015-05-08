@@ -141,4 +141,12 @@ Public Class Delay_1
     Public Function getDuration() As TimeSpan
         Return endDelay.Subtract(startDelay)
     End Function
+
+    Public Sub setEmpty()
+        Me.delayCode = String.Empty
+        Me.delayCategorieName = String.Empty
+        Me.delayDescription = String.Empty
+        Me.delayJustification = String.Empty
+        Me.color = Drawing.Color.White
+    End Sub
 End Class

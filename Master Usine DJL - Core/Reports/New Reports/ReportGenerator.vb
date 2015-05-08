@@ -95,4 +95,5 @@ Public MustInherit Class ReportGenerator
         End Set
     End Property
 
+
 End Class

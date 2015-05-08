@@ -36,7 +36,7 @@
     ''  Section concernant de donnée lier a un ProductionDay
     ''***********************************************************************************************************************
     Public MustOverride Function getDate(sourceFile As SourceFile) As Date
-    Public MustOverride Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    'Public MustOverride Function getTotalMass(indexCycle As Integer, sourceFile As SourceFile) As String
 
     ''***********************************************************************************************************************
     ''  Section concernant de donnée lier a un ProductionCycle
@@ -58,7 +58,7 @@
     Public MustOverride Function getVirginAsphaltConcreteTargetPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getVirginAsphaltConcreteActualPercentage(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getVirginAsphaltConcreteDebit(indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getVirginAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getVirginAsphaltConcreteMass(indexCycle As Integer, sourceFile As SourceFile) As Double
     Public MustOverride Function getVirginAsphaltConcreteRecordedTemperature(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getVirginAsphaltConcreteDensity(indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getVirginAsphaltConcreteTankId(indexCycle As Integer, sourceFile As SourceFile) As String
@@ -88,7 +88,7 @@
     Public MustOverride Function getColdFeederCountForCycle(indexCycle As Integer, sourceFile As SourceFile) As Integer
     Public MustOverride Function getColdFeederID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getColdFeederDebit(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getColdFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getColdFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As Double
     Public MustOverride Function getColdFeederMoisturePercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getColdFeederMaterialID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getColdFeederRecycledAsphaltPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
@@ -101,7 +101,7 @@
     Public MustOverride Function getHotFeederTargetPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getHotFeederActualPercentage(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
     Public MustOverride Function getHotFeederDebit(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
-    Public MustOverride Function getHotFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
+    Public MustOverride Function getHotFeederMass(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As Double
     Public MustOverride Function getHotFeederMaterialID(indexFeeder As Integer, indexCycle As Integer, sourceFile As SourceFile) As String
 
 End Class

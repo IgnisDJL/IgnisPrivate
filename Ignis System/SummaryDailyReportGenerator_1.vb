@@ -65,7 +65,7 @@ Public Class SummaryDailyReportGenerator_1
             Dim ligneOpperation As ArrayList = tableauHoraire.Item(EnumDailyReportTableauIndex.ligne_Operation)
             bookMarks.OperationStartTime.Text = CType(ligneOpperation.Item(EnumDailyReportTableauIndex.colonne_OpperationDebut), Date).ToString(Me.Formater.TimeFormat)
             bookMarks.OperationEndTime.Text = CType(ligneOpperation.Item(EnumDailyReportTableauIndex.colonne_OpperationFin), Date).ToString(Me.Formater.TimeFormat)
-            bookMarks.OperationDuration.Text = CType(ligneOpperation.Item(EnumDailyReportTableauIndex.colonne_OpperationDuree), TimeSpan).ToString(Me.Formater.DurationFormat)
+            bookMarks.OperationDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneOpperation.Item(EnumDailyReportTableauIndex.colonne_OpperationDuree), TimeSpan))
 
             ' Production
 
@@ -73,15 +73,15 @@ Public Class SummaryDailyReportGenerator_1
 
             bookMarks.ProductionStartTime.Text = CType(ligneProduction.Item(EnumDailyReportTableauIndex.colonne_ProductionDebut), Date).ToString(Me.Formater.TimeFormat)
             bookMarks.ProductionEndTime.Text = CType(ligneProduction.Item(EnumDailyReportTableauIndex.colonne_ProductionFin), Date).ToString(Me.Formater.TimeFormat)
-            bookMarks.ProductionDuration.Text = CType(ligneProduction.Item(EnumDailyReportTableauIndex.colonne_ProductionDuree), TimeSpan).ToString(Me.Formater.DurationFormat)
+            bookMarks.ProductionDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneProduction.Item(EnumDailyReportTableauIndex.colonne_ProductionDuree), TimeSpan))
 
             Dim ligneDelaisPauses As ArrayList = tableauHoraire.Item(EnumDailyReportTableauIndex.ligne_DelaisPauses)
 
-            bookMarks.PausesDuration.Text = CType(ligneDelaisPauses.Item(EnumDailyReportTableauIndex.colonne_PausesDuree), TimeSpan).ToString(Me.Formater.DurationFormat)
+            bookMarks.PausesDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneDelaisPauses.Item(EnumDailyReportTableauIndex.colonne_PausesDuree), TimeSpan))
 
             Dim ligneDelaisEntretiens As ArrayList = tableauHoraire.Item(EnumDailyReportTableauIndex.ligne_DelaisEntretiens)
 
-            bookMarks.MaintenanceDuration.Text = CType(ligneDelaisEntretiens.Item(EnumDailyReportTableauIndex.colonne_Entretiens), TimeSpan).ToString(Me.Formater.DurationFormat)
+            bookMarks.MaintenanceDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneDelaisEntretiens.Item(EnumDailyReportTableauIndex.colonne_Entretiens), TimeSpan))
 
             RaiseEvent CurrentProgress(12) ' 12 % Progress
 
@@ -96,7 +96,7 @@ Public Class SummaryDailyReportGenerator_1
             If (ligneEnrobe1.Count > 0) Then
                 bookMarks.FirstMixName.Text = ligneEnrobe1.Item(EnumDailyReportTableauIndex.colonne_Enrobe1NoFormule)
                 bookMarks.FirstMixAsphaltTemperatureSpan.Text = ligneEnrobe1.Item(EnumDailyReportTableauIndex.colonne_Enrobe1NomEnrobe)
-                bookMarks.FirstMixQuantity.Text = ligneEnrobe1.Item(EnumDailyReportTableauIndex.colonne_Enrobe1Quantite)
+                bookMarks.FirstMixQuantity.Text = CType(ligneEnrobe1.Item(EnumDailyReportTableauIndex.colonne_Enrobe1Quantite), Double).ToString("N0")
                 bookMarks.FirstMixProductionRate.Text = CType(ligneEnrobe1.Item(EnumDailyReportTableauIndex.colonne_Enrobe1Production), Double).ToString("N0")
                 bookMarks.FirstMixProductionType.Text = ligneEnrobe1.Item(EnumDailyReportTableauIndex.colonne_Enrobe1ProductionMode)
             Else
@@ -170,25 +170,51 @@ Public Class SummaryDailyReportGenerator_1
 
             Dim ligneQuantiteEnSiloDebut As ArrayList = tableauEnrobes.Item(EnumDailyReportTableauIndex.ligne_QuantiteEnSiloDebut)
 
+
+            If (Double.IsNaN(ligneQuantiteEnSiloDebut.Item(EnumDailyReportTableauIndex.colonne_QuantiteEnSiloDebutQuantite)) Or Double.IsNegativeInfinity(ligneQuantiteEnSiloDebut.Item(EnumDailyReportTableauIndex.colonne_QuantiteEnSiloDebutQuantite))) Then
+
+                bookMarks.SiloQuantityAtStart.Text = Me.Formater.InvalidValueCharacter
+            Else
+                bookMarks.SiloQuantityAtStart.Text = ligneQuantiteEnSiloDebut.Item(EnumDailyReportTableauIndex.colonne_QuantiteEnSiloDebutQuantite)
+
+            End If
+
+
             ' Silo at start
-            bookMarks.SiloQuantityAtStart.Text = ligneQuantiteEnSiloDebut.Item(EnumDailyReportTableauIndex.colonne_QuantiteEnSiloDebutQuantite)
+
 
             RaiseEvent CurrentProgress(24) ' 24 % Progress
 
             Dim ligneQuantiteEnSiloFin As ArrayList = tableauEnrobes.Item(EnumDailyReportTableauIndex.ligne_QuantiteEnSiloFin)
 
             ' Silo at end
-            bookMarks.SiloQuantityAtEnd.Text = ligneQuantiteEnSiloFin.Item(EnumDailyReportTableauIndex.colonne_QuantiteEnSiloFinQuantite)
+
+            If (Double.IsNaN(ligneQuantiteEnSiloFin.Item(EnumDailyReportTableauIndex.colonne_QuantiteEnSiloFinQuantite)) Or Double.IsNegativeInfinity(ligneQuantiteEnSiloFin.Item(EnumDailyReportTableauIndex.colonne_QuantiteEnSiloFinQuantite))) Then
+
+                bookMarks.SiloQuantityAtEnd.Text = Me.Formater.InvalidValueCharacter
+            Else
+                bookMarks.SiloQuantityAtEnd.Text = ligneQuantiteEnSiloFin.Item(EnumDailyReportTableauIndex.colonne_QuantiteEnSiloFinQuantite)
+
+            End If
 
             Dim ligneQuantiteTotaleVendable As ArrayList = tableauEnrobes.Item(EnumDailyReportTableauIndex.ligne_QuantiteTotaleVendable)
             ' Salable qty
             bookMarks.SalableQuantity.Text = CType(ligneQuantiteTotaleVendable.Item(EnumDailyReportTableauIndex.colonne_QuantiteTotaleVendableQuantite), Double).ToString("N0")
 
+
+
+
             Dim ligneRejetsEnrobes As ArrayList = tableauEnrobes.Item(EnumDailyReportTableauIndex.ligne_RejetsEnrobes)
             ' Rejected mix
-            bookMarks.RejectedMixQuantity.Text = CType(ligneRejetsEnrobes.Item(EnumDailyReportTableauIndex.colonne_RejetsEnrobesQuantite), Double).ToString("N0")
-            bookMarks.RejectedMixPercentage.Text = CType(ligneRejetsEnrobes.Item(EnumDailyReportTableauIndex.colonne_RejetsEnrobesPourcentageRejet), Double).ToString("N1")
 
+            If (Double.IsNaN(CType(ligneRejetsEnrobes.Item(EnumDailyReportTableauIndex.colonne_RejetsEnrobesQuantite), Double)) Or Double.IsNegativeInfinity(CType(ligneRejetsEnrobes.Item(EnumDailyReportTableauIndex.colonne_RejetsEnrobesQuantite), Double))) Then
+
+                bookMarks.RejectedMixQuantity.Text = Me.Formater.InvalidValueCharacter
+                bookMarks.RejectedMixPercentage.Text = Me.Formater.InvalidValueCharacter
+            Else
+                bookMarks.RejectedMixQuantity.Text = CType(ligneRejetsEnrobes.Item(EnumDailyReportTableauIndex.colonne_RejetsEnrobesQuantite), Double).ToString("N0")
+                bookMarks.RejectedMixPercentage.Text = CType(ligneRejetsEnrobes.Item(EnumDailyReportTableauIndex.colonne_RejetsEnrobesPourcentageRejet), Double).ToString("N1")
+            End If
 
             Dim ligneQuantiteTotalePayable As ArrayList = tableauEnrobes.Item(EnumDailyReportTableauIndex.ligne_QuantiteTotalePayable)
 
@@ -198,50 +224,75 @@ Public Class SummaryDailyReportGenerator_1
             Dim ligneQuantiteTotaleVendue As ArrayList = tableauEnrobes.Item(EnumDailyReportTableauIndex.ligne_QuantiteTotaleVendue)
 
             ' Sold (weighted) qty
-            bookMarks.TotalQuantitySold.Text = CType(ligneQuantiteTotaleVendue.Item(EnumDailyReportTableauIndex.colonne_QuantiteTotaleVendueQuantite), Double).ToString("N0")
-            bookMarks.TotalQuantitySoldDifferencePercentage.Text = CType(ligneQuantiteTotaleVendue.Item(EnumDailyReportTableauIndex.colonne_QuantiteTotaleVenduePourcentageEcart), Double).ToString("N1")
+
+            If (Double.IsNaN(CType(ligneQuantiteTotaleVendue.Item(EnumDailyReportTableauIndex.colonne_QuantiteTotaleVendueQuantite), Double)) Or Double.IsNegativeInfinity(CType(ligneQuantiteTotaleVendue.Item(EnumDailyReportTableauIndex.colonne_QuantiteTotaleVendueQuantite), Double))) Then
+
+                bookMarks.TotalQuantitySold.Text = Me.Formater.InvalidValueCharacter
+                bookMarks.TotalQuantitySoldDifferencePercentage.Text = Me.Formater.InvalidValueCharacter
+            Else
+                bookMarks.TotalQuantitySold.Text = CType(ligneQuantiteTotaleVendue.Item(EnumDailyReportTableauIndex.colonne_QuantiteTotaleVendueQuantite), Double).ToString("N0")
+                bookMarks.TotalQuantitySoldDifferencePercentage.Text = CType(ligneQuantiteTotaleVendue.Item(EnumDailyReportTableauIndex.colonne_QuantiteTotaleVenduePourcentageEcart), Double).ToString("N1")
+            End If
+
+
+
 
             ' --------------------
             ' Graphic 1 et 2 #refactor generate before graphs and store them
             ' --------------------
             XYScatterGraphic.pointFormatList_asphalt = New PointFormatList
             XYScatterGraphic.pointFormatList_mix = New PointFormatList
-            Dim accumulateGraphicData As ArrayList
 
+            '' Graphic 1
+
+            Dim accumulateGraphicData As ArrayList
             Dim isHybrid As Boolean = XmlSettings.Settings.instance.Usine.DataFiles.CSV.ACTIVE AndAlso XmlSettings.Settings.instance.Usine.DataFiles.LOG.ACTIVE
 
             Dim accumulatedMass As New AccumulatedMassGraphic(dailyReport.getDebutPeriode, dailyReport.getFinPeriode, isHybrid)
-            'Dim productionSpeed As New ProductionSpeedGraphic(dailyReport.getProductionDate)
 
-            accumulateGraphicData = dailyReport.getGraphicMasseAccumuleeDiscontinu()
+            accumulateGraphicData = dailyReport.getAccumulatedMassGraphicDataDiscontinu()
 
             Dim cycleListDiscontinuDateTime As List(Of Date) = accumulateGraphicData.Item(0)
             Dim cycleListDiscontinuMass As List(Of Double) = accumulateGraphicData.Item(1)
             Dim cycleListDiscontinuProductionSpeed As List(Of Double) = accumulateGraphicData.Item(2)
 
             accumulatedMass.setGraphicData(cycleListDiscontinuDateTime, cycleListDiscontinuMass, cycleListDiscontinuProductionSpeed)
-            'productionSpeed.addCycle(_cycle, XmlSettings.Settings.instance.Usine.DataFiles.MDB)
-
             accumulatedMass.toggleMarkerColor()
-            'productionSpeed.toggleMarkerColor()
-
-            accumulateGraphicData = dailyReport.getGraphicMasseAccumuleeContinu()
+            accumulateGraphicData = dailyReport.getAccumulatedMassGraphicDataContinu()
 
             Dim cycleListContinuDateTime As List(Of Date) = accumulateGraphicData.Item(0)
             Dim cycleListContinuMass As List(Of Double) = accumulateGraphicData.Item(1)
             Dim cycleListContinuProductionSpeed As List(Of Double) = accumulateGraphicData.Item(2)
 
             accumulatedMass.setGraphicData(cycleListContinuDateTime, cycleListContinuMass, cycleListContinuProductionSpeed)
-            'productionSpeed.addCycle(_cycle, XmlSettings.Settings.instance.Usine.DataFiles.LOG)
-
             accumulatedMass.save()
-            'productionSpeed.save()
+
+            '' Graphic 2
+
+            Dim productionSpeedData As ArrayList
+            Dim productionSpeed As New ProductionSpeedGraphic(dailyReport.getDebutPeriode, dailyReport.getFinPeriode)
+
+            productionSpeedData = dailyReport.getProductionSpeedGraphicDataDiscontinu()
+
+            cycleListDiscontinuDateTime = productionSpeedData.Item(0)
+            cycleListDiscontinuProductionSpeed = productionSpeedData.Item(1)
+
+            productionSpeed.setGraphicData(cycleListDiscontinuDateTime, cycleListDiscontinuProductionSpeed)
+            productionSpeed.toggleMarkerColor()
+
+            productionSpeedData = dailyReport.getProductionSpeedGraphicDataContinu()
+
+            cycleListDiscontinuDateTime = productionSpeedData.Item(0)
+            cycleListDiscontinuProductionSpeed = productionSpeedData.Item(1)
+
+            productionSpeed.setGraphicData(cycleListContinuDateTime, cycleListContinuProductionSpeed)
+            productionSpeed.save()
 
             Dim g1 = bookMarks.ProductionQuantityGraphic.InlineShapes.AddPicture(Constants.Paths.OUTPUT_DIRECTORY & Constants.Output.Graphics.SaveAsNames.ACCUMULATED_MASS_GRAPHIC, False, True)
-            'Dim g2 = bookMarks.ProductionRateGraphic.InlineShapes.AddPicture(Constants.Paths.OUTPUT_DIRECTORY & Constants.Output.Graphics.SaveAsNames.PRODUCTION_SPEED_GRAPHIC, False, True)
+            Dim g2 = bookMarks.ProductionRateGraphic.InlineShapes.AddPicture(Constants.Paths.OUTPUT_DIRECTORY & Constants.Output.Graphics.SaveAsNames.PRODUCTION_SPEED_GRAPHIC, False, True)
 
             g1.Width = bookMarks.ProductionQuantityGraphic.Cells(1).Width
-            'g2.Width = bookMarks.ProductionQuantityGraphic.Cells(1).Width
+            g2.Width = bookMarks.ProductionQuantityGraphic.Cells(1).Width
             ' --------------------
             ' PRODUCTION ET DELAIS
             ' --------------------
@@ -250,9 +301,9 @@ Public Class SummaryDailyReportGenerator_1
 
             ' Durée
             Dim ligneDuree As ArrayList = tableauModeDeProduction.Item(EnumDailyReportTableauIndex.ligne_Duree)
-            bookMarks.ContinuousProductionDuration.Text = CType(ligneDuree.Item(EnumDailyReportTableauIndex.colonne_DureeContinu), TimeSpan).ToString(Me.Formater.DurationFormat)
-            bookMarks.DiscontinuousProductionDuration.Text = CType(ligneDuree.Item(EnumDailyReportTableauIndex.colonne_DureeDiscontinu), TimeSpan).ToString(Me.Formater.DurationFormat)
-            bookMarks.DelaysDuration.Text = CType(ligneDuree.Item(EnumDailyReportTableauIndex.colonne_DureeDelais), TimeSpan).ToString(Me.Formater.DurationFormat)
+            bookMarks.ContinuousProductionDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneDuree.Item(EnumDailyReportTableauIndex.colonne_DureeContinu), TimeSpan))
+            bookMarks.DiscontinuousProductionDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneDuree.Item(EnumDailyReportTableauIndex.colonne_DureeDiscontinu), TimeSpan))
+            bookMarks.DelaysDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneDuree.Item(EnumDailyReportTableauIndex.colonne_DureeDelais), TimeSpan))
 
             'Pourcentage du temps
             Dim lignePourcentageDuTemps As ArrayList = tableauModeDeProduction.Item(EnumDailyReportTableauIndex.ligne_PourcentageDuTemps)
@@ -286,26 +337,27 @@ Public Class SummaryDailyReportGenerator_1
 
             ' Temps total d’opération 
             Dim ligneTempsTotalOperations As ArrayList = tableauTempsDeProduction.Item(EnumDailyReportTableauIndex.ligne_TempsTotalOperations)
-            bookMarks.GrossOperationDuration.Text = CType(ligneTempsTotalOperations.Item(EnumDailyReportTableauIndex.colonne_TempsTotalOperationsDuree), TimeSpan).ToString(Me.Formater.DurationFormat)
+
+            bookMarks.GrossOperationDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneTempsTotalOperations.Item(EnumDailyReportTableauIndex.colonne_TempsTotalOperationsDuree), TimeSpan))
 
             ' Temps net d’opération 
             Dim ligneTempsNetOperations As ArrayList = tableauTempsDeProduction.Item(EnumDailyReportTableauIndex.ligne_TempsNetOperations)
-            bookMarks.NetOperationDuration.Text = CType(ligneTempsTotalOperations.Item(EnumDailyReportTableauIndex.colonne_TempsNetOperationsDuree), TimeSpan).ToString(Me.Formater.DurationFormat)
+            bookMarks.NetOperationDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneTempsNetOperations.Item(EnumDailyReportTableauIndex.colonne_TempsNetOperationsDuree), TimeSpan))
 
             ' Production nette 
             Dim ligneProductionNette As ArrayList = tableauTempsDeProduction.Item(EnumDailyReportTableauIndex.ligne_ProductionNette)
-            bookMarks.NetProductionDuration.Text = CType(ligneTempsTotalOperations.Item(EnumDailyReportTableauIndex.colonne_ProductionNetteDuree), TimeSpan).ToString(Me.Formater.DurationFormat)
+            bookMarks.NetProductionDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneProductionNette.Item(EnumDailyReportTableauIndex.colonne_ProductionNetteDuree), TimeSpan))
 
             'Production efficace 
             Dim ligneProductionEfficace As ArrayList = tableauTempsDeProduction.Item(EnumDailyReportTableauIndex.ligne_ProductionEfficace)
-            bookMarks.EffectiveProductionDuration.Text = CType(ligneTempsTotalOperations.Item(EnumDailyReportTableauIndex.colonne_ProductionEfficaceDuree), TimeSpan).ToString(Me.Formater.DurationFormat)
+            bookMarks.EffectiveProductionDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneProductionEfficace.Item(EnumDailyReportTableauIndex.colonne_ProductionEfficaceDuree), TimeSpan))
 
             ' Production efficace interne 
             Dim ligneProductionEfficaceInterne As ArrayList = tableauTempsDeProduction.Item(EnumDailyReportTableauIndex.ligne_ProductionEfficaceInterne)
-            bookMarks.EffectiveInternProductionDuration.Text = CType(ligneTempsTotalOperations.Item(EnumDailyReportTableauIndex.colonne_ProductionEfficaceInterneDuree), TimeSpan).ToString(Me.Formater.DurationFormat)
+            bookMarks.EffectiveInternProductionDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneProductionEfficaceInterne.Item(EnumDailyReportTableauIndex.colonne_ProductionEfficaceInterneDuree), TimeSpan))
 
             Dim ligneDelais As ArrayList = tableauTempsDeProduction.Item(EnumDailyReportTableauIndex.ligne_Delais)
-            bookMarks.AllDelaysDuration.Text = CType(ligneTempsTotalOperations.Item(EnumDailyReportTableauIndex.colonne_DelaisDuree), TimeSpan).ToString(Me.Formater.DurationFormat)
+            bookMarks.AllDelaysDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneDelais.Item(EnumDailyReportTableauIndex.colonne_DelaisDuree), TimeSpan))
 
             ' -------
             ' DELAIS
@@ -326,10 +378,10 @@ Public Class SummaryDailyReportGenerator_1
 
             If ligneNombreDeBris.Item(EnumDailyReportTableauIndex.colonne_NombreDeBris) > 0 Then
                 Dim ligneTempsEntrePannes As ArrayList = tableauDelais.Item(EnumDailyReportTableauIndex.ligne_TempsEntrePannes)
-                bookMarks.TimeBetweenBreakDowns.Text = CType(ligneTempsEntrePannes.Item(EnumDailyReportTableauIndex.colonne_TempsEntrePannes), TimeSpan).ToString(Me.Formater.DurationFormat)
+                bookMarks.TimeBetweenBreakDowns.Text = ReportFormater.FormatTimeSpan(CType(ligneTempsEntrePannes.Item(EnumDailyReportTableauIndex.colonne_TempsEntrePannes), TimeSpan))
 
                 Dim ligneTempsPourReparer As ArrayList = tableauDelais.Item(EnumDailyReportTableauIndex.ligne_TempsPourReparer)
-                bookMarks.ReparationsDuration.Text = CType(ligneTempsPourReparer.Item(EnumDailyReportTableauIndex.colonne_TempsPourReparer), TimeSpan).ToString(Me.Formater.DurationFormat)
+                bookMarks.ReparationsDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneTempsPourReparer.Item(EnumDailyReportTableauIndex.colonne_TempsPourReparer), TimeSpan))
             Else
 
                 bookMarks.TimeBetweenBreakDowns.Text = Me.Formater.InvalidValueCharacter
@@ -340,27 +392,25 @@ Public Class SummaryDailyReportGenerator_1
             ' DISTRIBUTION GRAPHICS
             ' ----------------------
 
-            'Dim pdg = New ProductionDistributionGraphic(productionDay.Statistics.ProductionEndTime.Subtract(productionDay.Statistics.ProductionStartTime), _
-            '                                            productionDay.Statistics.EventsStatistics.PausesDuration, _
-            '                                            productionDay.Statistics.EventsStatistics.MaintenanceDuration, _
-            '                                            productionDay.Statistics.EventsStatistics.DelaysDuration)
+            Dim productionDistributionGraphicData As List(Of TimeSpan) = dailyReport.getProductionDistributionGraphicData()
 
-            'pdg.save()
+            Dim pdg = New ProductionDistributionGraphic(productionDistributionGraphicData(0), productionDistributionGraphicData(1), productionDistributionGraphicData(2), productionDistributionGraphicData(3))
 
-            'Dim ddg = New DelaysDistributionGraphic(productionDay.Statistics.EventsStatistics.InternWithBreakageDuration, _
-            '                                        productionDay.Statistics.EventsStatistics.InternWithoutBreakageDuration, _
-            '                                        productionDay.Statistics.EventsStatistics.ExternDuration, _
-            '                                        productionDay.Statistics.EventsStatistics.OtherDelaysDuration)
+            pdg.save()
 
-            'ddg.save()
+            Dim delaysDistributionGraphicData As List(Of TimeSpan) = dailyReport.getDelaysDistributionGraphicData()
 
-            'Dim g3 = bookMarks.ProductionDistributionGraphic.InlineShapes.AddPicture(Constants.Paths.OUTPUT_DIRECTORY & Constants.Output.Graphics.SaveAsNames.PRODUCTION_DISTRIBUTION_GRAPHIC, False, True)
+            Dim ddg = New DelaysDistributionGraphic(delaysDistributionGraphicData(0), delaysDistributionGraphicData(1), delaysDistributionGraphicData(2), delaysDistributionGraphicData(3))
 
-            'g3.Width = bookMarks.ProductionDistributionGraphic.Cells(1).Width
+            ddg.save()
 
-            'Dim g4 = bookMarks.DelaysDistributionGraphic.InlineShapes.AddPicture(Constants.Paths.OUTPUT_DIRECTORY & Constants.Output.Graphics.SaveAsNames.DELAYS_DISTRIBUTION_GRAPHIC, False, True)
+            Dim g3 = bookMarks.ProductionDistributionGraphic.InlineShapes.AddPicture(Constants.Paths.OUTPUT_DIRECTORY & Constants.Output.Graphics.SaveAsNames.PRODUCTION_DISTRIBUTION_GRAPHIC, False, True)
 
-            'g4.Width = bookMarks.DelaysDistributionGraphic.Cells(1).Width
+            g3.Width = bookMarks.ProductionDistributionGraphic.Cells(1).Width
+
+            Dim g4 = bookMarks.DelaysDistributionGraphic.InlineShapes.AddPicture(Constants.Paths.OUTPUT_DIRECTORY & Constants.Output.Graphics.SaveAsNames.DELAYS_DISTRIBUTION_GRAPHIC, False, True)
+
+            g4.Width = bookMarks.DelaysDistributionGraphic.Cells(1).Width
 
             ' -----------------
             ' BITUMES CONSOMMÉ
@@ -452,33 +502,18 @@ Public Class SummaryDailyReportGenerator_1
             ' -------------------------------
             ' Temperature difference graphic
             ' -------------------------------
-            'Dim mixTemperatureVariation As New MixTemperatureVariationGraphic(productionDay.Date_)
 
-            'For Each _cycle As Cycle In productionDay.Statistics.DiscontinuousProduction.Cycles
+            Dim mixTemperatureVariationGraphicData As ArrayList = dailyReport.getMixTemperatureVariationGraphicData
 
-            '    If (TypeOf _cycle Is CSVCycle) Then
+            Dim mixTemperatureVariation As New MixTemperatureVariationGraphic(dailyReport.getProductionDate)
 
-            '        mixTemperatureVariation.addCycle(_cycle, XmlSettings.Settings.instance.Usine.DataFiles.CSV)
+            mixTemperatureVariation.setGraphicData(mixTemperatureVariationGraphicData(0), mixTemperatureVariationGraphicData(1), mixTemperatureVariationGraphicData(2), mixTemperatureVariationGraphicData(3), mixTemperatureVariationGraphicData(4))
 
-            '    ElseIf (TypeOf _cycle Is MDBCycle) Then
+            mixTemperatureVariation.save()
 
-            '        mixTemperatureVariation.addCycle(_cycle, XmlSettings.Settings.instance.Usine.DataFiles.MDB)
+            Dim g5 = bookMarks.TemperatureVariationGraphic.InlineShapes.AddPicture(Constants.Paths.OUTPUT_DIRECTORY & Constants.Output.Graphics.SaveAsNames.MIX_TEMPERATURE_VARIATION_GRAPHIC, False, True)
 
-            '    End If
-
-            'Next
-
-            'For Each _cycle As LOGCycle In productionDay.Statistics.ContinuousProduction.Cycles
-
-            '    mixTemperatureVariation.addCycle(_cycle, XmlSettings.Settings.instance.Usine.DataFiles.LOG)
-
-            'Next
-
-            'mixTemperatureVariation.save()
-
-            'Dim g5 = bookMarks.TemperatureVariationGraphic.InlineShapes.AddPicture(Constants.Paths.OUTPUT_DIRECTORY & Constants.Output.Graphics.SaveAsNames.MIX_TEMPERATURE_VARIATION_GRAPHIC, False, True)
-
-            'g5.Width = bookMarks.ProductionQuantityGraphic.Cells(1).Width
+            g5.Width = bookMarks.ProductionQuantityGraphic.Cells(1).Width
 
 
             ' -----------------------------------
@@ -559,7 +594,7 @@ Public Class SummaryDailyReportGenerator_1
 
                     ' Duration
                     moveSelectionToCellBelow(bookMarks.FirstDelayDuration)
-                    WordApp.Selection.Text = CType(ligneDelay.Item(EnumDailyReportTableauIndex.colonne_DelaisJustifiableDuree), TimeSpan).ToString(Me.Formater.DurationFormat)
+                    WordApp.Selection.Text = ReportFormater.FormatTimeSpan(CType(ligneDelay.Item(EnumDailyReportTableauIndex.colonne_DelaisJustifiableDuree), TimeSpan))
 
                     ' Select cell for delay code
                     moveSelectionToCellBelow(bookMarks.FirstDelayCode)
@@ -615,7 +650,7 @@ Public Class SummaryDailyReportGenerator_1
                 ' First delay
                 bookMarks.FirstDelayStartTime.Text = CType(ligneDelay.Item(EnumDailyReportTableauIndex.colonne_DelaisJustifiableDebut), Date).ToString(Me.Formater.TimeFormat)
                 bookMarks.FirstDelayEndTime.Text = CType(ligneDelay.Item(EnumDailyReportTableauIndex.colonne_DelaisJustifiableFin), Date).ToString(Me.Formater.TimeFormat)
-                bookMarks.FirstDelayDuration.Text = CType(ligneDelay.Item(EnumDailyReportTableauIndex.colonne_DelaisJustifiableDuree), TimeSpan).ToString(Me.Formater.DurationFormat)
+                bookMarks.FirstDelayDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneDelay.Item(EnumDailyReportTableauIndex.colonne_DelaisJustifiableDuree), TimeSpan))
 
                 'If (_delay.IsUnknown) Then
 
@@ -652,7 +687,7 @@ Public Class SummaryDailyReportGenerator_1
 
             bookMarks.JustificationDuration.Text = ligneDelayNonJustifiable.Item(EnumDailyReportTableauIndex.colonne_DelaisNonJustifiableLimite)
             bookMarks.NbDelaysNotJustified.Text = ligneDelayNonJustifiable.Item(EnumDailyReportTableauIndex.colonne_DelaisNonJustifiableNombre)
-            bookMarks.DelaysNotJustifiedDuration.Text = CType(ligneDelayNonJustifiable.Item(EnumDailyReportTableauIndex.colonne_DelaisNonJustifiableDuree), TimeSpan).ToString(Me.Formater.DurationFormat)
+            bookMarks.DelaysNotJustifiedDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneDelayNonJustifiable.Item(EnumDailyReportTableauIndex.colonne_DelaisNonJustifiableDuree), TimeSpan))
 
             ' TODO
             ' Ajouter la ligne Durée totale des délais
@@ -821,235 +856,6 @@ Public Class SummaryDailyReportGenerator_1
             End If
 
             RaiseEvent CurrentProgress(85) ' 85 % Progress
-
-            ' ------------------------------------
-            ' DISCONTINUOUS PRODUCTION SUMMARY TABLE Discontinuous
-            ' ------------------------------------
-
-
-            '    ' Find non null feeder
-            '    For Each _feedStat As FeedersStatistics In productionDay.Statistics.MixesTotal.DISCONTINUOUS_FEEDERS_STATS
-
-            '        If (_feedStat.TOTAL_MASS > 0) Then
-
-            '            nonNullFeeds.Add(_feedStat)
-
-            '        End If
-            '    Next
-
-            '    If (nonNullFeeds.Count > 0) Then
-
-            '        Dim columnsWidth = bookMarks.FirstDiscontinuousProductionFeederDescription.Columns.Width / nonNullFeeds.Count
-
-            '        ' First non null feeder
-            '        bookMarks.FirstDiscontinuousProductionFeederDescription.Select()
-
-            '        ' Feeder= description
-            '        If (IsNothing(nonNullFeeds.First().MATERIAL_NAME)) Then
-            '            .Text = nonNullFeeds.First().LOCATION & Environment.NewLine & "(T)"
-            '        Else
-            '            .Text = nonNullFeeds.First().LOCATION & Environment.NewLine & nonNullFeeds.First().MATERIAL_NAME & " (T)"
-            '        End If
-
-            '        bookMarks.FirstDiscontinuousProductionFeederTotalQuantity.Select()
-            '        .Text = nonNullFeeds.First().TOTAL_MASS.ToString("N1")
-
-            '        With .Columns.Last
-            '            .Width = columnsWidth
-            '            .Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter
-            '        End With
-
-            '        ' Other non null feeders
-            '        For feedStatIndex = nonNullFeeds.Count - 1 To 1 Step -1
-
-            '            WordDoc.Bookmarks("FirstDiscontinuousProductionFeederDesc").Range.Select()
-
-            '            .InsertColumnsRight()
-
-            '            ' Feeder description
-            '            If (IsNothing(nonNullFeeds(feedStatIndex).MATERIAL_NAME)) Then
-            '                .Text = nonNullFeeds(feedStatIndex).LOCATION & Environment.NewLine & "(T)"
-            '            Else
-            '                .Text = nonNullFeeds(feedStatIndex).LOCATION & Environment.NewLine & nonNullFeeds(feedStatIndex).MATERIAL_NAME & " (T)"
-            '            End If
-
-            '            With .Columns.Last
-            '                .Width = columnsWidth
-            '                .Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter
-            '            End With
-
-            '            ' Total quantity
-            '            .MoveDown(WdUnits.wdLine, 2, WdMovementType.wdMove)
-            '            .Text = nonNullFeeds(feedStatIndex).TOTAL_MASS.ToString("N1")
-
-            '        Next
-
-            '        bookMarks.reinitializeDiscontinuousProductionSummaryBookMarks(WordDoc)
-
-            '        ' Find first non null mixStat
-            '        Dim _mixStat As MixStatistics
-            '        Dim _nonNullFeed As FeedersStatistics
-            '        Dim nbNonNullMix As Integer = 0
-            '        Dim mixWithRecycledQuantitySum As Double = 0
-
-            '        Dim totalAsphaltQuantity As Double = 0
-
-            '        Dim firstMixStatIndex As Integer = -1
-
-            '        productionDay.Statistics.DiscontinuousProduction.Mixes.Sort()
-
-            '        For _firstMixStatIndex = 0 To productionDay.Statistics.DiscontinuousProduction.Mixes.Count - 1
-
-            '            _mixStat = productionDay.Statistics.DiscontinuousProduction.Mixes(_firstMixStatIndex)
-
-            '            If (_mixStat.TOTAL_MASS > 0) Then
-
-            '                firstMixStatIndex = _firstMixStatIndex
-
-            '                bookMarks.FirstDiscontinuousProductionFormulaName.Text = _mixStat.FORMULA_NAME
-
-            '                bookMarks.FirstDiscontinuousProductionMixName.Text = _mixStat.NAME
-
-            '                bookMarks.FirstDiscontinuousProductionAsphaltName.Text = _mixStat.ASPHALT_STATS.NAME
-
-            '                bookMarks.FirstDiscontinuousProductionRAP.Text = If(Double.IsNaN(_mixStat.SET_POINT_RECYCLED_PERCENTAGE), "-", _mixStat.SET_POINT_RECYCLED_PERCENTAGE.ToString("N0"))
-
-            '                bookMarks.FirstDiscontinuousProductionTotalQuantity.Text = _mixStat.TOTAL_MASS.ToString("N1")
-
-            '                bookMarks.FirstDiscontinuousProductionAsphaltQuantity.Text = _mixStat.ASPHALT_STATS.TOTAL_MASS.ToString("N1")
-
-            '                totalAsphaltQuantity += _mixStat.ASPHALT_STATS.TOTAL_MASS
-
-            '                For nonNullFeedIndex = 0 To nonNullFeeds.Count - 1
-
-            '                    _nonNullFeed = nonNullFeeds(nonNullFeedIndex)
-
-            '                    bookMarks.FirstDiscontinuousProductionFeederQuantity.Select()
-
-            '                    For Each _currentMixFeed As FeedersStatistics In _mixStat.DISCONTINUOUS_FEEDERS_STATS
-
-            '                        If (_nonNullFeed.INDEX = _currentMixFeed.INDEX) Then
-
-            '                            .MoveRight(WdUnits.wdCell, nonNullFeedIndex, WdMovementType.wdMove)
-
-            '                            .Text = _currentMixFeed.TOTAL_MASS.ToString("N1")
-
-            '                            Exit For ' Corresponding Feeder was found
-            '                        End If
-
-            '                    Next
-
-            '                Next
-
-            '                If (Not Double.IsNaN(_mixStat.SET_POINT_RECYCLED_PERCENTAGE) AndAlso _mixStat.SET_POINT_RECYCLED_PERCENTAGE > 0) Then
-            '                    mixWithRecycledQuantitySum += _mixStat.TOTAL_MASS
-            '                End If
-
-            '                nbNonNullMix += 1
-
-            '                Exit For ' First non null mixStat was found
-            '            End If
-
-            '        Next
-
-            '        ' Used for alternate white rows
-            '        Dim nbRows As Integer = 1
-
-            '        ' Other non null mixstats
-            '        For mixStatIndex = productionDay.Statistics.DiscontinuousProduction.Mixes.Count - 1 To firstMixStatIndex + 1 Step -1
-
-            '            _mixStat = productionDay.Statistics.DiscontinuousProduction.Mixes(mixStatIndex)
-
-            '            If (_mixStat.TOTAL_MASS > 0) Then
-
-            '                bookMarks.FirstDiscontinuousProductionFormulaName.Select()
-
-            '                .InsertRowsBelow()
-            '                nbRows += 1
-
-            '                ' Formula Name
-            '                .Text = _mixStat.FORMULA_NAME
-
-            '                ' Mix Name
-            '                moveSelectionToCellBelow(bookMarks.FirstDiscontinuousProductionMixName)
-            '                .Text = _mixStat.NAME
-
-            '                ' Asphalt Name
-            '                moveSelectionToCellBelow(bookMarks.FirstDiscontinuousProductionAsphaltName)
-            '                .Text = _mixStat.ASPHALT_STATS.NAME
-
-            '                ' target recycled percentage
-            '                moveSelectionToCellBelow(bookMarks.FirstDiscontinuousProductionRAP)
-            '                .Text = If(Double.IsNaN(_mixStat.SET_POINT_RECYCLED_PERCENTAGE), "-", _mixStat.SET_POINT_RECYCLED_PERCENTAGE.ToString("N0"))
-
-            '                ' mix quantity
-            '                moveSelectionToCellBelow(bookMarks.FirstDiscontinuousProductionTotalQuantity)
-            '                .Text = _mixStat.TOTAL_MASS.ToString("N1")
-
-            '                ' Asphalt Quantity
-            '                moveSelectionToCellBelow(bookMarks.FirstDiscontinuousProductionAsphaltQuantity)
-            '                .Text = _mixStat.ASPHALT_STATS.TOTAL_MASS.ToString("N1")
-
-            '                totalAsphaltQuantity += _mixStat.ASPHALT_STATS.TOTAL_MASS
-
-            '                For nonNullFeedIndex = 0 To nonNullFeeds.Count - 1
-
-            '                    _nonNullFeed = nonNullFeeds(nonNullFeedIndex)
-
-            '                    moveSelectionToCellBelow(bookMarks.FirstDiscontinuousProductionFeederQuantity)
-
-            '                    For Each _currentMixFeed As FeedersStatistics In _mixStat.DISCONTINUOUS_FEEDERS_STATS
-
-            '                        If (_nonNullFeed.INDEX = _currentMixFeed.INDEX) Then
-
-            '                            .MoveRight(WdUnits.wdCell, nonNullFeedIndex, WdMovementType.wdMove)
-
-            '                            .Text = _currentMixFeed.TOTAL_MASS.ToString("N1")
-
-            '                            Exit For ' Corresponding Feeder was found
-            '                        End If
-            '                    Next
-            '                Next
-
-            '                If (Not Double.IsNaN(_mixStat.SET_POINT_RECYCLED_PERCENTAGE) AndAlso _mixStat.SET_POINT_RECYCLED_PERCENTAGE > 0) Then
-            '                    mixWithRecycledQuantitySum += _mixStat.TOTAL_MASS
-            '                End If
-
-            '                nbNonNullMix += 1
-
-            '            End If
-            '        Next
-
-            '        ' Alternate white rows and remove borders
-            '        For i = 1 To nbRows - 1
-
-            '            bookMarks.FirstDiscontinuousProductionFormulaName.Select()
-            '            .MoveDown(WdUnits.wdLine, i, WdMovementType.wdMove)
-            '            .SelectRow()
-
-            '            .Borders(WdBorderType.wdBorderTop).LineStyle = WdLineStyle.wdLineStyleNone
-
-            '            If (i Mod 2 = 1) Then
-            '                .Shading.BackgroundPatternColor = WdColor.wdColorWhite
-            '            End If
-            '        Next
-
-            '        bookMarks.reinitializeDiscontinuousProductionSummaryBookMarks(WordDoc)
-
-            '        bookMarks.DiscontinuousProductionTotalQuantity.Text = productionDay.Statistics.DiscontinuousProduction.Quantity.ToString("N1")
-            '        bookMarks.DiscontinuousProductionTotalAsphaltQuantity.Text = totalAsphaltQuantity.ToString("N1")
-            '        bookMarks.DiscontinuousProductionMixWithRecycledPercentage.Text = (mixWithRecycledQuantitySum / productionDay.Statistics.DiscontinuousProduction.Quantity * 100).ToString("N0")
-
-            '        bookMarks.DiscontinuousProductionTotalCellsToMerge.Cells.Merge()
-
-
-            '    Else
-
-            '        bookMarks.DiscontinuousProductionSummarySection.Delete()
-
-            '    End If
-            'End With
-
 
 
             '' Creation des entêtes des bennes chaudes

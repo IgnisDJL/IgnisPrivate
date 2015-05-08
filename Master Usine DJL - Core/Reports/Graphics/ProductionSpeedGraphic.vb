@@ -10,10 +10,24 @@ Public Class ProductionSpeedGraphic
 
     Private lastPointFormat As PointFormatList.PointFormat = firstPointFormat
 
-    Public Sub New(date_ As Date)
+    Public Sub New(debutPeriode As Date, finPeriode As Date)
         MyBase.New()
 
-        Me.DATE_ = date_.Date
+        Dim borneDebutAxeX As Date
+
+        If debutPeriode < New Date(debutPeriode.Year, debutPeriode.Month, debutPeriode.Day, 12, 0, 0) Then
+            borneDebutAxeX = New Date(debutPeriode.Year, debutPeriode.Month, debutPeriode.Day)
+            Me.X_MINIMUM = borneDebutAxeX.ToOADate
+        Else
+            borneDebutAxeX = New Date(debutPeriode.Year, debutPeriode.Month, debutPeriode.Day, 12, 0, 0)
+            Me.X_MINIMUM = borneDebutAxeX.ToOADate
+        End If
+
+        If finPeriode < borneDebutAxeX + TimeSpan.FromHours(24) Then
+            Me.X_MAXIMUM = (borneDebutAxeX + TimeSpan.FromHours(24)).ToOADate
+        Else
+            Me.X_MAXIMUM = (borneDebutAxeX + TimeSpan.FromHours(36)).ToOADate
+        End If
 
         Me.Y_TITLE = "Production (" & Me.UNIT.ToString & ")"
 
@@ -39,15 +53,6 @@ Public Class ProductionSpeedGraphic
     Public Property MAXIMUM_TPH As Integer
     Public Property MINIMUM_TPH As Integer = TonsPerHour.UNIT.convert(1000, Me.UNIT)
 
-    Private WriteOnly Property DATE_ As Date
-        Set(value As Date)
-
-            Me.X_MINIMUM = value.ToOADate
-            Me.X_MAXIMUM = value.Add(TimeSpan.FromHours(24.01)).ToOADate
-
-        End Set
-    End Property
-
     Public Sub toggleMarkerColor()
 
         If (Me.lastPointFormat.Equals(Me.firstPointFormat)) Then
@@ -59,6 +64,62 @@ Public Class ProductionSpeedGraphic
 
     End Sub
 
+    Public Sub setGraphicData(cyclesDateTime As List(Of Date), cyclesProductionSpeed As List(Of Double))
+        For indexCycle As Integer = 0 To cyclesDateTime.Count - 1 Step 1
+
+            If (cyclesProductionSpeed(indexCycle) > 0) Then
+
+                Me.MAIN_DATA_SERIE.Points.AddXY(cyclesDateTime(indexCycle), cyclesProductionSpeed(indexCycle))
+                Me.MAIN_DATA_SERIE.Points.Last.Color = Me.lastPointFormat.COLOR
+                Me.MAIN_DATA_SERIE.Points.Last.MarkerStyle = Me.lastPointFormat.MARKER
+
+
+                If (cyclesProductionSpeed(indexCycle) > Me.MAXIMUM_TPH) Then
+                    Me.MAXIMUM_TPH = cyclesProductionSpeed(indexCycle)
+                End If
+
+                If (cyclesProductionSpeed(indexCycle) < Me.MINIMUM_TPH) Then
+                    Me.MINIMUM_TPH = cyclesProductionSpeed(indexCycle)
+                End If
+
+                Dim valuesForAverage As New List(Of Double)
+
+                For i = 1 To 9
+
+                    If ((indexCycle - i) >= 0) Then
+
+                        If (cyclesProductionSpeed(indexCycle - i) > 0) Then
+
+                            valuesForAverage.Add(cyclesProductionSpeed(indexCycle - i))
+                            If (Double.IsInfinity(valuesForAverage.Last)) Then
+                                Debugger.Break()
+                            End If
+                        End If
+
+                    End If
+                Next
+
+                If (valuesForAverage.Count > 0) Then
+
+                    Dim avg = valuesForAverage.Average
+                    Me.MAIN_DATA_SERIE.Points.AddXY(cyclesDateTime(indexCycle), avg)
+                    Me.MAIN_DATA_SERIE.Points.Last.Color = Me.lastPointFormat.COLOR
+                    Me.MAIN_DATA_SERIE.Points.Last.MarkerStyle = Me.lastPointFormat.MARKER
+
+                    If (avg > Me.MAXIMUM_TPH) Then
+                        Me.MAXIMUM_TPH = avg
+                    End If
+
+                    If (avg < Me.MINIMUM_TPH) Then
+                        Me.MINIMUM_TPH = avg
+                    End If
+
+                End If
+
+            End If
+
+        Next
+    End Sub
 
     Public Overrides Sub addCycle(cycle As Cycle, dataFileNode As XmlSettings.DataFileNode)
 
@@ -68,17 +129,17 @@ Public Class ProductionSpeedGraphic
         If (cycleTph > 0) Then
 
             ' Sans lissage
-            'Me.MAIN_DATA_SERIE.Points.AddXY(cycleDateTime, cycleTph)
-            'Me.MAIN_DATA_SERIE.Points.Last.Color = Me.lastPointFormat.COLOR
-            'Me.MAIN_DATA_SERIE.Points.Last.MarkerStyle = Me.lastPointFormat.MARKER
+            Me.MAIN_DATA_SERIE.Points.AddXY(cycleDateTime, cycleTph)
+            Me.MAIN_DATA_SERIE.Points.Last.Color = Me.lastPointFormat.COLOR
+            Me.MAIN_DATA_SERIE.Points.Last.MarkerStyle = Me.lastPointFormat.MARKER
 
-            'If (cycleTph > Me.MAXIMUM_TPH) Then
-            '    Me.MAXIMUM_TPH = cycleTph
-            'End If
+            If (cycleTph > Me.MAXIMUM_TPH) Then
+                Me.MAXIMUM_TPH = cycleTph
+            End If
 
-            'If (cycleTph < Me.MINIMUM_TPH) Then
-            '    Me.MINIMUM_TPH = cycleTph
-            'End If
+            If (cycleTph < Me.MINIMUM_TPH) Then
+                Me.MINIMUM_TPH = cycleTph
+            End If
 
             ' Avec lissage
             ' Mobile average

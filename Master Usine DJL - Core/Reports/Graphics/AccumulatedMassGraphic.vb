@@ -20,15 +20,21 @@ Public Class AccumulatedMassGraphic
     Public Sub New(debutPeriode As Date, finPeriode As Date, Optional isHybrid As Boolean = False)
         MyBase.New()
 
+        Dim borneDebutAxeX As Date
 
+        If debutPeriode < New Date(debutPeriode.Year, debutPeriode.Month, debutPeriode.Day, 12, 0, 0) Then
+            borneDebutAxeX = New Date(debutPeriode.Year, debutPeriode.Month, debutPeriode.Day)
+            Me.X_MINIMUM = borneDebutAxeX.ToOADate
+        Else
+            borneDebutAxeX = New Date(debutPeriode.Year, debutPeriode.Month, debutPeriode.Day, 12, 0, 0)
+            Me.X_MINIMUM = borneDebutAxeX.ToOADate
+        End If
 
-        Dim axeX As TimeSpan = TimeSpan.FromHours(24) - finPeriode.Subtract(debutPeriode)
-
-        Dim ecart As TimeSpan = TimeSpan.FromSeconds(axeX.TotalSeconds / 2)
-
-        Me.X_MINIMUM = (debutPeriode - ecart).ToOADate
-
-        Me.X_MAXIMUM = (finPeriode + ecart).ToOADate
+        If finPeriode < borneDebutAxeX + TimeSpan.FromHours(24) Then
+            Me.X_MAXIMUM = (borneDebutAxeX + TimeSpan.FromHours(24)).ToOADate
+        Else
+            Me.X_MAXIMUM = (borneDebutAxeX + TimeSpan.FromHours(36)).ToOADate
+        End If
 
         Me.isHybrid = isHybrid
 
@@ -107,9 +113,9 @@ Public Class AccumulatedMassGraphic
         For indexCycle As Integer = 0 To cyclesDateTime.Count - 1 Step 1
 
             If (cyclesProductionSpeed(indexCycle) > 0) Then
-                Me.cycleMassList.Add(New CycleMass(cyclesDateTime(indexCycle), cyclesMass(indexCycle) / 1000))
+                Me.cycleMassList.Add(New CycleMass(cyclesDateTime(indexCycle), cyclesMass(indexCycle)))
 
-                massAccumulee += (cyclesMass(indexCycle) / 1000)
+                massAccumulee += (cyclesMass(indexCycle))
 
                 Me.MAIN_DATA_SERIE.Points.AddXY(cyclesDateTime(indexCycle), massAccumulee)
                 Me.MAIN_DATA_SERIE.Points.Last.Color = Me.lastPointFormat.COLOR
