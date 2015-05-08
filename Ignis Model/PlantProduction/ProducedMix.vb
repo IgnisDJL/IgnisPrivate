@@ -1,6 +1,6 @@
 ﻿Public Class ProducedMix
     Implements IEquatable(Of ProducedMix)
-
+    Implements IComparable(Of ProducedMix)
     Private mixNumber As String
     Private mixName As String
     Private recordedTemperature As Double
@@ -149,6 +149,22 @@
             Return True
         Else
             Return False
+        End If
+    End Function
+
+    Public Function CompareTo(compareProducedMix As ProducedMix) As Integer Implements IComparable(Of ProducedMix).CompareTo
+        ' A null value means that this object is greater. 
+        If compareProducedMix Is Nothing Then
+            Return 1
+        Else
+            If (Me.getMixMass() < compareProducedMix.getMixMass()) Then
+                Return 1
+            ElseIf (Me.getMixMass() = compareProducedMix.getMixMass()) Then
+                Return 0
+            Else
+                Return -1
+            End If
+
         End If
     End Function
 

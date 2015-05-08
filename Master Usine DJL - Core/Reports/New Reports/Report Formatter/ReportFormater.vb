@@ -115,9 +115,19 @@
     End Property
 
     Public Shared Function FormatTimeSpan(span As TimeSpan) As String
-        Return String.Format("{0}h{1}", _
+
+        If (span.Minutes < 10) Then
+            Return String.Format("{0}h0{1}", _
                              CInt(Math.Truncate(span.TotalHours)), _
                              span.Minutes)
+        Else
+            Return String.Format("{0}h{1}", _
+                     CInt(Math.Truncate(span.TotalHours)), _
+                     span.Minutes)
+        End If
+
+
+
     End Function
 
 End Class
