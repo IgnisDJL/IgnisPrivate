@@ -248,8 +248,8 @@
 
         '' Ligne Durée
         Dim totalDelaisHybrid As TimeSpan = calculateDureeTotal(getHybridDelayList)
-
-        ligneDuree.Insert(EnumDailyReportTableauIndex.colonne_DureeContinu, getMixProductionTime(producedMixContinuList))
+        Dim totalDelaisContinu As TimeSpan = calculateDureeTotal(getContinuDelayList)
+        ligneDuree.Insert(EnumDailyReportTableauIndex.colonne_DureeContinu, getDureePeriode() - totalDelaisContinu)
         ligneDuree.Insert(EnumDailyReportTableauIndex.colonne_DureeDiscontinu, getMixProductionTime(producedMixDiscontinuList))
         ligneDuree.Insert(EnumDailyReportTableauIndex.colonne_DureeDelais, totalDelaisHybrid)
 
@@ -257,7 +257,7 @@
 
 
         '' Ligne Pourcentage du temps
-        Dim totalDelaisContinu As TimeSpan = calculateDureeTotal(getContinuDelayList)
+
 
         If productionCycleDiscontinuList.Count = 0 Then
             lignePourcentageDuTemps.Insert(EnumDailyReportTableauIndex.colonne_PourcentageDuTempsContinu,
@@ -1448,7 +1448,7 @@
     ''' </summary>
     ''' <returns>Retourne une liste de TimeSpan contenant 4 objets: dureeProduction as TimeSpan, dureeTotaleDelaisPause as TimeSpan,
     ''' dureeTotaleDelaisEntretien as TimeSpan, DureeTotaleDelais as TimeSpan  </returns>
-    ''' <remarks>La fonction est principalement utilité pour fournir les donnée d'entré à la classe ProductionDistributionGraphic</remarks>
+    ''' <remarks>La fonction est principalement utilité pour fournir les donnée d'entré à la classe DG01_ProductionDistributionGraphic</remarks>
     Public Function getProductionDistributionGraphicData() As List(Of TimeSpan)
 
         Dim productionDistributionGraphicData As List(Of TimeSpan) = New List(Of TimeSpan)
@@ -1471,7 +1471,7 @@
     ''' </summary>
     ''' <returns>Retourne une liste de TimeSpan contenant 4 objets: dureeTotaleDelaisInterneAvecBris as TimeSpan, DureeTotalDelaisInterneSansBris as TimeSpan,
     ''' dureeTotalDelaisExterneChantier as TimeSpan, dureeTotalDelaisExterneAutres as TimeSpan  </returns>
-    ''' <remarks>La fonction est principalement utilité pour fournir les donnée d'entré à la classe DelaysDistributionGraphic</remarks>
+    ''' <remarks>La fonction est principalement utilité pour fournir les donnée d'entré à la classe DG02_DelaysDistributionGraphic</remarks>
     Public Function getDelaysDistributionGraphicData() As List(Of TimeSpan)
 
         Dim delaysDistributionGraphicData As List(Of TimeSpan) = New List(Of TimeSpan)

@@ -96,7 +96,7 @@
             '
             _delaysJustificationStepLabel_location = New Point(ManualDataStepLabel_Location.X + MANUAL_DATA_LABEL_SIZE.Width + spaceBetweenLabels_X, stepLabels_Y)
             '
-            ' Comments Step Label (Inside Progression Panel)
+            ' KA01_Comments Step Label (Inside Progression Panel)
             '
             _commentsStepLabel_location = New Point(DelaysJustificationStepLabel_Location.X + DELAYS_LABEL_SIZE.Width + spaceBetweenLabels_X, stepLabels_Y)
             '
@@ -210,7 +210,7 @@
         End Property
 
         '
-        ' Comments Step Label (Inside Progression Panel)
+        ' KA01_Comments Step Label (Inside Progression Panel)
         '
         Public ReadOnly Property CommentsStepLabel_Size As Size
             Get

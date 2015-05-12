@@ -28,11 +28,11 @@ Namespace UI
         Private _recipientsListView_location As Point
         Private _recipientsListView_size As Size
 
-        ' Comments Label
+        ' KA01_Comments Label
         Private _commentsLabel_location As Point
         Private _commentsLabel_size As Size
 
-        ' Comments Text Field
+        ' KA01_Comments Text Field
         Private _commentsTextField_location As Point
         Private _commentsTextField_size As Size
 
@@ -72,11 +72,11 @@ Namespace UI
             Me._recipientsListView_location = New Point(LOCATION_START_X, Me.OperatorsLabel_Location.Y + Me.OperatorsLabel_Size.Height + SPACE_BETWEEN_CONTROLS_Y)
             Me._recipientsListView_size = New Size(Me.Width - 2 * LOCATION_START_X, 180)
 
-            ' Comments Label
+            ' KA01_Comments Label
             Me._commentsLabel_location = New Point(LOCATION_START_X, Me.RecipientsListView_Location.Y + Me.RecipientsListView_Size.Height + SPACE_BETWEEN_CONTROLS_Y)
             Me._commentsLabel_size = New Size(Me.Width - 2 * LOCATION_START_X, FIELDS_HEIGHT)
 
-            ' Comments Text Field
+            ' KA01_Comments Text Field
             Me._commentsTextField_location = New Point(LOCATION_START_X, Me.CommentsLabel_Location.Y + Me.CommentsLabel_Size.Height)
             Me._commentsTextField_size = New Size(Me.Width - 2 * LOCATION_START_X, Me.Height - Me.CommentsTextField_Location.Y - BUTTONS_PANEL_HEIGHT - SPACE_BETWEEN_CONTROLS_Y)
 
@@ -145,7 +145,7 @@ Namespace UI
             End Get
         End Property
         ' 
-        ' Comments Label
+        ' KA01_Comments Label
         ' 
         Public ReadOnly Property CommentsLabel_Location As Point
             Get
@@ -158,7 +158,7 @@ Namespace UI
             End Get
         End Property
         ' 
-        ' Comments Text Field
+        ' KA01_Comments Text Field
         ' 
         Public ReadOnly Property CommentsTextField_Location As Point
             Get

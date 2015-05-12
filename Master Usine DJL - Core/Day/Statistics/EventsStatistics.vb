@@ -201,7 +201,7 @@
     End Property
 
     '''<summary></summary>
-    Public ReadOnly Property PausesDuration As TimeSpan
+    Public ReadOnly Property CT01_PausesDuration As TimeSpan
         Get
             Return _pausesDuration
         End Get
@@ -215,7 +215,7 @@
     End Property
 
     '''<summary></summary>
-    Public ReadOnly Property MaintenanceDuration As TimeSpan
+    Public ReadOnly Property CT01_MaintenanceDuration As TimeSpan
         Get
             Return _maintenanceDuration
         End Get
@@ -236,7 +236,7 @@
     End Property
 
     '''<summary></summary>
-    Public ReadOnly Property DelaysDuration As TimeSpan
+    Public ReadOnly Property DT01_DelaysDuration As TimeSpan
         Get
             Return _delaysDuration
         End Get
@@ -250,7 +250,7 @@
     End Property
 
     '''<summary></summary>
-    Public ReadOnly Property NbOfBreakages As Integer
+    Public ReadOnly Property DT03_BreakageNumber As Integer
         Get
             Return _nbOfBreakages
         End Get

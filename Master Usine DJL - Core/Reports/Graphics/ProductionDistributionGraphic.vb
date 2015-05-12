@@ -1,4 +1,4 @@
-﻿Public Class ProductionDistributionGraphic
+﻿Public Class DG01_ProductionDistributionGraphic
     Inherits BarChart
 
     Public Sub New(productionDuration As TimeSpan, pausesDuration As TimeSpan, maintenanceDuration As TimeSpan, delaysDuration As TimeSpan)

@@ -26,7 +26,13 @@
     End Function
 
     Public Overloads Overrides Function getDateBoundaryList(startPeriod As Date, endPeriod As Date, productionCycleList As List(Of ProductionCycle), sourceFileComplementList As List(Of String)) As List(Of List(Of Date))
-        If sourceFileComplementList.Count = 0 Then
+
+        Dim date1 As Date = New Date(endPeriod.Year, endPeriod.Month, endPeriod.Day)
+        Dim date2 As Date = New Date(startPeriod.Year, startPeriod.Month, startPeriod.Day)
+
+        Dim nomberOfProductionDay As Integer = date1.Subtract(date2).TotalDays
+
+        If Not sourceFileComplementList.Count = nomberOfProductionDay + 1 Then
             Return getDateBoundaryList(startPeriod, endPeriod, productionCycleList)
         Else
             Dim eventLog As EventsFile
@@ -36,97 +42,62 @@
             Dim dateBoundaryEventList As List(Of List(Of Date))
 
             dateBoundaryEventList = New List(Of List(Of Date))
+            dateBoundaryList = getDateBoundaryList(startPeriod, endPeriod, productionCycleList)
 
-            Dim date1 As Date = New Date(endPeriod.Year, endPeriod.Month, endPeriod.Day)
-            Dim date2 As Date = New Date(startPeriod.Year, startPeriod.Month, startPeriod.Day)
+            For Each sourceFileComplement As String In sourceFileComplementList
 
-            Dim nomberOfProductionDay As Integer = date1.Subtract(date2).TotalDays
+                eventLog = New EventsFile(sourceFileComplement)
 
-            If (sourceFileComplementList.Count = nomberOfProductionDay + 1) Then
+                For Each stopEvent As StopEvent In eventLog.getEvents().STOP_EVENTS
+                    dateBoundary = New List(Of Date)
+                    dateBoundary.Add(stopEvent.TIME)
 
-                If productionCycleList.Count = 0 Then
-                    Return getDateBoundaryList(startPeriod, endPeriod)
-                Else
-                    dateBoundaryList = New List(Of List(Of Date))
-
-                    If (productionCycleList.Item(0).getEndOfCycle() - productionCycleList.Item(0).getDureeCycle).Subtract(startPeriod) > TimeSpan.Zero Then
-                        dateBoundary = New List(Of Date)
-                        dateBoundary.Add(startPeriod)
-                        dateBoundary.Add(productionCycleList.Item(0).getEndOfCycle() - productionCycleList.Item(0).getDureeCycle)
-                        dateBoundaryList.Add(dateBoundary)
+                    If IsNothing(stopEvent.NEXT_START) Then
+                        dateBoundary.Add(getEndPeriod(stopEvent.TIME, endPeriod))
+                    Else
+                        dateBoundary.Add(stopEvent.NEXT_START.TIME)
                     End If
 
-                    If emptyProduction(productionCycleList.Item(0)) Then
-                        dateBoundary = New List(Of Date)
-                        dateBoundary.Add(productionCycleList.Item(0).getEndOfCycle() - productionCycleList.Item(0).getDureeCycle)
-                        dateBoundary.Add(productionCycleList.Item(0).getEndOfCycle())
-                        dateBoundaryList.Add(dateBoundary)
-                    End If
 
-                End If
-
-
-                For Each sourceFileComplement As String In sourceFileComplementList
-
-                    eventLog = New EventsFile(sourceFileComplement)
-
-                    For Each stopEvent As StopEvent In eventLog.getEvents().STOP_EVENTS
-                        dateBoundary = New List(Of Date)
-
-                        If (stopEvent.TIME < endPeriod) Then
-
-                            If stopEvent.TIME < startPeriod Then
-                                dateBoundary.Add(startPeriod)
-                            Else
-                                dateBoundary.Add(stopEvent.TIME)
-                            End If
-
-                        End If
-
-                        If Not IsNothing(stopEvent.NEXT_START) Then
-
-                            If (stopEvent.NEXT_START.TIME > startPeriod) Then
-
-                                If (stopEvent.NEXT_START.TIME > endPeriod) Then
-                                    dateBoundary.Add(endPeriod)
-                                Else
-                                    dateBoundary.Add(stopEvent.NEXT_START.TIME)
-                                End If
-                            
-                            End If
-                        Else
-                            dateBoundary.Add(getEndPeriod(stopEvent.TIME, endPeriod))
-                        End If
-
-                        dateBoundaryEventList.Add(dateBoundary)
-                    Next
-
+                    dateBoundaryEventList.Add(dateBoundary)
                 Next
 
-                If (endPeriod).Subtract(productionCycleList.Item(productionCycleList.Count - 1).getEndOfCycle()) > TimeSpan.Zero Then
-                    dateBoundary = New List(Of Date)
-                    dateBoundary.Add(productionCycleList.Item(productionCycleList.Count - 1).getEndOfCycle())
-                    dateBoundary.Add(endPeriod)
-                    dateBoundaryList.Add(dateBoundary)
-                End If
-
-            Else
-                dateBoundaryList = getDateBoundaryList(startPeriod, endPeriod, productionCycleList)
-            End If
+            Next
 
             dateBoundaryFinalList = New List(Of List(Of Date))
             dateBoundaryFinalList.InsertRange(0, dateBoundaryList)
+            Dim dateBoundaryBrutChange As Boolean = False
 
-            'For Each dateBoundaryEvent As List(Of Date) In dateBoundaryEventList
+            For Each dateBoundaryBrut As List(Of Date) In dateBoundaryList
 
-            '    For Each dateBoundaryBrut As List(Of Date) In dateBoundaryList
+                For Each dateBoundaryEvent As List(Of Date) In dateBoundaryEventList
 
-            '        If dateBoundaryBrut.Item(0) > dateBoundaryEvent.Item(0) And dateBoundaryBrut.Item(1) < dateBoundaryEvent.Item(1) And dateBoundaryBrut.Item(0) < dateBoundaryEvent.Item(1) Then
-            '            dateBoundaryFinalList.Remove(dateBoundaryBrut)
-            '            dateBoundaryFinalList.Add(dateBoundaryEvent)
-            '        End If
-            '    Next
-            'Next
+                    If dateBoundaryEvent.Item(0) <= dateBoundaryBrut.Item(0) Then
+
+                        If dateBoundaryEvent.Item(1) >= dateBoundaryBrut.Item(1) Or (Not dateBoundaryBrut.Item(0).Day = dateBoundaryBrut.Item(1).Day And dateBoundaryBrut.Item(0).Day = dateBoundaryEvent.Item(0).Day And dateBoundaryBrut.Item(1).Day = dateBoundaryEvent.Item(1).Day) Then
+
+                            If ((Not dateBoundaryBrut.Item(0).Day = dateBoundaryBrut.Item(1).Day And dateBoundaryBrut.Item(0).Day = dateBoundaryEvent.Item(0).Day And dateBoundaryBrut.Item(1).Day = dateBoundaryEvent.Item(1).Day)) Then
+                                Dim dateBoundaryEventEnd = New List(Of Date)
+                                dateBoundaryEventEnd.Add(dateBoundaryEvent.Item(0))
+                                dateBoundaryEventEnd.Add(dateBoundaryBrut.Item(1))
+
+                                dateBoundaryFinalList.Add(dateBoundaryEventEnd)
+                                dateBoundaryBrutChange = True
+                            Else
+                                dateBoundaryFinalList.Add(dateBoundaryEvent)
+                                dateBoundaryBrutChange = True
+                            End If
+
+                        End If
+
+                    End If
+                Next
+
+                If dateBoundaryBrutChange = True Then
+                    dateBoundaryFinalList.Remove(dateBoundaryBrut)
+                    dateBoundaryBrutChange = False
+                End If
+            Next
 
             Return dateBoundaryFinalList
         End If
@@ -135,7 +106,7 @@
     Private Function getEndPeriod(stopEventTime As Date, endPeriod As Date) As Date
 
         If stopEventTime.Day < endPeriod.Day Then
-            Return New Date(stopEventTime.Year, stopEventTime.Month, stopEventTime.Day + 1) - TimeSpan.FromSeconds(1)
+            Return New Date(stopEventTime.Year, stopEventTime.Month, stopEventTime.Day + 1)
         End If
 
         Return endPeriod

@@ -475,7 +475,7 @@ Public Class ReportGenerationController
     End Sub
 
     ' ----------------
-    ' Comments Step
+    ' KA01_Comments Step
     ' ----------------
     Public Sub startCommentsStep()
 
@@ -540,7 +540,7 @@ Public Class ReportGenerationController
         Me.currentCommentIndex = 0
 
         For Each day In Me.selectedReportReadyProductionDays
-            day.Comments = Nothing
+            day.KA01_Comments = Nothing
         Next
 
         startFinishingGenerationStep()

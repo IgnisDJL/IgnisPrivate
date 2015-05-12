@@ -1,4 +1,4 @@
-﻿Public Class DelaysDistributionGraphic
+﻿Public Class DG02_DelaysDistributionGraphic
     Inherits BarChart
 
     Public Sub New(internDelaysWithBeakageDuration As TimeSpan, internDelaysWithoutBreakageDuration As TimeSpan, externDelaysDuration As TimeSpan, otherDelaysDuration As TimeSpan)

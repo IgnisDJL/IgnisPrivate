@@ -645,11 +645,11 @@
 
                 Catch ex As IncorrectDataException
 
-                    ' If OperationStartTime is later than productionStartTime
+                    ' If CT01_OperationStartTime is later than productionStartTime
                     If (Me.operationStartTimeField.Value.CompareTo(Me.currentManualData.PRODUCTION_START_TIME) > 0) Then
                         Me.operationStartTimeField.Value = Me.currentManualData.PRODUCTION_START_TIME
 
-                    Else ' OperationStartTime is later than OperationEndTime
+                    Else ' CT01_OperationStartTime is later than CT01_OperationEndTime
 
                         Me.currentManualData.OPERATION_END_TIME = Me.currentManualData.OPERATION_START_TIME
                         Me.operationEndTimeField.Value = operationStartTimeField.Value
@@ -670,11 +670,11 @@
 
                 Catch ex As IncorrectDataException
 
-                    ' If OperationEndTime is sooner than productionEndTime
+                    ' If CT01_OperationEndTime is sooner than productionEndTime
                     If (Me.operationEndTimeField.Value.CompareTo(Me.currentManualData.PRODUCTION_END_TIME) < 0) Then
                         Me.operationEndTimeField.Value = Me.currentManualData.PRODUCTION_END_TIME
 
-                    Else ' OperationEndTime is sooner than OperationStartTime
+                    Else ' CT01_OperationEndTime is sooner than CT01_OperationStartTime
 
                         Me.currentManualData.OPERATION_START_TIME = Me.currentManualData.OPERATION_END_TIME
                         Me.operationStartTimeField.Value = operationEndTimeField.Value
@@ -691,11 +691,11 @@
 
                 Catch ex As IncorrectDataException
 
-                    ' If FirstLoadingTime is sooner than operationStartTime
+                    ' If CT01_LoadingStartTime is sooner than operationStartTime
                     If (Me.firstLoadingTimeField.Value.CompareTo(Me.currentManualData.OPERATION_START_TIME) < 0) Then
                         Me.firstLoadingTimeField.Value = Me.currentManualData.OPERATION_START_TIME
 
-                    Else ' FirstLoadingTime is later than LastLoadingTime
+                    Else ' CT01_LoadingStartTime is later than CT01_LoadingEndTime
 
                         'Me.currentManualData.LAST_LOADING_TIME = Me.currentManualData.FIRST_LOADING_TIME
                         Me.lastLoadingTimeField.Value = firstLoadingTimeField.Value
@@ -712,11 +712,11 @@
 
                 Catch ex As IncorrectDataException
 
-                    ' If LastLoadingTime is later than OperationEndTime
+                    ' If CT01_LoadingEndTime is later than CT01_OperationEndTime
                     If (Me.lastLoadingTimeField.Value.CompareTo(Me.currentManualData.OPERATION_END_TIME) > 0) Then
                         Me.lastLoadingTimeField.Value = Me.currentManualData.OPERATION_END_TIME
 
-                    Else ' LastLoadingTime is sooner than FirstLoadingTime
+                    Else ' CT01_LoadingEndTime is sooner than CT01_LoadingStartTime
 
                         'Me.currentManualData.FIRST_LOADING_TIME = Me.currentManualData.LAST_LOADING_TIME
                         Me.firstLoadingTimeField.Value = lastLoadingTimeField.Value

@@ -153,7 +153,7 @@ Public Class ProductionDay
 
                 If (IsNothing(_manualData)) Then
 
-                    _manualData = New ManualData(Me.Date_, Me.Statistics.ProductionStartTime, Me.Statistics.ProductionEndTime, Me.Statistics.ContinuousProduction.Quantity + Me.Statistics.DiscontinuousProduction.Quantity)
+                    _manualData = New ManualData(Me.Date_, Me.Statistics.CT01_ProductionStartTime, Me.Statistics.CT01_ProductionEndTime, Me.Statistics.ContinuousProduction.Quantity + Me.Statistics.DiscontinuousProduction.Quantity)
 
                 End If
             End If
@@ -174,7 +174,7 @@ Public Class ProductionDay
         End Get
     End Property
 
-    Public Property Comments As String
+    Public Property KA01_Comments As String
 
     Public ReadOnly Property Date_ As Date
         Get

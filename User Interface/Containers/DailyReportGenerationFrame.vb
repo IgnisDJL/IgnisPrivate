@@ -128,7 +128,7 @@
             Me.delaysJustificationStepLabel.Location = layout.DelaysJustificationStepLabel_Location
             Me.delaysJustificationStepLabel.Size = layout.DelaysJustificationStepLabel_Size
 
-            ' Comments Step Label (Inside Progression Panel)
+            ' KA01_Comments Step Label (Inside Progression Panel)
             Me.commentsStepLabel.Location = layout.CommentsStepLabel_Location
             Me.commentsStepLabel.Size = layout.CommentsStepLabel_Size
 

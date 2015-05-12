@@ -38,13 +38,13 @@
     ''' </summary>
     Public MustOverride Sub compute(cycles As List(Of Cycle), ByRef events As EventsCollection)
 
-    Public ReadOnly Property ProductionStartTime As Date
+    Public ReadOnly Property CT01_ProductionStartTime As Date
         Get
             Return _startTime
         End Get
     End Property
 
-    Public ReadOnly Property ProductionEndTime As Date
+    Public ReadOnly Property CT01_ProductionEndTime As Date
         Get
             Return _endTime
         End Get

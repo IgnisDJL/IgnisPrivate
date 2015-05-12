@@ -266,14 +266,14 @@ IGNIS
 	</summary>
 	<returns>Retourne une liste de TimeSpan contenant 4 objets: dureeProduction as TimeSpan, dureeTotaleDelaisPause as TimeSpan,
  dureeTotaleDelaisEntretien as TimeSpan, DureeTotaleDelais as TimeSpan  </returns>
-	<remarks>La fonction est principalement utilité pour fournir les donnée d'entré à la classe ProductionDistributionGraphic</remarks>
+	<remarks>La fonction est principalement utilité pour fournir les donnée d'entré à la classe DG01_ProductionDistributionGraphic</remarks>
 </member><member name="M:IGNIS.DailyReport.getDelaysDistributionGraphicData">
 	<summary>
  Fonction qui retourne la durée totale des délais classé par catégories de délais, pour les catégories: Interne (avec bris), Interne (sans bris), Externe (chantier), Externe (autres)  
  </summary>
 	<returns>Retourne une liste de TimeSpan contenant 4 objets: dureeTotaleDelaisInterneAvecBris as TimeSpan, DureeTotalDelaisInterneSansBris as TimeSpan,
  dureeTotalDelaisExterneChantier as TimeSpan, dureeTotalDelaisExterneAutres as TimeSpan  </returns>
-	<remarks>La fonction est principalement utilité pour fournir les donnée d'entré à la classe DelaysDistributionGraphic</remarks>
+	<remarks>La fonction est principalement utilité pour fournir les donnée d'entré à la classe DG02_DelaysDistributionGraphic</remarks>
 </member><member name="M:IGNIS.DailyReport.getMixTemperatureVariationGraphicData">
 	<summary>
 	</summary>
@@ -780,21 +780,21 @@ IGNIS
  Find first and iterate from last method prooved to be the fastest (after comparing with using table objects).
  I know it's a lot of duplicated code but it's worth it performance wise. Using bookmarks is also very fast.
  </remarks>
-</member><member name="P:IGNIS.EventsStatistics.PausesDuration">
+</member><member name="P:IGNIS.EventsStatistics.CT01_PausesDuration">
 	<summary></summary>
 </member><member name="P:IGNIS.EventsStatistics.NbPauses">
 	<summary></summary>
-</member><member name="P:IGNIS.EventsStatistics.MaintenanceDuration">
+</member><member name="P:IGNIS.EventsStatistics.CT01_MaintenanceDuration">
 	<summary></summary>
 </member><member name="P:IGNIS.EventsStatistics.NbMaintenance">
 	<summary></summary>
 </member><member name="P:IGNIS.EventsStatistics.InternDelaysDuration">
 	<summary></summary>
-</member><member name="P:IGNIS.EventsStatistics.DelaysDuration">
+</member><member name="P:IGNIS.EventsStatistics.DT01_DelaysDuration">
 	<summary></summary>
 </member><member name="P:IGNIS.EventsStatistics.InternBreakagesDuration">
 	<summary></summary>
-</member><member name="P:IGNIS.EventsStatistics.NbOfBreakages">
+</member><member name="P:IGNIS.EventsStatistics.DT03_BreakageNumber">
 	<summary></summary>
 </member><member name="P:IGNIS.EventsStatistics.JustifiableDelaysDuration">
 	<summary></summary>

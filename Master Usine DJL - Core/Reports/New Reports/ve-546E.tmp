@@ -35,7 +35,7 @@ Public Class SummaryDailyReportGenerator
 
         '    ' Factory Info
         '    bookMarks.AA01_HeaderPlantName.Text = XmlSettings.Settings.instance.Usine.PLANT_NAME
-        '    bookMarks.AA02_HeaderPlantID.Text = XmlSettings.Settings.instance.Usine.PLANT_ID
+        '    bookMarks.AA02_HeadePlantID.Text = XmlSettings.Settings.instance.Usine.PLANT_ID
 
         '    ' Date
         '    bookMarks.BA01_FooterDate.Text = productionDay.Date_.ToString(Me.Formater.ShortDateFormat)
@@ -130,7 +130,7 @@ Public Class SummaryDailyReportGenerator
         '    End If
 
 
-        '    bookMarks.CT02_OtherMixesNumberOfMixes.Text = If(productionDay.Statistics.AllMixes.Count <= 3, "0", productionDay.Statistics.AllMixes.Count - 3)
+        '    bookMarks.CT02_OtherMixes_NumberOfMixes.Text = If(productionDay.Statistics.AllMixes.Count <= 3, "0", productionDay.Statistics.AllMixes.Count - 3)
         '    bookMarks.CT02_OtherMixesQuantity.Text = productionDay.Statistics.OtherMixes.TOTAL_MASS.ToString("N0")
         '    bookMarks.CT02_OtherMixesProductionRate.Text = productionDay.Statistics.OtherMixes.AVERAGE_PRODUCTION_SPEED.ToString("N0")
 
@@ -222,8 +222,8 @@ Public Class SummaryDailyReportGenerator
         '    bookMarks.DT01_DiscontinuousPercentage.Text = (productionDay.Statistics.DiscontinuousProduction.Duration.TotalSeconds / productionDay.ManualData.PRODUCTION_END_TIME.Subtract(productionDay.ManualData.PRODUCTION_START_TIME).TotalSeconds * 100).ToString("N0")
         '    bookMarks.DT01_DelaysPercentage.Text = (productionDay.Statistics.EventsStatistics.DT01_DelaysDuration.TotalSeconds / productionDay.ManualData.OPERATION_END_TIME.Subtract(productionDay.ManualData.OPERATION_START_TIME).TotalSeconds * 100).ToString("N0")
 
-        '    bookMarks.DT01_ContinuousMixChange.Text = productionDay.Statistics.ContinuousProduction.NbMixSwitch
-        '    bookMarks.DT01_DiscontinuousMixChange.Text = productionDay.Statistics.DiscontinuousProduction.NbMixSwitch
+        '    bookMarks.DT01_ContinuousMixChanges.Text = productionDay.Statistics.ContinuousProduction.NbMixSwitch
+        '    bookMarks.DT01_DiscontinuousMixChanges.Text = productionDay.Statistics.DiscontinuousProduction.NbMixSwitch
         '    bookMarks.DT01_DelaysNumber.Text = productionDay.Statistics.EventsStatistics.Delays.Count
 
         '    bookMarks.DT01_ContinuousQuantity.Text = productionDay.Statistics.ContinuousProduction.Quantity.ToString("N0")
@@ -541,14 +541,14 @@ Public Class SummaryDailyReportGenerator
 
         '    With XmlSettings.Settings.instance.Usine.FuelsInfo
 
-        '        bookMarks.FT01_FirstFuelName.Text = .FUEL_1_NAME
-        '        bookMarks.FT01_SecondFuelName.Text = .FUEL_2_NAME
+        '        bookMarks.Fuel1Name.Text = .FUEL_1_NAME
+        '        bookMarks.Fuel2Name.Text = .FUEL_2_NAME
 
-        '        bookMarks.FT01_FirstFuelQuantity.Text = Me.Formater.getManualDataString(productionDay.ManualData.FUEL_CONSUMED_QUANTITY_1)
+        '        bookMarks.Fuel1Quantity.Text = Me.Formater.getManualDataString(productionDay.ManualData.FUEL_CONSUMED_QUANTITY_1)
         '        bookMarks.FT01_FirstFuelConsumptionRate.Text = Me.Formater.getManualDataString(productionDay.ManualData.FUEL_CONSUMPTION_RATE_1, "N1") & " " & .FUEL_1_UNIT & "/T"
 
-        '        bookMarks.FT01_SecondFuelQuantity.Text = Me.Formater.getManualDataString(productionDay.ManualData.FUEL_CONSUMED_QUANTITY_2)
-        '        bookMarks.FT01_SecondFuelConsumptionRate.Text = Me.Formater.getManualDataString(productionDay.ManualData.FUEL_CONSUMPTION_RATE_2, "N1") & " " & .FUEL_2_UNIT & "/T"
+        '        bookMarks.Fuel2Quantity.Text = Me.Formater.getManualDataString(productionDay.ManualData.FUEL_CONSUMED_QUANTITY_2)
+        '        bookMarks.Fuel2ConsumptionRate.Text = Me.Formater.getManualDataString(productionDay.ManualData.FUEL_CONSUMPTION_RATE_2, "N1") & " " & .FUEL_2_UNIT & "/T"
 
         '    End With
 
@@ -556,14 +556,14 @@ Public Class SummaryDailyReportGenerator
         '    ' -------
         '    ' REJETS
         '    ' -------
-        '    bookMarks.GT01_RejectedAggregatesQuantity.Text = Me.Formater.getManualDataString(productionDay.ManualData.REJECTED_AGGREGATES_QUANTITY)
-        '    bookMarks.GT01_RejectedAggregatesPercentage.Text = Me.Formater.getManualDataString(productionDay.ManualData.REJECTED_AGGREGATES_PERCENTAGE, "N1")
+        '    bookMarks.RejectedAggregates.Text = Me.Formater.getManualDataString(productionDay.ManualData.REJECTED_AGGREGATES_QUANTITY)
+        '    bookMarks.RejectedAggregatesPercentage.Text = Me.Formater.getManualDataString(productionDay.ManualData.REJECTED_AGGREGATES_PERCENTAGE, "N1")
 
-        '    bookMarks.GT01_RejectedFillerQuantity.Text = Me.Formater.getManualDataString(productionDay.ManualData.REJECTED_FILLER_QUANTITY)
-        '    bookMarks.GT01_RejectedFillerPercentage.Text = Me.Formater.getManualDataString(productionDay.ManualData.REJECTED_FILLER_PERCENTAGE, "N1")
+        '    bookMarks.RejectedFiller.Text = Me.Formater.getManualDataString(productionDay.ManualData.REJECTED_FILLER_QUANTITY)
+        '    bookMarks.RejectedFillerPercentage.Text = Me.Formater.getManualDataString(productionDay.ManualData.REJECTED_FILLER_PERCENTAGE, "N1")
 
-        '    bookMarks.GT01_RejectedRecycledQuantity.Text = Me.Formater.getManualDataString(productionDay.ManualData.REJECTED_RECYCLED_QUANTITY)
-        '    bookMarks.GT01_RejectedRecycledPercentage.Text = Me.Formater.getManualDataString(productionDay.ManualData.REJECTED_RECYCLED_PERCENTAGE, "N1")
+        '    bookMarks.RejectedRecycled.Text = Me.Formater.getManualDataString(productionDay.ManualData.REJECTED_RECYCLED_QUANTITY)
+        '    bookMarks.RejectedRecycledPercentage.Text = Me.Formater.getManualDataString(productionDay.ManualData.REJECTED_RECYCLED_PERCENTAGE, "N1")
 
         '    RaiseEvent CurrentProgress(72) ' 72 % Progress
 
@@ -586,7 +586,7 @@ Public Class SummaryDailyReportGenerator
         '                _delay = delays(i)
 
         '                ' Add new row
-        '                bookMarks.HT01_FirstDelayStartTime.Select()
+        '                bookMarks.FirstDelayStartTime.Select()
         '                .InsertRowsBelow(1)
 
         '                ' Start time (already selected after insertRowBelow()
@@ -603,15 +603,15 @@ Public Class SummaryDailyReportGenerator
 
         '                ' End time
 
-        '                moveSelectionToCellBelow(bookMarks.HT01_FirstDelayEndTime)
+        '                moveSelectionToCellBelow(bookMarks.FirstDelayEndTime)
         '                .Text = _delay.EndTime.ToString(Me.Formater.TimeFormat)
 
         '                ' Duration
-        '                moveSelectionToCellBelow(bookMarks.HT01_FirstDelayDuration)
+        '                moveSelectionToCellBelow(bookMarks.FirstDelayDuration)
         '                .Text = _delay.Duration.ToString(Me.Formater.DurationFormat)
 
         '                ' Select cell for delay code
-        '                moveSelectionToCellBelow(bookMarks.HT01_FirstDelayCode)
+        '                moveSelectionToCellBelow(bookMarks.FirstDelayCode)
 
         '                If (_delay.IsUnknown) Then
 
@@ -620,7 +620,7 @@ Public Class SummaryDailyReportGenerator
         '                    .Shading.BackgroundPatternColor = WdColor.wdColorWhite
 
         '                    ' Delay justification
-        '                    moveSelectionToCellBelow(bookMarks.HT01_FirstDelayComments)
+        '                    moveSelectionToCellBelow(bookMarks.FirstDelayJustification)
         '                    .Text = _delay.Justification
 
         '                ElseIf (IsNothing(_delay.Code)) Then
@@ -630,11 +630,11 @@ Public Class SummaryDailyReportGenerator
         '                    .Shading.BackgroundPatternColor = WdColor.wdColorWhite
 
         '                    ' Delay code description
-        '                    moveSelectionToCellBelow(bookMarks.HT01_FirstDelayDescription)
+        '                    moveSelectionToCellBelow(bookMarks.FirstDelayDescription)
         '                    .Text = "-"
 
         '                    ' Delay justification
-        '                    moveSelectionToCellBelow(bookMarks.HT01_FirstDelayComments)
+        '                    moveSelectionToCellBelow(bookMarks.FirstDelayJustification)
         '                    .Text = "-"
 
         '                Else
@@ -644,11 +644,11 @@ Public Class SummaryDailyReportGenerator
         '                    .Shading.BackgroundPatternColor = RGB(_delay.Type.Color.R, _delay.Type.Color.G, _delay.Type.Color.B)
 
         '                    ' Delay code description
-        '                    moveSelectionToCellBelow(bookMarks.HT01_FirstDelayDescription)
+        '                    moveSelectionToCellBelow(bookMarks.FirstDelayDescription)
         '                    .Text = _delay.Code.Description
 
         '                    ' Delay justification
-        '                    moveSelectionToCellBelow(bookMarks.HT01_FirstDelayComments)
+        '                    moveSelectionToCellBelow(bookMarks.FirstDelayJustification)
         '                    .Text = _delay.Justification
         '                End If
 
@@ -657,44 +657,44 @@ Public Class SummaryDailyReportGenerator
         '            _delay = delays(0)
 
         '            ' First delay
-        '            bookMarks.HT01_FirstDelayStartTime.Text = _delay.StartTime.ToString(Me.Formater.TimeFormat)
-        '            bookMarks.HT01_FirstDelayEndTime.Text = _delay.EndTime.ToString(Me.Formater.TimeFormat)
-        '            bookMarks.HT01_FirstDelayDuration.Text = _delay.Duration.ToString(Me.Formater.DurationFormat)
+        '            bookMarks.FirstDelayStartTime.Text = _delay.StartTime.ToString(Me.Formater.TimeFormat)
+        '            bookMarks.FirstDelayEndTime.Text = _delay.EndTime.ToString(Me.Formater.TimeFormat)
+        '            bookMarks.FirstDelayDuration.Text = _delay.Duration.ToString(Me.Formater.DurationFormat)
 
         '            If (_delay.IsUnknown) Then
 
-        '                bookMarks.HT01_FirstDelayCode.Text = Me.Formater.UnknownValueCharacter
-        '                bookMarks.HT01_FirstDelayCode.Shading.BackgroundPatternColor = WdColor.wdColorWhite
-        '                bookMarks.HT01_FirstDelayComments.Text = _delay.Justification
+        '                bookMarks.FirstDelayCode.Text = Me.Formater.UnknownValueCharacter
+        '                bookMarks.FirstDelayCode.Shading.BackgroundPatternColor = WdColor.wdColorWhite
+        '                bookMarks.FirstDelayJustification.Text = _delay.Justification
 
         '            ElseIf (IsNothing(_delay.Code)) Then
 
-        '                bookMarks.HT01_FirstDelayCode.Text = Me.Formater.InvalidValueCharacter
-        '                bookMarks.HT01_FirstDelayCode.Shading.BackgroundPatternColor = WdColor.wdColorWhite
-        '                bookMarks.HT01_FirstDelayDescription.Text = Me.Formater.InvalidValueCharacter
-        '                bookMarks.HT01_FirstDelayComments.Text = Me.Formater.InvalidValueCharacter
+        '                bookMarks.FirstDelayCode.Text = Me.Formater.InvalidValueCharacter
+        '                bookMarks.FirstDelayCode.Shading.BackgroundPatternColor = WdColor.wdColorWhite
+        '                bookMarks.FirstDelayDescription.Text = Me.Formater.InvalidValueCharacter
+        '                bookMarks.FirstDelayJustification.Text = Me.Formater.InvalidValueCharacter
 
         '            Else
 
-        '                bookMarks.HT01_FirstDelayCode.Text = _delay.Code.Code
-        '                bookMarks.HT01_FirstDelayCode.Shading.BackgroundPatternColor = RGB(_delay.Type.Color.R, _delay.Type.Color.G, _delay.Type.Color.B)
+        '                bookMarks.FirstDelayCode.Text = _delay.Code.Code
+        '                bookMarks.FirstDelayCode.Shading.BackgroundPatternColor = RGB(_delay.Type.Color.R, _delay.Type.Color.G, _delay.Type.Color.B)
 
-        '                bookMarks.HT01_FirstDelayDescription.Text = _delay.Code.Description
+        '                bookMarks.FirstDelayDescription.Text = _delay.Code.Description
 
-        '                bookMarks.HT01_FirstDelayComments.Text = _delay.Justification
+        '                bookMarks.FirstDelayJustification.Text = _delay.Justification
 
         '            End If
 
         '        Else
 
-        '            bookMarks.HT01_FirstDelayStartTime.Select()
+        '            bookMarks.FirstDelayStartTime.Select()
         '            .Rows.Delete()
 
         '        End If
 
-        '        bookMarks.HT01_MinimalDurationForJustification.Text = XmlSettings.Settings.instance.Usine.Events.Delays.JUSTIFIABLE_DURATION.TotalMinutes.ToString("N0")
-        '        bookMarks.HT01_DelaysNumberUnderMinimalDuration.Text = productionDay.Statistics.EventsStatistics.Delays.Count - productionDay.Statistics.EventsStatistics.JustifiableDelays.Count
-        '        bookMarks.HT01_DelaysUnderMinimalTimeDuration.Text = productionDay.Statistics.EventsStatistics.DT01_DelaysDuration.Subtract(productionDay.Statistics.EventsStatistics.JustifiableDelaysDuration).TotalMinutes.ToString("N0")
+        '        bookMarks.JustificationDuration.Text = XmlSettings.Settings.instance.Usine.Events.Delays.JUSTIFIABLE_DURATION.TotalMinutes.ToString("N0")
+        '        bookMarks.NbDelaysNotJustified.Text = productionDay.Statistics.EventsStatistics.Delays.Count - productionDay.Statistics.EventsStatistics.JustifiableDelays.Count
+        '        bookMarks.DelaysNotJustifiedDuration.Text = productionDay.Statistics.EventsStatistics.DT01_DelaysDuration.Subtract(productionDay.Statistics.EventsStatistics.JustifiableDelaysDuration).TotalMinutes.ToString("N0")
 
         '        RaiseEvent CurrentProgress(80) ' 80 % Progress
 
@@ -718,10 +718,10 @@ Public Class SummaryDailyReportGenerator
 
         '        If (nonNullFeeds.Count > 0) Then
 
-        '            Dim columnsWidth = bookMarks.JT01_FirstContinuousFeederDescription.Columns.Width / nonNullFeeds.Count
+        '            Dim columnsWidth = bookMarks.FirstContinuousProductionFeederDescription.Columns.Width / nonNullFeeds.Count
 
         '            ' First non null feeder
-        '            bookMarks.JT01_FirstContinuousFeederDescription.Select()
+        '            bookMarks.FirstContinuousProductionFeederDescription.Select()
 
         '            ' Feeder description
         '            If (IsNothing(nonNullFeeds.First().MATERIAL_NAME)) Then
@@ -730,7 +730,7 @@ Public Class SummaryDailyReportGenerator
         '                .Text = nonNullFeeds.First().LOCATION & Environment.NewLine & nonNullFeeds.First().MATERIAL_NAME & " (T)"
         '            End If
 
-        '            bookMarks.JT01_ContinuousFeederTotalQuantity.Select()
+        '            bookMarks.FirstContinuousProductionFeederTotalQuantity.Select()
         '            .Text = nonNullFeeds.First().TOTAL_MASS.ToString("N1")
 
         '            With .Columns.Last
@@ -785,17 +785,17 @@ Public Class SummaryDailyReportGenerator
 
         '                    firstMixStatIndex = _firstMixStatIndex
 
-        '                    bookMarks.JT01_FirstContinuousMixNumber.Text = _mixStat.FORMULA_NAME
+        '                    bookMarks.FirstContinuousProductionFormulaName.Text = _mixStat.FORMULA_NAME
 
-        '                    bookMarks.JT01_FirstContinuousMixName.Text = _mixStat.NAME
+        '                    bookMarks.FirstContinuousProductionMixName.Text = _mixStat.NAME
 
-        '                    bookMarks.JT01_FirstContinuousVirginACGrade.Text = _mixStat.ASPHALT_STATS.NAME
+        '                    bookMarks.FirstContinuousProductionAsphaltName.Text = _mixStat.ASPHALT_STATS.NAME
 
-        '                    bookMarks.JT01_FirstContinuousRAPPercentage.Text = If(Double.IsNaN(_mixStat.SET_POINT_RECYCLED_PERCENTAGE), "-", _mixStat.SET_POINT_RECYCLED_PERCENTAGE.ToString("N0"))
+        '                    bookMarks.FirstContinuousProductionRAP.Text = If(Double.IsNaN(_mixStat.SET_POINT_RECYCLED_PERCENTAGE), "-", _mixStat.SET_POINT_RECYCLED_PERCENTAGE.ToString("N0"))
 
-        '                    bookMarks.JT01_FirstContinuousQuantity.Text = _mixStat.TOTAL_MASS.ToString("N1")
+        '                    bookMarks.FirstContinuousProductionTotalQuantity.Text = _mixStat.TOTAL_MASS.ToString("N1")
 
-        '                    bookMarks.JT01_FirstContinuousVirginACQuantity.Text = _mixStat.ASPHALT_STATS.TOTAL_MASS.ToString("N1")
+        '                    bookMarks.FirstContinuousProductionAsphaltQuantity.Text = _mixStat.ASPHALT_STATS.TOTAL_MASS.ToString("N1")
 
         '                    totalAsphaltQuantity += _mixStat.ASPHALT_STATS.TOTAL_MASS
 
@@ -803,7 +803,7 @@ Public Class SummaryDailyReportGenerator
 
         '                        _nonNullFeed = nonNullFeeds(nonNullFeedIndex)
 
-        '                        bookMarks.JT01_FirstContinuousFeederQuantity.Select()
+        '                        bookMarks.FirstContinuousProductionFeederQuantity.Select()
 
         '                        For Each _currentMixFeed As FeedersStatistics In _mixStat.CONTINUOUS_FEEDERS_STATS
 
@@ -841,7 +841,7 @@ Public Class SummaryDailyReportGenerator
 
         '                If (_mixStat.TOTAL_MASS > 0) Then
 
-        '                    bookMarks.JT01_FirstContinuousMixNumber.Select()
+        '                    bookMarks.FirstContinuousProductionFormulaName.Select()
 
         '                    .InsertRowsBelow()
         '                    nbRows += 1
@@ -850,23 +850,23 @@ Public Class SummaryDailyReportGenerator
         '                    .Text = _mixStat.FORMULA_NAME
 
         '                    ' Mix Name
-        '                    moveSelectionToCellBelow(bookMarks.JT01_FirstContinuousMixName)
+        '                    moveSelectionToCellBelow(bookMarks.FirstContinuousProductionMixName)
         '                    .Text = _mixStat.NAME
 
         '                    ' Asphalt Name
-        '                    moveSelectionToCellBelow(bookMarks.JT01_FirstContinuousVirginACGrade)
+        '                    moveSelectionToCellBelow(bookMarks.FirstContinuousProductionAsphaltName)
         '                    .Text = _mixStat.ASPHALT_STATS.NAME
 
         '                    ' target recycled percentage
-        '                    moveSelectionToCellBelow(bookMarks.JT01_FirstContinuousRAPPercentage)
+        '                    moveSelectionToCellBelow(bookMarks.FirstContinuousProductionRAP)
         '                    .Text = If(Double.IsNaN(_mixStat.SET_POINT_RECYCLED_PERCENTAGE), "-", _mixStat.SET_POINT_RECYCLED_PERCENTAGE.ToString("N0"))
 
         '                    ' mix quantity
-        '                    moveSelectionToCellBelow(bookMarks.JT01_FirstContinuousQuantity)
+        '                    moveSelectionToCellBelow(bookMarks.FirstContinuousProductionTotalQuantity)
         '                    .Text = _mixStat.TOTAL_MASS.ToString("N1")
 
         '                    ' Asphalt Quantity
-        '                    moveSelectionToCellBelow(bookMarks.JT01_FirstContinuousVirginACQuantity)
+        '                    moveSelectionToCellBelow(bookMarks.FirstContinuousProductionAsphaltQuantity)
         '                    .Text = _mixStat.ASPHALT_STATS.TOTAL_MASS.ToString("N1")
 
         '                    totalAsphaltQuantity += _mixStat.ASPHALT_STATS.TOTAL_MASS
@@ -875,7 +875,7 @@ Public Class SummaryDailyReportGenerator
 
         '                        _nonNullFeed = nonNullFeeds(nonNullFeedIndex)
 
-        '                        moveSelectionToCellBelow(bookMarks.JT01_FirstContinuousFeederQuantity)
+        '                        moveSelectionToCellBelow(bookMarks.FirstContinuousProductionFeederQuantity)
 
         '                        For Each _currentMixFeed As FeedersStatistics In _mixStat.CONTINUOUS_FEEDERS_STATS
 
@@ -902,7 +902,7 @@ Public Class SummaryDailyReportGenerator
         '            ' Alternate white rows and remove borders
         '            For i = 1 To nbRows - 1
 
-        '                bookMarks.JT01_FirstContinuousMixNumber.Select()
+        '                bookMarks.FirstContinuousProductionFormulaName.Select()
         '                .MoveDown(WdUnits.wdLine, i, WdMovementType.wdMove)
         '                .SelectRow()
 
@@ -915,15 +915,15 @@ Public Class SummaryDailyReportGenerator
 
         '            bookMarks.reinitializeContinuousProductionSummaryBookMarks(WordDoc)
 
-        '            bookMarks.JT01_ContinuousTotalQuantity.Text = productionDay.Statistics.ContinuousProduction.Quantity.ToString("N1")
-        '            bookMarks.JT01_ContinuousTotalVirginACQuantity.Text = totalAsphaltQuantity.ToString("N1")
-        '            bookMarks.JT01_ContinuousWithRAPPercentage.Text = (mixWithRecycledQuantitySum / productionDay.Statistics.ContinuousProduction.Quantity * 100).ToString("N0")
+        '            bookMarks.ContinuousProductionTotalQuantity.Text = productionDay.Statistics.ContinuousProduction.Quantity.ToString("N1")
+        '            bookMarks.ContinuousProductionTotalAsphaltQuantity.Text = totalAsphaltQuantity.ToString("N1")
+        '            bookMarks.ContinuousProductionMixWithRecycledPercentage.Text = (mixWithRecycledQuantitySum / productionDay.Statistics.ContinuousProduction.Quantity * 100).ToString("N0")
 
-        '            bookMarks.JT01_ContinuousTotalCellsToMerge.Cells.Merge()
+        '            bookMarks.ContinuousProductionTotalCellsToMerge.Cells.Merge()
 
         '        Else
 
-        '            bookMarks.JA01_ContinuousProductionSummarySection.Delete()
+        '            bookMarks.ContinuousProductionSummarySection.Delete()
 
         '        End If
 
@@ -947,10 +947,10 @@ Public Class SummaryDailyReportGenerator
 
         '        If (nonNullFeeds.Count > 0) Then
 
-        '            Dim columnsWidth = bookMarks.JT02_FirstDiscontinuousFeederDescription.Columns.Width / nonNullFeeds.Count
+        '            Dim columnsWidth = bookMarks.FirstDiscontinuousProductionFeederDescription.Columns.Width / nonNullFeeds.Count
 
         '            ' First non null feeder
-        '            bookMarks.JT02_FirstDiscontinuousFeederDescription.Select()
+        '            bookMarks.FirstDiscontinuousProductionFeederDescription.Select()
 
         '            ' Feeder= description
         '            If (IsNothing(nonNullFeeds.First().MATERIAL_NAME)) Then
@@ -959,7 +959,7 @@ Public Class SummaryDailyReportGenerator
         '                .Text = nonNullFeeds.First().LOCATION & Environment.NewLine & nonNullFeeds.First().MATERIAL_NAME & " (T)"
         '            End If
 
-        '            bookMarks.JT02_FirstDiscontinuousFeederQuantity.Select()
+        '            bookMarks.FirstDiscontinuousProductionFeederTotalQuantity.Select()
         '            .Text = nonNullFeeds.First().TOTAL_MASS.ToString("N1")
 
         '            With .Columns.Last
@@ -1014,17 +1014,17 @@ Public Class SummaryDailyReportGenerator
 
         '                    firstMixStatIndex = _firstMixStatIndex
 
-        '                    bookMarks.JT02_FirstDiscontinuousMixNumber.Text = _mixStat.FORMULA_NAME
+        '                    bookMarks.FirstDiscontinuousProductionFormulaName.Text = _mixStat.FORMULA_NAME
 
-        '                    bookMarks.JT02_FirstDiscontinuousMixName.Text = _mixStat.NAME
+        '                    bookMarks.FirstDiscontinuousProductionMixName.Text = _mixStat.NAME
 
-        '                    bookMarks.JT02_FirstDiscontinuousVirginACGrade.Text = _mixStat.ASPHALT_STATS.NAME
+        '                    bookMarks.FirstDiscontinuousProductionAsphaltName.Text = _mixStat.ASPHALT_STATS.NAME
 
-        '                    bookMarks.JT02_FirstDiscontinuousRecycledQuantity.Text = If(Double.IsNaN(_mixStat.SET_POINT_RECYCLED_PERCENTAGE), "-", _mixStat.SET_POINT_RECYCLED_PERCENTAGE.ToString("N0"))
+        '                    bookMarks.FirstDiscontinuousProductionRAP.Text = If(Double.IsNaN(_mixStat.SET_POINT_RECYCLED_PERCENTAGE), "-", _mixStat.SET_POINT_RECYCLED_PERCENTAGE.ToString("N0"))
 
-        '                    bookMarks.JT02_FirstDiscontinuousQuantity.Text = _mixStat.TOTAL_MASS.ToString("N1")
+        '                    bookMarks.FirstDiscontinuousProductionTotalQuantity.Text = _mixStat.TOTAL_MASS.ToString("N1")
 
-        '                    bookMarks.JT02_FirstDiscontinuousQuantity.Text = _mixStat.ASPHALT_STATS.TOTAL_MASS.ToString("N1")
+        '                    bookMarks.FirstDiscontinuousProductionAsphaltQuantity.Text = _mixStat.ASPHALT_STATS.TOTAL_MASS.ToString("N1")
 
         '                    totalAsphaltQuantity += _mixStat.ASPHALT_STATS.TOTAL_MASS
 
@@ -1032,7 +1032,7 @@ Public Class SummaryDailyReportGenerator
 
         '                        _nonNullFeed = nonNullFeeds(nonNullFeedIndex)
 
-        '                        bookMarks.JT02_FirstDiscontinuousFeederQuantity.Select()
+        '                        bookMarks.FirstDiscontinuousProductionFeederQuantity.Select()
 
         '                        For Each _currentMixFeed As FeedersStatistics In _mixStat.DISCONTINUOUS_FEEDERS_STATS
 
@@ -1070,7 +1070,7 @@ Public Class SummaryDailyReportGenerator
 
         '                If (_mixStat.TOTAL_MASS > 0) Then
 
-        '                    bookMarks.JT02_FirstDiscontinuousMixNumber.Select()
+        '                    bookMarks.FirstDiscontinuousProductionFormulaName.Select()
 
         '                    .InsertRowsBelow()
         '                    nbRows += 1
@@ -1079,23 +1079,23 @@ Public Class SummaryDailyReportGenerator
         '                    .Text = _mixStat.FORMULA_NAME
 
         '                    ' Mix Name
-        '                    moveSelectionToCellBelow(bookMarks.JT02_FirstDiscontinuousMixName)
+        '                    moveSelectionToCellBelow(bookMarks.FirstDiscontinuousProductionMixName)
         '                    .Text = _mixStat.NAME
 
         '                    ' Asphalt Name
-        '                    moveSelectionToCellBelow(bookMarks.JT02_FirstDiscontinuousVirginACGrade)
+        '                    moveSelectionToCellBelow(bookMarks.FirstDiscontinuousProductionAsphaltName)
         '                    .Text = _mixStat.ASPHALT_STATS.NAME
 
         '                    ' target recycled percentage
-        '                    moveSelectionToCellBelow(bookMarks.JT02_FirstDiscontinuousRecycledQuantity)
+        '                    moveSelectionToCellBelow(bookMarks.FirstDiscontinuousProductionRAP)
         '                    .Text = If(Double.IsNaN(_mixStat.SET_POINT_RECYCLED_PERCENTAGE), "-", _mixStat.SET_POINT_RECYCLED_PERCENTAGE.ToString("N0"))
 
         '                    ' mix quantity
-        '                    moveSelectionToCellBelow(bookMarks.JT02_FirstDiscontinuousQuantity)
+        '                    moveSelectionToCellBelow(bookMarks.FirstDiscontinuousProductionTotalQuantity)
         '                    .Text = _mixStat.TOTAL_MASS.ToString("N1")
 
         '                    ' Asphalt Quantity
-        '                    moveSelectionToCellBelow(bookMarks.JT02_FirstDiscontinuousQuantity)
+        '                    moveSelectionToCellBelow(bookMarks.FirstDiscontinuousProductionAsphaltQuantity)
         '                    .Text = _mixStat.ASPHALT_STATS.TOTAL_MASS.ToString("N1")
 
         '                    totalAsphaltQuantity += _mixStat.ASPHALT_STATS.TOTAL_MASS
@@ -1104,7 +1104,7 @@ Public Class SummaryDailyReportGenerator
 
         '                        _nonNullFeed = nonNullFeeds(nonNullFeedIndex)
 
-        '                        moveSelectionToCellBelow(bookMarks.JT02_FirstDiscontinuousFeederQuantity)
+        '                        moveSelectionToCellBelow(bookMarks.FirstDiscontinuousProductionFeederQuantity)
 
         '                        For Each _currentMixFeed As FeedersStatistics In _mixStat.DISCONTINUOUS_FEEDERS_STATS
 
@@ -1131,7 +1131,7 @@ Public Class SummaryDailyReportGenerator
         '            ' Alternate white rows and remove borders
         '            For i = 1 To nbRows - 1
 
-        '                bookMarks.JT02_FirstDiscontinuousMixNumber.Select()
+        '                bookMarks.FirstDiscontinuousProductionFormulaName.Select()
         '                .MoveDown(WdUnits.wdLine, i, WdMovementType.wdMove)
         '                .SelectRow()
 
@@ -1144,16 +1144,16 @@ Public Class SummaryDailyReportGenerator
 
         '            bookMarks.reinitializeDiscontinuousProductionSummaryBookMarks(WordDoc)
 
-        '            bookMarks.JT02_FirstDiscontinuousQuantity.Text = productionDay.Statistics.DiscontinuousProduction.Quantity.ToString("N1")
-        '            bookMarks.JT02_DiscontinuousTotalVirginACQuantity.Text = totalAsphaltQuantity.ToString("N1")
-        '            bookMarks.JT02_DiscontinuousWithRAPPercentage.Text = (mixWithRecycledQuantitySum / productionDay.Statistics.DiscontinuousProduction.Quantity * 100).ToString("N0")
+        '            bookMarks.DiscontinuousProductionTotalQuantity.Text = productionDay.Statistics.DiscontinuousProduction.Quantity.ToString("N1")
+        '            bookMarks.DiscontinuousProductionTotalAsphaltQuantity.Text = totalAsphaltQuantity.ToString("N1")
+        '            bookMarks.DiscontinuousProductionMixWithRecycledPercentage.Text = (mixWithRecycledQuantitySum / productionDay.Statistics.DiscontinuousProduction.Quantity * 100).ToString("N0")
 
-        '            bookMarks.JT02_DiscontinuousTotalCellsToMerge.Cells.Merge()
+        '            bookMarks.DiscontinuousProductionTotalCellsToMerge.Cells.Merge()
 
 
         '        Else
 
-        '            bookMarks.JA02_DiscontinuousProductionSummarySect.Delete()
+        '            bookMarks.DiscontinuousProductionSummarySection.Delete()
 
         '        End If
         '    End With
@@ -1161,10 +1161,10 @@ Public Class SummaryDailyReportGenerator
         '    RaiseEvent CurrentProgress(90) ' 90 % Progress
 
         '    ' ---------
-        '    ' KA01_Comments
+        '    ' Comments
         '    ' ---------
 
-        '    bookMarks.KA01_Comments.Text = productionDay.KA01_Comments
+        '    bookMarks.Comments.Text = productionDay.Comments
 
         '    ' ----------
         '    ' Signature
@@ -1172,11 +1172,11 @@ Public Class SummaryDailyReportGenerator
 
         '    If (Not productionDay.ManualData.FACTORY_OPERATOR = FactoryOperator.DEFAULT_OPERATOR) Then
 
-        '        bookMarks.LA01_OperatorName.Text = productionDay.ManualData.FACTORY_OPERATOR.ToString()
+        '        bookMarks.OperatorName.Text = productionDay.ManualData.FACTORY_OPERATOR.ToString()
         '    End If
 
-        '    bookMarks.BA01_FooterDate.Text = Date.Today.ToString(Me.Formater.FullDateFormat)
-        '    bookMarks.LA02_SignatureDate.Text = Date.Now.ToString(Me.Formater.DateTimeFormat)
+        '    bookMarks.CurrentDate1.Text = Date.Today.ToString(Me.Formater.FullDateFormat)
+        '    bookMarks.CurrentDate2.Text = Date.Now.ToString(Me.Formater.DateTimeFormat)
 
         '    ' -----
         '    ' SAVE N QUIT
