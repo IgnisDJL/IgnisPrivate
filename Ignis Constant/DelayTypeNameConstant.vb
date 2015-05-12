@@ -1,4 +1,5 @@
 ﻿Public Class DelayTypeNameConstant
+    Public Const delayNonjustifie = "Non justifié"
     Public Const delayTypePause = "Pause"
     Public Const delayTypeEntretien = "Entretien"
     Public Const delayTypeInterneAvecBris = "Interne (avec bris)"

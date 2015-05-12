@@ -31,10 +31,10 @@ Public Class MixComponentUsedFactory
 
     Public Function createRapAsphaltConcrete(recycledHotFeeder As RecycledHotFeeder) As RapAsphaltConcrete
         Dim rapAsphaltConcrete As RapAsphaltConcrete
-        Dim targetPercentage As Double = recycledHotFeeder.getTargetPercentage
-        Dim actualPercentage As Double = recycledHotFeeder.getActualPercentage
+        Dim targetPercentage As Double = recycledHotFeeder.getAsphaltPercentage
+        Dim actualPercentage As Double = 0
         '' Dans l'état des choses, il n'y a aucun moyen de connaître la masse de chacun des bitume recyclé. Aucun des fichiers source ne fournit cette information.
-        Dim mass As Double = 0
+        Dim mass As Double = targetPercentage * recycledHotFeeder.getMass
         Dim debit As Double = 0
         rapAsphaltConcrete = New RapAsphaltConcrete(targetPercentage, actualPercentage, debit, mass)
 

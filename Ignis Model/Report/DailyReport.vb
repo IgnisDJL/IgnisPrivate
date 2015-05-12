@@ -74,14 +74,6 @@
         ligneProduction.Insert(EnumDailyReportTableauIndex.colonne_ProductionDuree, calculateDureeProduction)
 
         tableauHoraire.Insert(EnumDailyReportTableauIndex.ligne_Production, ligneProduction)
-
-        ' ''Ligne Poste Pesée
-        'lignePostePesee.Insert(EnumDailyReportTableauIndex.colonne_PostePeseeDebut, getDebutPostePesee)
-        'lignePostePesee.Insert(EnumDailyReportTableauIndex.colonne_PostePeseeFin, getFinPostePesee)
-        'lignePostePesee.Insert(EnumDailyReportTableauIndex.colonne_PostePeseeDuree, getDureePostePesee)
-
-        'tableauHoraire.Insert(EnumDailyReportTableauIndex.ligne_PostePesee, lignePostePesee)
-
         ''Ligne Delais Pauses
         ligneDelaisPauses.Insert(EnumDailyReportTableauIndex.colonne_PausesDuree, calculeDureeTotaleDelaisPause)
 
@@ -633,7 +625,7 @@
     ''****************************************************************************
 
     Public Function getTableauProductionContinu() As List(Of ArrayList)
-        Dim tableauProductionContinu = getTableauSommaireProduction(producedMixContinuList)
+        Dim tableauProductionContinu = getTableauSommaireProduction(producedMixContinuList, productionCycleContinuList)
 
 
         Return tableauProductionContinu
@@ -645,14 +637,14 @@
 
     Public Function getTableauProductionDiscontinu() As List(Of ArrayList)
 
-        Dim tableauProductionDiscontinu = getTableauSommaireProduction(producedMixDiscontinuList)
+        Dim tableauProductionDiscontinu = getTableauSommaireProduction(producedMixDiscontinuList, productionCycleDiscontinuList)
 
 
 
         Return tableauProductionDiscontinu
     End Function
 
-    Private Function getTableauSommaireProduction(producedMixList As List(Of ProducedMix)) As List(Of ArrayList)
+    Private Function getTableauSommaireProduction(producedMixList As List(Of ProducedMix), productionCycleList As List(Of ProductionCycle)) As List(Of ArrayList)
         Dim tableauProduction = New List(Of ArrayList)
         Dim ligneSommaireEntete = New ArrayList
         Dim ligneSommaireTotal = New ArrayList
@@ -750,21 +742,10 @@
         Next
         tableauProduction.Insert(indexLigne, ligneSommaireTotal)
 
-        '' TODO
-        '' Réparer les ligne avec GBR, de GBR
-
-        'For Each producedMix As ProducedMix In producedMixList
-
-        '    If (producedMix.getMixMass > 0) Then
-
-        '    End If
-
-        'Next
-
-        ligneSommairePourcentageAvecGBR.Insert(EnumDailyReportTableauIndex.colonne_SommairePourcentageAvecGBR, 0)
+        ligneSommairePourcentageAvecGBR.Insert(EnumDailyReportTableauIndex.colonne_SommairePourcentageAvecGBR, getPourcentageAvecGBR(productionCycleList))
         tableauProduction.Insert(tableauProduction.Count, ligneSommairePourcentageAvecGBR)
 
-        ligneSommairePourcentageDeGBR.Insert(EnumDailyReportTableauIndex.colonne_SommairePourcentageDeGBR, 0)
+        ligneSommairePourcentageDeGBR.Insert(EnumDailyReportTableauIndex.colonne_SommairePourcentageDeGBR, getPourcentageDeGBR(productionCycleList))
         tableauProduction.Insert(tableauProduction.Count, ligneSommairePourcentageDeGBR)
 
         Return tableauProduction
@@ -848,14 +829,14 @@
 
         For Each productionCycleContinu As ProductionCycle In productionCycleContinuList
 
-            If productionCycleContinu.getProducedMix.getVirginAsphaltConcrete.getRecordedTemperature >= 0 _
+            If productionCycleContinu.getProducedMix.getRecordedTemperature >= 0 _
                 And productionCycleContinu.getProducedMix.getMixMass > 0 Then
 
                 If IsNothing(previousProductionCycleContinu) Then
                     previousProductionCycleContinu = productionCycleContinu
                 Else
 
-                    absDiffContinu = Math.Abs(previousProductionCycleContinu.getProducedMix.getRecordedTemperature - productionCycleContinu.getProducedMix.getRecordedTemperature)
+                    absDiffContinu += Math.Abs(previousProductionCycleContinu.getProducedMix.getRecordedTemperature - productionCycleContinu.getProducedMix.getRecordedTemperature) * productionCycleContinu.getProducedMix.getMixMass
 
                     masseTotal += productionCycleContinu.getProducedMix.getMixMass
                     nombreDeCycle += 1
@@ -872,14 +853,14 @@
 
         For Each productionCycleDiscontinu As ProductionCycle In productionCycleDiscontinuList
 
-            If productionCycleDiscontinu.getProducedMix.getVirginAsphaltConcrete.getRecordedTemperature >= 0 _
+            If productionCycleDiscontinu.getProducedMix.getRecordedTemperature >= 0 _
                 And productionCycleDiscontinu.getProducedMix.getMixMass > 0 Then
 
                 If IsNothing(previousProductionCycleDiscontinu) Then
                     previousProductionCycleDiscontinu = productionCycleDiscontinu
                 Else
 
-                    absDiffDiscontinu = Math.Abs(previousProductionCycleDiscontinu.getProducedMix.getRecordedTemperature - productionCycleDiscontinu.getProducedMix.getRecordedTemperature)
+                    absDiffDiscontinu += Math.Abs(previousProductionCycleDiscontinu.getProducedMix.getRecordedTemperature - productionCycleDiscontinu.getProducedMix.getRecordedTemperature) * productionCycleDiscontinu.getProducedMix.getMixMass
 
                     masseTotal += productionCycleDiscontinu.getProducedMix.getMixMass
                     nombreDeCycle += 1
@@ -894,7 +875,7 @@
 
         Next
 
-        Return variationTemperature
+        Return absDiffDiscontinu / (nombreDeCycle * masseTotal)
     End Function
 
     Private Function getMoyennePondereEcartPourcentageBitume() As Double
@@ -1248,6 +1229,15 @@
         End If
     End Function
 
+
+    Public Function getHybridDelayListJustifiable() As List(Of Delay_1)
+        If IsNothing(delayHybridList) Then
+            setHybridDelayList()
+            Return delayFactory.removeDelayLowerThen(getHybridDelayList(), TimeSpan.FromMinutes(10))
+        Else
+            Return delayFactory.removeDelayLowerThen(getHybridDelayList(), TimeSpan.FromMinutes(10))
+        End If
+    End Function
     Private Function getNombreChangementMix(productionCycleList As List(Of ProductionCycle)) As Integer
         Dim nombreDeChangement As Integer = 0
         Dim previousProductionCycle As ProductionCycle
@@ -1344,6 +1334,49 @@
 
     End Function
 
+    Private Function getPourcentageAvecGBR(productionCyclelist As List(Of ProductionCycle)) As Double
+        Dim nombreTotalDeMix As Integer = 0
+        Dim nombreTotalDeMixAvecGBR As Integer = 0
+
+        For Each productionCycle As ProductionCycle In productionCyclelist
+
+            If productionCycle.getProducedMix.getMixMass > 0 Then
+                nombreTotalDeMix += 1
+
+                If productionCycle.getProducedMix.getRapAsphaltConcreteList.Count > 0 Then
+                    nombreTotalDeMixAvecGBR += 1
+                End If
+
+            End If
+
+
+        Next
+
+        Return nombreTotalDeMixAvecGBR / nombreTotalDeMix * 100
+    End Function
+
+    Private Function getPourcentageDeGBR(productionCyclelist As List(Of ProductionCycle)) As Double
+        Dim massTotalDeMix As Double = 0
+        Dim massTotalDeMixAvecGBR As Integer = 0
+
+        For Each productionCycle As ProductionCycle In productionCyclelist
+
+            If productionCycle.getProducedMix.getMixMass > 0 Then
+                massTotalDeMix += productionCycle.getProducedMix.getMixMass
+
+                If productionCycle.getProducedMix.getRapAsphaltConcreteList.Count > 0 Then
+
+                    For Each rapAsphaltConcrete As RapAsphaltConcrete In productionCycle.getProducedMix.getRapAsphaltConcreteList
+                        massTotalDeMixAvecGBR += rapAsphaltConcrete.getMass
+                    Next
+                End If
+
+            End If
+        Next
+
+        Return massTotalDeMixAvecGBR / massTotalDeMix * 100
+    End Function
+
     Private Function getQuantiteTotalePayable() As Double
 
         Dim UNKNOWN_QUANTITY As Double = Double.NegativeInfinity
@@ -1410,7 +1443,7 @@
 
             If (Not IsNothing(newDelay)) Then
 
-                Me.getHybridDelayList.InsertRange(Me.getHybridDelayList.IndexOf(firstDelay), newDelay)
+                Me.getHybridDelayList.Insert(Me.getHybridDelayList.IndexOf(firstDelay), newDelay)
                 Me.getHybridDelayList.Remove(firstDelay)
                 Me.getHybridDelayList.Remove(secondDelay)
             End If

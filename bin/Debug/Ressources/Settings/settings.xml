@@ -1,5 +1,5 @@
 <settings>
-  <usine id="052" name="Shawiniagan" usbRoot="D:\Users\gbeaudry\Documents\DJL\cléeUSB">
+  <usine id="052" name="Shawiniagan" usbRoot="F:\Users\Guillaume\Documents\Ignis\cléeUSB">
     <asphaltInfo>
       <tank name="5" temperature="123">123</tank>
       <tank name="12" temperature="3">23</tank>
@@ -69,7 +69,9 @@
     <dataFiles>
       <csv active="yes" stopOffset="60">
         <format />
-        <feedsInfo />
+        <feedsInfo>
+          <feed material="5/12/2001" index="1" tag="#HotFeed">1</feed>
+        </feedsInfo>
       </csv>
       <log active="yes">
         <feedsInfo>
@@ -111,6 +113,9 @@
         <event replace="Hot Stop">*PLANT IS HOT STOPPED*</event>
       </stop>
       <delays justifiableDuration="600">
+        <type name="Non justifié" color="FF3219">
+          <delay code="NJ" description="Délai non justifié par l'opérateur" />
+        </type>
         <type name="Pause" color="FFFFFF" pause="yes">
           <delay code="P" description="Pause" />
         </type>
@@ -138,9 +143,9 @@
           <delay code="18" description="Compresseur et système à air" />
         </type>
         <type name="Interne (sans bris)" color="FFEA68" intern="yes">
-          <delay code="40" description="Changement de mélange" />
+          <delay code="40" description="Préparatifs de début de journée" />
           <delay code="41" description="Nettoyage de fin de journée" />
-          <delay code="42" description="Conditions climatiques" />
+          <delay code="42" description="Changement de mélange" />
           <delay code="43" description="Produit hors tolérance" />
           <delay code="44" description="Pénurie / Panne de carburant / Énergie" />
           <delay code="45" description="Manque de matières premières" />

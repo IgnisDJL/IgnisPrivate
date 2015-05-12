@@ -15,9 +15,6 @@ Namespace Constants.Reports.BookMarks
         Public CT01_ProductionStartTime As Microsoft.Office.Interop.Word.Range
         Public CT01_ProductionEndTime As Microsoft.Office.Interop.Word.Range
         Public CT01_ProductionDuration As Microsoft.Office.Interop.Word.Range
-        Public CT01_LoadingStartTime As Microsoft.Office.Interop.Word.Range
-        Public CT01_LoadingEndTime As Microsoft.Office.Interop.Word.Range
-        Public CT01_LoadingDuration As Microsoft.Office.Interop.Word.Range
         Public CT01_PausesDuration As Microsoft.Office.Interop.Word.Range
         Public CT01_MaintenanceDuration As Microsoft.Office.Interop.Word.Range
 
@@ -86,16 +83,16 @@ Namespace Constants.Reports.BookMarks
         Public DG01_ProductionDistributionGraphic As Microsoft.Office.Interop.Word.Range
         Public DG02_DelaysDistributionGraphic As Microsoft.Office.Interop.Word.Range
 
-        Public ET01_FirstVirginAsphaltConcreteTankId As Microsoft.Office.Interop.Word.Range
-        Public ET01_FirstVirginAsphaltConcreteGrade As Microsoft.Office.Interop.Word.Range
-        Public ET01_FirstVirginAsphaltConcreteQuantity As Microsoft.Office.Interop.Word.Range
-        Public ET01_TotalVirginAsphaltConcreteQuantity As Microsoft.Office.Interop.Word.Range
+        Public ET01_FirstAsphaltVirginConcreteTankId As Microsoft.Office.Interop.Word.Range
+        Public ET01_FirstAsphaltVirginConcreteGrade As Microsoft.Office.Interop.Word.Range
+        Public ET01_FirstAsphaltVirginConcreteQuantity As Microsoft.Office.Interop.Word.Range
+        Public ET01_TotalAsphaltVirginConcreteQuantity As Microsoft.Office.Interop.Word.Range
 
         Public ET02_VirginAsphaltConcreteDifferencePerc As Microsoft.Office.Interop.Word.Range
         Public ET02_AverageTemperatureDifference As Microsoft.Office.Interop.Word.Range
         Public ET03_TemperatureVariation As Microsoft.Office.Interop.Word.Range
         Public ET04_VirginAsphaltConcreteAberrancePerc As Microsoft.Office.Interop.Word.Range
-        Public ET04_TempratureAberrancePercentage As Microsoft.Office.Interop.Word.Range
+        Public ET04_TemperatureAberrancePercentage As Microsoft.Office.Interop.Word.Range
 
         Public EG01_TemperatureVariationGraphic As Microsoft.Office.Interop.Word.Range
 
@@ -122,12 +119,14 @@ Namespace Constants.Reports.BookMarks
         Public HT01_MinimalDurationForJustification As Microsoft.Office.Interop.Word.Range
         Public HT01_DelaysNumberUnderMinimalDuration As Microsoft.Office.Interop.Word.Range
         Public HT01_DelaysUnderMinimalTimeDuration As Microsoft.Office.Interop.Word.Range
+        Public HT01_DelaysDuration As Microsoft.Office.Interop.Word.Range
+
 
         Public JA01_ContinuousProductionSummarySection As Microsoft.Office.Interop.Word.Range
         Public JT01_FirstContinuousMixNumber As Microsoft.Office.Interop.Word.Range
         Public JT01_FirstContinuousMixName As Microsoft.Office.Interop.Word.Range
         Public JT01_FirstContinuousVirginACGrade As Microsoft.Office.Interop.Word.Range
-        Public JT01_FirstContinuousRecycledQuantity As Microsoft.Office.Interop.Word.Range
+        Public JT01_FirstContinuousRAPPercentage As Microsoft.Office.Interop.Word.Range
         Public JT01_FirstContinuousQuantity As Microsoft.Office.Interop.Word.Range
         Public JT01_FirstContinuousVirginACQuantity As Microsoft.Office.Interop.Word.Range
         Public JT01_FirstContinuousFeederQuantity As Microsoft.Office.Interop.Word.Range
@@ -137,12 +136,13 @@ Namespace Constants.Reports.BookMarks
         Public JT01_ContinuousFeederTotalQuantity As Microsoft.Office.Interop.Word.Range
         Public JT01_ContinuousTotalCellsToMerge As Microsoft.Office.Interop.Word.Range
         Public JT01_ContinuousWithRAPPercentage As Microsoft.Office.Interop.Word.Range
+        Public JT01_ContinuousOfRAPPercentage As Microsoft.Office.Interop.Word.Range
 
         Public JA02_DiscontinuousProductionSummarySect As Microsoft.Office.Interop.Word.Range
         Public JT02_FirstDiscontinuousMixNumber As Microsoft.Office.Interop.Word.Range
         Public JT02_FirstDiscontinuousMixName As Microsoft.Office.Interop.Word.Range
         Public JT02_FirstDiscontinuousVirginACGrade As Microsoft.Office.Interop.Word.Range
-        Public JT02_FirstDiscontinuousRecycledQuantity As Microsoft.Office.Interop.Word.Range
+        Public JT02_FirstDiscontinuousRAPPercentage As Microsoft.Office.Interop.Word.Range
         Public JT02_FirstDiscontinuousQuantity As Microsoft.Office.Interop.Word.Range
         Public JT02_FirstDiscontinuousVirginACQuantity As Microsoft.Office.Interop.Word.Range
         Public JT02_FirstDiscontinuousFeederQuantity As Microsoft.Office.Interop.Word.Range
@@ -152,6 +152,7 @@ Namespace Constants.Reports.BookMarks
         Public JT02_DiscontinuousFeederTotalQuantity As Microsoft.Office.Interop.Word.Range
         Public JT02_DiscontinuousTotalCellsToMerge As Microsoft.Office.Interop.Word.Range
         Public JT02_DiscontinuousWithRAPPercentage As Microsoft.Office.Interop.Word.Range
+        Public JT02_DiscontinuousOfRAPPercentage As Microsoft.Office.Interop.Word.Range
 
         Public KA01_Comments As Microsoft.Office.Interop.Word.Range
 
@@ -182,9 +183,6 @@ Namespace Constants.Reports.BookMarks
             Me.CT01_ProductionStartTime = wordDoc.Bookmarks("CT01_ProductionStartTime").Range
             Me.CT01_ProductionEndTime = wordDoc.Bookmarks("CT01_ProductionEndTime").Range
             Me.CT01_ProductionDuration = wordDoc.Bookmarks("CT01_ProductionDuration").Range
-            Me.CT01_LoadingStartTime = wordDoc.Bookmarks("CT01_LoadingStartTime").Range
-            Me.CT01_LoadingEndTime = wordDoc.Bookmarks("CT01_LoadingEndTime").Range
-            Me.CT01_LoadingDuration = wordDoc.Bookmarks("CT01_LoadingDuration").Range
             Me.CT01_PausesDuration = wordDoc.Bookmarks("CT01_PausesDuration").Range
             Me.CT01_MaintenanceDuration = wordDoc.Bookmarks("CT01_MaintenanceDuration").Range
 
@@ -253,16 +251,16 @@ Namespace Constants.Reports.BookMarks
             Me.DG01_ProductionDistributionGraphic = wordDoc.Bookmarks("DG01_ProductionDistributionGraphic").Range
             Me.DG02_DelaysDistributionGraphic = wordDoc.Bookmarks("DG02_DelaysDistributionGraphic").Range
 
-            Me.ET01_FirstVirginAsphaltConcreteTankId = wordDoc.Bookmarks("ET01_FirstVirginAsphaltConcreteTankId").Range
-            Me.ET01_FirstVirginAsphaltConcreteGrade = wordDoc.Bookmarks("ET01_FirstVirginAsphaltConcreteGrade").Range
-            Me.ET01_FirstVirginAsphaltConcreteQuantity = wordDoc.Bookmarks("ET01_FirstVirginAsphaltConcreteQuantity").Range
-            Me.ET01_TotalVirginAsphaltConcreteQuantity = wordDoc.Bookmarks("ET01_TotalVirginAsphaltConcreteQuantity").Range
+            Me.ET01_FirstAsphaltVirginConcreteTankId = wordDoc.Bookmarks("ET01_FirstAsphaltVirginConcreteTankId").Range
+            Me.ET01_FirstAsphaltVirginConcreteGrade = wordDoc.Bookmarks("ET01_FirstAsphaltVirginConcreteGrade").Range
+            Me.ET01_FirstAsphaltVirginConcreteQuantity = wordDoc.Bookmarks("ET01_FirstAsphaltVirginConcreteQuantity").Range
+            Me.ET01_TotalAsphaltVirginConcreteQuantity = wordDoc.Bookmarks("ET01_TotalAsphaltVirginConcreteQuantity").Range
 
             Me.ET02_VirginAsphaltConcreteDifferencePerc = wordDoc.Bookmarks("ET02_VirginAsphaltConcreteDifferencePerc").Range
             Me.ET02_AverageTemperatureDifference = wordDoc.Bookmarks("ET02_AverageTemperatureDifference").Range
             Me.ET03_TemperatureVariation = wordDoc.Bookmarks("ET03_TemperatureVariation").Range
             Me.ET04_VirginAsphaltConcreteAberrancePerc = wordDoc.Bookmarks("ET04_VirginAsphaltConcreteAberrancePerc").Range
-            Me.ET04_TempratureAberrancePercentage = wordDoc.Bookmarks("ET04_TempratureAberrancePercentage").Range
+            Me.ET04_TemperatureAberrancePercentage = wordDoc.Bookmarks("ET04_TemperatureAberrancePercentage").Range
 
             Me.EG01_TemperatureVariationGraphic = wordDoc.Bookmarks("EG01_TemperatureVariationGraphic").Range
 
@@ -289,36 +287,41 @@ Namespace Constants.Reports.BookMarks
             Me.HT01_MinimalDurationForJustification = wordDoc.Bookmarks("HT01_MinimalDurationForJustification").Range
             Me.HT01_DelaysNumberUnderMinimalDuration = wordDoc.Bookmarks("HT01_DelaysNumberUnderMinimalDuration").Range
             Me.HT01_DelaysUnderMinimalTimeDuration = wordDoc.Bookmarks("HT01_DelaysUnderMinimalTimeDuration").Range
+            Me.HT01_DelaysDuration = wordDoc.Bookmarks("HT01_DelaysDuration").Range
+
 
             Me.JA01_ContinuousProductionSummarySection = wordDoc.Bookmarks("JA01_ContinuousProductionSummarySection").Range
             Me.JT01_FirstContinuousMixNumber = wordDoc.Bookmarks("JT01_FirstContinuousMixNumber").Range
             Me.JT01_FirstContinuousMixName = wordDoc.Bookmarks("JT01_FirstContinuousMixName").Range
             Me.JT01_FirstContinuousVirginACGrade = wordDoc.Bookmarks("JT01_FirstContinuousVirginACGrade").Range
-            Me.JT01_FirstContinuousRecycledQuantity = wordDoc.Bookmarks("JT01_FirstContinuousRecycledQuantity").Range
+            Me.JT01_FirstContinuousRAPPercentage = wordDoc.Bookmarks("JT01_FirstContinuousRAPPercentage").Range
             Me.JT01_FirstContinuousQuantity = wordDoc.Bookmarks("JT01_FirstContinuousQuantity").Range
             Me.JT01_FirstContinuousVirginACQuantity = wordDoc.Bookmarks("JT01_FirstContinuousVirginACQuantity").Range
-            Me.JT01_FirstContinuousFeederDescription = wordDoc.Bookmarks("FirstContinuousProductionFeederDesc").Range
+            Me.JT01_FirstContinuousFeederDescription = wordDoc.Bookmarks("JT01_FirstContinuousFeederDescription").Range
             Me.JT01_FirstContinuousFeederQuantity = wordDoc.Bookmarks("JT01_FirstContinuousFeederQuantity").Range
             Me.JT01_ContinuousTotalQuantity = wordDoc.Bookmarks("JT01_ContinuousTotalQuantity").Range
             Me.JT01_ContinuousTotalVirginACQuantity = wordDoc.Bookmarks("JT01_ContinuousTotalVirginACQuantity").Range
-            Me.JT01_ContinuousFeederTotalQuantity = wordDoc.Bookmarks("FirstContinuousProductionFeederTotalQty").Range
+            Me.JT01_ContinuousFeederTotalQuantity = wordDoc.Bookmarks("JT01_ContinuousFeederTotalQuantity").Range
             Me.JT01_ContinuousTotalCellsToMerge = wordDoc.Bookmarks("JT01_ContinuousTotalCellsToMerge").Range
-            Me.JT01_ContinuousWithRAPPercentage = wordDoc.Bookmarks("ContinuousProductionMixWithGBRPercentage").Range()
+            Me.JT01_ContinuousWithRAPPercentage = wordDoc.Bookmarks("JT01_ContinuousWithRAPPercentage").Range()
+            Me.JT01_ContinuousOfRAPPercentage = wordDoc.Bookmarks("JT01_ContinuousOfRAPPercentage").Range()
 
             Me.JA02_DiscontinuousProductionSummarySect = wordDoc.Bookmarks("JA02_DiscontinuousProductionSummarySect").Range
             Me.JT02_FirstDiscontinuousMixNumber = wordDoc.Bookmarks("JT02_FirstDiscontinuousMixNumber").Range
             Me.JT02_FirstDiscontinuousMixName = wordDoc.Bookmarks("JT02_FirstDiscontinuousMixName").Range
             Me.JT02_FirstDiscontinuousVirginACGrade = wordDoc.Bookmarks("JT02_FirstDiscontinuousVirginACGrade").Range
-            Me.JT02_FirstDiscontinuousRecycledQuantity = wordDoc.Bookmarks("JT02_FirstDiscontinuousRecycledQuantity").Range
-            Me.JT02_FirstDiscontinuousQuantity = wordDoc.Bookmarks("FirstDiscontinuousProductionTotalQty").Range
-            Me.JT02_FirstDiscontinuousVirginACQuantity = wordDoc.Bookmarks("FirstDiscontinuousProductionAsphaltQty").Range
-            Me.JT02_FirstDiscontinuousFeederDescription = wordDoc.Bookmarks("FirstDiscontinuousProductionFeederDesc").Range
-            Me.JT02_FirstDiscontinuousFeederQuantity = wordDoc.Bookmarks("FirstDiscontinuousProductionFeederQty").Range
+            Me.JT02_FirstDiscontinuousRAPPercentage = wordDoc.Bookmarks("JT02_FirstDiscontinuousRAPPercentage").Range
+            Me.JT02_FirstDiscontinuousQuantity = wordDoc.Bookmarks("JT02_FirstDiscontinuousQuantity").Range
+            Me.JT02_FirstDiscontinuousVirginACQuantity = wordDoc.Bookmarks("JT02_FirstDiscontinuousVirginACQuantity").Range
+            Me.JT02_FirstDiscontinuousFeederDescription = wordDoc.Bookmarks("JT02_FirstDiscontinuousFeederDescription").Range
+            Me.JT02_FirstDiscontinuousFeederQuantity = wordDoc.Bookmarks("JT02_FirstDiscontinuousFeederQuantity").Range
             Me.JT02_DiscontinuousTotalQuantity = wordDoc.Bookmarks("JT02_DiscontinuousTotalQuantity").Range
-            Me.JT02_DiscontinuousTotalVirginACQuantity = wordDoc.Bookmarks("DiscontinuousProductionTotalAsphaltQty").Range
-            Me.JT02_DiscontinuousFeederTotalQuantity = wordDoc.Bookmarks("FirstDiscontinuousProductionFdrTotalQty").Range
+            Me.JT02_DiscontinuousTotalVirginACQuantity = wordDoc.Bookmarks("JT02_DiscontinuousTotalVirginACQuantity").Range
+            Me.JT02_DiscontinuousFeederTotalQuantity = wordDoc.Bookmarks("JT02_DiscontinuousFeederTotalQuantity").Range
             Me.JT02_DiscontinuousTotalCellsToMerge = wordDoc.Bookmarks("JT02_DiscontinuousTotalCellsToMerge").Range
-            Me.JT02_DiscontinuousWithRAPPercentage = wordDoc.Bookmarks("DiscontinuousProdMixWithGBRPercentage").Range()
+            Me.JT02_DiscontinuousWithRAPPercentage = wordDoc.Bookmarks("JT02_DiscontinuousWithRAPPercentage").Range()
+            Me.JT02_DiscontinuousOfRAPPercentage = wordDoc.Bookmarks("JT02_DiscontinuousOfRAPPercentage").Range()
+
 
             Me.KA01_Comments = wordDoc.Bookmarks("KA01_Comments").Range
 
@@ -335,17 +338,17 @@ Namespace Constants.Reports.BookMarks
             Me.JT01_FirstContinuousMixNumber = wordDoc.Bookmarks("JT01_FirstContinuousMixNumber").Range
             Me.JT01_FirstContinuousMixName = wordDoc.Bookmarks("JT01_FirstContinuousMixName").Range
             Me.JT01_FirstContinuousVirginACGrade = wordDoc.Bookmarks("JT01_FirstContinuousVirginACGrade").Range
-            Me.JT01_FirstContinuousRecycledQuantity = wordDoc.Bookmarks("JT01_FirstContinuousRecycledQuantity").Range
+            Me.JT01_FirstContinuousRAPPercentage = wordDoc.Bookmarks("JT01_FirstContinuousRAPPercentage").Range
             Me.JT01_FirstContinuousQuantity = wordDoc.Bookmarks("JT01_FirstContinuousQuantity").Range
             Me.JT01_FirstContinuousVirginACQuantity = wordDoc.Bookmarks("JT01_FirstContinuousVirginACQuantity").Range
-            Me.JT01_FirstContinuousFeederDescription = wordDoc.Bookmarks("FirstContinuousProductionFeederDesc").Range
+            Me.JT01_FirstContinuousFeederDescription = wordDoc.Bookmarks("JT01_FirstContinuousFeederDescription").Range
             Me.JT01_FirstContinuousFeederQuantity = wordDoc.Bookmarks("JT01_FirstContinuousFeederQuantity").Range
             Me.JT01_ContinuousTotalQuantity = wordDoc.Bookmarks("JT01_ContinuousTotalQuantity").Range
             Me.JT01_ContinuousTotalVirginACQuantity = wordDoc.Bookmarks("JT01_ContinuousTotalVirginACQuantity").Range
-            Me.JT01_ContinuousFeederTotalQuantity = wordDoc.Bookmarks("FirstContinuousProductionFeederTotalQty").Range
+            Me.JT01_ContinuousFeederTotalQuantity = wordDoc.Bookmarks("JT01_ContinuousFeederTotalQuantity").Range
             Me.JT01_ContinuousTotalCellsToMerge = wordDoc.Bookmarks("JT01_ContinuousTotalCellsToMerge").Range
-            Me.JT01_ContinuousWithRAPPercentage = wordDoc.Bookmarks("ContinuousProductionMixWithGBRPercentage").Range()
-
+            Me.JT01_ContinuousWithRAPPercentage = wordDoc.Bookmarks("JT01_ContinuousWithRAPPercentage").Range()
+            Me.JT01_ContinuousOfRAPPercentage = wordDoc.Bookmarks("JT01_ContinuousOfRAPPercentage").Range()
         End Sub
 
         Public Sub reinitializeDiscontinuousProductionSummaryBookMarks(wordDoc As Document)
@@ -354,17 +357,17 @@ Namespace Constants.Reports.BookMarks
             Me.JT02_FirstDiscontinuousMixNumber = wordDoc.Bookmarks("JT02_FirstDiscontinuousMixNumber").Range
             Me.JT02_FirstDiscontinuousMixName = wordDoc.Bookmarks("JT02_FirstDiscontinuousMixName").Range
             Me.JT02_FirstDiscontinuousVirginACGrade = wordDoc.Bookmarks("JT02_FirstDiscontinuousVirginACGrade").Range
-            Me.JT02_FirstDiscontinuousRecycledQuantity = wordDoc.Bookmarks("JT02_FirstDiscontinuousRecycledQuantity").Range
-            Me.JT02_FirstDiscontinuousQuantity = wordDoc.Bookmarks("FirstDiscontinuousProductionTotalQty").Range
-            Me.JT02_FirstDiscontinuousVirginACQuantity = wordDoc.Bookmarks("FirstDiscontinuousProductionAsphaltQty").Range
-            Me.JT02_FirstDiscontinuousFeederDescription = wordDoc.Bookmarks("FirstDiscontinuousProductionFeederDesc").Range
-            Me.JT02_FirstDiscontinuousFeederQuantity = wordDoc.Bookmarks("FirstDiscontinuousProductionFeederQty").Range
+            Me.JT02_FirstDiscontinuousRAPPercentage = wordDoc.Bookmarks("JT02_FirstDiscontinuousRAPPercentage").Range
+            Me.JT02_FirstDiscontinuousQuantity = wordDoc.Bookmarks("JT02_FirstDiscontinuousQuantity").Range
+            Me.JT02_FirstDiscontinuousVirginACQuantity = wordDoc.Bookmarks("JT02_FirstDiscontinuousVirginACQuantity").Range
+            Me.JT02_FirstDiscontinuousFeederDescription = wordDoc.Bookmarks("JT02_FirstDiscontinuousFeederDescription").Range
+            Me.JT02_FirstDiscontinuousFeederQuantity = wordDoc.Bookmarks("JT02_FirstDiscontinuousFeederQuantity").Range
             Me.JT02_DiscontinuousTotalQuantity = wordDoc.Bookmarks("JT02_DiscontinuousTotalQuantity").Range
-            Me.JT02_DiscontinuousTotalVirginACQuantity = wordDoc.Bookmarks("DiscontinuousProductionTotalAsphaltQty").Range
-            Me.JT02_DiscontinuousFeederTotalQuantity = wordDoc.Bookmarks("FirstDiscontinuousProductionFdrTotalQty").Range
+            Me.JT02_DiscontinuousTotalVirginACQuantity = wordDoc.Bookmarks("JT02_DiscontinuousTotalVirginACQuantity").Range
+            Me.JT02_DiscontinuousFeederTotalQuantity = wordDoc.Bookmarks("JT02_DiscontinuousFeederTotalQuantity").Range
             Me.JT02_DiscontinuousTotalCellsToMerge = wordDoc.Bookmarks("JT02_DiscontinuousTotalCellsToMerge").Range
-            Me.JT02_DiscontinuousWithRAPPercentage = wordDoc.Bookmarks("DiscontinuousProdMixWithGBRPercentage").Range()
-
+            Me.JT02_DiscontinuousWithRAPPercentage = wordDoc.Bookmarks("JT02_DiscontinuousWithRAPPercentage").Range()
+            Me.JT02_DiscontinuousOfRAPPercentage = wordDoc.Bookmarks("JT02_DiscontinuousOfRAPPercentage").Range()
         End Sub
 
     End Class

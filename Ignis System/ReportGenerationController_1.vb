@@ -94,11 +94,11 @@ Public Class ReportGenerationController_1
         ProgramController.UIController.ReportGenerationFrame.changeStep(ProgramController.UIController.DelaysJustificationStepView, 0)
 
 
-        If (report.getHybridDelayList.Count = 0) Then
+        If (report.getHybridDelayListJustifiable.Count = 0) Then
             finishDelayJustificationStep()
         Else
             currentDelayIndex = 0
-            ProgramController.UIController.DelaysJustificationStepView.showDelay(report.getHybridDelayList.Item(0), 1, report.getHybridDelayList.Count)
+            ProgramController.UIController.DelaysJustificationStepView.showDelay(report.getHybridDelayListJustifiable.Item(0), 1, report.getHybridDelayListJustifiable.Count)
         End If
 
 
@@ -106,13 +106,13 @@ Public Class ReportGenerationController_1
 
     Public Sub showNextDelay()
 
-        If (currentDelayIndex = report.getHybridDelayList.Count - 1) Then
+        If (currentDelayIndex = report.getHybridDelayListJustifiable.Count - 1) Then
 
             finishDelayJustificationStep()
 
         Else
             Me.currentDelayIndex += 1
-            ProgramController.UIController.DelaysJustificationStepView.showDelay(report.getHybridDelayList.Item(currentDelayIndex), Me.currentDelayIndex + 1, report.getHybridDelayList.Count)
+            ProgramController.UIController.DelaysJustificationStepView.showDelay(report.getHybridDelayListJustifiable.Item(currentDelayIndex), Me.currentDelayIndex + 1, report.getHybridDelayListJustifiable.Count)
         End If
 
     End Sub
@@ -128,22 +128,24 @@ Public Class ReportGenerationController_1
 
         Else
             Me.currentDelayIndex -= 1
-            ProgramController.UIController.DelaysJustificationStepView.showDelay(report.getHybridDelayList.Item(currentDelayIndex), Me.currentDelayIndex + 1, report.getHybridDelayList.Count)
+            ProgramController.UIController.DelaysJustificationStepView.showDelay(report.getHybridDelayListJustifiable.Item(currentDelayIndex), Me.currentDelayIndex + 1, report.getHybridDelayListJustifiable.Count)
 
         End If
 
     End Sub
 
     Public Sub splitDelay(delay As Delay_1, splitTime As Date)
+
         report.splitDelay(delay, splitTime)
-        ProgramController.UIController.DelaysJustificationStepView.showDelay(report.getHybridDelayList.Item(currentDelayIndex), Me.currentDelayIndex + 1, report.getHybridDelayList.Count)
+
+        ProgramController.UIController.DelaysJustificationStepView.showDelay(report.getHybridDelayListJustifiable.Item(currentDelayIndex), Me.currentDelayIndex + 1, report.getHybridDelayListJustifiable.Count)
     End Sub
 
     Public Sub mergeDelays(delay As Delay_1)
 
-        report.mergeDelays(delay, report.getHybridDelayList.Item(report.getHybridDelayList.IndexOf(delay) + 1))
+        report.mergeDelays(delay, report.getHybridDelayListJustifiable.Item(report.getHybridDelayListJustifiable.IndexOf(delay) + 1))
 
-        ProgramController.UIController.DelaysJustificationStepView.showDelay(report.getHybridDelayList.Item(currentDelayIndex), Me.currentDelayIndex + 1, report.getHybridDelayList.Count)
+        ProgramController.UIController.DelaysJustificationStepView.showDelay(report.getHybridDelayListJustifiable.Item(currentDelayIndex), Me.currentDelayIndex + 1, report.getHybridDelayListJustifiable.Count)
     End Sub
 
     Private Sub finishDelayJustificationStep()
@@ -161,9 +163,15 @@ Public Class ReportGenerationController_1
 
         ProgramController.UIController.ReportGenerationFrame.DelaysJustificationStepSkipped = True
 
-        For Each delay As Delay_1 In report.getHybridDelayList
+        For Each delay As Delay_1 In report.getHybridDelayListJustifiable
             If delay.getDelayCode.Equals(String.Empty) Then
-                delay.setEmpty()
+                delay.setDelayCategorieName("Non justifié")
+                Dim r As Integer = Convert.ToInt32("FF3219".Substring(0, 2), 16)
+                Dim g As Int16 = Convert.ToInt32("FF3219".Substring(2, 2), 16)
+                Dim b As Int16 = Convert.ToInt32("FF3219".Substring(4, 2), 16)
+                delay.setColor(Drawing.Color.FromArgb(r, g, b))
+                delay.setDelayCode("NJ")
+                delay.setDelayDescription("Délai non justifié par l'opérateur")
             Else
 
             End If
@@ -196,7 +204,7 @@ Public Class ReportGenerationController_1
 
         ProgramController.UIController.ReportGenerationFrame.DelaysJustificationStepFinished = False
 
-        Me.currentDelayIndex = Me.report.getHybridDelayList.Count
+        Me.currentDelayIndex = Me.report.getHybridDelayListJustifiable.Count
         Me.showPreviousDelay()
 
     End Sub

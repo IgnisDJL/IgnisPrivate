@@ -424,13 +424,13 @@ Public Class SummaryDailyReportGenerator_1
 
                 ligneVirginAsphaltConcrete = tableauBitumeConsommes.Item(EnumDailyReportTableauIndex.ligne_VirginAsphaltConcrete)
 
-                bookMarks.ET01_FirstVirginAsphaltConcreteTankId.Text = ligneVirginAsphaltConcrete.Item(EnumDailyReportTableauIndex.colonne_VirginAsphaltConcreteReservoir)
-                bookMarks.ET01_FirstVirginAsphaltConcreteGrade.Text = ligneVirginAsphaltConcrete.Item(EnumDailyReportTableauIndex.colonne_VirginAsphaltConcreteGrade)
-                bookMarks.ET01_FirstVirginAsphaltConcreteQuantity.Text = CType(ligneVirginAsphaltConcrete.Item(EnumDailyReportTableauIndex.colonne_VirginAsphaltConcreteQuantite), Double).ToString("N1")
+                bookMarks.ET01_FirstAsphaltVirginConcreteTankId.Text = ligneVirginAsphaltConcrete.Item(EnumDailyReportTableauIndex.colonne_VirginAsphaltConcreteReservoir)
+                bookMarks.ET01_FirstAsphaltVirginConcreteGrade.Text = ligneVirginAsphaltConcrete.Item(EnumDailyReportTableauIndex.colonne_VirginAsphaltConcreteGrade)
+                bookMarks.ET01_FirstAsphaltVirginConcreteQuantity.Text = CType(ligneVirginAsphaltConcrete.Item(EnumDailyReportTableauIndex.colonne_VirginAsphaltConcreteQuantite), Double).ToString("N1")
 
                 For i = tableauBitumeConsommes.Count - 2 To 1 Step -1
 
-                    bookMarks.ET01_FirstVirginAsphaltConcreteTankId.Select()
+                    bookMarks.ET01_FirstAsphaltVirginConcreteTankId.Select()
                     WordApp.Selection.InsertRowsBelow(1)
 
                     ligneVirginAsphaltConcrete = tableauBitumeConsommes.Item(i)
@@ -439,11 +439,11 @@ Public Class SummaryDailyReportGenerator_1
                     WordApp.Selection.Text = ligneVirginAsphaltConcrete.Item(EnumDailyReportTableauIndex.colonne_VirginAsphaltConcreteReservoir)
 
                     ' Name
-                    moveSelectionToCellBelow(bookMarks.ET01_FirstVirginAsphaltConcreteGrade)
+                    moveSelectionToCellBelow(bookMarks.ET01_FirstAsphaltVirginConcreteGrade)
                     WordApp.Selection.Text = ligneVirginAsphaltConcrete.Item(EnumDailyReportTableauIndex.colonne_VirginAsphaltConcreteGrade)
 
                     ' Quantity
-                    moveSelectionToCellBelow(bookMarks.ET01_FirstVirginAsphaltConcreteQuantity)
+                    moveSelectionToCellBelow(bookMarks.ET01_FirstAsphaltVirginConcreteQuantity)
                     WordApp.Selection.Text = CType(ligneVirginAsphaltConcrete.Item(EnumDailyReportTableauIndex.colonne_VirginAsphaltConcreteQuantite), Double).ToString("N1")
 
                     WordApp.Selection.SelectRow()
@@ -455,12 +455,12 @@ Public Class SummaryDailyReportGenerator_1
                 Next
 
                 Dim ligneTotalBitumeConsommes As ArrayList = tableauBitumeConsommes.Item(tableauBitumeConsommes.Count - 1)
-                bookMarks.ET01_TotalVirginAsphaltConcreteQuantity.Text = CType(ligneTotalBitumeConsommes.Item(EnumDailyReportTableauIndex.colonne_TotalBitumeConsommesQuantite), Double).ToString("N1")
+                bookMarks.ET01_TotalAsphaltVirginConcreteQuantity.Text = CType(ligneTotalBitumeConsommes.Item(EnumDailyReportTableauIndex.colonne_TotalBitumeConsommesQuantite), Double).ToString("N1")
             Else
 
-                bookMarks.ET01_FirstVirginAsphaltConcreteTankId.Text = Me.Formater.InvalidValueCharacter
-                bookMarks.ET01_FirstVirginAsphaltConcreteGrade.Text = Me.Formater.InvalidValueCharacter
-                bookMarks.ET01_FirstVirginAsphaltConcreteQuantity.Text = Me.Formater.InvalidValueCharacter
+                bookMarks.ET01_FirstAsphaltVirginConcreteTankId.Text = Me.Formater.InvalidValueCharacter
+                bookMarks.ET01_FirstAsphaltVirginConcreteGrade.Text = Me.Formater.InvalidValueCharacter
+                bookMarks.ET01_FirstAsphaltVirginConcreteQuantity.Text = Me.Formater.InvalidValueCharacter
 
             End If
 
@@ -476,8 +476,22 @@ Public Class SummaryDailyReportGenerator_1
             Dim ligneBitumeEcart As ArrayList = tableauEcartValeurVisee.Item(EnumDailyReportTableauIndex.ligne_BitumeEcart)
             Dim ligneTemperatureEcart As ArrayList = tableauEcartValeurVisee.Item(EnumDailyReportTableauIndex.ligne_TemperatureEcart)
 
-            bookMarks.ET02_AverageTemperatureDifference.Text = CType(ligneBitumeEcart.Item(EnumDailyReportTableauIndex.colonne_BitumeEcartPourcentage), Double).ToString("N1")
-            bookMarks.ET02_VirginAsphaltConcreteDifferencePerc.Text = CType(ligneTemperatureEcart.Item(EnumDailyReportTableauIndex.colonne_TemperatureEcart), Double).ToString("N3")
+            If Double.IsNaN(ligneBitumeEcart.Item(EnumDailyReportTableauIndex.colonne_BitumeEcartPourcentage)) Then
+
+                bookMarks.ET02_AverageTemperatureDifference.Text = Me.Formater.InvalidValueCharacter
+            Else
+
+                bookMarks.ET02_AverageTemperatureDifference.Text = CType(ligneBitumeEcart.Item(EnumDailyReportTableauIndex.colonne_BitumeEcartPourcentage), Double).ToString("N1")
+            End If
+
+            If Double.IsNaN(ligneTemperatureEcart.Item(EnumDailyReportTableauIndex.colonne_TemperatureEcart)) Then
+
+                bookMarks.ET02_VirginAsphaltConcreteDifferencePerc.Text = Me.Formater.InvalidValueCharacter
+            Else
+
+                bookMarks.ET02_VirginAsphaltConcreteDifferencePerc.Text = CType(ligneTemperatureEcart.Item(EnumDailyReportTableauIndex.colonne_TemperatureEcart), Double).ToString("N3")
+            End If
+
 
             ' -----------------------------------
             ' VARIATION EN PRODUCTION
@@ -486,8 +500,14 @@ Public Class SummaryDailyReportGenerator_1
 
             Dim ligneVariationTemperature As ArrayList = tableauVariationEnProduction.Item(EnumDailyReportTableauIndex.ligne_VariationTemperature)
 
-            bookMarks.ET03_TemperatureVariation.Text = CType(ligneVariationTemperature.Item(EnumDailyReportTableauIndex.colonne_VariationTemperature), Double).ToString("N1")
+            If Double.IsNaN(ligneVariationTemperature.Item(EnumDailyReportTableauIndex.colonne_VariationTemperature)) Then
 
+                bookMarks.ET03_TemperatureVariation.Text = Me.Formater.InvalidValueCharacter
+            Else
+
+                bookMarks.ET03_TemperatureVariation.Text = CType(ligneVariationTemperature.Item(EnumDailyReportTableauIndex.colonne_VariationTemperature), Double).ToString("N1")
+            End If
+           
             ' -----------------------------------
             ' TAUX DE VALEURS ABERRANTES
             ' -----------------------------------
@@ -496,8 +516,21 @@ Public Class SummaryDailyReportGenerator_1
             Dim lignePourcentageBitume As ArrayList = tableauValeursAberrantes.Item(EnumDailyReportTableauIndex.ligne_PourcentageBitume)
             Dim lignePourcentageTemperature As ArrayList = tableauValeursAberrantes.Item(EnumDailyReportTableauIndex.ligne_PourcentageTemperature)
 
-            bookMarks.ET04_TempratureAberrancePercentage.Text = CType(lignePourcentageBitume.Item(EnumDailyReportTableauIndex.colonne_PourcentageBitume), Double).ToString("N1")
-            bookMarks.ET04_VirginAsphaltConcreteAberrancePerc.Text = CType(lignePourcentageTemperature.Item(EnumDailyReportTableauIndex.colonne_PourcentageTemperature), Double).ToString("N1")
+            If Double.IsNaN(lignePourcentageBitume.Item(EnumDailyReportTableauIndex.colonne_PourcentageBitume)) Then
+
+                bookMarks.ET04_TemperatureAberrancePercentage.Text = Me.Formater.InvalidValueCharacter
+            Else
+
+                bookMarks.ET04_TemperatureAberrancePercentage.Text = CType(lignePourcentageBitume.Item(EnumDailyReportTableauIndex.colonne_PourcentageBitume), Double).ToString("N1")
+            End If
+
+            If Double.IsNaN(lignePourcentageTemperature.Item(EnumDailyReportTableauIndex.colonne_PourcentageTemperature)) Then
+
+                bookMarks.ET04_VirginAsphaltConcreteAberrancePerc.Text = Me.Formater.InvalidValueCharacter
+            Else
+
+                bookMarks.ET04_VirginAsphaltConcreteAberrancePerc.Text = CType(lignePourcentageTemperature.Item(EnumDailyReportTableauIndex.colonne_PourcentageTemperature), Double).ToString("N1")
+            End If
 
             ' -------------------------------
             ' Temperature difference graphic
@@ -528,11 +561,39 @@ Public Class SummaryDailyReportGenerator_1
             bookMarks.FT01_FirstFuelName.Text = ligneCarburantPrincipal.Item(EnumDailyReportTableauIndex.colonne_NomCarburant)
             bookMarks.FT01_SecondFuelName.Text = ligneCarburantGazNatutel.Item(EnumDailyReportTableauIndex.colonne_NomCarburant)
 
-            bookMarks.FT01_FirstFuelQuantity.Text = ligneCarburantPrincipal.Item(EnumDailyReportTableauIndex.colonne_QuantiteConsomme)
-            bookMarks.FT01_FirstFuelConsumptionRate.Text = CType(ligneCarburantPrincipal.Item(EnumDailyReportTableauIndex.colonne_TauxDeConsommation), Double).ToString("N1") & " " & ligneCarburantPrincipal.Item(EnumDailyReportTableauIndex.colonne_UniteTauxDeConsommation)
+            If Double.IsNaN(ligneCarburantPrincipal.Item(EnumDailyReportTableauIndex.colonne_QuantiteConsomme)) Then
 
-            bookMarks.FT01_SecondFuelQuantity.Text = ligneCarburantGazNatutel.Item(EnumDailyReportTableauIndex.colonne_QuantiteConsomme)
-            bookMarks.FT01_SecondFuelConsumptionRate.Text = CType(ligneCarburantGazNatutel.Item(EnumDailyReportTableauIndex.colonne_TauxDeConsommation), Double).ToString("N1") & " " & ligneCarburantGazNatutel.Item(EnumDailyReportTableauIndex.colonne_UniteTauxDeConsommation)
+                bookMarks.FT01_FirstFuelQuantity.Text = Me.Formater.InvalidValueCharacter
+            Else
+
+                bookMarks.FT01_FirstFuelQuantity.Text = ligneCarburantPrincipal.Item(EnumDailyReportTableauIndex.colonne_QuantiteConsomme)
+            End If
+
+            If Double.IsNaN(ligneCarburantPrincipal.Item(EnumDailyReportTableauIndex.colonne_TauxDeConsommation)) Then
+
+                bookMarks.FT01_FirstFuelConsumptionRate.Text = Me.Formater.InvalidValueCharacter
+            Else
+
+                bookMarks.FT01_FirstFuelConsumptionRate.Text = CType(ligneCarburantPrincipal.Item(EnumDailyReportTableauIndex.colonne_TauxDeConsommation), Double).ToString("N1") & " " & ligneCarburantPrincipal.Item(EnumDailyReportTableauIndex.colonne_UniteTauxDeConsommation)
+            End If
+
+
+            If Double.IsNaN(ligneCarburantGazNatutel.Item(EnumDailyReportTableauIndex.colonne_QuantiteConsomme)) Then
+
+                bookMarks.FT01_SecondFuelQuantity.Text = Me.Formater.InvalidValueCharacter
+            Else
+
+                bookMarks.FT01_SecondFuelQuantity.Text = ligneCarburantGazNatutel.Item(EnumDailyReportTableauIndex.colonne_QuantiteConsomme)
+            End If
+
+            If Double.IsNaN(ligneCarburantGazNatutel.Item(EnumDailyReportTableauIndex.colonne_TauxDeConsommation)) Then
+
+                bookMarks.FT01_SecondFuelConsumptionRate.Text = Me.Formater.InvalidValueCharacter
+            Else
+
+                bookMarks.FT01_SecondFuelConsumptionRate.Text = CType(ligneCarburantGazNatutel.Item(EnumDailyReportTableauIndex.colonne_TauxDeConsommation), Double).ToString("N1") & " " & ligneCarburantGazNatutel.Item(EnumDailyReportTableauIndex.colonne_UniteTauxDeConsommation)
+            End If
+
 
             ' -------
             ' REJETS
@@ -542,13 +603,35 @@ Public Class SummaryDailyReportGenerator_1
             Dim ligneQuantiteRejete As ArrayList = tableauRejets.Item(EnumDailyReportTableauIndex.ligne_QuantiteRejete)
             Dim ligneTauxDeRejet As ArrayList = tableauRejets.Item(EnumDailyReportTableauIndex.ligne_TauxDeRejet)
 
-            bookMarks.GT01_RejectedAggregatesQuantity.Text = ligneQuantiteRejete.Item(EnumDailyReportTableauIndex.colonne_RejetGranulats)
-            bookMarks.GT01_RejectedFillerQuantity.Text = ligneQuantiteRejete.Item(EnumDailyReportTableauIndex.colonne_RejetFiller)
-            bookMarks.GT01_RejectedRecycledQuantity.Text = ligneQuantiteRejete.Item(EnumDailyReportTableauIndex.colonne_RejetGBR)
+            If Double.IsNaN(ligneQuantiteRejete.Item(EnumDailyReportTableauIndex.colonne_RejetGranulats)) Then
 
-            bookMarks.GT01_RejectedAggregatesPercentage.Text = CType(ligneTauxDeRejet.Item(EnumDailyReportTableauIndex.colonne_RejetGranulats), Double).ToString("N1")
-            bookMarks.GT01_RejectedFillerPercentage.Text = CType(ligneTauxDeRejet.Item(EnumDailyReportTableauIndex.colonne_RejetFiller), Double).ToString("N1")
-            bookMarks.GT01_RejectedRecycledPercentage.Text = CType(ligneTauxDeRejet.Item(EnumDailyReportTableauIndex.colonne_RejetGBR), Double).ToString("N1")
+                bookMarks.GT01_RejectedAggregatesQuantity.Text = Me.Formater.InvalidValueCharacter
+                bookMarks.GT01_RejectedAggregatesPercentage.Text = Me.Formater.InvalidValueCharacter
+            Else
+
+                bookMarks.GT01_RejectedAggregatesQuantity.Text = ligneQuantiteRejete.Item(EnumDailyReportTableauIndex.colonne_RejetGranulats)
+                bookMarks.GT01_RejectedAggregatesPercentage.Text = CType(ligneTauxDeRejet.Item(EnumDailyReportTableauIndex.colonne_RejetGranulats), Double).ToString("N1")
+            End If
+
+            If Double.IsNaN(ligneQuantiteRejete.Item(EnumDailyReportTableauIndex.colonne_RejetFiller)) Then
+
+                bookMarks.GT01_RejectedFillerQuantity.Text = Me.Formater.InvalidValueCharacter
+                bookMarks.GT01_RejectedFillerPercentage.Text = Me.Formater.InvalidValueCharacter
+            Else
+
+                bookMarks.GT01_RejectedFillerQuantity.Text = ligneQuantiteRejete.Item(EnumDailyReportTableauIndex.colonne_RejetFiller)
+                bookMarks.GT01_RejectedFillerPercentage.Text = CType(ligneTauxDeRejet.Item(EnumDailyReportTableauIndex.colonne_RejetFiller), Double).ToString("N1")
+            End If
+
+            If Double.IsNaN(ligneQuantiteRejete.Item(EnumDailyReportTableauIndex.colonne_RejetGBR)) Then
+
+                bookMarks.GT01_RejectedRecycledQuantity.Text = Me.Formater.InvalidValueCharacter
+                bookMarks.GT01_RejectedRecycledPercentage.Text = Me.Formater.InvalidValueCharacter
+            Else
+
+                bookMarks.GT01_RejectedRecycledQuantity.Text = ligneQuantiteRejete.Item(EnumDailyReportTableauIndex.colonne_RejetGBR)
+                bookMarks.GT01_RejectedRecycledPercentage.Text = CType(ligneTauxDeRejet.Item(EnumDailyReportTableauIndex.colonne_RejetGBR), Double).ToString("N1")
+            End If
 
             RaiseEvent CurrentProgress(72) ' 72 % Progress
 
@@ -560,7 +643,7 @@ Public Class SummaryDailyReportGenerator_1
 
             Dim tableauDelay As List(Of ArrayList) = dailyReport.getTableauDelay
 
-            Dim ligneDelayTotal As ArrayList = tableauDelay.Item(tableauDelay.Count - 1)
+
 
             Dim ligneDelay As ArrayList
             Dim color As Color
@@ -652,21 +735,6 @@ Public Class SummaryDailyReportGenerator_1
                 bookMarks.HT01_FirstDelayEndTime.Text = CType(ligneDelay.Item(EnumDailyReportTableauIndex.colonne_DelaisJustifiableFin), Date).ToString(Me.Formater.TimeFormat)
                 bookMarks.HT01_FirstDelayDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneDelay.Item(EnumDailyReportTableauIndex.colonne_DelaisJustifiableDuree), TimeSpan))
 
-                'If (_delay.IsUnknown) Then
-
-                '    bookMarks.HT01_FirstDelayCode.Text = Me.Formater.UnknownValueCharacter
-                '    bookMarks.HT01_FirstDelayCode.Shading.BackgroundPatternColor = WdColor.wdColorWhite
-                '    bookMarks.HT01_FirstDelayComments.Text = _delay.Justification
-
-                'ElseIf (IsNothing(_delay.Code)) Then
-
-                '    bookMarks.HT01_FirstDelayCode.Text = Me.Formater.InvalidValueCharacter
-                '    bookMarks.HT01_FirstDelayCode.Shading.BackgroundPatternColor = WdColor.wdColorWhite
-                '    bookMarks.HT01_FirstDelayDescription.Text = Me.Formater.InvalidValueCharacter
-                '    bookMarks.HT01_FirstDelayComments.Text = Me.Formater.InvalidValueCharacter
-
-                'Else
-
                 color = ligneDelay.Item(EnumDailyReportTableauIndex.colonne_DelaisColor)
 
                 bookMarks.HT01_FirstDelayCode.Text = ligneDelay.Item(EnumDailyReportTableauIndex.colonne_DelaisJustifiableName)
@@ -689,6 +757,10 @@ Public Class SummaryDailyReportGenerator_1
             bookMarks.HT01_DelaysNumberUnderMinimalDuration.Text = ligneDelayNonJustifiable.Item(EnumDailyReportTableauIndex.colonne_DelaisNonJustifiableNombre)
             bookMarks.HT01_DelaysUnderMinimalTimeDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneDelayNonJustifiable.Item(EnumDailyReportTableauIndex.colonne_DelaisNonJustifiableDuree), TimeSpan))
 
+
+            Dim ligneDelayTotal As ArrayList = tableauDelay.Item(tableauDelay.Count - 1)
+            bookMarks.HT01_DelaysDuration.Text = ReportFormater.FormatTimeSpan(CType(ligneDelayTotal.Item(EnumDailyReportTableauIndex.colonne_DelaisTotalDuree), TimeSpan))
+
             ' TODO
             ' Ajouter la ligne Durée totale des délais
 
@@ -703,16 +775,18 @@ Public Class SummaryDailyReportGenerator_1
 
             ' Créeation de la première entête de benne chaude
             Dim tableauProductionContinu As List(Of ArrayList) = dailyReport.getTableauProductionContinu
+
             If tableauProductionContinu.Count > 4 Then
 
                 Dim ligneSommaireEntete As ArrayList = tableauProductionContinu.Item(EnumDailyReportTableauIndex.ligne_SommaireEntete)
 
+                Dim columnsWidth = bookMarks.JT01_FirstContinuousFeederDescription.Columns.Width / ligneSommaireEntete.Count
                 If ligneSommaireEntete.Count > 0 Then
 
-                    Dim columnsWidth = bookMarks.JT01_FirstContinuousFeederDescription.Columns.Width / ligneSommaireEntete.Count
                     bookMarks.JT01_FirstContinuousFeederDescription.Select()
 
                     Dim ligneFedderInfo As ArrayList = ligneSommaireEntete.Item(0)
+
                     WordApp.Selection.Text = ligneFedderInfo.Item(EnumDailyReportTableauIndex.colonne_SommaireEnteteFeederID) & Environment.NewLine & ligneFedderInfo.Item(EnumDailyReportTableauIndex.colonne_SommaireEnteteFeederName) & " (T)"
 
 
@@ -726,22 +800,18 @@ Public Class SummaryDailyReportGenerator_1
                 ' Création de autres entête de benne chaude
                 For feederEnteteIndex = ligneSommaireEntete.Count - 1 To 1 Step -1
 
-                    WordDoc.Bookmarks("FirstContinuousProductionFeederDesc").Range.Select()
-
+                    WordDoc.Bookmarks("JT01_FirstContinuousFeederDescription").Range.Select()
                     WordApp.Selection.InsertColumnsRight()
 
-                    Dim columnsWidth = bookMarks.JT01_FirstContinuousFeederDescription.Columns.Width / ligneSommaireEntete.Count
-                    bookMarks.JT01_FirstContinuousFeederDescription.Select()
+                    'Dim columnsWidth = bookMarks.JT01_FirstContinuousFeederDescription.Columns.Width / ligneSommaireEntete.Count
+                    Dim ligneFedderInfo As ArrayList = ligneSommaireEntete(feederEnteteIndex)
 
-                    Dim ligneFedderInfo As ArrayList = ligneSommaireEntete.Item(feederEnteteIndex)
                     WordApp.Selection.Text = ligneFedderInfo.Item(EnumDailyReportTableauIndex.colonne_SommaireEnteteFeederID) & Environment.NewLine & ligneFedderInfo.Item(EnumDailyReportTableauIndex.colonne_SommaireEnteteFeederName) & " (T)"
-
-
-                    WordApp.Selection.Columns.Last.Width = columnsWidth
-                    WordApp.Selection.Columns.Last.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter
 
                     ' Total quantity
                     WordApp.Selection.MoveDown(WdUnits.wdLine, 2, WdMovementType.wdMove)
+                    WordApp.Selection.Columns.Last.Width = columnsWidth
+                    WordApp.Selection.Columns.Last.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter
 
                 Next
 
@@ -763,7 +833,7 @@ Public Class SummaryDailyReportGenerator_1
 
                     bookMarks.JT01_FirstContinuousVirginACGrade.Text = ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeGrade)
 
-                    bookMarks.JT01_FirstContinuousRecycledQuantity.Text = If(Double.IsNaN(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeRapVise)), "-", CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeRapVise), Double).ToString("N0"))
+                    bookMarks.JT01_FirstContinuousRAPPercentage.Text = If(Double.IsNaN(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeRapVise)), "-", CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeRapVise), Double).ToString("N0"))
 
                     bookMarks.JT01_FirstContinuousQuantity.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeMasse), Double).ToString("N1")
 
@@ -775,10 +845,11 @@ Public Class SummaryDailyReportGenerator_1
 
                     For feedIndex = 1 To ligneSommaireEntete.Count - 1
 
-                        WordApp.Selection.MoveRight(WdUnits.wdCell, WdMovementType.wdMove)
+                        WordApp.Selection.MoveRight(WdUnits.wdCell, 1)
 
                         WordApp.Selection.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeFirstFeederMasse + feedIndex), Double).ToString("N1")
-
+                        'WordApp.Selection.Columns.Last.Width = columnsWidth
+                        'WordApp.Selection.Columns.Last.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter
                     Next
 
                 Else
@@ -798,26 +869,33 @@ Public Class SummaryDailyReportGenerator_1
 
                     ligneEnrobe = tableauProductionContinu.Item(indexLigneEnrobe)
 
-                    bookMarks.JT01_FirstContinuousMixNumber.Text = ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeFormule)
+                    WordApp.Selection.Text = ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeFormule)
+                    WordApp.Selection.MoveRight(WdUnits.wdCell, 1)
 
-                    bookMarks.JT01_FirstContinuousMixName.Text = ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeName)
+                    WordApp.Selection.Text = ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeName)
+                    WordApp.Selection.MoveRight(WdUnits.wdCell, 1)
 
-                    bookMarks.JT01_FirstContinuousVirginACGrade.Text = ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeGrade)
+                    WordApp.Selection.Text = ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeGrade)
+                    WordApp.Selection.MoveRight(WdUnits.wdCell, 1)
 
-                    bookMarks.JT01_FirstContinuousRecycledQuantity.Text = If(Double.IsNaN(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeRapVise)), "-", CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeRapVise), Double).ToString("N0"))
+                    WordApp.Selection.Text = If(Double.IsNaN(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeRapVise)), "-", CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeRapVise), Double).ToString("N0"))
+                    WordApp.Selection.MoveRight(WdUnits.wdCell, 1)
 
-                    bookMarks.JT01_FirstContinuousQuantity.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeMasse), Double).ToString("N1")
+                    WordApp.Selection.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeMasse), Double).ToString("N1")
+                    WordApp.Selection.MoveRight(WdUnits.wdCell, 1)
 
-                    bookMarks.JT01_FirstContinuousVirginACQuantity.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeMasseBitume), Double).ToString("N1")
+                    WordApp.Selection.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeMasseBitume), Double).ToString("N1")
+                    WordApp.Selection.MoveRight(WdUnits.wdCell, 1)
 
-                    bookMarks.JT01_FirstContinuousFeederQuantity.Select()
-
+                    'WordApp.Selection.Columns.Last.Width = columnsWidth
+                    'WordApp.Selection.Columns.Last.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter
                     WordApp.Selection.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeFirstFeederMasse), Double).ToString("N1")
 
                     For feedIndex = 1 To ligneSommaireEntete.Count - 1
 
-                        WordApp.Selection.MoveRight(WdUnits.wdCell, WdMovementType.wdMove)
-
+                        WordApp.Selection.MoveRight(WdUnits.wdCell, 1)
+                        'WordApp.Selection.Columns.Last.Width = columnsWidth
+                        'WordApp.Selection.Columns.Last.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter
                         WordApp.Selection.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeFirstFeederMasse + feedIndex), Double).ToString("N1")
 
                     Next
@@ -844,8 +922,11 @@ Public Class SummaryDailyReportGenerator_1
                 bookMarks.JT01_ContinuousTotalQuantity.Text = CType(ligneEnrobeTotalMasse.Item(EnumDailyReportTableauIndex.colonne_EnrobeTotalMasse), Double).ToString("N1")
                 bookMarks.JT01_ContinuousTotalVirginACQuantity.Text = CType(ligneEnrobeTotalMasse.Item(EnumDailyReportTableauIndex.colonne_EnrobeTotalMasseBitume), Double).ToString("N1")
 
-                Dim ligneSommairePourcentageAvecGBR As ArrayList = tableauProductionContinu.Item(tableauProductionContinu.Count - 1)
+                Dim ligneSommairePourcentageAvecGBR As ArrayList = tableauProductionContinu.Item(tableauProductionContinu.Count - 2)
                 bookMarks.JT01_ContinuousWithRAPPercentage.Text = CType(ligneSommairePourcentageAvecGBR.Item(EnumDailyReportTableauIndex.colonne_SommairePourcentageAvecGBR), Double).ToString("N0")
+
+                Dim ligneSommairePourcentageDeGBR As ArrayList = tableauProductionContinu.Item(tableauProductionContinu.Count - 1)
+                bookMarks.JT01_ContinuousOfRAPPercentage.Text = CType(ligneSommairePourcentageDeGBR.Item(EnumDailyReportTableauIndex.colonne_SommairePourcentageDeGBR), Double).ToString("N0")
 
                 bookMarks.JT01_ContinuousTotalCellsToMerge.Cells.Merge()
 
@@ -887,7 +968,7 @@ Public Class SummaryDailyReportGenerator_1
                 ' Création de autres entête de benne chaude
                 For feederEnteteIndex = ligneSommaireEntete.Count - 1 To 1 Step -1
 
-                    WordDoc.Bookmarks("FirstDiscontinuousProductionFeederDesc").Range.Select()
+                    WordDoc.Bookmarks("JT02_FirstDiscontinuousFeederDescription").Range.Select()
                     WordApp.Selection.InsertColumnsRight()
 
                     'Dim columnsWidth = bookMarks.JT02_FirstDiscontinuousFeederDescription.Columns.Width / ligneSommaireEntete.Count
@@ -920,7 +1001,7 @@ Public Class SummaryDailyReportGenerator_1
 
                     bookMarks.JT02_FirstDiscontinuousVirginACGrade.Text = ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeGrade)
 
-                    bookMarks.JT02_FirstDiscontinuousRecycledQuantity.Text = If(Double.IsNaN(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeRapVise)), "-", CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeRapVise), Double).ToString("N0"))
+                    bookMarks.JT02_FirstDiscontinuousRAPPercentage.Text = If(Double.IsNaN(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeRapVise)), "-", CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeRapVise), Double).ToString("N0"))
 
                     bookMarks.JT02_FirstDiscontinuousQuantity.Text = CType(ligneEnrobe.Item(EnumDailyReportTableauIndex.colonne_EnrobeMasse), Double).ToString("N1")
 
@@ -1009,8 +1090,11 @@ Public Class SummaryDailyReportGenerator_1
                 bookMarks.JT02_DiscontinuousTotalQuantity.Text = CType(ligneEnrobeTotalMasse.Item(EnumDailyReportTableauIndex.colonne_EnrobeTotalMasse), Double).ToString("N1")
                 bookMarks.JT02_DiscontinuousTotalVirginACQuantity.Text = CType(ligneEnrobeTotalMasse.Item(EnumDailyReportTableauIndex.colonne_EnrobeTotalMasseBitume), Double).ToString("N1")
 
-                Dim ligneSommairePourcentageAvecGBR As ArrayList = tableauProductionDiscontinu.Item(tableauProductionDiscontinu.Count - 1)
+                Dim ligneSommairePourcentageAvecGBR As ArrayList = tableauProductionDiscontinu.Item(tableauProductionDiscontinu.Count - 2)
                 bookMarks.JT02_DiscontinuousWithRAPPercentage.Text = CType(ligneSommairePourcentageAvecGBR.Item(EnumDailyReportTableauIndex.colonne_SommairePourcentageAvecGBR), Double).ToString("N0")
+
+                Dim ligneSommairePourcentageDeGBR As ArrayList = tableauProductionDiscontinu.Item(tableauProductionDiscontinu.Count - 1)
+                bookMarks.JT02_DiscontinuousOfRAPPercentage.Text = CType(ligneSommairePourcentageDeGBR.Item(EnumDailyReportTableauIndex.colonne_SommairePourcentageDeGBR), Double).ToString("N0")
 
                 bookMarks.JT02_DiscontinuousTotalCellsToMerge.Cells.Merge()
 
@@ -1026,7 +1110,7 @@ Public Class SummaryDailyReportGenerator_1
             ' KA01_Comments
             ' ---------
 
-            bookMarks.KA01_Comments.Text = "Test rapport a valider avec Martin"
+            bookMarks.KA01_Comments.Text = dailyReport.getReportComment
 
             ' ----------
             ' Signature

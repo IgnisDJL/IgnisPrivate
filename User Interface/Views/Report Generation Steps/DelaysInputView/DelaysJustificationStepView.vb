@@ -370,11 +370,12 @@
                 Me.delayTypeCombobox.SelectedItem = ALL_DELAYS
                 Me.delayCodeCombobox.SelectedIndex = 0
 
-                'Dim delayCode As DelayCode = DirectCast(Me.delayCodeCombobox.SelectedItem, DelayCode)
+                Dim delayCode As DelayCode = DirectCast(Me.delayCodeCombobox.SelectedItem, DelayCode)
 
-                'Me.currentDelay.setDelayCode(delayCode.Code)
-                'Me.currentDelay.setDelayCategorieName(delayCode.Type.Name)
-                'Me.currentDelay.setDelayDescription(delayCode.Description)
+                Me.currentDelay.setDelayCode(DelayCode.Code)
+                Me.currentDelay.setDelayCategorieName(delayCode.Type.Name)
+                Me.currentDelay.setColor(delayCode.Type.Color)
+                Me.currentDelay.setDelayDescription(DelayCode.Description)
             Else
                 Me.delayTypeCombobox.SelectedItem = UNKNOWN_DELAY
 
