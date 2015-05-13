@@ -6,7 +6,15 @@
     End Sub
 
     Public Sub addNewContainerToCatalog(containerId As String, effectiveDate As Date, containerDescription As String)
-        _catalogContainer.Add(containerId, New CatalogContainerItem(effectiveDate, containerDescription))
+        If _catalogContainer.Keys.Contains(containerId) Then
+            addDescriptionToContainer(containerId, effectiveDate, containerDescription)
+        Else
+            _catalogContainer.Add(containerId, New CatalogContainerItem(effectiveDate, containerDescription))
+        End If
+
+
+
+
     End Sub
 
     Public Sub removeContainerFromCatalog(containerId As String)
@@ -26,7 +34,13 @@
     End Function
 
     Public Sub addDescriptionToContainer(containerId As String, effectiveDate As Date, containerDescription As String)
-        getCatalogContainerItem(containerId).addDescription(effectiveDate, containerDescription)
+        If getCatalogContainerItem(containerId).getAllEffectiveDate.Contains(effectiveDate) Then
+            updateDescriptionFromContainer(containerId, effectiveDate, containerDescription)
+        Else
+            getCatalogContainerItem(containerId).addDescription(effectiveDate, containerDescription)
+        End If
+
+
     End Sub
 
     Public Sub updateDescriptionFromContainer(containerId As String, effectiveDate As Date, newDescription As String)

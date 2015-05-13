@@ -1,8 +1,6 @@
 <settings>
   <usine id="052" name="Shawiniagan" usbRoot="F:\Users\Guillaume\Documents\Ignis\cléeUSB">
     <asphaltInfo>
-      <tank name="5" temperature="123">123</tank>
-      <tank name="12" temperature="3">23</tank>
       <unknownTank name="1">1</unknownTank>
       <unknownTank name="4">4</unknownTank>
       <unknownTank name="0">0</unknownTank>
@@ -70,7 +68,7 @@
       <csv active="yes" stopOffset="60">
         <format />
         <feedsInfo>
-          <feed material="5/12/2001" index="1" tag="#HotFeed">1</feed>
+          <feed material="11" index="1" isRecycled="yes" isFiller="yes" tag="#HotFeed">11</feed>
         </feedsInfo>
       </csv>
       <log active="yes">

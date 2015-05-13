@@ -26,6 +26,7 @@ Public Class UIController
     Private _usineSettingsView As UsineSettingsView
     Private _dataFilesSettingsView As DataFilesSettingsView
     Private _feedsSettingsView As FeedsSettingsView
+    Private _catalogueSettingsView As CatalogSettingsView
     Private _mixAndAsphaltSettingsView As MixAndAsphaltSettingsView
     Private _eventsSettingsView As EventsSettingsView
     Private _reportsSettingsView As ReportsSettingsView
@@ -61,6 +62,7 @@ Public Class UIController
         Me._usineSettingsView = New UsineSettingsView
         Me._dataFilesSettingsView = New DataFilesSettingsView
         Me._feedsSettingsView = New FeedsSettingsView
+        Me._catalogueSettingsView = New CatalogSettingsView
         Me._mixAndAsphaltSettingsView = New MixAndAsphaltSettingsView
         Me._eventsSettingsView = New EventsSettingsView
         Me._reportsSettingsView = New ReportsSettingsView
@@ -70,6 +72,7 @@ Public Class UIController
         Me._settingsFrame.addSettingView(Me._usineSettingsView)
         Me._settingsFrame.addSettingView(Me._dataFilesSettingsView)
         Me._settingsFrame.addSettingView(Me._feedsSettingsView)
+        Me._settingsFrame.addSettingView(Me._catalogueSettingsView)
         Me._settingsFrame.addSettingView(Me._mixAndAsphaltSettingsView)
         Me._settingsFrame.addSettingView(Me._eventsSettingsView)
         Me._settingsFrame.addSettingView(Me._reportsSettingsView)
@@ -201,6 +204,12 @@ Public Class UIController
     Public ReadOnly Property FeedsSettingsView As FeedsSettingsView
         Get
             Return Me._feedsSettingsView
+        End Get
+    End Property
+
+    Public ReadOnly Property CatalogueSettingsView As CatalogSettingsView
+        Get
+            Return Me._catalogueSettingsView
         End Get
     End Property
 
