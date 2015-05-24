@@ -16,7 +16,7 @@
     End Sub
 
     Public Sub updateDescription(effectiveDate As Date, containerDescrition As String)
-        containerDescrition = _catalogContainerItem.Item(effectiveDate)
+        _catalogContainerItem.Item(effectiveDate) = containerDescrition
     End Sub
 
     Public Function getDescription(productionDate As Date) As String
@@ -28,7 +28,7 @@
 
         For Each effectiveDate As Date In _catalogContainerItem.Keys
 
-            If effectiveDate.Date < productionDate.Date Then
+            If effectiveDate.Date <= productionDate.Date Then
 
                 If IsNothing(closestEffectiveDate) Then
                     closestEffectiveDate = effectiveDate

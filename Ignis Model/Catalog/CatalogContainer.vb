@@ -39,8 +39,6 @@
         Else
             getCatalogContainerItem(containerId).addDescription(effectiveDate, containerDescription)
         End If
-
-
     End Sub
 
     Public Sub updateDescriptionFromContainer(containerId As String, effectiveDate As Date, newDescription As String)
@@ -55,13 +53,7 @@
         Return New List(Of String)(_catalogContainer.Keys)
     End Function
 
-    Public Function getAllContainerDescription(effectiveDate) As List(Of String)
-
-        Dim actualDescriptionList As List(Of String) = New List(Of String)
-
-        For Each containerId As String In getAllContainerId()
-            actualDescriptionList.Add(getDescriptionFromContainer(containerId, effectiveDate))
-        Next
-        Return actualDescriptionList
+    Public Function getContainerItemAllEffectiveDate(containerId As String) As List(Of Date)
+        Return getCatalogContainerItem(containerId).getAllEffectiveDate()
     End Function
 End Class
