@@ -2,7 +2,6 @@
 
     Private _usineSettingsController As UsineSettingsController
     Private _dataFilesSettingsController As DataFilesSettingsController
-    Private _cataloguesSettingsController As CataloguesSettingsController
     Private _feedsSettingsController As FeedsSettingsController
     Private _mixAndAsphaltSettingsController As MixAndAsphaltSettingsController
     Private _eventsSettingsController As EventsSettingsController
@@ -15,7 +14,6 @@
         Me._usineSettingsController = New UsineSettingsController
         Me._dataFilesSettingsController = New DataFilesSettingsController
         Me._feedsSettingsController = New FeedsSettingsController
-        Me._cataloguesSettingsController = New CataloguesSettingsController
         Me._mixAndAsphaltSettingsController = New MixAndAsphaltSettingsController
         Me._eventsSettingsController = New EventsSettingsController
         Me._reportsSettingsController = New ReportsSettingsController
@@ -38,12 +36,6 @@
     Public ReadOnly Property FeedsSettingsController As FeedsSettingsController
         Get
             Return Me._feedsSettingsController
-        End Get
-    End Property
-
-    Public ReadOnly Property CataloguesSettingsController As CataloguesSettingsController
-        Get
-            Return Me._cataloguesSettingsController
         End Get
     End Property
 
