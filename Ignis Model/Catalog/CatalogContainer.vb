@@ -1,21 +1,21 @@
-﻿Public Class CatalogContainer
+﻿Public MustInherit Class CatalogContainer
     Private _catalogContainer As Dictionary(Of String, CatalogContainerItem)
 
     Sub New()
         _catalogContainer = New Dictionary(Of String, CatalogContainerItem)
+
     End Sub
 
-    Public Sub addNewContainerToCatalog(containerId As String, effectiveDate As Date, containerDescription As String)
+    Public Sub addNewContainerToCatalog(containerId As String, effectiveDate As Date, informationAdditionnelList As List(Of String))
         If _catalogContainer.Keys.Contains(containerId) Then
-            addDescriptionToContainer(containerId, effectiveDate, containerDescription)
+            addInformationAdditionnelListToContainer(containerId, effectiveDate, informationAdditionnelList)
         Else
-            _catalogContainer.Add(containerId, New CatalogContainerItem(effectiveDate, containerDescription))
+            _catalogContainer.Add(containerId, createCatalogContainerItem(effectiveDate, informationAdditionnelList))
         End If
 
-
-
-
     End Sub
+
+    Protected MustOverride Function createCatalogContainerItem(effectiveDate As Date, informationAdditionnelList As List(Of String)) As CatalogContainerItem
 
     Public Sub removeContainerFromCatalog(containerId As String)
         _catalogContainer.Remove(containerId)
@@ -25,28 +25,28 @@
         Return _catalogContainer.Item(containerId)
     End Function
 
-    Public Function getDescriptionFromContainer(containerId As String, productionDate As Date) As String
+    Public Function getDescriptionFromContainer(containerId As String, productionDate As Date) As List(Of String)
         If (_catalogContainer.Keys.Contains(containerId)) Then
-            Return getCatalogContainerItem(containerId).getDescription(productionDate)
+            Return getCatalogContainerItem(containerId).getInformationAdditionnelList(productionDate)
         Else
             Return String.Empty
         End If
     End Function
 
-    Public Sub addDescriptionToContainer(containerId As String, effectiveDate As Date, containerDescription As String)
+    Public Sub addInformationAdditionnelListToContainer(containerId As String, effectiveDate As Date, informationAdditionnelList As List(Of String))
         If getCatalogContainerItem(containerId).getAllEffectiveDate.Contains(effectiveDate) Then
-            updateDescriptionFromContainer(containerId, effectiveDate, containerDescription)
+            updateInformationAdditionnelListFromContainer(containerId, effectiveDate, informationAdditionnelList)
         Else
-            getCatalogContainerItem(containerId).addDescription(effectiveDate, containerDescription)
+            getCatalogContainerItem(containerId).addInformationAdditionnelList(effectiveDate, informationAdditionnelList)
         End If
     End Sub
 
-    Public Sub updateDescriptionFromContainer(containerId As String, effectiveDate As Date, newDescription As String)
-        getCatalogContainerItem(containerId).updateDescription(effectiveDate, newDescription)
+    Public Sub updateInformationAdditionnelListFromContainer(containerId As String, effectiveDate As Date, newInformationAdditionnelList As List(Of String))
+        getCatalogContainerItem(containerId).updateInformationAdditionnelList(effectiveDate, newInformationAdditionnelList)
     End Sub
 
-    Public Sub removeDescriptionFromContainer(containerId As String, effectiveDate As Date)
-        getCatalogContainerItem(containerId).removeDescription(effectiveDate)
+    Public Sub removeInformationAdditionnelListFromContainer(containerId As String, effectiveDate As Date)
+        getCatalogContainerItem(containerId).removeInformationAdditionnelList(effectiveDate)
     End Sub
 
     Public Function getAllContainerId() As List(Of String)
