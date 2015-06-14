@@ -6,26 +6,26 @@ Public Class ImportController_1
 
     Private continueSourceFileList As List(Of SourceFile)
     Private discontinueSourceFileList As List(Of SourceFile)
-    Private continueSourceFileComplementList As List(Of String)
-    Private discontinueSourceFileComplementList As List(Of String)
+    'Private continueSourceFileComplementList As List(Of String)
+    'Private discontinueSourceFileComplementList As List(Of String)
     Private _usbDirectory As IO.DirectoryInfo
     Private temporaryArchivesDirectory As IO.DirectoryInfo
     Private dataDirectory As IO.DirectoryInfo
     Private eventDirectory As IO.DirectoryInfo
     Private updateArchivesImageThread As Threading.Thread
     Private newestImportedFiles As List(Of IO.FileInfo)
-    Private productionDayList As List(Of ProductionDay_1)
-    Private productionDayFactory As ProductionDayFactory
+    'Private productionDayList As List(Of ProductionDay_1)
+    'Private productionDayFactory As ProductionDayFactory
 
     Public Sub New(settings As XmlSettings.Settings)
 
         Me.settings = settings
         Me.continueSourceFileList = New List(Of SourceFile)
         Me.discontinueSourceFileList = New List(Of SourceFile)
-        Me.continueSourceFileComplementList = New List(Of String)
-        Me.discontinueSourceFileComplementList = New List(Of String)
+        'Me.continueSourceFileComplementList = New List(Of String)
+        'Me.discontinueSourceFileComplementList = New List(Of String)
         Me.newestImportedFiles = New List(Of IO.FileInfo)
-        Me.productionDayFactory = New ProductionDayFactory
+        'Me.productionDayFactory = New ProductionDayFactory
         PlantProduction.setPlantType(Me.settings.Usine.TYPE)
 
         PlantProduction.setPlantName(Me.settings.Usine.PLANT_NAME)
@@ -34,71 +34,66 @@ Public Class ImportController_1
 
     Public Function importFiles() As Integer
 
-        productionDayList = New List(Of ProductionDay_1)
-        Dim productionDay As ProductionDay_1
-
-        If plantProduction.getPlantType = Constants.Settings.UsineType.HYBRID Then
-
-            For Each continueSourceFile As SourceFile In continueSourceFileList
-
-                If discontinueSourceFileList.Contains(continueSourceFile) Then
-                    productionDay = productionDayFactory.createProductionDayHybrid(continueSourceFile, discontinueSourceFileList.Item(discontinueSourceFileList.IndexOf(continueSourceFile)))
-
-                    productionDay.setSourceFileComplementPathContinue(continueSourceFile.getEventFilePath)
-
-                    productionDayList.Add(productionDay)
-
-                Else
-                    productionDay = productionDayFactory.createProductionDayHybrid(continueSourceFile)
-                    productionDay.setSourceFileComplementPathContinue(continueSourceFile.getEventFilePath)
-                    productionDayList.Add(productionDay)
+        'productionDayList = New List(Of ProductionDay_1)
+        'Dim productionDay As ProductionDay_1
 
 
-                End If
+        For Each continueSourceFile As SourceFile In continueSourceFileList
+            Dim copiedFile = continueSourceFile.getFileInfo.CopyTo(Constants.Paths.LOG_ARCHIVES_DIRECTORY & continueSourceFile.getFileInfo.Name, True)
 
-            Next
-        ElseIf plantProduction.getPlantType = Constants.Settings.UsineType.LOG Then
+            If Not String.IsNullOrEmpty(continueSourceFile.getEventFilePath()) Then
+                Dim eventFile As IO.FileInfo = New IO.FileInfo(continueSourceFile.getEventFilePath())
+                Dim copiedEventFile = eventFile.CopyTo(Constants.Paths.EVENTS_ARCHIVES_DIRECTORY & eventFile.Name, True)
 
-            For Each continueSourceFile As SourceFile In Me.continueSourceFileList
+            End If
 
-                productionDay = productionDayFactory.createProductionDayContinue(continueSourceFile)
-                productionDay.setSourceFileComplementPathContinue(continueSourceFile.getEventFilePath)
-                productionDayList.Add(productionDay)
+        Next
 
-            Next
+        For Each discontinueSourceFile As SourceFile In Me.discontinueSourceFileList
+            Dim copiedFile = discontinueSourceFile.getFileInfo.CopyTo(Constants.Paths.CSV_ARCHIVES_DIRECTORY & discontinueSourceFile.getFileInfo.Name, True)
 
-        ElseIf plantProduction.getPlantType = Constants.Settings.UsineType.CSV Or plantProduction.getPlantType = Constants.Settings.UsineType.MDB Then
+        Next
 
-            For Each discontinueSourceFile As SourceFile In Me.discontinueSourceFileList
-                productionDay = productionDayFactory.createProductionDayDiscontinue(discontinueSourceFile)
-                productionDayList.Add(productionDay)
-            Next
+        'If plantProduction.getPlantType = Constants.Settings.UsineType.HYBRID Then
 
-        End If
+        '    For Each continueSourceFile As SourceFile In continueSourceFileList
 
-        'Dim delayFactory = New DelayFactory()
+        '        If discontinueSourceFileList.Contains(continueSourceFile) Then
+        '            ProductionDay = ProductionDayFactory.createProductionDayHybrid(continueSourceFile, discontinueSourceFileList.Item(discontinueSourceFileList.IndexOf(continueSourceFile)))
 
-        'Dim dateDebut As Date
-        'Dim dateFin As Date
-        'Dim delayList As List(Of Delay_1)
+        '            ProductionDay.setSourceFileComplementPathContinue(continueSourceFile.getEventFilePath)
 
+        '            productionDayList.Add(ProductionDay)
 
-        'dateDebut = New Date(2014, 12, 4, 7, 0, 0)
-        'dateFin = New Date(2014, 12, 4, 23, 0, 0)
+        '        Else
+        '            ProductionDay = ProductionDayFactory.createProductionDayHybrid(continueSourceFile)
+        '            ProductionDay.setSourceFileComplementPathContinue(continueSourceFile.getEventFilePath)
+        '            productionDayList.Add(ProductionDay)
 
 
-        'For Each productionDay_1 As ProductionDay_1 In productionDayList
+        '        End If
 
-        '    If plantProduction.getPlantType = Constants.Settings.UsineType.CSV Or plantProduction.getPlantType = Constants.Settings.UsineType.MDB Then
+        '    Next
+        'ElseIf PlantProduction.getPlantType = Constants.Settings.UsineType.LOG Then
 
-        '        delayList = delayFactory.createBatchDelayList(dateDebut, dateFin, productionDay_1.getProductionCycle_Discontinue(dateDebut, dateFin), productionDay_1.getsourceFileComplementPathDiscontinue)
-        '    ElseIf plantProduction.getPlantType = Constants.Settings.UsineType.LOG Then
+        '    For Each continueSourceFile As SourceFile In Me.continueSourceFileList
 
-        '        delayList = delayFactory.createDrumDelayList(dateDebut, dateFin, productionDay_1.getProductionCycle_Continue(dateDebut, dateFin), productionDay_1.getSourceFileComplementPathContinue)
-        '    End If
+        '        ProductionDay = ProductionDayFactory.createProductionDayContinue(continueSourceFile)
+        '        ProductionDay.setSourceFileComplementPathContinue(continueSourceFile.getEventFilePath)
+        '        productionDayList.Add(ProductionDay)
 
-        'Next
-        plantProduction.productionDayList = productionDayList
+        '    Next
+
+        'ElseIf PlantProduction.getPlantType = Constants.Settings.UsineType.CSV Or PlantProduction.getPlantType = Constants.Settings.UsineType.MDB Then
+
+        '    For Each discontinueSourceFile As SourceFile In Me.discontinueSourceFileList
+        '        ProductionDay = ProductionDayFactory.createProductionDayDiscontinue(discontinueSourceFile)
+        '        productionDayList.Add(ProductionDay)
+        '    Next
+
+        'End If
+
+        'plantProduction.productionDayList = productionDayList
         Return productionDayList.Count
 
     End Function
@@ -113,8 +108,6 @@ Public Class ImportController_1
         If (IsNothing(USBDirectory)) Then
             USBDirectory = New IO.DirectoryInfo(XmlSettings.Settings.instance.Usine.USB_DIRECTORY)
         End If
-
-        Dim fileList As New List(Of LOGFile)
 
         If (dataDirectory.Exists) Then
 
@@ -141,56 +134,41 @@ Public Class ImportController_1
 
                     Me.continueSourceFileList.Add(sourceFile)
 
-
-                    If (IsNothing(newestSourceFile)) Then
-                        newestSourceFile = sourceFile
-                    ElseIf (newestSourceFile.Date_.CompareTo(sourceFile.Date_) < 0) Then
-                        newestSourceFile = sourceFile
-                    End If
+                    'If (IsNothing(newestSourceFile)) Then
+                    '    newestSourceFile = sourceFile
+                    'ElseIf (newestSourceFile.Date_.CompareTo(sourceFile.Date_) < 0) Then
+                    '    newestSourceFile = sourceFile
+                    'End If
 
                 ElseIf (regexCSVFile.Match(file.Name).Success) And (plantProduction.getPlantType = Constants.Settings.UsineType.CSV Or plantProduction.getPlantType = Constants.Settings.UsineType.MDB Or plantProduction.getPlantType = Constants.Settings.UsineType.HYBRID) Then
                     Dim sourceFile As New SourceFile(file.FullName, New SourceFileCSVAdapter())
 
                     Me.discontinueSourceFileList.Add(sourceFile)
 
-                    If (IsNothing(newestSourceFile)) Then
-                        newestSourceFile = sourceFile
-                    ElseIf (newestSourceFile.Date_.CompareTo(sourceFile.Date_) < 0) Then
-                        newestSourceFile = sourceFile
-                    End If
+                    'If (IsNothing(newestSourceFile)) Then
+                    '    newestSourceFile = sourceFile
+                    'ElseIf (newestSourceFile.Date_.CompareTo(sourceFile.Date_) < 0) Then
+                    '    newestSourceFile = sourceFile
+                    'End If
 
                 ElseIf (regexMDBFile.Match(file.Name).Success) And (plantProduction.getPlantType = Constants.Settings.UsineType.CSV Or plantProduction.getPlantType = Constants.Settings.UsineType.MDB) Then
-
 
                     For Each nouvelleDate As Date In getNouvellesDates(getLastDate(), file.FullName)
 
                         Dim sourceFile As New SourceFile(file.FullName, New SourceFileMarcotteAdapter(), nouvelleDate)
+
                         Me.discontinueSourceFileList.Add(sourceFile)
 
-                        If (IsNothing(newestSourceFile)) Then
-                            newestSourceFile = sourceFile
-                        ElseIf (newestSourceFile.Date_.CompareTo(sourceFile.Date_) < 0) Then
-                            'newestSourceFile = sourceFile
-                        End If
+                        'If (IsNothing(newestSourceFile)) Then
+                        '    newestSourceFile = sourceFile
+                        'ElseIf (newestSourceFile.Date_.CompareTo(sourceFile.Date_) < 0) Then
+                        '    newestSourceFile = sourceFile
+                        'End If
                     Next
 
                 End If
             Next
         End If
-
-        'If eventDirectory.Exists Then
-        '    Dim regexEventFile As New System.Text.RegularExpressions.Regex(Constants.Input.Events.FILE_NAME_REGEX)
-
-        '    For Each file As IO.FileInfo In eventDirectory.GetFiles
-
-        '            If (regexEventFile.Match(file.Name).Success) And (PlantProduction.getPlantType = Constants.Settings.UsineType.LOG Or PlantProduction.getPlantType = Constants.Settings.UsineType.HYBRID) Then
-
-        '                continueSourceFileComplementList.Add(file.FullName)
-        '            End If
-
-        '    Next
-        'End If
-
 
 
         Dim allFileToImport As List(Of DataFile) = New List(Of DataFile)

@@ -14,8 +14,114 @@
         Me.debutPeriode = debutPeriode
         Me.finPeriode = finPeriode
         dateCreationRapport = Date.Now
-        productionDayList = PlantProduction.getProductionDay(debutPeriode, finPeriode)
 
+        Dim continueSourceFileList As List(Of SourceFile)
+        Dim discontinueSourceFileList As List(Of SourceFile)
+        Dim continueSourceFileComplementList As List(Of String)
+        Dim discontinueSourceFileComplementList As List(Of String)
+        Dim productionDayList As List(Of ProductionDay_1)
+        Dim productionDayFactory As ProductionDayFactory
+
+        continueSourceFileList = New List(Of SourceFile)
+        discontinueSourceFileList = New List(Of SourceFile)
+        continueSourceFileComplementList = New List(Of String)
+        discontinueSourceFileComplementList = New List(Of String)
+        productionDayFactory = New ProductionDayFactory
+        productionDayList = New List(Of ProductionDay_1)
+
+        Dim productionDay As ProductionDay_1
+
+        continueSourceFileList.Clear()
+        discontinueSourceFileList.Clear()
+
+        Dim logDirectory As IO.DirectoryInfo = New IO.DirectoryInfo(Constants.Paths.LOG_ARCHIVES_DIRECTORY)
+        Dim csvDirectory As IO.DirectoryInfo = New IO.DirectoryInfo(Constants.Paths.CSV_ARCHIVES_DIRECTORY)
+        Dim eventDirectory As IO.DirectoryInfo = New IO.DirectoryInfo(Constants.Paths.EVENTS_ARCHIVES_DIRECTORY)
+
+
+
+        Dim newestSourceFile As SourceFile = Nothing
+
+        Dim regexLogFile As New System.Text.RegularExpressions.Regex(Constants.Input.LOG.FILE_NAME_REGEX)
+        Dim regexEventFile As New System.Text.RegularExpressions.Regex(Constants.Input.Events.FILE_NAME_REGEX)
+        Dim regexCSVFile As New System.Text.RegularExpressions.Regex(Constants.Input.CSV.FILE_NAME_REGEX)
+        Dim regexMDBFile As New System.Text.RegularExpressions.Regex(Constants.Input.MDB.FILE_NAME_REGEX)
+
+        For Each file As IO.FileInfo In logDirectory.GetFiles
+
+            If (regexLogFile.Match(file.Name).Success) And (PlantProduction.getPlantType = Constants.Settings.UsineType.LOG Or PlantProduction.getPlantType = Constants.Settings.UsineType.HYBRID) Then
+                Dim sourceFile As New SourceFile(file.FullName, New SourceFileLogAdapter())
+
+                If eventDirectory.Exists Then
+                    For Each eventfile As IO.FileInfo In eventDirectory.GetFiles
+                        If (sourceFile.Date_.Year.ToString + sourceFile.Date_.Month.ToString + sourceFile.Date_.Day.ToString + ".log").Equals(eventfile.Name) Then
+                            sourceFile.setEventFilePath(eventfile.FullName)
+                        End If
+
+                    Next
+                End If
+
+                continueSourceFileList.Add(sourceFile)
+            End If
+
+        Next
+
+        For Each file As IO.FileInfo In csvDirectory.GetFiles
+
+            If (regexCSVFile.Match(file.Name).Success) And (PlantProduction.getPlantType = Constants.Settings.UsineType.CSV Or PlantProduction.getPlantType = Constants.Settings.UsineType.MDB Or PlantProduction.getPlantType = Constants.Settings.UsineType.HYBRID) Then
+                Dim sourceFile As New SourceFile(file.FullName, New SourceFileCSVAdapter())
+
+                discontinueSourceFileList.Add(sourceFile)
+            End If
+        Next
+
+        If PlantProduction.getPlantType = Constants.Settings.UsineType.HYBRID Then
+
+            For Each continueSourceFile As SourceFile In continueSourceFileList
+                If (continueSourceFile.Date_ >= New Date(debutPeriode.Year, debutPeriode.Month, debutPeriode.Day) And continueSourceFile.Date_ <= New Date(finPeriode.Year, finPeriode.Month, finPeriode.Day)) Then
+
+                    If discontinueSourceFileList.Contains(continueSourceFile) Then
+                        productionDay = productionDayFactory.createProductionDayHybrid(continueSourceFile, discontinueSourceFileList.Item(discontinueSourceFileList.IndexOf(continueSourceFile)))
+
+                        productionDay.setSourceFileComplementPathContinue(continueSourceFile.getEventFilePath)
+
+                        productionDayList.Add(productionDay)
+
+                    Else
+                        productionDay = productionDayFactory.createProductionDayHybrid(continueSourceFile)
+                        productionDay.setSourceFileComplementPathContinue(continueSourceFile.getEventFilePath)
+                        productionDayList.Add(productionDay)
+
+
+                    End If
+                End If
+
+            Next
+
+        ElseIf PlantProduction.getPlantType = Constants.Settings.UsineType.LOG Then
+
+            For Each continueSourceFile As SourceFile In continueSourceFileList
+                If (continueSourceFile.Date_ >= New Date(debutPeriode.Year, debutPeriode.Month, debutPeriode.Day) And continueSourceFile.Date_ <= New Date(finPeriode.Year, finPeriode.Month, finPeriode.Day)) Then
+                    productionDay = productionDayFactory.createProductionDayContinue(continueSourceFile)
+                    productionDay.setSourceFileComplementPathContinue(continueSourceFile.getEventFilePath)
+                    productionDayList.Add(productionDay)
+                End If
+
+
+            Next
+
+        ElseIf PlantProduction.getPlantType = Constants.Settings.UsineType.CSV Or PlantProduction.getPlantType = Constants.Settings.UsineType.MDB Then
+
+            For Each discontinueSourceFile As SourceFile In discontinueSourceFileList
+                If (discontinueSourceFile.Date_ >= New Date(debutPeriode.Year, debutPeriode.Month, debutPeriode.Day) And discontinueSourceFile.Date_ <= New Date(finPeriode.Year, finPeriode.Month, finPeriode.Day)) Then
+                    productionDay = productionDayFactory.createProductionDayDiscontinue(discontinueSourceFile)
+                    productionDayList.Add(productionDay)
+                End If
+            Next
+
+        End If
+
+        Me.productionDayList = productionDayList
 
     End Sub
 

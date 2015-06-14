@@ -112,6 +112,12 @@
 
         If IsNothing(producedMixSortDecending.Item(0)) Then
             mixProductionTimeEnrobe1 = TimeSpan.Zero
+
+            ligneEnrobe1.Insert(EnumDailyReportTableauIndex.colonne_Enrobe1NoFormule, "")
+            ligneEnrobe1.Insert(EnumDailyReportTableauIndex.colonne_Enrobe1NomEnrobe, "")
+            ligneEnrobe1.Insert(EnumDailyReportTableauIndex.colonne_Enrobe1Quantite, "0")
+            ligneEnrobe1.Insert(EnumDailyReportTableauIndex.colonne_Enrobe1Production, "0")
+            ligneEnrobe1.Insert(EnumDailyReportTableauIndex.colonne_Enrobe1ProductionMode, "")
         Else
 
             '' Ligne Enrobe 1
@@ -122,17 +128,24 @@
             ligneEnrobe1.Insert(EnumDailyReportTableauIndex.colonne_Enrobe1Quantite, TryCast(producedMixSortDecending.Item(0), ProducedMix).getMixMass)
             ligneEnrobe1.Insert(EnumDailyReportTableauIndex.colonne_Enrobe1Production, TryCast(producedMixSortDecending.Item(0), ProducedMix).getMixDebit)
             ligneEnrobe1.Insert(EnumDailyReportTableauIndex.colonne_Enrobe1ProductionMode, producedMixSortDecending.Item(1))
-
-            tableauEnrobes.Insert(EnumDailyReportTableauIndex.ligne_Enrobe1, ligneEnrobe1)
-
-            '' Ligne Enrobe 2
-
         End If
+        tableauEnrobes.Insert(EnumDailyReportTableauIndex.ligne_Enrobe1, ligneEnrobe1)
+
+        '' Ligne Enrobe 2
+
+
 
         Dim mixProductionTimeEnrobe2 As TimeSpan
 
         If IsNothing(producedMixSortDecending.Item(2)) Then
             mixProductionTimeEnrobe2 = TimeSpan.Zero
+
+            ligneEnrobe2.Insert(EnumDailyReportTableauIndex.colonne_Enrobe2NoFormule, "")
+            ligneEnrobe2.Insert(EnumDailyReportTableauIndex.colonne_Enrobe2NomEnrobe, "")
+            ligneEnrobe2.Insert(EnumDailyReportTableauIndex.colonne_Enrobe2Quantite, "0")
+            ligneEnrobe2.Insert(EnumDailyReportTableauIndex.colonne_Enrobe2Production, "0")
+            ligneEnrobe2.Insert(EnumDailyReportTableauIndex.colonne_Enrobe2ProductionMode, "")
+
         Else
             mixProductionTimeEnrobe2 = TryCast(producedMixSortDecending.Item(2), ProducedMix).getTempsDeProduction
 
@@ -148,6 +161,12 @@
 
         If IsNothing(producedMixSortDecending.Item(4)) Then
             mixProductionTimeEnrobe3 = TimeSpan.Zero
+
+            ligneEnrobe3.Insert(EnumDailyReportTableauIndex.colonne_Enrobe3NoFormule, "")
+            ligneEnrobe3.Insert(EnumDailyReportTableauIndex.colonne_Enrobe3NomEnrobe, "")
+            ligneEnrobe3.Insert(EnumDailyReportTableauIndex.colonne_Enrobe3Quantite, "0")
+            ligneEnrobe3.Insert(EnumDailyReportTableauIndex.colonne_Enrobe3Production, "0")
+            ligneEnrobe3.Insert(EnumDailyReportTableauIndex.colonne_Enrobe3ProductionMode, "")
         Else
             '' Ligne Enrobe 3
             mixProductionTimeEnrobe3 = TryCast(producedMixSortDecending.Item(4), ProducedMix).getTempsDeProduction
@@ -165,6 +184,10 @@
 
         If IsNothing(producedMixSortDecending.Item(4)) Then
             totalMixProductionTimeAutre = TimeSpan.Zero
+
+            ligneEnrobeAutres.Insert(EnumDailyReportTableauIndex.colonne_EnrobeAutreNombre, "0")
+            ligneEnrobeAutres.Insert(EnumDailyReportTableauIndex.colonne_EnrobeAutreQuantite, "0")
+            ligneEnrobeAutres.Insert(EnumDailyReportTableauIndex.colonne_EnrobeAutreProduction, 0)
         Else
 
             '' Ligne Enrobe Autres
@@ -180,9 +203,14 @@
         '' Ligne Quantitée Totale produite
 
         ligneQuantiteTotaleProduite.Insert(EnumDailyReportTableauIndex.colonne_QuantiteTotaleProduiteQuantite, totalMixMass)
-        ligneQuantiteTotaleProduite.Insert(EnumDailyReportTableauIndex.colonne_QuantiteTotaleProduiteProduction, totalMixMass /
+        If (Not totalMixMass = 0) Then
+            ligneQuantiteTotaleProduite.Insert(EnumDailyReportTableauIndex.colonne_QuantiteTotaleProduiteProduction, totalMixMass /
                                  (totalMixProductionTimeAutre.TotalHours + mixProductionTimeEnrobe3.TotalHours + mixProductionTimeEnrobe2.TotalHours + mixProductionTimeEnrobe1.TotalHours))
+        Else
+            ligneQuantiteTotaleProduite.Insert(EnumDailyReportTableauIndex.colonne_QuantiteTotaleProduiteProduction, 0)
+        End If
 
+        
         tableauEnrobes.Insert(EnumDailyReportTableauIndex.ligne_QuantiteTotaleProduite, ligneQuantiteTotaleProduite)
 
         '' Ligne Quantitée silo (début de jounée)
@@ -681,9 +709,9 @@
                 indexColonneEntete += 1
             Next
 
-            tableauProduction.Insert(EnumDailyReportTableauIndex.ligne_SommaireEntete, ligneSommaireEntete)
-
         End If
+
+        tableauProduction.Insert(EnumDailyReportTableauIndex.ligne_SommaireEntete, ligneSommaireEntete)
 
         For Each producedMix As ProducedMix In producedMixList
 
@@ -1242,17 +1270,20 @@
         Dim nombreDeChangement As Integer = 0
         Dim previousProductionCycle As ProductionCycle
 
-        previousProductionCycle = productionCycleList.Item(0)
+        If (Not productionCycleList.Count = 0) Then
+            previousProductionCycle = productionCycleList.Item(0)
+            For Each productionCycle As ProductionCycle In productionCycleList
+                If Not productionCycle.Equals(productionCycleList.Item(0)) Then
 
-        For Each productionCycle As ProductionCycle In productionCycleList
-            If Not productionCycle.Equals(productionCycleList.Item(0)) Then
-
-                If Not productionCycle.getProducedMix.getMixNumber.Equals(previousProductionCycle.getProducedMix.getMixNumber) Then
-                    nombreDeChangement = nombreDeChangement + 1
+                    If Not productionCycle.getProducedMix.getMixNumber.Equals(previousProductionCycle.getProducedMix.getMixNumber) Then
+                        nombreDeChangement = nombreDeChangement + 1
+                    End If
+                    previousProductionCycle = productionCycle
                 End If
-                previousProductionCycle = productionCycle
-            End If
-        Next
+            Next
+        Else
+            nombreDeChangement = 0
+        End If
 
         Return nombreDeChangement
     End Function
