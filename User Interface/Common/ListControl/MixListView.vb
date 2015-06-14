@@ -1,5 +1,5 @@
 ﻿Namespace UI
-    Public Class CalalogListView
+    Public Class MixListView
         Inherits Panel
 
         Private WithEvents gridViewContainer As DataGridView
@@ -8,8 +8,9 @@
         Private catalogName As String = ""
         Private catalogContainer As CatalogContainer
 
-        Private newCatalogContainerId As System.Windows.Forms.TextBox
-        Private newDescription As System.Windows.Forms.TextBox
+        Private newCatalogContainerId As UI.Common.TextField
+        Private newDescription As UI.Common.TextField
+        Private targetTemperature As UI.Common.TextField
         Private newEffectiveDate As UI.Common.DatePickerPanel
         Friend WithEvents btn_CatalogContainerAdd As System.Windows.Forms.Button
 
@@ -32,7 +33,7 @@
             '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
             Dim columnId = New DataGridViewTextBoxColumn()
-            columnId.HeaderText = "No réservoir"
+            columnId.HeaderText = "No formule"
             columnId.Width = 100
             columnId.Resizable = False
 
@@ -40,14 +41,9 @@
             columnDescription.HeaderText = "Description"
             columnDescription.Width = 100
 
-            Dim columnRap = New DataGridViewCheckBoxColumn()
-            columnRap.HeaderText = "Recyclé"
-            columnRap.Width = 70
-            columnRap.Resizable = False
-
-            Dim columnAsphaltPercentage = New DataGridViewTextBoxColumn()
-            columnAsphaltPercentage.HeaderText = "Pourcentage A/C"
-            columnAsphaltPercentage.Width = 115
+            Dim columnTemperature = New DataGridViewTextBoxColumn()
+            columnTemperature.HeaderText = "Température visée"
+            columnTemperature.Width = 115
 
             Dim columnDelete = New DataGridViewButtonColumn()
             columnDelete.HeaderText = ""
@@ -59,8 +55,7 @@
             gridViewContainer = New DataGridView
             gridViewContainer.Columns.Add(columnId)
             gridViewContainer.Columns.Add(columnDescription)
-            gridViewContainer.Columns.Add(columnRap)
-            gridViewContainer.Columns.Add(columnAsphaltPercentage)
+            gridViewContainer.Columns.Add(columnTemperature)
             gridViewContainer.Columns.Add(columnDelete)
             gridViewContainer.AllowUserToAddRows = False
             gridViewContainer.Location = New Point(0, 100)
@@ -81,7 +76,7 @@
             '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
             Dim columnId_containerItem = New DataGridViewTextBoxColumn()
-            columnId_containerItem.HeaderText = "No réservoir"
+            columnId_containerItem.HeaderText = "No formule"
             columnId_containerItem.Width = 100
             columnId_containerItem.Resizable = False
 
@@ -89,14 +84,9 @@
             columnDescription_containerItem.HeaderText = "Description"
             columnDescription_containerItem.Width = 100
 
-            Dim columnRap_containerItem = New DataGridViewCheckBoxColumn()
-            columnRap_containerItem.HeaderText = "Recyclé"
-            columnRap_containerItem.Width = 70
-            columnRap_containerItem.Resizable = False
-
-            Dim columnAsphaltPercentage_containerItem = New DataGridViewTextBoxColumn()
-            columnAsphaltPercentage_containerItem.HeaderText = "Pourcentage A/C"
-            columnAsphaltPercentage_containerItem.Width = 115
+            Dim columnTemperature_containerItem = New DataGridViewTextBoxColumn()
+            columnTemperature_containerItem.HeaderText = "Température visée"
+            columnTemperature_containerItem.Width = 115
 
             Dim columnEffectiveDate_containerItem = New DataGridViewTextBoxColumn()
             columnEffectiveDate_containerItem.HeaderText = "Date effective"
@@ -117,8 +107,7 @@
             gridViewContainerItem = New DataGridView
             gridViewContainerItem.Columns.Add(columnId_containerItem)
             gridViewContainerItem.Columns.Add(columnDescription_containerItem)
-            gridViewContainerItem.Columns.Add(columnRap_containerItem)
-            gridViewContainerItem.Columns.Add(columnAsphaltPercentage_containerItem)
+            gridViewContainerItem.Columns.Add(columnTemperature_containerItem)
             gridViewContainerItem.Columns.Add(columnEffectiveDate_containerItem)
             gridViewContainerItem.Columns.Add(columnEdit_containerItem)
             gridViewContainerItem.Columns.Add(columnDelete_containerItem)
@@ -132,17 +121,24 @@
             gridViewContainerItem.SelectionMode = DataGridViewSelectionMode.FullRowSelect
 
             Me.AutoSize = True
-            Me.newCatalogContainerId = New System.Windows.Forms.TextBox
-            Me.newDescription = New System.Windows.Forms.TextBox
+            Me.newCatalogContainerId = New UI.Common.TextField
+            Me.newDescription = New UI.Common.TextField
+            Me.targetTemperature = New UI.Common.TextField
             Me.newEffectiveDate = New UI.Common.DatePickerPanel
 
             Me.newCatalogContainerId.Location = New Point(0, 0)
-            Me.newCatalogContainerId.Size = New Size(35, LayoutManager.FIELDS_HEIGHT)
+            Me.newCatalogContainerId.Size = New Size(150, LayoutManager.FIELDS_HEIGHT)
+            Me.newCatalogContainerId.PlaceHolder = "No réservoir"
 
             Me.newDescription.Location = New Point(Me.newCatalogContainerId.Location.X + Me.newCatalogContainerId.Width + 20, Me.newCatalogContainerId.Location.Y)
             Me.newDescription.Size = New Size(150, LayoutManager.FIELDS_HEIGHT)
+            Me.newDescription.PlaceHolder = "Description"
 
-            Me.newEffectiveDate.Location = New Point(Me.newDescription.Location.X + Me.newDescription.Width + 5, Me.newDescription.Location.Y)
+            Me.targetTemperature.Location = New Point(Me.newDescription.Location.X + Me.newDescription.Width + 20, Me.newDescription.Location.Y)
+            Me.targetTemperature.Size = New Size(150, LayoutManager.FIELDS_HEIGHT)
+            Me.targetTemperature.PlaceHolder = "Température visée"
+
+            Me.newEffectiveDate.Location = New Point(Me.targetTemperature.Location.X + Me.targetTemperature.Width + 5, Me.targetTemperature.Location.Y)
             Me.newEffectiveDate.Size = New Size(163, 60)
 
             Me.newEffectiveDate.LayoutType = UI.Common.DatePickerPanel.LayoutTypes.SingleDatePicker
@@ -152,6 +148,7 @@
             Me.btn_CatalogContainerAdd.Image = Constants.UI.Images._16x16.ADD
 
             Me.Controls.Add(Me.newCatalogContainerId)
+            Me.Controls.Add(Me.targetTemperature)
             Me.Controls.Add(Me.newDescription)
             Me.Controls.Add(Me.newEffectiveDate)
             Me.Controls.Add(Me.btn_CatalogContainerAdd)

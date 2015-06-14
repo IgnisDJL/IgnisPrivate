@@ -674,7 +674,7 @@
                 Dim infosFeeder As ArrayList = New ArrayList
 
                 infosFeeder.Insert(EnumDailyReportTableauIndex.colonne_SommaireEnteteFeederID, feeder.getFeederID)
-                infosFeeder.Insert(EnumDailyReportTableauIndex.colonne_SommaireEnteteFeederName, feeder.getFeederName(getDebutPeriode))
+                infosFeeder.Insert(EnumDailyReportTableauIndex.colonne_SommaireEnteteFeederName, feeder.getFeederDescription(getDebutPeriode))
 
                 ligneSommaireEntete.Insert(indexColonneEntete, infosFeeder)
 

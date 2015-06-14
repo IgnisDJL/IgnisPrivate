@@ -1,16 +1,16 @@
 ﻿Namespace UI
 
-    Public Class CatalogSettingsView
+    Public Class FeederSettingsView
         Inherits SettingsView
 
         ' Constants
-        Public Shared ReadOnly VIEW_NAME As String = "Catalogues"
+        Public Shared ReadOnly VIEW_NAME As String = "Bennes"
 
 
         ' Components
         ' !LAYOUT!
-        Private catalog As CalalogListView
-        
+        Private catalog As FeederListView
+
         ' Attributes
         Private _feedsSettings As FeedsSettingsController
 
@@ -31,7 +31,7 @@
             Me.AutoScroll = True
 
             ' Not the real values, just place holders
-            Me.catalog = New CalalogListView(Plant.feederCatalog)
+            Me.catalog = New FeederListView(Plant.feederCatalog)
             Me.catalog.TabIndex = 1
 
             Me.RedoButton.TabIndex = 4

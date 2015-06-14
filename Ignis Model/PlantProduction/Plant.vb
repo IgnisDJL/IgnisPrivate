@@ -1,6 +1,7 @@
 ﻿Module Plant
     Private _feederCatalog As CatalogContainer
     Private _asphaltCatalog As CatalogContainer
+    Private _mixCatalog As CatalogContainer
     Private _recipeCatalog As CatalogRecipe
 
     Sub New()
@@ -23,6 +24,16 @@
             End If
 
             Return _asphaltCatalog
+        End Get
+    End Property
+
+    Public ReadOnly Property mixCatalog() As CatalogContainer
+        Get
+            If (IsNothing(_mixCatalog)) Then
+                _mixCatalog = New CatalogContainer()
+            End If
+
+            Return _mixCatalog
         End Get
     End Property
 

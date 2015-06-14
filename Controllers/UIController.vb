@@ -26,7 +26,9 @@ Public Class UIController
     Private _usineSettingsView As UsineSettingsView
     Private _dataFilesSettingsView As DataFilesSettingsView
     Private _feedsSettingsView As FeedsSettingsView
-    Private _catalogueSettingsView As CatalogSettingsView
+    Private _feederSettingsView As FeederSettingsView
+    Private _mixSettingsView As MixSettingsView
+    Private _asphaltSettingsView As AsphaltSettingsView
     Private _mixAndAsphaltSettingsView As MixAndAsphaltSettingsView
     Private _eventsSettingsView As EventsSettingsView
     Private _reportsSettingsView As ReportsSettingsView
@@ -62,7 +64,11 @@ Public Class UIController
         Me._usineSettingsView = New UsineSettingsView
         Me._dataFilesSettingsView = New DataFilesSettingsView
         Me._feedsSettingsView = New FeedsSettingsView
-        Me._catalogueSettingsView = New CatalogSettingsView
+        Me._feederSettingsView = New FeederSettingsView
+
+        Me._mixSettingsView = New MixSettingsView
+        Me._asphaltSettingsView = New AsphaltSettingsView
+
         Me._mixAndAsphaltSettingsView = New MixAndAsphaltSettingsView
         Me._eventsSettingsView = New EventsSettingsView
         Me._reportsSettingsView = New ReportsSettingsView
@@ -71,9 +77,12 @@ Public Class UIController
 
         Me._settingsFrame.addSettingView(Me._usineSettingsView)
         Me._settingsFrame.addSettingView(Me._dataFilesSettingsView)
-        Me._settingsFrame.addSettingView(Me._feedsSettingsView)
-        Me._settingsFrame.addSettingView(Me._catalogueSettingsView)
-        Me._settingsFrame.addSettingView(Me._mixAndAsphaltSettingsView)
+
+        Me._settingsFrame.addSettingView(Me._feederSettingsView)
+        Me._settingsFrame.addSettingView(Me._mixSettingsView)
+        Me._settingsFrame.addSettingView(Me._asphaltSettingsView)
+
+        'Me._settingsFrame.addSettingView(Me._mixAndAsphaltSettingsView)
         Me._settingsFrame.addSettingView(Me._eventsSettingsView)
         Me._settingsFrame.addSettingView(Me._reportsSettingsView)
         Me._settingsFrame.addSettingView(Me._emailSettingsView)
@@ -207,9 +216,21 @@ Public Class UIController
         End Get
     End Property
 
-    Public ReadOnly Property CatalogueSettingsView As CatalogSettingsView
+    Public ReadOnly Property FeederSettingsView As FeederSettingsView
         Get
-            Return Me._catalogueSettingsView
+            Return Me._feederSettingsView
+        End Get
+    End Property
+
+    Public ReadOnly Property MixSettingsView As MixSettingsView
+        Get
+            Return Me._mixSettingsView
+        End Get
+    End Property
+
+    Public ReadOnly Property AsphaltSettingsView As AsphaltSettingsView
+        Get
+            Return Me._asphaltSettingsView
         End Get
     End Property
 

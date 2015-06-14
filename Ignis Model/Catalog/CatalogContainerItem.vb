@@ -24,22 +24,34 @@
     End Function
 
     Private Function getClosestEffectiveDate(productionDate As Date) As Date
-        Dim closestEffectiveDate As Date
+        Dim closestEffectiveDate As Date = New Date(1, 1, 1)
+        Dim minEffectiveDate As Date
 
-        For Each effectiveDate As Date In _catalogContainerItem.Keys
+        If _catalogContainerItem.Keys.Count > 0 Then
+            minEffectiveDate = _catalogContainerItem.Keys(0)
 
-            If effectiveDate.Date <= productionDate.Date Then
+            For Each effectiveDate As Date In _catalogContainerItem.Keys
 
-                If IsNothing(closestEffectiveDate) Then
-                    closestEffectiveDate = effectiveDate
-
-                ElseIf effectiveDate.Date > closestEffectiveDate Then
-                    closestEffectiveDate = effectiveDate
+                If effectiveDate < minEffectiveDate Then
+                    minEffectiveDate = effectiveDate
                 End If
+
+                If effectiveDate <= productionDate Then
+
+                    If closestEffectiveDate = New Date(1, 1, 1) Then
+                        closestEffectiveDate = effectiveDate
+
+                    ElseIf effectiveDate > closestEffectiveDate Then
+                        closestEffectiveDate = effectiveDate
+                    End If
+                End If
+            Next
+
+            If closestEffectiveDate = New Date(1, 1, 1) Then
+                closestEffectiveDate = minEffectiveDate
             End If
 
-        Next
-
+        End If
         Return closestEffectiveDate
     End Function
 
