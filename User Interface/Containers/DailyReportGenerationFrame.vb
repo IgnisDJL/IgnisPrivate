@@ -60,7 +60,7 @@
             Me.manualDataStepLabel = New Label
             Me.manualDataStepLabel.TextAlign = ContentAlignment.MiddleLeft
             Me.manualDataStepLabel.AutoSize = False
-            Me.manualDataStepLabel.Text = "Opérateur"
+            Me.manualDataStepLabel.Text = "Données complémentaires"
             Me.manualDataStepLabel.ImageAlign = ContentAlignment.MiddleRight
 
             Me.delaysJustificationStepLabel = New Label

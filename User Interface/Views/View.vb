@@ -1,6 +1,6 @@
 ﻿Namespace UI
 
-    Public MustInherit Class View
+    Public Class View
         Inherits Panel
 
         Protected Shadows layout As LayoutManager
@@ -26,25 +26,40 @@
             ajustLayoutFinal(container)
         End Sub
 
-        Protected MustOverride Sub initializeComponents()
+        Protected Overridable Sub initializeComponents()
+
+        End Sub
 
         ''' <summary>
         ''' Ajusts the location, size and other size related attributes of the view's components
         ''' </summary>
         ''' <param name="newSize">The ClientSize of the parent container</param>
         ''' <remarks>Size has been set and layout computed in the View.ajustLayout(container) method</remarks>
-        Protected MustOverride Sub ajustLayout(newSize As Size)
+        Protected Overridable Sub ajustLayout(newSize As Size)
 
-        ' Called after the resize event of the main window
-        Protected MustOverride Sub ajustLayoutFinal(newSize As Size)
+            ' Called after the resize event of the main window
+        End Sub
+        Protected Overridable Sub ajustLayoutFinal(newSize As Size)
 
-        Protected MustOverride Sub beforeShow()
+        End Sub
 
-        Public MustOverride Sub afterShow()
+        Protected Overridable Sub beforeShow()
 
-        Public MustOverride Sub onHide() Handles Me.Disposed
+        End Sub
 
-        Public MustOverride Shadows ReadOnly Property Name As String
+        Public Overridable Sub afterShow()
+
+        End Sub
+
+        Public Overridable Sub onHide() Handles Me.Disposed
+
+        End Sub
+
+        Public Overridable Shadows ReadOnly Property Name As String
+            Get
+                Return ""
+            End Get
+        End Property
 
         Public ReadOnly Property LayoutManager As LayoutManager
             Get

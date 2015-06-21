@@ -29,12 +29,29 @@ Public Class ReportGenerationController_1
 
     End Sub
 
+    Public Sub startDailyReportGenerationSequence(dateDebut As Date, dateFin As Date, operateur As String)
+
+        ProgramController.UIController.changeView(ProgramController.UIController.ReportGenerationFrame)
+        Me.createReport(dateDebut, dateFin, operateur)
+
+    End Sub
+
     Private Sub createReport(dateDebut As Date, dateFin As Date)
 
         Me._generationCancelled = False
         AddHandler ProgramController.UIController.MainFrame.FormClosing, Me.cancelGenerationHandler
 
         report = dailyReportFactory.createDailyReport(dateDebut, dateFin)
+        startManualDataStep(report)
+    End Sub
+
+    Private Sub createReport(dateDebut As Date, dateFin As Date, operateur As String)
+
+        Me._generationCancelled = False
+        AddHandler ProgramController.UIController.MainFrame.FormClosing, Me.cancelGenerationHandler
+
+        report = dailyReportFactory.createDailyReport(dateDebut, dateFin)
+        report.setOperateur(operateur)
         startManualDataStep(report)
     End Sub
 

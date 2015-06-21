@@ -153,7 +153,7 @@ Public Class ProductionDay
 
                 If (IsNothing(_manualData)) Then
 
-                    _manualData = New ManualData(Me.Date_, Me.Statistics.CT01_ProductionStartTime, Me.Statistics.CT01_ProductionEndTime, Me.Statistics.ContinuousProduction.Quantity + Me.Statistics.DiscontinuousProduction.Quantity)
+                    _manualData = New ManualData(Me.Date_, Me.Date_, Me.Statistics.CT01_ProductionStartTime, Me.Statistics.CT01_ProductionEndTime, Me.Statistics.ContinuousProduction.Quantity + Me.Statistics.DiscontinuousProduction.Quantity)
 
                 End If
             End If

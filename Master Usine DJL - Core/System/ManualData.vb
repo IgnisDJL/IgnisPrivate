@@ -10,7 +10,8 @@
     Public Shared ReadOnly INVALID_QUANTITY As Double = Double.NaN
 
     ' ReadOnly
-    Private _date As Date
+    Private _date1 As Date
+    Private _date2 As Date
     Private productionStartTime As Date
     Private productionStopTime As Date
     Private producedQuantity As Integer
@@ -48,9 +49,10 @@
     Private isRejectedFillerQuantityValid As Boolean = False
     Private isRejectedRecycledQuantityValid As Boolean = False
 
-    Public Sub New(_date As Date, productionStartTime As Date, productionStopTime As Date, producedQuantity As Integer)
+    Public Sub New(_date1 As Date, _date2 As Date, productionStartTime As Date, productionStopTime As Date, producedQuantity As Integer)
 
-        Me._date = _date
+        Me._date1 = _date1
+        Me._date2 = _date2
         Me.productionStartTime = productionStartTime.Subtract(TimeSpan.FromSeconds(productionStartTime.Second))
         Me.productionStopTime = productionStopTime.Subtract(TimeSpan.FromSeconds(productionStopTime.Second))
         Me.producedQuantity = producedQuantity
@@ -91,7 +93,8 @@
                    boilerAtEnd As Double)
 
 
-        Me._date = _date
+        Me._date1 = _date1
+        Me._date2 = _date2
         Me.productionStartTime = productionStartTime
         Me.productionStopTime = productionStopTime
         Me.producedQuantity = producedQuantity
@@ -144,9 +147,14 @@
 
     Public Property FACTORY_OPERATOR As FactoryOperator = FactoryOperator.DEFAULT_OPERATOR
 
-    Public ReadOnly Property DATE_ As Date
+    Public ReadOnly Property DATE_1 As Date
         Get
-            Return Me._date
+            Return Me._date1
+        End Get
+    End Property
+    Public ReadOnly Property DATE_2 As Date
+        Get
+            Return Me._date2
         End Get
     End Property
 

@@ -1116,7 +1116,7 @@ Public Class SummaryDailyReportGenerator_1
             ' Signature
             ' ----------
 
-            If (Not dailyReport.getUsineOperator() = FactoryOperator.DEFAULT_OPERATOR) Then
+            If (Not dailyReport.getUsineOperator() = FactoryOperator.DEFAULT_OPERATOR.ToString) Then
 
                 bookMarks.LA01_OperatorName.Text = dailyReport.getUsineOperator().ToString()
             End If

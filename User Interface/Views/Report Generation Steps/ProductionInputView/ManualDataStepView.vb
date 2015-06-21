@@ -4,10 +4,7 @@
         Inherits GenerationStepView
 
         ' Constants
-        Private Shared ReadOnly VIEW_NAME As String = "Données supplémentaires"
-
-        Private Shared ReadOnly SHOW_OPTIONAL_FIELDS As String = "▼ Données optionnelles"
-        Private Shared ReadOnly HIDE_OPTIONAL_FIELDS As String = "▲ Données optionnelles"
+        Private Shared ReadOnly VIEW_NAME As String = "Données complémentaires"
 
         Private Shared ReadOnly FIELDS_HEIGHT As Integer = 30
         Private Shared ReadOnly OPERATOR_LABEL_WIDTH As Integer = 200
@@ -21,12 +18,6 @@
         Private dailyQuantityAndTimesLabel As Label
 
         ' --- Mandatory
-        Private operatorLabel As Label
-        Private WithEvents operatorCombobox As ComboBox
-
-        Private operationsLabel As Label
-        Private WithEvents operationStartTimeField As ManualDataTimeField
-        Private WithEvents operationEndTimeField As ManualDataTimeField
 
         Private silosLabel As Label
         Private WithEvents siloQuantityAtStartField As ManualDataQuantityField
@@ -45,8 +36,6 @@
         ' --- Optional
         Private weightStationLabel As Label
         Private WithEvents weightedQuantityField As ManualDataQuantityField
-        Private WithEvents firstLoadingTimeField As ManualDataTimeField
-        Private WithEvents lastLoadingTimeField As ManualDataTimeField
         Private percentageDiffLabel As Label
 
         Private fuelLabel As Label
@@ -55,14 +44,9 @@
         Private WithEvents fuelQuantityAtStart2Field As ManualDataQuantityField
         Private WithEvents fuelQuantityAtEnd2Field As ManualDataQuantityField
 
-        'Private hourCountersLabel As Label
-        'Private WithEvents drumsHourCounterAtStartField As ManualDataQuantityField
-        'Private WithEvents drumsHourCounterAtEndField As ManualDataQuantityField
-        'Private WithEvents boilerHourCounterAtStartField As ManualDataQuantityField
-        'Private WithEvents boilerHourCounterAtEndField As ManualDataQuantityField
 
         ' --- Buttons
-        Private WithEvents toggleOptionalFieldsButton As Button
+
         Private WithEvents nextButton As Common.NextButton
         Private WithEvents skipButton As Button
         ' settings button for the operators?
@@ -101,31 +85,7 @@
             Me.dailyQuantityAndTimesLabel.TextAlign = ContentAlignment.MiddleCenter
             Me.dailyQuantityAndTimesLabel.ForeColor = Constants.UI.Colors.DARK_GREY
 
-            Me.operatorLabel = New Label
-            Me.operatorLabel.AutoSize = False
-            Me.operatorLabel.TextAlign = ContentAlignment.MiddleLeft
-            Me.operatorLabel.Text = "Opérateur"
 
-            Me.operatorCombobox = New ComboBox
-            Me.operatorCombobox.DropDownStyle = ComboBoxStyle.DropDownList
-
-            Me.operatorCombobox.Items.Add(FactoryOperator.DEFAULT_OPERATOR)
-            For Each operatorInfo As XmlSettings.OperatorsNode.OperatorInfo In XmlSettings.Settings.instance.Usine.OperatorsInfo.OPERATORS
-
-                Me.operatorCombobox.Items.Add(New FactoryOperator(operatorInfo.FIRST_NAME, operatorInfo.LAST_NAME))
-
-            Next
-
-            ' Operations section
-            Me.operationsLabel = New Label
-            Me.operationsLabel.AutoSize = False
-            Me.operationsLabel.ForeColor = Constants.UI.Colors.DARK_GREY
-            Me.operationsLabel.Font = Constants.UI.Fonts.DEFAULT_FONT_UNDERLINED
-            Me.operationsLabel.TextAlign = ContentAlignment.MiddleCenter
-            Me.operationsLabel.Text = "Horaire d'opérations"
-
-            Me.operationStartTimeField = New ManualDataTimeField("Début de journée")
-            Me.operationEndTimeField = New ManualDataTimeField("Fin de journée")
 
             ' Silos section
             Me.silosLabel = New Label
@@ -181,8 +141,6 @@
             Me.weightStationLabel.Text = "Poste de pesée"
 
             Me.weightedQuantityField = New ManualDataQuantityField("Quantité pesée", ManualData.MASS_UNIT.SYMBOL)
-            Me.firstLoadingTimeField = New ManualDataTimeField("Heure du premier chargement")
-            Me.lastLoadingTimeField = New ManualDataTimeField("Heure du dernier chargement")
 
             Me.percentageDiffLabel = New Label
             Me.percentageDiffLabel.AutoSize = False
@@ -205,25 +163,7 @@
                 Me.fuelQuantityAtEnd2Field = New ManualDataQuantityField("Quantité " & .FUEL_2_NAME & " (Fin de journée)", .FUEL_2_UNIT)
             End With
 
-
-            '' Hour counters section
-            'Me.hourCountersLabel = New Label
-            'Me.hourCountersLabel.AutoSize = False
-            'Me.hourCountersLabel.ForeColor = Constants.UI.Colors.DARK_GREY
-            'Me.hourCountersLabel.Font = Constants.UI.Fonts.DEFAULT_FONT_UNDERLINED
-            'Me.hourCountersLabel.TextAlign = ContentAlignment.MiddleCenter
-            'Me.hourCountersLabel.Text = "Compte-heures"
-
-            'Me.drumsHourCounterAtStartField = New ManualDataQuantityField("Tambour (Début de journée)", ManualData.HOUR_COUNTERS_UNIT)
-            'Me.drumsHourCounterAtEndField = New ManualDataQuantityField("Tambour (Fin de journée)", ManualData.HOUR_COUNTERS_UNIT)
-            'Me.boilerHourCounterAtStartField = New ManualDataQuantityField("Bouilloire (Début de journée)", ManualData.HOUR_COUNTERS_UNIT)
-            'Me.boilerHourCounterAtEndField = New ManualDataQuantityField("Bouilloire (Fin de journée)", ManualData.HOUR_COUNTERS_UNIT)
-
-            ' Buttons
-            Me.toggleOptionalFieldsButton = New Button
-            Me.toggleOptionalFieldsButton.TextAlign = ContentAlignment.MiddleCenter
-            Me.toggleOptionalFieldsButton.Text = HIDE_OPTIONAL_FIELDS
-            Me.toggleOptionalFieldsButton.TabStop = False
+          
 
             Me.nextButton = New Common.NextButton
 
@@ -239,14 +179,6 @@
             ' Top Section
             Me.Controls.Add(dateLabel)
             Me.Controls.Add(dailyQuantityAndTimesLabel)
-
-            Me.Controls.Add(operatorLabel)
-            Me.Controls.Add(operatorCombobox)
-
-            ' Operations Section
-            Me.Controls.Add(operationsLabel)
-            Me.Controls.Add(operationStartTimeField)
-            Me.Controls.Add(operationEndTimeField)
 
             ' Silos Section
             Me.Controls.Add(silosLabel)
@@ -268,8 +200,7 @@
             Me.Controls.Add(weightStationLabel)
             Me.Controls.Add(percentageDiffLabel)
             Me.Controls.Add(weightedQuantityField)
-            Me.Controls.Add(firstLoadingTimeField)
-            Me.Controls.Add(lastLoadingTimeField)
+
 
             ' Fuel Section
             Me.Controls.Add(fuelLabel)
@@ -277,21 +208,6 @@
             Me.Controls.Add(fuelQuantityAtEnd1Field)
             Me.Controls.Add(fuelQuantityAtStart2Field)
             Me.Controls.Add(fuelQuantityAtEnd2Field)
-
-            '' Hour counters Section
-            'Me.Controls.Add(hourCountersLabel)
-            'Me.Controls.Add(drumsHourCounterAtStartField)
-            'Me.Controls.Add(drumsHourCounterAtEndField)
-            'Me.Controls.Add(boilerHourCounterAtStartField)
-            'Me.Controls.Add(boilerHourCounterAtEndField)
-
-            ' Toggle optionnal fields button
-            Me.Controls.Add(toggleOptionalFieldsButton)
-
-            ' Mandatory Fields
-            Me.mandatoryFields.Add(operationsLabel)
-            Me.mandatoryFields.Add(operationStartTimeField)
-            Me.mandatoryFields.Add(operationEndTimeField)
 
             Me.mandatoryFields.Add(silosLabel)
             Me.mandatoryFields.Add(siloQuantityAtStartField)
@@ -306,8 +222,6 @@
             ' Optionnal fields
             Me.optionalFields.Add(weightStationLabel)
             Me.optionalFields.Add(weightedQuantityField)
-            Me.optionalFields.Add(firstLoadingTimeField)
-            Me.optionalFields.Add(lastLoadingTimeField)
 
             Me.optionalFields.Add(fuelLabel)
             Me.optionalFields.Add(fuelQuantityAtStart1Field)
@@ -315,15 +229,7 @@
             Me.optionalFields.Add(fuelQuantityAtStart2Field)
             Me.optionalFields.Add(fuelQuantityAtEnd2Field)
 
-            'Me.optionalFields.Add(hourCountersLabel)
-            'Me.optionalFields.Add(drumsHourCounterAtStartField)
-            'Me.optionalFields.Add(drumsHourCounterAtEndField)
-            'Me.optionalFields.Add(boilerHourCounterAtStartField)
-            'Me.optionalFields.Add(boilerHourCounterAtEndField)
 
-            ' Tab index
-            Me.operationStartTimeField.TabStop = False
-            Me.operationEndTimeField.TabIndex = 1
             Me.siloQuantityAtStartField.TabIndex = 2
             Me.siloQuantityAtEndField.TabIndex = 3
             Me.rejectedMixQuantityField.TabIndex = 4
@@ -331,16 +237,10 @@
             Me.rejectedFillerQuantityField.TabIndex = 6
             Me.rejectedRecycledQuantityField.TabIndex = 7
             Me.weightedQuantityField.TabIndex = 8
-            Me.firstLoadingTimeField.TabIndex = 9
-            Me.lastLoadingTimeField.TabIndex = 10
             Me.fuelQuantityAtStart1Field.TabIndex = 11
             Me.fuelQuantityAtEnd1Field.TabIndex = 12
             Me.fuelQuantityAtStart2Field.TabIndex = 13
             Me.fuelQuantityAtEnd2Field.TabIndex = 14
-            'Me.drumsHourCounterAtStartField.TabIndex = 15
-            'Me.drumsHourCounterAtEndField.TabIndex = 16
-            'Me.boilerHourCounterAtStartField.TabIndex = 17
-            'Me.boilerHourCounterAtEndField.TabIndex = 18
             Me.nextButton.TabIndex = 19
             Me.skipButton.TabIndex = 20
             Me.cancelButton.TabIndex = 21
@@ -358,13 +258,6 @@
             Me.dailyQuantityAndTimesLabel.Location = New Point(ReportGenerationFrameLayout.LOCATION_START_X, FIELDS_HEIGHT)
             Me.dailyQuantityAndTimesLabel.Size = New Size(Me.Width - 2 * ReportGenerationFrameLayout.LOCATION_START_X, FIELDS_HEIGHT)
 
-            ' Operator Label
-            Me.operatorLabel.Location = New Point(ReportGenerationFrameLayout.LOCATION_START_X, dailyQuantityAndTimesLabel.Location.Y + FIELDS_HEIGHT + 5)
-            Me.operatorLabel.Size = New Size(OPERATOR_LABEL_WIDTH, FIELDS_HEIGHT)
-
-            ' Operator Combobox
-            Me.operatorCombobox.Location = New Point(ReportGenerationFrameLayout.LOCATION_START_X + OPERATOR_LABEL_WIDTH, operatorLabel.Location.Y)
-            Me.operatorCombobox.Size = New Size(Me.Width - OPERATOR_LABEL_WIDTH - 2 * ReportGenerationFrameLayout.LOCATION_START_X, FIELDS_HEIGHT)
 
             ' Mandatory fields
             Dim nbFields As Integer = 3  ' +3 for date label, the daily quantity and time labels and the operator label
@@ -428,10 +321,6 @@
                 Me.percentageDiffLabel.Size = New Size(PERCENTAGE_DIFF_LABEL_WIDTH, FIELDS_HEIGHT)
             End If
 
-            ' Toggle Button
-            Me.toggleOptionalFieldsButton.Location = New Point(ReportGenerationFrameLayout.LOCATION_START_X, ReportGenerationFrameLayout.LOCATION_START_Y + nbFields * (FIELDS_HEIGHT + 5))
-            Me.toggleOptionalFieldsButton.Size = New Size(Me.Width - 2 * ReportGenerationFrameLayout.LOCATION_START_X, FIELDS_HEIGHT)
-
             ' Next Button (In buttons panel)
             Me.nextButton.Location = New Point(Me.Width - ReportGenerationFrameLayout.LOCATION_START_X - ReportGenerationFrameLayout.CONTROL_BUTTONS_WIDTH, ReportGenerationFrameLayout.BUTTONS_PANEL_LOCATION_START_Y)
             Me.nextButton.Size = New Size(ReportGenerationFrameLayout.CONTROL_BUTTONS_WIDTH, ReportGenerationFrameLayout.CONTROL_BUTTONS_HEIGHT)
@@ -485,32 +374,22 @@
             Me.currentManualData = data
             updateFields()
 
-            Me.operationStartTimeField.focus()
 
         End Sub
 
         Private Sub updateFields()
 
-            Me.dateLabel.Text = StrConv(Me.currentManualData.DATE_.ToString("dddd d MMMM"), VbStrConv.ProperCase)
+            If (currentManualData.DATE_1.Date = currentManualData.DATE_2.Date) Then
+                Me.dateLabel.Text = Me.currentManualData.DATE_1.ToString("dddd d MMMM", New Globalization.CultureInfo("fr-FR"))
+            Else
+                Me.dateLabel.Text = Me.currentManualData.DATE_1.ToString("dddd d MMMM", New Globalization.CultureInfo("fr-FR"))
+                Me.dateLabel.Text += "   au   "
+                Me.dateLabel.Text += Me.currentManualData.DATE_2.ToString("dddd d MMMM", New Globalization.CultureInfo("fr-FR"))
+            End If
+
             Me.dailyQuantityAndTimesLabel.Text = Me.currentManualData.PRODUCED_QUANTITY & " T produites entre " & _
                                                  Me.currentManualData.PRODUCTION_START_TIME.ToString("H:mm") & " et " & _
                                                  Me.currentManualData.PRODUCTION_END_TIME.ToString("H:mm")
-
-            ' Clear temporary operator
-            If (Not IsNothing(Me.temporaryOperator)) Then
-                Me.operatorCombobox.Items.Remove(temporaryOperator)
-                Me.temporaryOperator = Nothing
-            End If
-
-            ' Set temporary operator
-            If (Not Me.operatorCombobox.Items.Contains(Me.currentManualData.FACTORY_OPERATOR)) Then
-                Me.temporaryOperator = Me.currentManualData.FACTORY_OPERATOR
-                Me.operatorCombobox.Items.Add(temporaryOperator)
-            End If
-
-            Me.operatorCombobox.SelectedItem = Me.currentManualData.FACTORY_OPERATOR
-            Me.operationStartTimeField.Value = Me.currentManualData.OPERATION_START_TIME
-            Me.operationEndTimeField.Value = Me.currentManualData.OPERATION_END_TIME
 
             Me.siloQuantityAtStartField.Value = Me.currentManualData.SILO_QUANTITY_AT_START
             Me.siloQuantityAtEndField.Value = Me.currentManualData.SILO_QUANTITY_AT_END
@@ -522,17 +401,13 @@
 
             Me.weightedQuantityField.Value = Me.currentManualData.WEIGHTED_QUANTITY
 
-            Me.firstLoadingTimeField.Value = Me.currentManualData.FIRST_LOADING_TIME
-            Me.lastLoadingTimeField.Value = Me.currentManualData.LAST_LOADING_TIME
+
 
             Me.fuelQuantityAtStart1Field.Value = Me.currentManualData.FUEL_QUANTITY_AT_START_1
             Me.fuelQuantityAtEnd1Field.Value = Me.currentManualData.FUEL_QUANTITY_AT_END_1
             Me.fuelQuantityAtStart2Field.Value = Me.currentManualData.FUEL_QUANTITY_AT_START_2
             Me.fuelQuantityAtEnd2Field.Value = Me.currentManualData.FUEL_QUANTITY_AT_END_2
-            'Me.drumsHourCounterAtStartField.Value = Me.currentManualData.DRUMS_HOURS_COUNTER_AT_START
-            'Me.drumsHourCounterAtEndField.Value = Me.currentManualData.DRUMS_HOURS_COUNTER_AT_END
-            'Me.boilerHourCounterAtStartField.Value = Me.currentManualData.BOILERS_HOUR_COUNTER_AT_START
-            'Me.boilerHourCounterAtEndField.Value = Me.currentManualData.BOILERS_HOUR_COUNTER_AT_END
+
 
             Me.nextButton.Enabled = Me.currentManualData.isComplete
 
@@ -610,123 +485,6 @@
             Me.skipWarningMessagePanel = New Common.UserMessagePanel("Avertissement!", "Aucune donnée supplémentaire ne sera sauvegardée." & Environment.NewLine & "Changer d'étape quand même?", Constants.UI.Images._64x64.WARNING, True)
 
             Me.skipWarningMessagePanel.ajustLayout(SKIP_WARNING_MESSAGE_SIZE)
-        End Sub
-
-        Private Sub toggleOptionalData() Handles toggleOptionalFieldsButton.Click
-
-            Me.showOptionalFields = Not Me.showOptionalFields
-
-            Me.toggleOptionalFieldsButton.Text = If(Me.showOptionalFields, HIDE_OPTIONAL_FIELDS, SHOW_OPTIONAL_FIELDS)
-
-            Me.ajustLayout()
-            Me.ajustLayoutFinal()
-        End Sub
-
-        Private Sub handleOperatorChanged() Handles operatorCombobox.SelectedIndexChanged
-            Me.currentManualData.FACTORY_OPERATOR = Me.operatorCombobox.SelectedItem
-            Me.operationStartTimeField.Focus()
-        End Sub
-
-        Private Sub handleTimeValuesChanged(field As ManualDataField) Handles operationStartTimeField.ValueChangedEvent, _
-                                                                              operationEndTimeField.ValueChangedEvent, _
-                                                                              firstLoadingTimeField.ValueChangedEvent, _
-                                                                              lastLoadingTimeField.ValueChangedEvent
-
-            If (field.Equals(Me.operationStartTimeField)) Then ' Operation start time
-
-                Try
-
-                    Me.currentManualData.OPERATION_START_TIME = Me.operationStartTimeField.Value
-
-                    ' If operation start time is later than first loading time
-                    If (currentManualData.FIRST_LOADING_TIME.CompareTo(currentManualData.OPERATION_START_TIME) < 0) Then
-                        Me.firstLoadingTimeField.Value = currentManualData.OPERATION_START_TIME
-                    End If
-
-                Catch ex As IncorrectDataException
-
-                    ' If CT01_OperationStartTime is later than productionStartTime
-                    If (Me.operationStartTimeField.Value.CompareTo(Me.currentManualData.PRODUCTION_START_TIME) > 0) Then
-                        Me.operationStartTimeField.Value = Me.currentManualData.PRODUCTION_START_TIME
-
-                    Else ' CT01_OperationStartTime is later than CT01_OperationEndTime
-
-                        Me.currentManualData.OPERATION_END_TIME = Me.currentManualData.OPERATION_START_TIME
-                        Me.operationEndTimeField.Value = operationStartTimeField.Value
-
-                    End If
-                End Try
-
-            ElseIf (field.Equals(Me.operationEndTimeField)) Then ' Operation end time
-
-                Try
-
-                    Me.currentManualData.OPERATION_END_TIME = Me.operationEndTimeField.Value
-
-                    ' If operation end time is sooner than last loading time
-                    If (currentManualData.LAST_LOADING_TIME.CompareTo(currentManualData.OPERATION_END_TIME) > 0) Then
-                        Me.lastLoadingTimeField.Value = currentManualData.OPERATION_END_TIME
-                    End If
-
-                Catch ex As IncorrectDataException
-
-                    ' If CT01_OperationEndTime is sooner than productionEndTime
-                    If (Me.operationEndTimeField.Value.CompareTo(Me.currentManualData.PRODUCTION_END_TIME) < 0) Then
-                        Me.operationEndTimeField.Value = Me.currentManualData.PRODUCTION_END_TIME
-
-                    Else ' CT01_OperationEndTime is sooner than CT01_OperationStartTime
-
-                        Me.currentManualData.OPERATION_START_TIME = Me.currentManualData.OPERATION_END_TIME
-                        Me.operationStartTimeField.Value = operationEndTimeField.Value
-
-                    End If
-
-                End Try
-
-            ElseIf (field.Equals(Me.firstLoadingTimeField)) Then ' First loading time
-
-                Try
-
-                    Me.currentManualData.FIRST_LOADING_TIME = Me.firstLoadingTimeField.Value
-
-                Catch ex As IncorrectDataException
-
-                    ' If CT01_LoadingStartTime is sooner than operationStartTime
-                    If (Me.firstLoadingTimeField.Value.CompareTo(Me.currentManualData.OPERATION_START_TIME) < 0) Then
-                        Me.firstLoadingTimeField.Value = Me.currentManualData.OPERATION_START_TIME
-
-                    Else ' CT01_LoadingStartTime is later than CT01_LoadingEndTime
-
-                        'Me.currentManualData.LAST_LOADING_TIME = Me.currentManualData.FIRST_LOADING_TIME
-                        Me.lastLoadingTimeField.Value = firstLoadingTimeField.Value
-
-                    End If
-
-                End Try
-
-            ElseIf (field.Equals(Me.lastLoadingTimeField)) Then ' Last loading time
-
-                Try
-
-                    Me.currentManualData.LAST_LOADING_TIME = Me.lastLoadingTimeField.Value
-
-                Catch ex As IncorrectDataException
-
-                    ' If CT01_LoadingEndTime is later than CT01_OperationEndTime
-                    If (Me.lastLoadingTimeField.Value.CompareTo(Me.currentManualData.OPERATION_END_TIME) > 0) Then
-                        Me.lastLoadingTimeField.Value = Me.currentManualData.OPERATION_END_TIME
-
-                    Else ' CT01_LoadingEndTime is sooner than CT01_LoadingStartTime
-
-                        'Me.currentManualData.FIRST_LOADING_TIME = Me.currentManualData.LAST_LOADING_TIME
-                        Me.firstLoadingTimeField.Value = lastLoadingTimeField.Value
-
-                    End If
-
-                End Try
-
-            End If
-
         End Sub
 
         Private Sub handleQuantityValuesChanged(field As ManualDataField) Handles siloQuantityAtStartField.ValueChangedEvent, _
@@ -903,11 +661,7 @@
 
         End Sub
 
-        Private Sub nextOnEnter() Handles operationStartTimeField.EnterKeyPressed, _
-                                            operationEndTimeField.EnterKeyPressed, _
-                                            firstLoadingTimeField.EnterKeyPressed, _
-                                            lastLoadingTimeField.EnterKeyPressed, _
-                                            siloQuantityAtStartField.EnterKeyPressed, _
+        Private Sub nextOnEnter() Handles siloQuantityAtStartField.EnterKeyPressed, _
                                             siloQuantityAtEndField.EnterKeyPressed, _
                                             rejectedMixQuantityField.EnterKeyPressed, _
                                             rejectedAggregatesQuantityField.EnterKeyPressed, _
@@ -918,10 +672,6 @@
                                             fuelQuantityAtEnd1Field.EnterKeyPressed, _
                                             fuelQuantityAtStart2Field.EnterKeyPressed, _
                                             fuelQuantityAtEnd2Field.EnterKeyPressed
-            'drumsHourCounterAtStartField.EnterKeyPressed, _
-            'drumsHourCounterAtEndField.EnterKeyPressed, _
-            'boilerHourCounterAtStartField.EnterKeyPressed, _
-            'boilerHourCounterAtEndField.EnterKeyPressed
 
 
             If (Me.nextButton.Enabled) Then

@@ -8,8 +8,8 @@ Namespace UI
         ' Constants
         Private Shared ReadOnly VIEW_NAME As String = "Imports"
 
-        Private Shared ReadOnly INCORRECT_PATH_MESSAGE_PANEL_SIZE As Size = New Size(245, 100)
-        Private Shared ReadOnly IMPORT_SUCCESSFUL_MESSAGE_PANEL_SIZE As Size = New Size(245, 95)
+        Private Shared ReadOnly INCORRECT_PATH_MESSAGE_PANEL_SIZE As Size = New Size(400, 100)
+        Private Shared ReadOnly IMPORT_SUCCESSFUL_MESSAGE_PANEL_SIZE As Size = New Size(400, 95)
 
         ' Components
         Private usbPathPanel As Panel
@@ -102,18 +102,20 @@ Namespace UI
 
         Private Sub initializeIncorrectUSBPathMessagePanel()
             ' #language
-            Me.incorrectUSBPathMessagePanel = New UserMessagePanel("Attention!", "Ceci n'est pas la clé USB IGNIS", Constants.UI.Images._32x32.WARNING)
+            Me.incorrectUSBPathMessagePanel = New UserMessagePanel("Attention!", "L'emplacement n'est pas celui de la clé USB IGNIS", Constants.UI.Images._32x32.WARNING)
 
             Me.incorrectUSBPathMessagePanel.Location = DirectCast(Me.layout, ImportFilesLayout).IncorrectUSBPathMessagePanel_Location
-            Me.incorrectUSBPathMessagePanel.ajustLayout(INCORRECT_PATH_MESSAGE_PANEL_SIZE)
+            Me.incorrectUSBPathMessagePanel.ajustLayout(IMPORT_SUCCESSFUL_MESSAGE_PANEL_SIZE)
         End Sub
 
         Private Sub initializeImportSuccessfulMessagePanel(nbImportedFiles As Integer)
             ' #language
-            Me.importSuccessfulMessagePanel = New UserMessagePanel("Succès!", nbImportedFiles & " fichiers ont été importés.", Constants.UI.Images._32x32.GOOD)
+            Me.importSuccessfulMessagePanel = New UserMessagePanel("Importation réussie!", nbImportedFiles & " fichiers ont été importés.", Constants.UI.Images._32x32.GOOD)
 
             Me.importSuccessfulMessagePanel.Location = New Point(Me.Width / 2 - IMPORT_SUCCESSFUL_MESSAGE_PANEL_SIZE.Width / 2, Me.Height / 2 - IMPORT_SUCCESSFUL_MESSAGE_PANEL_SIZE.Height / 2)
             Me.importSuccessfulMessagePanel.ajustLayout(IMPORT_SUCCESSFUL_MESSAGE_PANEL_SIZE)
+            Me.importButton.Enabled = False
+            Me.refreshButton.Enabled = False
         End Sub
 
         Protected Overrides Sub ajustLayout(newSize As Size)
@@ -350,6 +352,8 @@ Namespace UI
 
         Private Sub closeImportSuccessfulMessagePanel() Handles importSuccessfulMessagePanel.CloseEvent
             Me.Controls.Remove(Me.importSuccessfulMessagePanel)
+            Me.importButton.Enabled = True
+            Me.refreshButton.Enabled = True
         End Sub
 
     End Class

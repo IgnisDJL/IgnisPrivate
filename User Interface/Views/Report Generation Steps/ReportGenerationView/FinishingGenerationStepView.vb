@@ -4,7 +4,7 @@
         Inherits GenerationStepView
 
         ' Constants
-        Public Shared ReadOnly VIEW_NAME As String = "Génération finale"
+        Public Shared ReadOnly VIEW_NAME As String = "Génération du rapport"
 
         ' Components | #refactor - make it dynamic (the labels and what not)
         Private summaryDailyLabel As Label

@@ -18,7 +18,7 @@ Public Class ManualDataSQLDatabase
     Public Overrides Function addData(data As ManualData) As ManualData
 
         Dim row As New Dictionary(Of String, String)
-        row.Add(Columns.DATE_, data.DATE_.ToString(Constants.Database.SQL.DATE_FORMAT))
+        row.Add(Columns.DATE_, data.DATE_1.ToString(Constants.Database.SQL.DATE_FORMAT))
         row.Add(Columns.PRODUCTION_START_TIME, data.PRODUCTION_START_TIME.ToString(Constants.Database.SQL.TIME_FORMAT))
         row.Add(Columns.PRODUCTION_END_TIME, data.PRODUCTION_END_TIME.ToString(Constants.Database.SQL.TIME_FORMAT))
         row.Add(Columns.PRODUCED_QUANTITY, getQuantityForDB(data.PRODUCED_QUANTITY))
@@ -51,8 +51,8 @@ Public Class ManualDataSQLDatabase
         row.Add(Columns.BOILERS_HOUR_COUNTER_AT_START, getQuantityForDB(data.BOILERS_HOUR_COUNTER_AT_START))
         row.Add(Columns.BOILERS_HOUR_COUNTER_AT_END, getQuantityForDB(data.BOILERS_HOUR_COUNTER_AT_END))
 
-        If (CInt(dataBase.ExecuteScalar("SELECT COUNT(*) FROM " & TableNames.MANUAL_DATA & " WHERE " & Columns.DATE_ & "='" & data.DATE_.ToString(Constants.Database.SQL.DATE_FORMAT) & "'")) > 0) Then
-            dataBase.Update(TableNames.MANUAL_DATA, row, Columns.DATE_ & "='" & data.DATE_.ToString(Constants.Database.SQL.DATE_FORMAT) & "'")
+        If (CInt(dataBase.ExecuteScalar("SELECT COUNT(*) FROM " & TableNames.MANUAL_DATA & " WHERE " & Columns.DATE_ & "='" & data.DATE_1.ToString(Constants.Database.SQL.DATE_FORMAT) & "'")) > 0) Then
+            dataBase.Update(TableNames.MANUAL_DATA, row, Columns.DATE_ & "='" & data.DATE_1.ToString(Constants.Database.SQL.DATE_FORMAT) & "'")
         Else
             dataBase.Insert(TableNames.MANUAL_DATA, row)
         End If

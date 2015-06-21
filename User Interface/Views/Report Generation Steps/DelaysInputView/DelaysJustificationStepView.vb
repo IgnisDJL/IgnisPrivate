@@ -4,7 +4,7 @@
         Inherits GenerationStepView
 
         ' Constants
-        Private Shared ReadOnly VIEW_NAME As String = "Justification des délais"
+        Private Shared ReadOnly VIEW_NAME As String = "Catégorisation des délais"
 
         Private Shared ReadOnly ALL_DELAYS As String = "Tous"
         Private Shared ReadOnly UNKNOWN_DELAY As String = "Inconnu"

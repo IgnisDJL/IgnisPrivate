@@ -9,6 +9,7 @@
     Private totalMixMass As Double = -1
     Private totalMixMassDiscontinu As Double = -1
     Private totalMixMassContinu As Double = -1
+    Private operateur As String = String.Empty
 
     Private delayContinuList As List(Of Delay_1)
     Private delayDiscontinuList As List(Of Delay_1)
@@ -39,7 +40,7 @@
         tempsDeProductionContinu = getMixProductionTime(producedMixContinuList)
         tempsDeProductionDiscontinu = getMixProductionTime(producedMixDiscontinuList)
 
-        donneeManuel = New ManualData(Date.Now, getDebutPeriode, getFinPeriode, totalMixMass)
+        donneeManuel = New ManualData(getDebutPeriode.Date, getFinPeriode.Date, getDebutPeriode, getFinPeriode, totalMixMass)
     End Sub
 
 
@@ -1029,6 +1030,10 @@
 
         Return nombreDeBris
     End Function
+    Public Sub setOperateur(operateur As String)
+        Me.operateur = operateur
+    End Sub
+
 
     Private Sub setTotalMixMass()
         totalMixMass = getTotalMixMassContinu()
@@ -1445,8 +1450,8 @@
 
     End Function
 
-    Public Function getUsineOperator() As FactoryOperator
-        Return donneeManuel.FACTORY_OPERATOR
+    Public Function getUsineOperator() As String
+        Return operateur
     End Function
 
     Public Sub splitDelay(delay As Delay_1, splitTime As Date)

@@ -4,11 +4,11 @@
         Inherits ReportViewLayout
 
         ' Constantes
-        Private Shared ReadOnly NO_LAST_REPORT_READY_DATE_MESSAGE_PANEL_SIZE As Size = New Size(300, 100)
+        Private Shared ReadOnly erreurHoraire_DATE_MESSAGE_PANEL_SIZE As Size = New Size(300, 100)
 
         ' Components Attributes
-       Private _noLastReportReadyDateMessagePanel_location As Point
-        Private _noLastReportReadyDateMessagePanel_size As Size
+        Private _erreurHoraireDateMessagePanel_location As Point
+        Private _erreurHoraireDateMessagePanel_size As Size
 
         Public Sub New()
             MyBase.New()
@@ -18,21 +18,21 @@
         Protected Overrides Sub computeLayout()
             MyBase.computeLayout()
 
-            Me._noLastReportReadyDateMessagePanel_location = New Point(Me.Width / 2 - Me.NoLastReportReadyDateMessagePanel_Size.Width / 2, Me.Height / 2 - Me.NoLastReportReadyDateMessagePanel_Size.Height / 2)
+            Me._erreurHoraireDateMessagePanel_location = New Point(Me.Width / 2 - Me.erreurHoraireDateMessagePanel_Size.Width / 2, Me.Height / 2 - Me.erreurHoraireDateMessagePanel_Size.Height / 2)
 
         End Sub
 
         '
         ' No Last Report Ready Date Message Panel
         '
-        Public ReadOnly Property NoLastReportReadyDateMessagePanel_Location As Point
+        Public ReadOnly Property erreurHoraireDateMessagePanel_Location As Point
             Get
-                Return Me._noLastReportReadyDateMessagePanel_location
+                Return Me._erreurHoraireDateMessagePanel_location
             End Get
         End Property
-        Public ReadOnly Property NoLastReportReadyDateMessagePanel_Size As Size
+        Public ReadOnly Property erreurHoraireDateMessagePanel_Size As Size
             Get
-                Return NO_LAST_REPORT_READY_DATE_MESSAGE_PANEL_SIZE
+                Return erreurHoraire_DATE_MESSAGE_PANEL_SIZE
             End Get
         End Property
 
